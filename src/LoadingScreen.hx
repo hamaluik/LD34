@@ -39,8 +39,10 @@ class LoadingScreen extends Scene {
 	}
 
 	private static var salutations:Array<String> = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'The'];
-	private static var adjectives:Array<String> = ['Purple', 'Green', 'Fast', 'Slow', 'Time-Travelling', 'Time Traveller\'s'];
-	private static var nouns:Array<String> = ['Wife', 'Husband', 'Son', 'Daughter', 'Lawyer'];
+	private static var adjectives:Array<String> = ['Purple', 'Green', 'Fast', 'Slow', 'Time-Travelling', 'Time Traveller\'s', 'Clever', 'Crispy',
+		'Clumsy', 'Thrifty', 'Quick', 'Cranky', 'Lumpy', 'Polite', 'Sparkling', 'Sturdy', 'Creaky', 'Odd', 'Friendly'];
+	private static var nouns:Array<String> = ['Wife', 'Husband', 'Son', 'Daughter', 'Lawyer', 'Swordfish', 'Squid', 'Cheetah', 'Space-man',
+		'Cosmonaut', 'Apprentice', 'Champ', 'Pancake', 'Chicken', 'Unicorn', 'Bunny', 'Gnome', 'Mermaid'];
 	private function generateName():String {
 		var s:StringBuf = new StringBuf();
 		s.add(salutations[tusk.math.Random.int(0, salutations.length - 1)]);
@@ -63,6 +65,7 @@ class LoadingScreen extends Scene {
 			tusk.defaults.Primitives.loadQuad(),
 			tusk.defaults.Materials.loadEffectCircleOut()
 		).then(function(textMesh:Mesh, font:Font, fontMat:Material, quad:Mesh, circleOutMat:Material) {
+			Camera2DProcessor.cameras = new Array<Camera2DComponent>();
 			// set the material's texture
 			fontMat.textures = new Array<Texture>();
 			fontMat.textures.push(font.texture);
@@ -92,7 +95,7 @@ class LoadingScreen extends Scene {
 				new TransformComponent(new Vec3(-256, 0, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
 				new MeshComponent(textMesh.clone('p1text')),
 				new MaterialComponent(fontMat.path),
-				new TextComponent(font, 'Player 1\nAKA. ${generateName()}',
+				new TextComponent(font, '${GameTracker.player[0].name}\nAKA. ${generateName()}',
 					TextAlign.Centre, TextVerticalAlign.Centre,
 					new Vec4(1, 1, 1, 1)),
 				scp1
@@ -115,7 +118,7 @@ class LoadingScreen extends Scene {
 					new TransformComponent(new Vec3(256, 0, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
 					new MeshComponent(textMesh.clone('p2text')),
 					new MaterialComponent(fontMat.path),
-					new TextComponent(font, 'Player 2\nAKA. ${generateName()}',
+					new TextComponent(font, '${GameTracker.player[1].name}\nAKA. ${generateName()}',
 						TextAlign.Centre, TextVerticalAlign.Centre,
 						new Vec4(1, 1, 1, 1)),
 					scp2
