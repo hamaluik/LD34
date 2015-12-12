@@ -47,16 +47,16 @@ class BottleRocket extends Scene {
 		Promise.when(
 			tusk.defaults.Primitives.loadQuad(),
 			tusk.defaults.Materials.loadParticlesUntextured(),
-			tusk.defaults.Materials.loadUnlitTextured(),
+			minigames.bottlerocket.SpriteMaterial.load(),
 			minigames.bottlerocket.BackgroundMaterial.load(),
 			Tusk.assets.loadTexture(tusk.Files.sprites___bottlerocket__png),
 			Tusk.assets.loadTexture(tusk.Files.tilemaps___bottlerocketbackground__png),
 			Tusk.assets.loadText(tusk.Files.tilemaps___bottlerocketbackground__json)
-		).then(function(quad:Mesh, particlesMaterial:Material, unlitTextured:Material, backgroundMaterial:Material, spriteSheet:Texture, backgroundSheet:Texture, backgroundJSON:Text) {
+		).then(function(quad:Mesh, particlesMaterial:Material, spriteMaterial:Material, backgroundMaterial:Material, spriteSheet:Texture, backgroundSheet:Texture, backgroundJSON:Text) {
 			this.quad = quad;
 			this.particlesMaterial = particlesMaterial;
 
-			this.spriteMaterial = unlitTextured.clone('br_spriteMaterial');
+			this.spriteMaterial = spriteMaterial;
 			this.spriteMaterial.textures = new Array<Texture>();
 			this.spriteMaterial.textures.push(spriteSheet);
 
@@ -101,6 +101,32 @@ class BottleRocket extends Scene {
 					Tusk.game.height / -2, 0), Quat.identity(), new Vec3(2, 2, 2)),
 				new MeshComponent(backgroundMesh),
 				new MaterialComponent(backgroundMaterial)
+			]));
+
+			var groundY:Float = (Tusk.game.height / -2) + (2 * backgroundTileMap.tileheight);
+
+			// create the pump base
+			var pumpBaseMesh:Mesh = quad.clone('br.pumpbasemesh');
+			for(uv in pumpBaseMesh.uvs) {
+				uv.y = uv.y / 2 + 0.5;
+			}
+			var red:Vec3 = new Vec3(1.0, 0.0, 0.0);
+			var yellow:Vec3 = new Vec3(1.0, 1.0, 0.0);
+			entities.push(new Entity(this, 'P1 Pump Base', [
+				new TransformComponent(new Vec3(-256, groundY + 128, -1), Quat.identity(), new Vec3(256, 128, 128)),
+				new MeshComponent(pumpBaseMesh),
+				new MaterialComponent(spriteMaterial),
+				new CustomUniformsComponent(function() {
+					spriteMaterial.setVec3('colour', red);
+				})
+			]));
+			entities.push(new Entity(this, 'P2 Pump Base', [
+				new TransformComponent(new Vec3(256, groundY + 128, -1), Quat.identity(), new Vec3(256, 128, 128)),
+				new MeshComponent(pumpBaseMesh),
+				new MaterialComponent(spriteMaterial),
+				new CustomUniformsComponent(function() {
+					spriteMaterial.setVec3('colour', yellow);
+				})
 			]));
 		});
 	}

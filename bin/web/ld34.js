@@ -4020,7 +4020,7 @@ loading_SlamComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
 		s.serialize(this.endScale);
 	}
 	,get__tid: function() {
-		return 12;
+		return 13;
 	}
 	,__class__: loading_SlamComponent
 });
@@ -4075,7 +4075,7 @@ tusk_Processor.prototype = {
 	,__class__: tusk_Processor
 };
 var loading_SlamProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(5).include(12);
+	this.matcher = new tusk_Matcher().include(5).include(13);
 	tusk_Processor.call(this,entities);
 };
 $hxClasses["loading.SlamProcessor"] = loading_SlamProcessor;
@@ -4089,7 +4089,7 @@ loading_SlamProcessor.prototype = $extend(tusk_Processor.prototype,{
 			var entity = _g1[_g];
 			++_g;
 			var t = entity.get(5);
-			var s = entity.get(12);
+			var s = entity.get(13);
 			if(s.done._resolved) continue;
 			s.t += data.dt;
 			if(s.t >= s.totalLength) {
@@ -4137,12 +4137,12 @@ loading_SlideComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
 		s.serialize(this.endPos);
 	}
 	,get__tid: function() {
-		return 13;
+		return 14;
 	}
 	,__class__: loading_SlideComponent
 });
 var loading_SlideProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(5).include(13);
+	this.matcher = new tusk_Matcher().include(5).include(14);
 	tusk_Processor.call(this,entities);
 };
 $hxClasses["loading.SlideProcessor"] = loading_SlideProcessor;
@@ -4156,7 +4156,7 @@ loading_SlideProcessor.prototype = $extend(tusk_Processor.prototype,{
 			var entity = _g1[_g];
 			++_g;
 			var t = entity.get(5);
-			var s = entity.get(13);
+			var s = entity.get(14);
 			if(s.done._resolved) continue;
 			s.t += data.dt;
 			if(s.t >= s.totalLength) {
@@ -4192,7 +4192,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Materials.loadUnlitTextured(),minigames_bottlerocket_BackgroundMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json")];
+				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),minigames_bottlerocket_SpriteMaterial.load(),minigames_bottlerocket_BackgroundMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json")];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
 					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val));
@@ -4201,10 +4201,10 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(quad,particlesMaterial,unlitTextured,backgroundMaterial,spriteSheet,backgroundSheet,backgroundJSON) {
+		}(this))).then(function(quad,particlesMaterial,spriteMaterial,backgroundMaterial,spriteSheet,backgroundSheet,backgroundJSON) {
 			_g.quad = quad;
 			_g.particlesMaterial = particlesMaterial;
-			_g.spriteMaterial = unlitTextured.clone("br_spriteMaterial");
+			_g.spriteMaterial = spriteMaterial;
 			_g.spriteMaterial.textures = [];
 			_g.spriteMaterial.textures.push(spriteSheet);
 			_g.backgroundMaterial = backgroundMaterial;
@@ -4267,6 +4267,47 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				$r = q;
 				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.backgroundMesh),new tusk_lib_comp_MaterialComponent(null,_g.backgroundMaterial)]));
+			var groundY = tusk_Tusk.game.get_height() / -2 + 2 * _g.backgroundTileMap.tileheight;
+			var pumpBaseMesh = _g.quad.clone("br.pumpbasemesh");
+			var _g1 = 0;
+			var _g2 = pumpBaseMesh.uvs;
+			while(_g1 < _g2.length) {
+				var uv = _g2[_g1];
+				++_g1;
+				glm__$Vec2_Vec2_$Impl_$.set_y(uv,glm__$Vec2_Vec2_$Impl_$.get_y(uv) / 2 + 0.5);
+			}
+			var red = glm__$Vec3_Vec3_$Impl_$._new(1.0,0.0,0.0);
+			var yellow = glm__$Vec3_Vec3_$Impl_$._new(1.0,1.0,0.0);
+			_g.entities.push(new tusk_Entity(_g,"P1 Pump Base",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,groundY + 128,-1),(function($this) {
+				var $r;
+				var q1 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q1[0] = 1;
+					q1[1] = 0;
+					q1[2] = 0;
+					q1[3] = 0;
+					q1;
+				}
+				$r = q1;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(256,128,128)),new tusk_lib_comp_MeshComponent(null,pumpBaseMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
+				_g.spriteMaterial.setVec3("colour",red);
+			})]));
+			_g.entities.push(new tusk_Entity(_g,"P2 Pump Base",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,groundY + 128,-1),(function($this) {
+				var $r;
+				var q2 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q2[0] = 1;
+					q2[1] = 0;
+					q2[2] = 0;
+					q2[3] = 0;
+					q2;
+				}
+				$r = q2;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(256,128,128)),new tusk_lib_comp_MeshComponent(null,pumpBaseMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
+				_g.spriteMaterial.setVec3("colour",yellow);
+			})]));
 		});
 	}
 	,___connectRoutes: function() {
@@ -4314,6 +4355,62 @@ minigames_bottlerocket_BackgroundMaterial.load = function() {
 		snow_modules_opengl_web_GL.current_context.useProgram(null);
 	};
 	return tusk_Tusk.assets.loadMaterial("br_unlit.textured",mat);
+};
+var minigames_bottlerocket_SpriteMaterial = function() { };
+$hxClasses["minigames.bottlerocket.SpriteMaterial"] = minigames_bottlerocket_SpriteMaterial;
+minigames_bottlerocket_SpriteMaterial.__name__ = ["minigames","bottlerocket","SpriteMaterial"];
+minigames_bottlerocket_SpriteMaterial.load = function() {
+	var d = new promhx_Deferred();
+	if(tusk_Tusk.assets.isLoaded("br_sprite.textured")) {
+		d.resolve(tusk_Tusk.assets.getMaterial("br_sprite.textured"));
+		return d.promise();
+	}
+	((function($this) {
+		var $r;
+		var varargf = function(f) {
+			var ret = new promhx_Promise();
+			var arr = [tusk_Tusk.assets.loadText("assets/shaders/colourkey.vert"),tusk_Tusk.assets.loadText("assets/shaders/colourkey.frag")];
+			var p = promhx_Promise.whenAll(arr);
+			p._update.push({ async : ret, linkf : function(x) {
+				ret.handleResolve(f(arr[0]._val,arr[1]._val));
+			}});
+			return ret;
+		};
+		$r = { then : varargf};
+		return $r;
+	}(this))).then(function(vert,frag) {
+		var shader = new tusk_resources_Shader("br_sprite.textured",vert.text,frag.text);
+		var mat = new tusk_resources_Material("br_sprite.textured",shader);
+		mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
+		mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.UV[1];
+		snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
+		var posLocation = mat.shader.getAttributeLocation("position");
+		var uvLocation = mat.shader.getAttributeLocation("uv");
+		mat.onRender = function(setupUniforms,vertexBuffer,vertexCount) {
+			snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
+			snow_modules_opengl_web_GL.current_context.blendFunc(770,771);
+			if(mat.textures != null && mat.textures.length > 0) {
+				snow_modules_opengl_web_GL.current_context.activeTexture(33984);
+				snow_modules_opengl_web_GL.current_context.bindTexture(3553,mat.textures[0].texture);
+			}
+			setupUniforms(mat);
+			snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(posLocation);
+			snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(uvLocation);
+			snow_modules_opengl_web_GL.current_context.bindBuffer(34962,vertexBuffer);
+			snow_modules_opengl_web_GL.current_context.vertexAttribPointer(posLocation,3,5126,false,20,0);
+			snow_modules_opengl_web_GL.current_context.vertexAttribPointer(uvLocation,2,5126,false,20,12);
+			snow_modules_opengl_web_GL.current_context.drawArrays(4,0,vertexCount);
+			snow_modules_opengl_web_GL.current_context.bindTexture(3553,null);
+			snow_modules_opengl_web_GL.current_context.bindBuffer(34962,null);
+			snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(posLocation);
+			snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(uvLocation);
+			snow_modules_opengl_web_GL.current_context.useProgram(null);
+		};
+		tusk_Tusk.assets.loadMaterial("br_sprite.textured",mat).then(function(mat1) {
+			d.resolve(mat1);
+		});
+	});
+	return d.promise();
 };
 var partials_Partial = function() { };
 $hxClasses["partials.Partial"] = partials_Partial;
@@ -9963,6 +10060,25 @@ tusk_lib_comp_CircleEffectComponent.prototype = $extend(tusk_PromiseComponent.pr
 	}
 	,__class__: tusk_lib_comp_CircleEffectComponent
 });
+var tusk_lib_comp_CustomUniformsComponent = function(setUniforms) {
+	this.setUniforms = setUniforms;
+	tusk_Component.call(this);
+};
+$hxClasses["tusk.lib.comp.CustomUniformsComponent"] = tusk_lib_comp_CustomUniformsComponent;
+tusk_lib_comp_CustomUniformsComponent.__name__ = ["tusk","lib","comp","CustomUniformsComponent"];
+tusk_lib_comp_CustomUniformsComponent.__super__ = tusk_Component;
+tusk_lib_comp_CustomUniformsComponent.prototype = $extend(tusk_Component.prototype,{
+	get__tid: function() {
+		return 12;
+	}
+	,hxSerialize: function(s) {
+		s.serialize(this.setUniforms);
+	}
+	,hxUnserialize: function(s) {
+		s.serialize(this.setUniforms);
+	}
+	,__class__: tusk_lib_comp_CustomUniformsComponent
+});
 var tusk_lib_comp_FadeEffectComponent = function(fadeIn) {
 	this.fadeIn = true;
 	this.t = 0;
@@ -10880,6 +10996,10 @@ tusk_lib_proc_Renderer2DProcessor.prototype = $extend(tusk_Processor.prototype,{
 						if(entity[0].hasType(1)) {
 							var tc = entity[0].get(1);
 							mat.setVec4("colour",tc.colour);
+						}
+						if(entity[0].hasType(12)) {
+							var customUniforms = entity[0].get(12);
+							customUniforms.setUniforms();
 						}
 					};
 				})(transform,entity,camera),mesh.vertexBuffer,mesh.mesh.vertices.length);
@@ -11926,6 +12046,10 @@ tusk_resources_Material.prototype = $extend(tusk_resources_Asset.prototype,{
 		var location = this.shader.getUniformLocation(name);
 		snow_modules_opengl_web_GL.uniform2f(location,glm__$Vec2_Vec2_$Impl_$.get_x(vec),glm__$Vec2_Vec2_$Impl_$.get_y(vec));
 	}
+	,setVec3: function(name,vec) {
+		var location = this.shader.getUniformLocation(name);
+		snow_modules_opengl_web_GL.uniform3f(location,glm__$Vec3_Vec3_$Impl_$.get_x(vec),glm__$Vec3_Vec3_$Impl_$.get_y(vec),glm__$Vec3_Vec3_$Impl_$.get_z(vec));
+	}
 	,setVec4: function(name,vec) {
 		var location = this.shader.getUniformLocation(name);
 		snow_modules_opengl_web_GL.uniform4f(location,glm__$Vec4_Vec4_$Impl_$.get_x(vec),glm__$Vec4_Vec4_$Impl_$.get_y(vec),glm__$Vec4_Vec4_$Impl_$.get_z(vec),glm__$Vec4_Vec4_$Impl_$.get_w(vec));
@@ -12326,8 +12450,8 @@ js_Boot.__toStr = {}.toString;
 js_html_compat_Uint8Array.BYTES_PER_ELEMENT = 1;
 tusk_Component.tid = -1;
 tusk_PromiseComponent.tid = 3;
-loading_SlamComponent.tid = 12;
-loading_SlideComponent.tid = 13;
+loading_SlamComponent.tid = 13;
+loading_SlideComponent.tid = 14;
 promhx_base_AsyncBase.id_ctr = 0;
 promhx_base_EventLoop.queue = new List();
 snow_api_Debug._level = 1;
@@ -13262,6 +13386,8 @@ snow_types__$Types_FileEventType_$Impl_$.remove = 2;
 snow_types__$Types_FileEventType_$Impl_$.create = 3;
 snow_types__$Types_FileEventType_$Impl_$.drop = 4;
 tusk_Entity.nextID = 0;
+tusk_Files.shaders___colourkey__frag = "assets/shaders/colourkey.frag";
+tusk_Files.shaders___colourkey__vert = "assets/shaders/colourkey.vert";
 tusk_Files.sprites___bottlerocket__png = "assets/sprites/bottlerocket.png";
 tusk_Files.tilemaps___bottlerocketbackground__json = "assets/tilemaps/bottlerocketbackground.json";
 tusk_Files.tilemaps___bottlerocketbackground__png = "assets/tilemaps/bottlerocketbackground.png";
@@ -13269,6 +13395,7 @@ tusk_Tusk.version = "unknown+17fd14";
 tusk_debug_Exception.showStackTrace = false;
 tusk_lib_comp_Camera2DComponent.tid = 11;
 tusk_lib_comp_CircleEffectComponent.tid = 4;
+tusk_lib_comp_CustomUniformsComponent.tid = 12;
 tusk_lib_comp_FadeEffectComponent.tid = 10;
 tusk_lib_comp_MaterialComponent.tid = 9;
 tusk_lib_comp_MeshComponent.tid = 8;
