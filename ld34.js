@@ -358,10 +358,7 @@ Main.prototype = $extend(tusk_Game.prototype,{
 	}
 	,setup: function() {
 		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 24, className : "Main", methodName : "setup"});
-		tusk_Tusk.pushScene(new tusk_defaults_scenes_SplashScreen()).pipe(function(scene) {
-			tusk_Tusk.removeScene(scene);
-			return tusk_Tusk.pushScene(new minigames_BottleRocket());
-		});
+		tusk_Tusk.pushScene(new minigames_BottleRocket());
 	}
 	,__class__: Main
 });
@@ -4195,22 +4192,22 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Materials.loadUnlitTextured(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json")];
+				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Materials.loadUnlitTextured(),minigames_bottlerocket_BackgroundMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json")];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val));
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val));
 				}});
 				return ret;
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(quad,particlesMaterial,unlitTextured,spriteSheet,backgroundSheet,backgroundJSON) {
+		}(this))).then(function(quad,particlesMaterial,unlitTextured,backgroundMaterial,spriteSheet,backgroundSheet,backgroundJSON) {
 			_g.quad = quad;
 			_g.particlesMaterial = particlesMaterial;
 			_g.spriteMaterial = unlitTextured.clone("br_spriteMaterial");
 			_g.spriteMaterial.textures = [];
 			_g.spriteMaterial.textures.push(spriteSheet);
-			_g.backgroundMaterial = unlitTextured.clone("br_bgMaterial");
+			_g.backgroundMaterial = backgroundMaterial;
 			_g.backgroundMaterial.textures = [];
 			_g.backgroundMaterial.textures.push(backgroundSheet);
 			_g.backgroundTileMap = tusk_modules_tiled_TileMap.fromJSON(backgroundJSON.text);
@@ -4219,14 +4216,15 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				def.resolve(_g);
 			});
 		}).catchError(function(err) {
-			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "BottleRocket.hx", lineNumber : 70, className : "minigames.BottleRocket", methodName : "loadAssets"});
+			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "BottleRocket.hx", lineNumber : 73, className : "minigames.BottleRocket", methodName : "loadAssets"});
 			def.handleError("Failed to load assets!");
 		});
 		return prom;
 	}
 	,onLoad: function(event) {
+		var _g = this;
 		if(event.scene != this) return;
-		tusk_debug_Log.log("Loading bottle rocket scene..",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 79, className : "minigames.BottleRocket", methodName : "onLoad"});
+		tusk_debug_Log.log("Loading bottle rocket scene..",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 82, className : "minigames.BottleRocket", methodName : "onLoad"});
 		var loadComplete = this.loadAssets();
 		var loadingScreen = new LoadingScreen("Bottle Rocket Blast",loadComplete);
 		tusk_Tusk.pushScene(loadingScreen);
@@ -4245,7 +4243,30 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			return $r;
 		}(this))).then(function(_,_1) {
 			tusk_Tusk.removeScene(loadingScreen);
-			tusk_debug_Log.log("Minigame started!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 87, className : "minigames.BottleRocket", methodName : "onLoad"});
+			tusk_debug_Log.log("Starting bottle rocket!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 90, className : "minigames.BottleRocket", methodName : "onLoad"});
+			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
+			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
+			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
+			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
+			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor((function($this) {
+				var $r;
+				var a = glm__$Vec4_Vec4_$Impl_$._new(110,175,231,255);
+				$r = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),255);
+				return $r;
+			}(this))));
+			_g.entities.push(new tusk_Entity(_g,"TileMap",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(_g.backgroundTileMap.width * _g.backgroundTileMap.tilewidth * 2 / -2,tusk_Tusk.game.get_height() / -2,0),(function($this) {
+				var $r;
+				var q = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q[0] = 1;
+					q[1] = 0;
+					q[2] = 0;
+					q[3] = 0;
+					q;
+				}
+				$r = q;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.backgroundMesh),new tusk_lib_comp_MaterialComponent(null,_g.backgroundMaterial)]));
 		});
 	}
 	,___connectRoutes: function() {
@@ -4256,6 +4277,44 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 	}
 	,__class__: minigames_BottleRocket
 });
+var minigames_bottlerocket_BackgroundMaterial = function() { };
+$hxClasses["minigames.bottlerocket.BackgroundMaterial"] = minigames_bottlerocket_BackgroundMaterial;
+minigames_bottlerocket_BackgroundMaterial.__name__ = ["minigames","bottlerocket","BackgroundMaterial"];
+minigames_bottlerocket_BackgroundMaterial.load = function() {
+	if(tusk_Tusk.assets.isLoaded("br_unlit.textured")) {
+		var d = new promhx_Deferred();
+		d.resolve(tusk_Tusk.assets.getMaterial("br_unlit.textured"));
+		return d.promise();
+	}
+	var shader = new tusk_resources_Shader("br_unlit.textured",haxe_Resource.getString("unlit.textured.vert"),haxe_Resource.getString("unlit.textured.frag"));
+	var mat = new tusk_resources_Material("br_unlit.textured",shader);
+	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
+	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.UV[1];
+	snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
+	var posLocation = mat.shader.getAttributeLocation("position");
+	var uvLocation = mat.shader.getAttributeLocation("uv");
+	mat.onRender = function(setupUniforms,vertexBuffer,vertexCount) {
+		snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
+		snow_modules_opengl_web_GL.current_context.blendFunc(770,771);
+		if(mat.textures != null && mat.textures.length > 0) {
+			snow_modules_opengl_web_GL.current_context.activeTexture(33984);
+			snow_modules_opengl_web_GL.current_context.bindTexture(3553,mat.textures[0].texture);
+		}
+		setupUniforms(mat);
+		snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(posLocation);
+		snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(uvLocation);
+		snow_modules_opengl_web_GL.current_context.bindBuffer(34962,vertexBuffer);
+		snow_modules_opengl_web_GL.current_context.vertexAttribPointer(posLocation,3,5126,false,20,0);
+		snow_modules_opengl_web_GL.current_context.vertexAttribPointer(uvLocation,2,5126,false,20,12);
+		snow_modules_opengl_web_GL.current_context.drawArrays(4,0,vertexCount);
+		snow_modules_opengl_web_GL.current_context.bindTexture(3553,null);
+		snow_modules_opengl_web_GL.current_context.bindBuffer(34962,null);
+		snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(posLocation);
+		snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(uvLocation);
+		snow_modules_opengl_web_GL.current_context.useProgram(null);
+	};
+	return tusk_Tusk.assets.loadMaterial("br_unlit.textured",mat);
+};
 var partials_Partial = function() { };
 $hxClasses["partials.Partial"] = partials_Partial;
 partials_Partial.__name__ = ["partials","Partial"];
@@ -11629,7 +11688,7 @@ tusk_modules_tiled_TileMap.buildMesh = function(tm,path,zSpacing) {
 		++_g;
 		if(layer.type != "tilelayer") continue;
 		glm__$Vec3_Vec3_$Impl_$.set_x(pos,0);
-		glm__$Vec3_Vec3_$Impl_$.set_y(pos,layer.height * glm__$Vec2_Vec2_$Impl_$.get_y(tileSize));
+		glm__$Vec3_Vec3_$Impl_$.set_y(pos,(layer.height - 1) * glm__$Vec2_Vec2_$Impl_$.get_y(tileSize));
 		var _g2 = 0;
 		var _g3 = layer.data;
 		while(_g2 < _g3.length) {
