@@ -19,7 +19,12 @@
 		},
 
 		files: {
-			assets: 'assets/'
+			assets: 'assets/',
+			index: {
+				path: 'tracking_index.html => index.html',
+				template: 'project',
+				not_listed: true
+			}
 		}
 	}
 }
