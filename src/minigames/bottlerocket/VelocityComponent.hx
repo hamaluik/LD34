@@ -1,8 +1,8 @@
 package minigames.bottlerocket;
 
-import tusk.Component;
+import tusk.PromiseComponent;
 
-class VelocityComponent extends Component {
+class VelocityComponent extends PromiseComponent {
 	public var velocity:Float;
 	public var minHeight:Float;
 	public var maxHeight:Float = -1;

@@ -30,6 +30,9 @@ class VelocityProcessor extends Processor {
 			if(t.position.y <= v.minHeight) {
 				t.position.y = v.minHeight;
 				v.velocity = 0;
+				if(!v.done.isResolved()) {
+					v.finish();
+				}
 			}
 		}
 	}

@@ -26,6 +26,8 @@ import glm.Vec3;
 import glm.Quat;
 import glm.Vec4;
 
+import minigames.bottlerocket.*;
+
 import tusk.events.*;
 
 class BottleRocket extends Scene {
@@ -45,6 +47,8 @@ class BottleRocket extends Scene {
 	private var font:Font;
 	private var fontMat:Material;
 
+	private var circleOutMat:Material;
+
 	private function loadAssets():Promise<Scene> {
 		var def:Deferred<Scene> = new Deferred<Scene>();
 		var prom:Promise<Scene> = def.promise();
@@ -53,8 +57,8 @@ class BottleRocket extends Scene {
 		Promise.when(
 			tusk.defaults.Primitives.loadQuad(),
 			tusk.defaults.Materials.loadParticlesUntextured(),
-			minigames.bottlerocket.SpriteMaterial.load(),
-			minigames.bottlerocket.BackgroundMaterial.load(),
+			SpriteMaterial.load(),
+			BackgroundMaterial.load(),
 			Tusk.assets.loadTexture(tusk.Files.sprites___bottlerocket__png),
 			Tusk.assets.loadTexture(tusk.Files.tilemaps___bottlerocketbackground__png),
 			Tusk.assets.loadText(tusk.Files.tilemaps___bottlerocketbackground__json),
@@ -62,10 +66,13 @@ class BottleRocket extends Scene {
 			tusk.defaults.Materials.loadUnlitTextured(),
 			tusk.defaults.Primitives.loadTextMesh(),
 			tusk.defaults.Fonts.loadSubatomic_Screen(),
-			tusk.defaults.Materials.loadTextBasic()
-		).then(function(quad:Mesh, particlesMaterial:Material, spriteMaterial:Material, backgroundMaterial:Material, spriteSheet:Texture, backgroundSheet:Texture, backgroundJSON:Text, controls:Texture, unlitTextured:Material, textMesh:Mesh, font:Font, fontMat:Material) {
+			tusk.defaults.Materials.loadTextBasic(),
+			tusk.defaults.Materials.loadEffectCircleOut()
+		).then(function(quad:Mesh, particlesMaterial:Material, spriteMaterial:Material, backgroundMaterial:Material, spriteSheet:Texture, backgroundSheet:Texture, backgroundJSON:Text, controls:Texture, unlitTextured:Material, textMesh:Mesh, font:Font, fontMat:Material, circleOutMat:Material) {
 			this.quad = quad;
 			this.particlesMaterial = particlesMaterial;
+
+			this.circleOutMat = circleOutMat;
 
 			this.textMesh = textMesh;
 			this.font = font;
@@ -103,27 +110,27 @@ class BottleRocket extends Scene {
 		Log.info("Loading bottle rocket scene..");
 
 		var loadComplete:Promise<Scene> = loadAssets();
-		/*var loadingScreen:LoadingScreen = new LoadingScreen('Bottle Rocket Blast', loadComplete);
+		var loadingScreen:LoadingScreen = new LoadingScreen('Bottle Rocket Blast', loadComplete);
 		Tusk.pushScene(loadingScreen);
 		Promise.when(loadingScreen.sceneDone.promise(), loadComplete).then(function(_, _) {
-			Tusk.removeScene(loadingScreen);*/
-		loadComplete.then(function(_) {
+			Tusk.removeScene(loadingScreen);
 			Camera2DProcessor.cameras = new Array<Camera2DComponent>();
 			Log.info('Num cameras: ${Camera2DProcessor.cameras.length}');
 			// start the game!
 			Log.info('Starting bottle rocket!');
 
-			this.useProcessor(new minigames.bottlerocket.VelocityProcessor());
+			this.useProcessor(new VelocityProcessor());
 			this.useProcessor(new TimedPromiseProcessor());
-			this.useProcessor(new minigames.bottlerocket.TimerDisplayProcessor());
-			this.useProcessor(new minigames.bottlerocket.PumpProcessor());
+			this.useProcessor(new TimerDisplayProcessor());
+			this.useProcessor(new PumpProcessor());
 			this.useProcessor(new MeshProcessor());
 			this.useProcessor(new MaterialProcessor());
 			this.useProcessor(new Camera2DProcessor());
-			this.useProcessor(new minigames.bottlerocket.TransformTrackerProcessor());
+			this.useProcessor(new TransformTrackerProcessor());
 			this.useProcessor(new TransformProcessor());
 			this.useProcessor(new TextProcessor());
 			this.useProcessor(new Renderer2DProcessor(new Vec4(110, 175, 231, 255) / 255));
+			this.useProcessor(new CircleEffectRendererProcessor());
 
 			// create the camera
 			var w:Float = Tusk.instance.app.window.width;
@@ -221,28 +228,32 @@ class BottleRocket extends Scene {
 			entities.push(p2Rocket);
 
 			// show the controls
-			entities.push(new Entity(this, 'Controls', [
+			var controlsEntity:Entity = new Entity(this, 'Controls', [
 				new TransformComponent(new Vec3(0, -180, 0), Quat.identity(), new Vec3(128, 128, 128)),
 				new MeshComponent(quad),
 				new MaterialComponent(controlsMaterial)
-			]));
+			]);
+			entities.push(controlsEntity);
 
-			var p1Pump:minigames.bottlerocket.PumpComponent;
-			var p2Pump:minigames.bottlerocket.PumpComponent;
+			var p1Pump:PumpComponent;
+			var p2Pump:PumpComponent;
 
 			// start the countdown!
 			var countdownText:TextComponent = new TextComponent(font, '3',
 					TextAlign.Centre, TextVerticalAlign.Centre,
 					new Vec4(1, 1, 1, 1));
 			var countdownTimer:TimedPromiseComponent = new TimedPromiseComponent(1.0);
+			var countdownTransform:TransformComponent = new TransformComponent(new Vec3(0, 0, -0.99), Quat.identity(), new Vec3(16, 16, 16));
 			var countdownEntity:Entity = new Entity(this, 'Countdown', [
-				new TransformComponent(new Vec3(0, 0, -0.99), Quat.identity(), new Vec3(16, 16, 16)),
+				countdownTransform,
 				new MeshComponent(textMesh.clone('br.countdowntextmesh')),
 				new MaterialComponent(fontMat.path),
 				countdownText,
 				countdownTimer
 			]);
 			entities.push(countdownEntity);
+			var p1V:VelocityComponent;
+			var p2V:VelocityComponent;
 			countdownTimer.done.pipe(function(_) {
 				countdownText.text = '2';
 				countdownTimer.t = 0;
@@ -255,14 +266,14 @@ class BottleRocket extends Scene {
 				return countdownTimer.done;
 			}).pipe(function(_) {
 				countdownText.text = 'Go!';
-				p1Pump = new minigames.bottlerocket.PumpComponent(0, groundY + 128 + 72);
+				p1Pump = new PumpComponent(0, groundY + 128 + 72);
 				p1PumpEntity.push(p1Pump);
-				p2Pump = new minigames.bottlerocket.PumpComponent(1, groundY + 128 + 72);
+				p2Pump = new PumpComponent(1, groundY + 128 + 72);
 				p2PumpEntity.push(p2Pump);
 
 				// in a second, start displaying the time left
 				haxe.Timer.delay(function() {
-					countdownEntity.push(new minigames.bottlerocket.TimerDisplayComponent());
+					countdownEntity.push(new TimerDisplayComponent());
 				}, 1000);
 
 				// start the pump timer
@@ -272,21 +283,63 @@ class BottleRocket extends Scene {
 				return countdownTimer.done;
 			}).pipe(function(_) {
 				// stop pumping!
-				p1PumpEntity.removeType(minigames.bottlerocket.PumpComponent.tid);
-				p2PumpEntity.removeType(minigames.bottlerocket.PumpComponent.tid);
-				countdownEntity.removeType(minigames.bottlerocket.TimerDisplayComponent.tid);
+				Tusk.removeEntity(controlsEntity);
+				p1PumpEntity.removeType(PumpComponent.tid);
+				p2PumpEntity.removeType(PumpComponent.tid);
+				countdownEntity.removeType(TimerDisplayComponent.tid);
 				
 				countdownTimer.t = 0;
 				countdownTimer.wait = 1;
 				countdownTimer.reset();
 				return countdownTimer.done;
-			}).then(function(_) {
+			}).pipe(function(_) {
 				countdownText.text = 'Launch!';
+				p1V = new VelocityComponent(p1Pump.pressure * 512, p1RocketTransform.position.y);
+				p2V = new VelocityComponent(p2Pump.pressure * 512, p2RocketTransform.position.y);
+				p1Rocket.push(p1V);
+				p2Rocket.push(p2V);
+				camera.push(new TransformTrackerComponent(p1RocketTransform, p2RocketTransform));
 
-				Log.info(p1Pump.pressure);
-				p1Rocket.push(new minigames.bottlerocket.VelocityComponent(p1Pump.pressure * 512, p1RocketTransform.position.y));
-				p2Rocket.push(new minigames.bottlerocket.VelocityComponent(p2Pump.pressure * 512, p2RocketTransform.position.y));
-				camera.push(new minigames.bottlerocket.TransformTrackerComponent(p1RocketTransform, p2RocketTransform));
+				var def:Deferred<Bool> = new Deferred<Bool>();
+				Promise.when(p1V.done, p2V.done).then(function(_, _) { def.resolve(true); });
+				return def.promise();
+			}).pipe(function(_) {
+				// figure out who won
+				var winner:Int = -1;
+				if(p1V.maxHeight > p2V.maxHeight) winner = 0;
+				else if(p2V.maxHeight > p1V.maxHeight) winner = 1;
+
+				countdownTransform.scale.set(4, 4, 4);
+				countdownTransform.lastScale.copy(countdownTransform.scale);
+				if(winner >= 0) {
+					countdownText.text = GameTracker.player[winner].name + ' wins!';
+					GameTracker.player[winner].score += 1;
+				}
+				else {
+					countdownText.text = 'Tie!';
+				}
+				
+				// remove the velocity components
+				p1Rocket.removeType(VelocityComponent.tid);
+				p2Rocket.removeType(VelocityComponent.tid);
+
+				// reset the time
+				countdownTimer.t = 0;
+				countdownTimer.wait = 5;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_) {
+				// circle out
+				var cec:CircleEffectComponent = new CircleEffectComponent(false);
+				entities.push(new Entity(this, 'Circle Effect', [
+					new TransformComponent(new Vec3(0, 0, 0.1), Quat.identity(), new Vec3(1024, 1024, 1024)),
+					new MeshComponent(quad.path),
+					new MaterialComponent(circleOutMat.path),
+					cec
+				]));
+				return cec.done;
+			}).then(function(_) {
+				sceneDone.resolve(this);
 			});
 		});
 	}

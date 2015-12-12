@@ -90,17 +90,26 @@ class LoadingScreen extends Scene {
 				new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h) / 2.0, -100, 100)
 			]));
 
-			var scp1:loading.SlamComponent = new loading.SlamComponent(0.5, 16, 2);
-			entities.push(new Entity(this, 'Player 1', [
-				new TransformComponent(new Vec3(-256, 0, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
-				new MeshComponent(textMesh.clone('p1text')),
-				new MaterialComponent(fontMat.path),
-				new TextComponent(font, '${GameTracker.player[0].name}\nAKA. ${generateName()}',
-					TextAlign.Centre, TextVerticalAlign.Centre,
-					new Vec4(1, 1, 1, 1)),
-				scp1
+			var cec:CircleEffectComponent = new CircleEffectComponent(true);
+			entities.push(new Entity(this, 'Circle Effect', [
+				new TransformComponent(new Vec3(0, 0, 0.1), Quat.identity(), new Vec3(1024, 1024, 1024)),
+				new MeshComponent(quad.path),
+				new MaterialComponent(circleOutMat.path),
+				cec
 			]));
-			scp1.done.pipe(function(_) {
+			cec.done.pipe(function(_) {
+				var scp1:loading.SlamComponent = new loading.SlamComponent(0.5, 16, 2);
+				entities.push(new Entity(this, 'Player 1', [
+					new TransformComponent(new Vec3(-256, 0, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
+					new MeshComponent(textMesh.clone('p1text')),
+					new MaterialComponent(fontMat.path),
+					new TextComponent(font, '${GameTracker.player[0].name}\nAKA. ${generateName()}\nhas ${GameTracker.player[0].score} points!',
+						TextAlign.Centre, TextVerticalAlign.Centre,
+						new Vec4(1, 1, 1, 1)),
+					scp1
+				]));
+				return scp1.done;
+			}).pipe(function(_) {
 				var scvs:loading.SlamComponent = new loading.SlamComponent(0.5, 96, 16);
 				entities.push(new Entity(this, 'VS', [
 					new TransformComponent(new Vec3(0, 0, 0.05), Quat.identity(), new Vec3(16, 16, 16)),
@@ -118,7 +127,7 @@ class LoadingScreen extends Scene {
 					new TransformComponent(new Vec3(256, 0, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
 					new MeshComponent(textMesh.clone('p2text')),
 					new MaterialComponent(fontMat.path),
-					new TextComponent(font, '${GameTracker.player[1].name}\nAKA. ${generateName()}',
+					new TextComponent(font, '${GameTracker.player[1].name}\nAKA. ${generateName()}\nhas ${GameTracker.player[1].score} points!',
 						TextAlign.Centre, TextVerticalAlign.Centre,
 						new Vec4(1, 1, 1, 1)),
 					scp2
@@ -137,15 +146,15 @@ class LoadingScreen extends Scene {
 				]));
 				return scn.done;
 			}).pipe(function(_) {
+				var fadeDelay:TimedPromiseComponent = new TimedPromiseComponent(2);
+				entities.push(new Entity(this, 'Delay', [fadeDelay]));
+				return fadeDelay.done;
+			}).pipe(function(_) {
 				return loadingDone;
 			}).pipe(function(_) {
-				var cec:CircleEffectComponent = new CircleEffectComponent(false);
-				entities.push(new Entity(this, 'Circle Effect', [
-					new TransformComponent(new Vec3(0, 0, 0.1), Quat.identity(), new Vec3(1024, 1024, 1024)),
-					new MeshComponent(quad.path),
-					new MaterialComponent(circleOutMat.path),
-					cec
-				]));
+				cec.t = 0;
+				cec.circleIn = false;
+				cec.reset();
 				return cec.done;
 			}).then(function(_) {
 				sceneDone.resolve(this);
