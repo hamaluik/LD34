@@ -512,6 +512,7 @@ tusk_Game.prototype = {
 	,__class__: tusk_Game
 };
 var Main = function() {
+	this.minigameDone = new promhx_Deferred();
 	tusk_Game.call(this);
 };
 $hxClasses["Main"] = Main;
@@ -524,9 +525,42 @@ Main.prototype = $extend(tusk_Game.prototype,{
 	,get_width: function() {
 		return 900;
 	}
+	,pickRandomLevel: function() {
+		var _g = this;
+		var dice = Math.floor(Math.random());
+		var scene;
+		switch(dice) {
+		case 0:
+			scene = new minigames_BottleRocket();
+			break;
+		default:
+			scene = new minigames_BottleRocket();
+		}
+		tusk_Tusk.pushScene(scene).then(function(scene1) {
+			tusk_Tusk.removeScene(scene1);
+			_g.minigameDone.resolve(scene1);
+		});
+	}
 	,setup: function() {
-		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 24, className : "Main", methodName : "setup"});
-		tusk_Tusk.pushScene(new minigames_BottleRocket());
+		var _g = this;
+		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 39, className : "Main", methodName : "setup"});
+		this.pickRandomLevel();
+		((function($this) {
+			var $r;
+			var varargf = function(f) {
+				var ret = new promhx_Stream();
+				var arr = [_g.minigameDone.stream()];
+				var p = promhx_Stream.wheneverAll(arr);
+				p._update.push({ async : ret, linkf : function(x) {
+					ret.handleResolve(f(arr[0]._val));
+				}});
+				return ret;
+			};
+			$r = { then : varargf};
+			return $r;
+		}(this))).then(function(_) {
+			_g.pickRandomLevel();
+		});
 	}
 	,__class__: Main
 });
