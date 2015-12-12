@@ -1,0 +1,1 @@
+git subtree push --prefix bin/web origin gh-pages
