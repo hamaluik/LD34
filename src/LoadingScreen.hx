@@ -5,6 +5,7 @@ import tusk.lib.comp.MeshComponent;
 import tusk.lib.comp.TransformComponent;
 import tusk.lib.comp.TextComponent;
 import tusk.lib.comp.TimedPromiseComponent;
+import tusk.lib.comp.CircleEffectComponent;
 import tusk.lib.proc.Camera2DProcessor;
 import tusk.lib.proc.MaterialProcessor;
 import tusk.lib.proc.MeshProcessor;
@@ -12,6 +13,7 @@ import tusk.lib.proc.Renderer2DProcessor;
 import tusk.lib.proc.TransformProcessor;
 import tusk.lib.proc.TextProcessor;
 import tusk.lib.proc.TimedPromiseProcessor;
+import tusk.lib.proc.CircleEffectRendererProcessor;
 import tusk.Tusk;
 import tusk.Scene;
 import tusk.Entity;
@@ -28,9 +30,11 @@ import tusk.events.*;
 
 class LoadingScreen extends Scene {
 	private var gameName:String;
+	private var loadingDone:Promise<Scene>;
 
-	public function new(gameName:String) {
+	public function new(gameName:String, loadingDone:Promise<Scene>) {
 		this.gameName = gameName;
+		this.loadingDone = loadingDone;
 		super('Loading screen!');
 	}
 
@@ -55,8 +59,10 @@ class LoadingScreen extends Scene {
 		Promise.when(
 			tusk.defaults.Primitives.loadTextMesh(),
 			tusk.defaults.Fonts.loadSubatomic_Screen(),
-			tusk.defaults.Materials.loadTextBasic()
-		).then(function(textMesh:Mesh, font:Font, fontMat:Material) {
+			tusk.defaults.Materials.loadTextBasic(),
+			tusk.defaults.Primitives.loadQuad(),
+			tusk.defaults.Materials.loadEffectCircleOut()
+		).then(function(textMesh:Mesh, font:Font, fontMat:Material, quad:Mesh, circleOutMat:Material) {
 			// set the material's texture
 			fontMat.textures = new Array<Texture>();
 			fontMat.textures.push(font.texture);
@@ -71,6 +77,7 @@ class LoadingScreen extends Scene {
 			this.useProcessor(new TextProcessor());
 			this.useProcessor(new MeshProcessor());
 			this.useProcessor(new Renderer2DProcessor(new Vec4(0.25, 0.25, 0.25, 1.0)));
+			this.useProcessor(new CircleEffectRendererProcessor());
 
 			// create the camera
 			var w:Float = Tusk.instance.app.window.width;
@@ -126,6 +133,17 @@ class LoadingScreen extends Scene {
 					scn
 				]));
 				return scn.done;
+			}).pipe(function(_) {
+				return loadingDone;
+			}).pipe(function(_) {
+				var cec:CircleEffectComponent = new CircleEffectComponent(false);
+				entities.push(new Entity(this, 'Circle Effect', [
+					new TransformComponent(new Vec3(0, 0, 0.1), Quat.identity(), new Vec3(1024, 1024, 1024)),
+					new MeshComponent(quad.path),
+					new MaterialComponent(circleOutMat.path),
+					cec
+				]));
+				return cec.done;
 			}).then(function(_) {
 				sceneDone.resolve(this);
 			});

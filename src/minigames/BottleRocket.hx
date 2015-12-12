@@ -78,9 +78,10 @@ class BottleRocket extends Scene {
 		if(event.scene != this) return;
 		Log.info("Loading bottle rocket scene..");
 
-		var loadingScreen:LoadingScreen = new LoadingScreen('Bottle Rocket Blast');
+		var loadComplete:Promise<Scene> = loadAssets();
+		var loadingScreen:LoadingScreen = new LoadingScreen('Bottle Rocket Blast', loadComplete);
 		Tusk.pushScene(loadingScreen);
-		Promise.when(loadingScreen.sceneDone.promise(), loadAssets()).then(function(_, _) {
+		Promise.when(loadingScreen.sceneDone.promise(), loadComplete).then(function(_, _) {
 			// start the game!
 			Tusk.removeScene(loadingScreen);
 			Log.info('Minigame started!');

@@ -169,8 +169,9 @@ tusk_Scene.prototype = {
 	}
 	,__class__: tusk_Scene
 };
-var LoadingScreen = function(gameName) {
+var LoadingScreen = function(gameName,loadingDone) {
 	this.gameName = gameName;
+	this.loadingDone = loadingDone;
 	tusk_Scene.call(this,"Loading screen!");
 };
 $hxClasses["LoadingScreen"] = LoadingScreen;
@@ -189,21 +190,21 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 	,onLoad: function(event) {
 		var _g = this;
 		if(event.scene != this) return;
-		tusk_debug_Log.log("load screen..",tusk_debug_LogFunctions.Info,{ fileName : "LoadingScreen.hx", lineNumber : 52, className : "LoadingScreen", methodName : "onLoad"});
+		tusk_debug_Log.log("load screen..",tusk_debug_LogFunctions.Info,{ fileName : "LoadingScreen.hx", lineNumber : 56, className : "LoadingScreen", methodName : "onLoad"});
 		((function($this) {
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic()];
+				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut()];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val));
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val));
 				}});
 				return ret;
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(textMesh,font,fontMat) {
+		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat) {
 			fontMat.textures = [];
 			fontMat.textures.push(font.texture);
 			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
@@ -215,6 +216,7 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 			_g.useProcessor(new tusk_lib_proc_TextProcessor());
 			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
 			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
+			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
 			var w = tusk_Tusk.instance.app.window.width;
 			var h = tusk_Tusk.instance.app.window.height;
 			_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
@@ -290,7 +292,25 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 					return $r;
 				}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"in:\n" + _g.gameName,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scn]));
 				return scn.done;
-			}).then(function(_3) {
+			}).pipe(function(_3) {
+				return _g.loadingDone;
+			}).pipe(function(_4) {
+				var cec = new tusk_lib_comp_CircleEffectComponent(false);
+				_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
+					var $r;
+					var q4 = glm__$Quat_Quat_$Impl_$._new();
+					{
+						q4[0] = 1;
+						q4[1] = 0;
+						q4[2] = 0;
+						q4[3] = 0;
+						q4;
+					}
+					$r = q4;
+					return $r;
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),cec]));
+				return cec.done;
+			}).then(function(_5) {
 				_g.sceneDone.resolve(_g);
 			});
 			tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
@@ -338,7 +358,10 @@ Main.prototype = $extend(tusk_Game.prototype,{
 	}
 	,setup: function() {
 		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 24, className : "Main", methodName : "setup"});
-		tusk_Tusk.pushScene(new minigames_BottleRocket());
+		tusk_Tusk.pushScene(new tusk_defaults_scenes_SplashScreen()).pipe(function(scene) {
+			tusk_Tusk.removeScene(scene);
+			return tusk_Tusk.pushScene(new minigames_BottleRocket());
+		});
 	}
 	,__class__: Main
 });
@@ -4202,16 +4225,16 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 		return prom;
 	}
 	,onLoad: function(event) {
-		var _g = this;
 		if(event.scene != this) return;
 		tusk_debug_Log.log("Loading bottle rocket scene..",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 79, className : "minigames.BottleRocket", methodName : "onLoad"});
-		var loadingScreen = new LoadingScreen("Bottle Rocket Blast");
+		var loadComplete = this.loadAssets();
+		var loadingScreen = new LoadingScreen("Bottle Rocket Blast",loadComplete);
 		tusk_Tusk.pushScene(loadingScreen);
 		((function($this) {
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [loadingScreen.sceneDone.promise(),_g.loadAssets()];
+				var arr = [loadingScreen.sceneDone.promise(),loadComplete];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
 					ret.handleResolve(f(arr[0]._val,arr[1]._val));
@@ -4222,7 +4245,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			return $r;
 		}(this))).then(function(_,_1) {
 			tusk_Tusk.removeScene(loadingScreen);
-			tusk_debug_Log.log("Minigame started!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 86, className : "minigames.BottleRocket", methodName : "onLoad"});
+			tusk_debug_Log.log("Minigame started!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 87, className : "minigames.BottleRocket", methodName : "onLoad"});
 		});
 	}
 	,___connectRoutes: function() {
