@@ -12,6 +12,8 @@ import tusk.Tusk;
 import tusk.Scene;
 import tusk.Entity;
 import tusk.resources.*;
+import tusk.lib.comp.*;
+import tusk.lib.proc.*;
 
 import tusk.modules.tiled.TileMap;
 
@@ -46,10 +48,11 @@ class BottleRocket extends Scene {
 			tusk.defaults.Primitives.loadQuad(),
 			tusk.defaults.Materials.loadParticlesUntextured(),
 			tusk.defaults.Materials.loadUnlitTextured(),
+			minigames.bottlerocket.BackgroundMaterial.load(),
 			Tusk.assets.loadTexture(tusk.Files.sprites___bottlerocket__png),
 			Tusk.assets.loadTexture(tusk.Files.tilemaps___bottlerocketbackground__png),
 			Tusk.assets.loadText(tusk.Files.tilemaps___bottlerocketbackground__json)
-		).then(function(quad:Mesh, particlesMaterial:Material, unlitTextured:Material, spriteSheet:Texture, backgroundSheet:Texture, backgroundJSON:Text) {
+		).then(function(quad:Mesh, particlesMaterial:Material, unlitTextured:Material, backgroundMaterial:Material, spriteSheet:Texture, backgroundSheet:Texture, backgroundJSON:Text) {
 			this.quad = quad;
 			this.particlesMaterial = particlesMaterial;
 
@@ -57,7 +60,7 @@ class BottleRocket extends Scene {
 			this.spriteMaterial.textures = new Array<Texture>();
 			this.spriteMaterial.textures.push(spriteSheet);
 
-			this.backgroundMaterial = unlitTextured.clone('br_bgMaterial');
+			this.backgroundMaterial = backgroundMaterial;
 			this.backgroundMaterial.textures = new Array<Texture>();
 			this.backgroundMaterial.textures.push(backgroundSheet);
 
@@ -84,7 +87,21 @@ class BottleRocket extends Scene {
 		Promise.when(loadingScreen.sceneDone.promise(), loadComplete).then(function(_, _) {
 			// start the game!
 			Tusk.removeScene(loadingScreen);
-			Log.info('Minigame started!');
+			Log.info('Starting bottle rocket!');
+
+			this.useProcessor(new MeshProcessor());
+			this.useProcessor(new MaterialProcessor());
+			this.useProcessor(new Camera2DProcessor());
+			this.useProcessor(new TransformProcessor());
+			this.useProcessor(new Renderer2DProcessor(new Vec4(110, 175, 231, 255) / 255));
+
+			// the tilemap in the background
+			entities.push(new Entity(this, 'TileMap', [
+				new TransformComponent(new Vec3((backgroundTileMap.width * backgroundTileMap.tilewidth * 2) / -2,
+					Tusk.game.height / -2, 0), Quat.identity(), new Vec3(2, 2, 2)),
+				new MeshComponent(backgroundMesh),
+				new MaterialComponent(backgroundMaterial)
+			]));
 		});
 	}
 }
