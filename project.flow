@@ -1,0 +1,25 @@
+{
+	project: {
+		name: 'LD34',
+		version: '0.0.0',
+		author: 'FuzzyWuzzie',
+
+		app: {
+			name: 'ld34',
+			package: 'com.blazingmammothgames.ld34',
+			main: 'Main'
+		},
+
+		build: {
+			flags: [],
+			dependencies: {
+				tusk: '*'
+			},
+			defines: ['assertions']
+		},
+
+		files: {
+			assets: 'assets/'
+		}
+	}
+}
