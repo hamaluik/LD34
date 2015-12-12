@@ -358,7 +358,10 @@ Main.prototype = $extend(tusk_Game.prototype,{
 	}
 	,setup: function() {
 		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 24, className : "Main", methodName : "setup"});
-		tusk_Tusk.pushScene(new minigames_BottleRocket());
+		tusk_Tusk.pushScene(new tusk_defaults_scenes_SplashScreen()).pipe(function(scene) {
+			tusk_Tusk.removeScene(scene);
+			return tusk_Tusk.pushScene(new minigames_BottleRocket());
+		});
 	}
 	,__class__: Main
 });
