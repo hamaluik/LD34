@@ -37,7 +37,7 @@ class Main extends Game {
 
 	override public function setup() {
 		Log.info('Setting up game...');
-		/*Tusk.pushScene(new tusk.defaults.scenes.SplashScreen()).pipe(function(scene:tusk.Scene) {
+		Tusk.pushScene(new tusk.defaults.scenes.SplashScreen()).pipe(function(scene:tusk.Scene) {
 			Tusk.removeScene(scene);
 			return Tusk.pushScene(new Intro());
 		}).then(function(scene:Scene) {
@@ -46,7 +46,7 @@ class Main extends Game {
 			Stream.whenever(minigameDone.stream()).then(function(_) {
 				pickRandomLevel();
 			});
-		});*/
+		});
 
 		/*pickRandomLevel();
 		Stream.whenever(minigameDone.stream()).then(function(_) {
@@ -55,6 +55,6 @@ class Main extends Game {
 		
 		//Tusk.pushScene(new Intro());
 		//Tusk.pushScene(new minigames.BottleRocket());
-		Tusk.pushScene(new minigames.SledTillYoureDead());
+		//Tusk.pushScene(new minigames.SledTillYoureDead());
 	}
 }

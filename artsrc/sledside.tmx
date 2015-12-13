@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="1" height="20" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="sledbg" tilewidth="32" tileheight="32" tilecount="4">
+  <image source="../assets/tilemaps/sledbg.png" width="64" height="64"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="1" height="20">
+  <data encoding="csv">
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1,
+1
+</data>
+ </layer>
+</map>

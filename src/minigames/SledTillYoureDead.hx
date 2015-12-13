@@ -29,6 +29,8 @@ import glm.Vec4;
 
 import tusk.events.*;
 
+import minigames.sledtillyouredead.*;
+
 class SledTillYoureDead extends Scene {
 	public function new() {
 		super('SledTillYoureDead');
@@ -45,6 +47,12 @@ class SledTillYoureDead extends Scene {
 
 	private var countdownMusic:Sound;
 
+	private var sledMaterial:Material;
+
+	private var sledTileMap:TileMap;
+	private var sledBGMaterial:Material;
+	private var sledBGMesh:Mesh;
+
 	private function loadAssets():Promise<Scene> {
 		var def:Deferred<Scene> = new Deferred<Scene>();
 		var prom:Promise<Scene> = def.promise();
@@ -57,8 +65,15 @@ class SledTillYoureDead extends Scene {
 			tusk.defaults.Fonts.loadSubatomic_Screen(),
 			tusk.defaults.Materials.loadTextBasic(),
 			tusk.defaults.Materials.loadEffectCircleOut(),
-			Tusk.assets.loadSound(tusk.Files.sounds___countdown__ogg)
-		).then(function(quad:Mesh, particlesMaterial:Material, textMesh:Mesh, font:Font, fontMat:Material, circleOutMat:Material, countdownMusic:Sound) {
+			Tusk.assets.loadSound(tusk.Files.sounds___countdown__ogg),
+			SpriteMaterial.load(),
+			Tusk.assets.loadTexture(tusk.Files.sprites___sled__png),
+			Tusk.assets.loadText(tusk.Files.tilemaps___sledside__json),
+			Tusk.assets.loadTexture(tusk.Files.tilemaps___sledbg__png),
+			tusk.defaults.Materials.loadUnlitTextured()
+		).then(function(quad:Mesh, particlesMaterial:Material, textMesh:Mesh, font:Font, fontMat:Material, circleOutMat:Material, countdownMusic:Sound,
+			sledMaterial:Material, sledTexture:Texture,
+			sledSideSrc:Text, sideBG:Texture, sledBGMaterial:Material) {
 			this.quad = quad;
 			this.particlesMaterial = particlesMaterial;
 
@@ -70,7 +85,19 @@ class SledTillYoureDead extends Scene {
 			this.fontMat.textures = new Array<Texture>();
 			this.fontMat.textures.push(font.texture);
 
-			def.resolve(this);
+			this.sledMaterial = sledMaterial;
+			this.sledMaterial.textures = new Array<Texture>();
+			this.sledMaterial.textures.push(sledTexture);
+
+			this.sledBGMaterial = sledBGMaterial;
+			this.sledBGMaterial.textures = new Array<Texture>();
+			this.sledBGMaterial.textures.push(sideBG);
+
+			sledTileMap = TileMap.fromJSON(sledSideSrc.text);
+			TileMap.buildMesh(sledTileMap, 'tilemap.sled').then(function(mesh:Mesh) {
+				sledBGMesh = mesh;
+				def.resolve(this);
+			});
 		}).catchError(function(err:Dynamic) {
 			Log.error(err);
 			def.throwError('Failed to load assets!');
@@ -79,19 +106,41 @@ class SledTillYoureDead extends Scene {
 		return prom;
 	}
 
+	private var treeMesh:Mesh;
+	private var rockMesh:Mesh;
+	private function createObstacle() {
+		var mesh:Mesh = switch(tusk.math.Random.int(0, 1)) {
+			default: treeMesh;
+			case 1: rockMesh;
+		}
+
+		var x:Float = tusk.math.Random.float(-380, 380);
+		entities.push(new Entity(this, 'P1 Sled', [
+			new TransformComponent(new Vec3(x, Tusk.game.height / -2 - 64, -0.5), Quat.identity(), new Vec3(64, 64, 64)),
+			new MeshComponent(mesh),
+			new MaterialComponent(sledBGMaterial),
+			new ScrollComponent(Tusk.game.height / 2 + 64)
+		]));
+	}
+
 	override public function onLoad(event:LoadEvent) {
 		if(event.scene != this) return;
 		Log.info("Loading sled till you're dead scene..");
 
 		var loadComplete:Promise<Scene> = loadAssets();
-		var loadingScreen:LoadingScreen = new LoadingScreen('Sled Till You\'re Dead!', loadComplete);
+		/*var loadingScreen:LoadingScreen = new LoadingScreen('Sled Till You\'re Dead!', loadComplete);
 		Tusk.pushScene(loadingScreen);
 		Promise.when(loadingScreen.sceneDone.promise(), loadComplete).then(function(_, _) {
-			Tusk.removeScene(loadingScreen);
+			Tusk.removeScene(loadingScreen);*/
+		loadComplete.then(function(_) {			
 			Camera2DProcessor.cameras = new Array<Camera2DComponent>();
 			// start the game!
 			Log.info('Starting sled till you\'re dead!');
 
+			this.useProcessor(new AnimatedSledProcessor());
+			this.useProcessor(new MovementProcessor());
+			this.useProcessor(new ScrollProcessor());
+			this.useProcessor(new SpawnProcessor());
 			this.useProcessor(new TimedPromiseProcessor());
 			this.useProcessor(new MeshProcessor());
 			this.useProcessor(new MaterialProcessor());
@@ -110,6 +159,66 @@ class SledTillYoureDead extends Scene {
 				new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h) / 2.0, -100, 100)
 			]);
 			entities.push(camera);
+
+			// create the side borders
+			entities.push(new Entity(this, 'LeftBorder', [
+				new TransformComponent(new Vec3(Tusk.game.width / -2, Tusk.game.height / -2 - 128, 0), Quat.identity(), new Vec3(2, 2, 2)),
+				new MeshComponent(sledBGMesh),
+				new MaterialComponent(sledBGMaterial),
+				new ScrollComponent(Tusk.game.height / -2, true, 64)
+			]));
+			entities.push(new Entity(this, 'RightBorder', [
+				new TransformComponent(new Vec3(Tusk.game.width / 2, Tusk.game.height / -2 - 128, 0), Quat.identity(), new Vec3(-2, 2, 2)),
+				new MeshComponent(sledBGMesh),
+				new MaterialComponent(sledBGMaterial),
+				new ScrollComponent(Tusk.game.height / -2, true, 64)
+			]));
+
+			// create P1 sled
+			var sledMesh1:Mesh = quad.clone('sled.mesh1');
+			for(uv in sledMesh1.uvs) {
+				uv.x /= 4;
+			}
+			var sledMesh2:Mesh = sledMesh1.clone('sled.mesh2');
+			entities.push(new Entity(this, 'P1 Sled', [
+				new TransformComponent(new Vec3(-92, 192, -1), Quat.identity(), new Vec3(64, 64, 64)),
+				new MeshComponent(sledMesh1),
+				new MaterialComponent(sledMaterial),
+				new CustomUniformsComponent(function() {
+					sledMaterial.setVec3('colour', GameTracker.player[0].colour);
+				}),
+				new AnimatedSledComponent(sledMesh1, 4, 15),
+				new MovementComponent(0)
+			]));
+			entities.push(new Entity(this, 'P2 Sled', [
+				new TransformComponent(new Vec3(92, 192, -1), Quat.identity(), new Vec3(64, 64, 64)),
+				new MeshComponent(sledMesh2),
+				new MaterialComponent(sledMaterial),
+				new CustomUniformsComponent(function() {
+					sledMaterial.setVec3('colour', GameTracker.player[1].colour);
+				}),
+				new AnimatedSledComponent(sledMesh2, 4, 15),
+				new MovementComponent(1)
+			]));
+
+			// prepare to create some obstacles!
+			treeMesh = quad.clone('sled.mesh.tree');
+			treeMesh.uvs[0].set(0.5, 1);
+			treeMesh.uvs[1].set(1, 1);
+			treeMesh.uvs[2].set(1, 0.5);
+			treeMesh.uvs[3].set(1, 0.5);
+			treeMesh.uvs[4].set(0.5, 0.5);
+			treeMesh.uvs[5].set(0.5, 1);
+			rockMesh = quad.clone('sled.mesh.rock');
+			rockMesh.uvs[0].set(0.5, 0.5);
+			rockMesh.uvs[1].set(1, 0.5);
+			rockMesh.uvs[2].set(1, 0);
+			rockMesh.uvs[3].set(1, 0);
+			rockMesh.uvs[4].set(0.5, 0);
+			rockMesh.uvs[5].set(0.5, 0.5);
+
+			// setup the obstacle spawning system
+			entities.push(new Entity(this, 'Spawner', [new SpawnComponent(createObstacle)]));
 		});
 	}
 }

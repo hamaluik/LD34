@@ -183,15 +183,15 @@ class BottleRocket extends Scene {
 				uv.x /= 2;
 				uv.y /= 2;
 			}
-			var red:Vec3 = new Vec3(1.0, 0.0, 0.0);
-			var yellow:Vec3 = new Vec3(1.0, 1.0, 0.0);
+			/*var red:Vec3 = new Vec3(205, 53, 23) / 255;
+			var yellow:Vec3 = new Vec3(238, 196, 49) / 255;*/
 
 			entities.push(new Entity(this, 'P1 Pump Base', [
 				new TransformComponent(new Vec3(-256, groundY + 128, -1), Quat.identity(), new Vec3(-256, 128, 128)),
 				new MeshComponent(pumpBaseMesh),
 				new MaterialComponent(spriteMaterial),
 				new CustomUniformsComponent(function() {
-					spriteMaterial.setVec3('colour', red);
+					spriteMaterial.setVec3('colour', GameTracker.player[0].colour);
 				})
 			]));
 			entities.push(new Entity(this, 'P2 Pump Base', [
@@ -199,7 +199,7 @@ class BottleRocket extends Scene {
 				new MeshComponent(pumpBaseMesh),
 				new MaterialComponent(spriteMaterial),
 				new CustomUniformsComponent(function() {
-					spriteMaterial.setVec3('colour', yellow);
+					spriteMaterial.setVec3('colour', GameTracker.player[1].colour);
 				})
 			]));
 
@@ -226,7 +226,7 @@ class BottleRocket extends Scene {
 				new MeshComponent(bottleRocketMesh),
 				new MaterialComponent(spriteMaterial),
 				new CustomUniformsComponent(function() {
-					spriteMaterial.setVec3('colour', red);
+					spriteMaterial.setVec3('colour', GameTracker.player[0].colour);
 				})
 			]);
 			entities.push(p1Rocket);
@@ -236,7 +236,7 @@ class BottleRocket extends Scene {
 				new MeshComponent(bottleRocketMesh),
 				new MaterialComponent(spriteMaterial),
 				new CustomUniformsComponent(function() {
-					spriteMaterial.setVec3('colour', yellow);
+					spriteMaterial.setVec3('colour', GameTracker.player[1].colour);
 				})
 			]);
 			entities.push(p2Rocket);

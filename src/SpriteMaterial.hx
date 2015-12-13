@@ -1,5 +1,3 @@
-package minigames.bottlerocket;
-
 import glm.Mat4;
 
 import tusk.resources.Shader;
@@ -17,19 +15,19 @@ import tusk.Tusk;
 class SpriteMaterial {
 	public static function load():Promise<Material> {
 		var d:Deferred<Material> = new Deferred<Material>();
-		if(Tusk.assets.isLoaded("br_sprite.textured")) {
-			d.resolve(Tusk.assets.getMaterial("br_sprite.textured"));
+		/*if(Tusk.assets.isLoaded("textured.colourkey")) {
+			d.resolve(Tusk.assets.getMaterial("textured.colourkey"));
 			return d.promise();
-		}
+		}*/
 
 		Promise.when(
 			Tusk.assets.loadText(tusk.Files.shaders___colourkey__vert),
 			Tusk.assets.loadText(tusk.Files.shaders___colourkey__frag))
 		.then(function(vert:Text, frag:Text) {
-			var shader:Shader = new Shader("br_sprite.textured",
+			var shader:Shader = new Shader("textured.colourkey",
 				vert.text,
 				frag.text);
-			var mat = new Material("br_sprite.textured", shader);
+			var mat = new Material("textured.colourkey", shader);
 
 			// setup the attribute flags
 			mat.attributeFlags.set(AttributeTypes.Pos3);
@@ -66,7 +64,7 @@ class SpriteMaterial {
 				GL.useProgram(null);
 			}
 
-			Tusk.assets.loadMaterial("br_sprite.textured", mat).then(function(mat:Material) {
+			Tusk.assets.loadMaterial("textured.colourkey", mat).then(function(mat:Material) {
 				d.resolve(mat);
 			});
 		});
