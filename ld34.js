@@ -251,7 +251,33 @@ HxOverrides.iter = function(a) {
 		return this.arr[this.cur++];
 	}};
 };
+var List = function() {
+	this.length = 0;
+};
+$hxClasses["List"] = List;
+List.__name__ = ["List"];
+List.prototype = {
+	add: function(item) {
+		var x = [item];
+		if(this.h == null) this.h = x; else this.q[1] = x;
+		this.q = x;
+		this.length++;
+	}
+	,pop: function() {
+		if(this.h == null) return null;
+		var x = this.h[0];
+		this.h = this.h[1];
+		if(this.h == null) this.q = null;
+		this.length--;
+		return x;
+	}
+	,isEmpty: function() {
+		return this.h == null;
+	}
+	,__class__: List
+};
 var tusk_Scene = function(name) {
+	this.sceneDone = new promhx_Deferred();
 	this.name = null;
 	this.name = name;
 	this.processors = [];
@@ -302,213 +328,10 @@ tusk_Scene.prototype = {
 	}
 	,__class__: tusk_Scene
 };
-var Intro = function() {
-	this.startTimer = 0;
-	tusk_Scene.call(this,"Intro screen!");
-};
-$hxClasses["Intro"] = Intro;
-Intro.__name__ = ["Intro"];
-Intro.__super__ = tusk_Scene;
-Intro.prototype = $extend(tusk_Scene.prototype,{
-	onLoad: function(event) {
-		var _g = this;
-		if(event.scene != this) return;
-		tusk_debug_Log.log("loading intro..",tusk_debug_LogFunctions.Info,{ fileName : "Intro.hx", lineNumber : 41, className : "Intro", methodName : "onLoad"});
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_defaults_Materials.loadUnlitColoured()];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat,bgMaterial) {
-			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			fontMat.textures = [];
-			fontMat.textures.push(font.texture);
-			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
-			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
-			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
-			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
-			_g.useProcessor(new tusk_lib_proc_TextProcessor());
-			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
-			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
-			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
-			var w = tusk_Tusk.instance.app.window.width;
-			var h = tusk_Tusk.instance.app.window.height;
-			_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
-				var $r;
-				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
-				return $r;
-			}(this)),(function($this) {
-				var $r;
-				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
-				return $r;
-			}(this)),-100,100)]));
-			var bgMesh = quad.clone("mesh.bgintro");
-			bgMesh.colours = [];
-			var gradientColours = Util.randomGradientColours();
-			var _g1 = 0;
-			var _g2 = bgMesh.vertices;
-			while(_g1 < _g2.length) {
-				var v = _g2[_g1];
-				++_g1;
-				var colour = gradientColours[glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0?1:0];
-				bgMesh.colours.push(colour);
-			}
-			_g.entities.push(new tusk_Entity(_g,"Image",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
-				var $r;
-				var q = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q[0] = 1;
-					q[1] = 0;
-					q[2] = 0;
-					q[3] = 0;
-					q;
-				}
-				$r = q;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,bgMaterial)]));
-			_g.entities.push(new tusk_Entity(_g,"title",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,116,0.05),(function($this) {
-				var $r;
-				var q1 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q1[0] = 1;
-					q1[1] = 0;
-					q1[2] = 0;
-					q1[3] = 0;
-					q1;
-				}
-				$r = q1;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(5,5,5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("titletext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Ludum Party!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-			_g.entities.push(new tusk_Entity(_g,"instructions",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.05),(function($this) {
-				var $r;
-				var q2 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q2[0] = 1;
-					q2[1] = 0;
-					q2[2] = 0;
-					q2[3] = 0;
-					q2;
-				}
-				$r = q2;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("instructionstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nHold down A+B to start!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-			_g.entities.push(new tusk_Entity(_g,"p1keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,-192,0.05),(function($this) {
-				var $r;
-				var q3 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q3[0] = 1;
-					q3[1] = 0;
-					q3[2] = 0;
-					q3[3] = 0;
-					q3;
-				}
-				$r = q3;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nA => Q\nB => E",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-			_g.p2Text = new tusk_lib_comp_TextComponent(font,"Player 2:\nCPU\nPress 'I' to join!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
-			_g.entities.push(new tusk_Entity(_g,"p2keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,-192,0.05),(function($this) {
-				var $r;
-				var q4 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q4[0] = 1;
-					q4[1] = 0;
-					q4[2] = 0;
-					q4[3] = 0;
-					q4;
-				}
-				$r = q4;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),_g.p2Text]));
-			_g.cec = new tusk_lib_comp_CircleEffectComponent(true);
-			_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
-				var $r;
-				var q5 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q5[0] = 1;
-					q5[1] = 0;
-					q5[2] = 0;
-					q5[3] = 0;
-					q5;
-				}
-				$r = q5;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),_g.cec]));
-			tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
-		});
-	}
-	,onKeyDown: function(event) {
-		if(this.p2Text != null && (event.keyCode == snow_system_input_Keycodes.key_i || event.keyCode == snow_system_input_Keycodes.key_p)) {
-			GameTracker.player[1].isCPU = !GameTracker.player[1].isCPU;
-			this.p2Text.set_text(GameTracker.player[1].isCPU?"Player 2:\nCPU\nPress 'I' to join!":"Player 2:\nA => I\nB => P");
-		}
-	}
-	,onUpdate: function(event) {
-		var _g = this;
-		if(this.cec == null || !this.cec.done._resolved || this.startTimer < 0) return;
-		var aDown = tusk_Tusk.instance.app.input.keydown(GameTracker.player[0].btnA);
-		var bDown = tusk_Tusk.instance.app.input.keydown(GameTracker.player[0].btnB);
-		if(aDown && bDown) this.startTimer += event.dt; else this.startTimer = 0;
-		if(this.startTimer >= 0.5) {
-			this.startTimer = -1;
-			this.cec.t = 0;
-			this.cec.circleIn = false;
-			this.cec.reset();
-			this.cec.done.then(function(_) {
-				_g.sceneDone.resolve(_g);
-			});
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-		tusk_Tusk.routeEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: Intro
-});
-var List = function() {
-	this.length = 0;
-};
-$hxClasses["List"] = List;
-List.__name__ = ["List"];
-List.prototype = {
-	add: function(item) {
-		var x = [item];
-		if(this.h == null) this.h = x; else this.q[1] = x;
-		this.q = x;
-		this.length++;
-	}
-	,pop: function() {
-		if(this.h == null) return null;
-		var x = this.h[0];
-		this.h = this.h[1];
-		if(this.h == null) this.q = null;
-		this.length--;
-		return x;
-	}
-	,isEmpty: function() {
-		return this.h == null;
-	}
-	,__class__: List
-};
 var LoadingScreen = function(gameName,loadingDone) {
 	this.gameName = gameName;
 	this.loadingDone = loadingDone;
-	tusk_Scene.call(this,"Loading screen!");
+	tusk_Scene.call(this,"LoadingScreen");
 };
 $hxClasses["LoadingScreen"] = LoadingScreen;
 LoadingScreen.__name__ = ["LoadingScreen"];
@@ -609,7 +432,7 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 			cec.done.pipe(function(_) {
 				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(loadingCrunch.path,true)]));
 				var scp1 = new loading_SlamComponent(0.5,16,2);
-				_g.entities.push(new tusk_Entity(_g,"Player 1",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,0,0.05),(function($this) {
+				_g.entities.push(new tusk_Entity(_g,"Player 1",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,192,0.05),(function($this) {
 					var $r;
 					var q2 = glm__$Quat_Quat_$Impl_$._new();
 					{
@@ -621,7 +444,7 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 					}
 					$r = q2;
 					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[0].name + "\nAKA. " + _g.generateName() + "\nhas " + GameTracker.player[0].score + " points!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp1]));
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[0].name + "\nAKA. " + _g.generateName() + "\n(with " + GameTracker.player[0].score + " points!)",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp1]));
 				return scp1.done;
 			}).pipe(function(_1) {
 				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(loadingCrunch.path,true)]));
@@ -638,12 +461,12 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 					}
 					$r = q3;
 					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(16,16,16)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"VS",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scvs]));
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(16,16,16)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"VS",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scvs]));
 				return scvs.done;
 			}).pipe(function(_2) {
 				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(loadingCrunch.path,true)]));
 				var scp2 = new loading_SlamComponent(0.5,16,2);
-				_g.entities.push(new tusk_Entity(_g,"Player 2",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,0,0.05),(function($this) {
+				_g.entities.push(new tusk_Entity(_g,"Player 2",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,192,0.05),(function($this) {
 					var $r;
 					var q4 = glm__$Quat_Quat_$Impl_$._new();
 					{
@@ -655,7 +478,7 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 					}
 					$r = q4;
 					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[1].name + "\nAKA. " + _g.generateName() + "\nhas " + GameTracker.player[1].score + " points!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp2]));
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[1].name + "\nAKA. " + _g.generateName() + "\n(with " + GameTracker.player[1].score + " points!)",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp2]));
 				return scp2.done;
 			}).pipe(function(_3) {
 				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(introWobble.path,true)]));
@@ -680,6 +503,7 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 				_g.entities.push(new tusk_Entity(_g,"Delay",[fadeDelay]));
 				return fadeDelay.done;
 			}).pipe(function(_5) {
+				tusk_debug_Log.log("Waiting for loading to complete..",tusk_debug_LogFunctions.Info,{ fileName : "LoadingScreen.hx", lineNumber : 170, className : "LoadingScreen", methodName : "onLoad"});
 				return _g.loadingDone;
 			}).pipe(function(_6) {
 				cec.t = 0;
@@ -687,7 +511,10 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 				cec.reset();
 				return cec.done;
 			}).then(function(_7) {
+				tusk_debug_Log.log("Loading screen done!",tusk_debug_LogFunctions.Info,{ fileName : "LoadingScreen.hx", lineNumber : 178, className : "LoadingScreen", methodName : "onLoad"});
 				_g.sceneDone.resolve(_g);
+			}).catchError(function(err) {
+				tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "LoadingScreen.hx", lineNumber : 181, className : "LoadingScreen", methodName : "onLoad"});
 			});
 			tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
 		});
@@ -735,11 +562,11 @@ Main.prototype = $extend(tusk_Game.prototype,{
 	}
 	,pickRandomLevel: function() {
 		var _g = this;
-		var dice = Math.floor(Math.random());
+		var dice = Math.floor(2 * Math.random());
 		var scene;
 		switch(dice) {
-		case 0:
-			scene = new minigames_BottleRocket();
+		case 1:
+			scene = new minigames_SledTillYoureDead();
 			break;
 		default:
 			scene = new minigames_BottleRocket();
@@ -750,31 +577,8 @@ Main.prototype = $extend(tusk_Game.prototype,{
 		});
 	}
 	,setup: function() {
-		var _g = this;
 		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 39, className : "Main", methodName : "setup"});
-		tusk_Tusk.pushScene(new tusk_defaults_scenes_SplashScreen()).pipe(function(scene) {
-			tusk_Tusk.removeScene(scene);
-			return tusk_Tusk.pushScene(new Intro());
-		}).then(function(scene1) {
-			tusk_Tusk.removeScene(scene1);
-			_g.pickRandomLevel();
-			((function($this) {
-				var $r;
-				var varargf = function(f) {
-					var ret = new promhx_Stream();
-					var arr = [_g.minigameDone.stream()];
-					var p = promhx_Stream.wheneverAll(arr);
-					p._update.push({ async : ret, linkf : function(x) {
-						ret.handleResolve(f(arr[0]._val));
-					}});
-					return ret;
-				};
-				$r = { then : varargf};
-				return $r;
-			}(this))).then(function(_) {
-				_g.pickRandomLevel();
-			});
-		});
+		tusk_Tusk.pushScene(new minigames_SledTillYoureDead());
 	}
 	,__class__: Main
 });
@@ -4662,7 +4466,6 @@ tusk_Component.prototype = {
 var tusk_PromiseComponent = function() {
 	this.onDone = new promhx_Deferred();
 	this.done = this.onDone.promise();
-	this.doneStream = this.onDone.stream();
 	tusk_Component.call(this);
 };
 $hxClasses["tusk.PromiseComponent"] = tusk_PromiseComponent;
@@ -4673,11 +4476,10 @@ tusk_PromiseComponent.prototype = $extend(tusk_Component.prototype,{
 		if(this.onDone._resolved) {
 			this.onDone = new promhx_Deferred();
 			this.done = this.onDone.promise();
-			this.doneStream = this.onDone.stream();
 		}
 	}
 	,finish: function() {
-		this.onDone.resolve(true);
+		if(!this.onDone._resolved) this.onDone.resolve(true);
 	}
 	,get__tid: function() {
 		return 3;
@@ -4952,8 +4754,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 		}(this))).then(function(_,_1) {
 			tusk_Tusk.removeScene(loadingScreen);
 			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 133, className : "minigames.BottleRocket", methodName : "onLoad"});
-			tusk_debug_Log.log("Starting bottle rocket!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 135, className : "minigames.BottleRocket", methodName : "onLoad"});
+			tusk_debug_Log.log("Starting bottle rocket!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 134, className : "minigames.BottleRocket", methodName : "onLoad"});
 			_g.useProcessor(new minigames_bottlerocket_VelocityProcessor());
 			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
 			_g.useProcessor(new minigames_bottlerocket_TimerDisplayProcessor());
@@ -4998,7 +4799,6 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				return $r;
 			}(this)),-100,100)]);
 			_g.entities.push(camera);
-			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 159, className : "minigames.BottleRocket", methodName : "onLoad"});
 			_g.entities.push(new tusk_Entity(_g,"TileMap",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(_g.backgroundTileMap.width * _g.backgroundTileMap.tilewidth * 2 / -2,tusk_Tusk.game.get_height() / -2 - _g.backgroundTileMap.tileheight * 2 * 2,0),(function($this) {
 				var $r;
 				var q6 = glm__$Quat_Quat_$Impl_$._new();
@@ -5260,6 +5060,115 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
 	}
 	,__class__: minigames_BottleRocket
+});
+var minigames_SledTillYoureDead = function() {
+	tusk_Scene.call(this,"SledTillYoureDead");
+};
+$hxClasses["minigames.SledTillYoureDead"] = minigames_SledTillYoureDead;
+minigames_SledTillYoureDead.__name__ = ["minigames","SledTillYoureDead"];
+minigames_SledTillYoureDead.__super__ = tusk_Scene;
+minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
+	loadAssets: function() {
+		var _g = this;
+		var def = new promhx_Deferred();
+		var prom = def.promise();
+		((function($this) {
+			var $r;
+			var varargf = function(f) {
+				var ret = new promhx_Promise();
+				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg")];
+				var p = promhx_Promise.whenAll(arr);
+				p._update.push({ async : ret, linkf : function(x) {
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val));
+				}});
+				return ret;
+			};
+			$r = { then : varargf};
+			return $r;
+		}(this))).then(function(quad,particlesMaterial,textMesh,font,fontMat,circleOutMat,countdownMusic) {
+			_g.quad = quad;
+			_g.particlesMaterial = particlesMaterial;
+			_g.circleOutMat = circleOutMat;
+			_g.textMesh = textMesh;
+			_g.font = font;
+			_g.fontMat = fontMat;
+			_g.fontMat.textures = [];
+			_g.fontMat.textures.push(font.texture);
+			def.resolve(_g);
+		}).catchError(function(err) {
+			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "SledTillYoureDead.hx", lineNumber : 75, className : "minigames.SledTillYoureDead", methodName : "loadAssets"});
+			def.handleError("Failed to load assets!");
+		});
+		return prom;
+	}
+	,onLoad: function(event) {
+		var _g = this;
+		if(event.scene != this) return;
+		tusk_debug_Log.log("Loading sled till you're dead scene..",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 84, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+		var loadComplete = this.loadAssets();
+		var loadingScreen = new LoadingScreen("Sled Till You're Dead!",loadComplete);
+		tusk_Tusk.pushScene(loadingScreen);
+		((function($this) {
+			var $r;
+			var varargf = function(f) {
+				var ret = new promhx_Promise();
+				var arr = [loadingScreen.sceneDone.promise(),loadComplete];
+				var p = promhx_Promise.whenAll(arr);
+				p._update.push({ async : ret, linkf : function(x) {
+					ret.handleResolve(f(arr[0]._val,arr[1]._val));
+				}});
+				return ret;
+			};
+			$r = { then : varargf};
+			return $r;
+		}(this))).then(function(_,_1) {
+			tusk_Tusk.removeScene(loadingScreen);
+			tusk_lib_proc_Camera2DProcessor.cameras = [];
+			tusk_debug_Log.log("Starting sled till you're dead!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 93, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
+			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
+			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
+			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
+			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
+			_g.useProcessor(new tusk_lib_proc_TextProcessor());
+			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.9,0.9,0.9,1)));
+			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
+			_g.useProcessor(new tusk_lib_proc_SoundProcessor());
+			var w = tusk_Tusk.instance.app.window.width;
+			var h = tusk_Tusk.instance.app.window.height;
+			var camera = new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0),(function($this) {
+				var $r;
+				var q = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q[0] = 1;
+					q[1] = 0;
+					q[2] = 0;
+					q[3] = 0;
+					q;
+				}
+				$r = q;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1,1,1)),new tusk_lib_comp_Camera2DComponent((function($this) {
+				var $r;
+				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
+				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
+				return $r;
+			}(this)),(function($this) {
+				var $r;
+				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
+				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
+				return $r;
+			}(this)),-100,100)]);
+			_g.entities.push(camera);
+		});
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
+	}
+	,__class__: minigames_SledTillYoureDead
 });
 var minigames_bottlerocket_BackgroundMaterial = function() { };
 $hxClasses["minigames.bottlerocket.BackgroundMaterial"] = minigames_bottlerocket_BackgroundMaterial;
@@ -10141,7 +10050,6 @@ tusk_Tusk.unrouteEvent = function(type,handler) {
 tusk_Tusk.pushScene = function(scene) {
 	if(HxOverrides.indexOf(tusk_Tusk.game.currentScenes,scene,0) >= 0) throw new js__$Boot_HaxeError(new tusk_debug_Exception("Scene is already running!",null,null,{ fileName : "Tusk.hx", lineNumber : 180, className : "tusk.Tusk", methodName : "pushScene"}));
 	tusk_Tusk.game.currentScenes.push(scene);
-	scene.sceneDone = new promhx_Deferred();
 	scene.___connectRoutes();
 	scene.onLoad(new tusk_events_LoadEvent(scene));
 	return scene.sceneDone.promise();
