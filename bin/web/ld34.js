@@ -5149,20 +5149,22 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),SpriteMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/sled.png"),tusk_Tusk.assets.loadText("assets/tilemaps/sledside.json"),tusk_Tusk.assets.loadTexture("assets/tilemaps/sledbg.png"),tusk_defaults_Materials.loadUnlitTextured()];
+				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),SpriteMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/sled.png"),tusk_Tusk.assets.loadText("assets/tilemaps/sledside.json"),tusk_Tusk.assets.loadTexture("assets/tilemaps/sledbg.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_Tusk.assets.loadSound("assets/sounds/sledding.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg")];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val));
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val,arr[12]._val,arr[13]._val));
 				}});
 				return ret;
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(quad,particlesMaterial,textMesh,font,fontMat,circleOutMat,countdownMusic,sledMaterial,sledTexture,sledSideSrc,sideBG,sledBGMaterial) {
+		}(this))).then(function(quad,particlesMaterial,textMesh,font,fontMat,circleOutMat,countdownMusic,sledMaterial,sledTexture,sledSideSrc,sideBG,sledBGMaterial,sledMusic,winMusic) {
 			_g.quad = quad;
 			_g.particlesMaterial = particlesMaterial;
 			_g.circleOutMat = circleOutMat;
 			_g.countdownMusic = countdownMusic;
+			_g.sledMusic = sledMusic;
+			_g.winMusic = winMusic;
 			_g.textMesh = textMesh;
 			_g.font = font;
 			_g.fontMat = fontMat;
@@ -5180,7 +5182,7 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				def.resolve(_g);
 			});
 		}).catchError(function(err) {
-			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "SledTillYoureDead.hx", lineNumber : 104, className : "minigames.SledTillYoureDead", methodName : "loadAssets"});
+			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "SledTillYoureDead.hx", lineNumber : 111, className : "minigames.SledTillYoureDead", methodName : "loadAssets"});
 			def.handleError("Failed to load assets!");
 		});
 		return prom;
@@ -5218,11 +5220,11 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 	,onLoad: function(event) {
 		var _g = this;
 		if(event.scene != this) return;
-		tusk_debug_Log.log("Loading sled till you're dead scene..",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 136, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+		tusk_debug_Log.log("Loading sled till you're dead scene..",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 143, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
 		var loadComplete = this.loadAssets();
 		loadComplete.then(function(_) {
 			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			tusk_debug_Log.log("Starting sled till you're dead!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 146, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+			tusk_debug_Log.log("Starting sled till you're dead!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 153, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
 			_g.useProcessor(new minigames_sledtillyouredead_CollisionProcessor());
 			_g.useProcessor(new minigames_sledtillyouredead_AnimatedSledProcessor());
 			_g.useProcessor(new minigames_sledtillyouredead_MovementProcessor());
@@ -5352,6 +5354,8 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[4],0.0,0.5);
 			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[5],0.0,1.0);
 			_g.entities.push(new tusk_Entity(_g,"Countdown Music",[new tusk_lib_comp_SoundComponent(_g.countdownMusic.path,true)]));
+			var sledMusicComponent = new tusk_lib_comp_SoundComponent(_g.sledMusic.path,false);
+			_g.entities.push(new tusk_Entity(_g,"Sled Music",[sledMusicComponent]));
 			var countdownText = new tusk_lib_comp_TextComponent(_g.font,"3",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(0,0,0,1));
 			var countdownTimer = new tusk_lib_comp_TimedPromiseComponent(1.0);
 			var countdownTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.99),(function($this) {
@@ -5383,6 +5387,7 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				countdownText.set_text("Go!");
 				haxe_Timer.delay(function() {
 					countdownText.set_text("");
+					sledMusicComponent.play = true;
 				},1000);
 				_g.entities.push(new tusk_Entity(_g,"Spawner",[new minigames_sledtillyouredead_SpawnComponent($bind(_g,_g.createObstacle))]));
 				var hitDef = new promhx_Deferred();
@@ -5395,7 +5400,9 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				});
 				return hitPromise;
 			}).pipe(function(player) {
-				tusk_debug_Log.log("" + GameTracker.player[player].name + " hit an obstacle!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 290, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+				tusk_debug_Log.log("" + GameTracker.player[player].name + " hit an obstacle!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 302, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+				sledMusicComponent.play = false;
+				sledMusicComponent.stop = true;
 				var _g11 = 0;
 				var _g21 = _g.entities;
 				while(_g11 < _g21.length) {
@@ -5409,6 +5416,7 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				glm__$Vec3_Vec3_$Impl_$.set(countdownTransform.scale,4,4,4);
 				glm__$Vec3_Vec3_$Impl_$.copy(countdownTransform.lastScale,countdownTransform.scale);
 				GameTracker.player[1 - player].score++;
+				_g.entities.push(new tusk_Entity(_g,"WinMusic",[new tusk_lib_comp_SoundComponent(_g.winMusic.path,true)]));
 				countdownTimer.t = 0;
 				countdownTimer.wait = 3;
 				countdownTimer.reset();
@@ -14939,6 +14947,7 @@ tusk_Files.sounds___countdown__ogg = "assets/sounds/countdown.ogg";
 tusk_Files.sounds___introtrumpet__ogg = "assets/sounds/introtrumpet.ogg";
 tusk_Files.sounds___introwobble__ogg = "assets/sounds/introwobble.ogg";
 tusk_Files.sounds___loadingcrunch__ogg = "assets/sounds/loadingcrunch.ogg";
+tusk_Files.sounds___sledding__ogg = "assets/sounds/sledding.ogg";
 tusk_Files.sounds___wintrumpet__ogg = "assets/sounds/wintrumpet.ogg";
 tusk_Files.sprites___bottlerocket__png = "assets/sprites/bottlerocket.png";
 tusk_Files.sprites___bottlerocketcontrols__png = "assets/sprites/bottlerocketcontrols.png";

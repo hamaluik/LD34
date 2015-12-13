@@ -46,6 +46,8 @@ class SledTillYoureDead extends Scene {
 	private var circleOutMat:Material;
 
 	private var countdownMusic:Sound;
+	private var sledMusic:Sound;
+	private var winMusic:Sound;
 
 	private var sledMaterial:Material;
 
@@ -70,16 +72,21 @@ class SledTillYoureDead extends Scene {
 			Tusk.assets.loadTexture(tusk.Files.sprites___sled__png),
 			Tusk.assets.loadText(tusk.Files.tilemaps___sledside__json),
 			Tusk.assets.loadTexture(tusk.Files.tilemaps___sledbg__png),
-			tusk.defaults.Materials.loadUnlitTextured()
+			tusk.defaults.Materials.loadUnlitTextured(),
+			Tusk.assets.loadSound(tusk.Files.sounds___sledding__ogg),
+			Tusk.assets.loadSound(tusk.Files.sounds___wintrumpet__ogg)
 		).then(function(quad:Mesh, particlesMaterial:Material, textMesh:Mesh, font:Font, fontMat:Material, circleOutMat:Material, countdownMusic:Sound,
 			sledMaterial:Material, sledTexture:Texture,
-			sledSideSrc:Text, sideBG:Texture, sledBGMaterial:Material) {
+			sledSideSrc:Text, sideBG:Texture, sledBGMaterial:Material,
+			sledMusic:Sound, winMusic:Sound) {
 			this.quad = quad;
 			this.particlesMaterial = particlesMaterial;
 
 			this.circleOutMat = circleOutMat;
 
 			this.countdownMusic = countdownMusic;
+			this.sledMusic = sledMusic;
+			this.winMusic = winMusic;
 
 			this.textMesh = textMesh;
 			this.font = font;
@@ -242,6 +249,10 @@ class SledTillYoureDead extends Scene {
 				new SoundComponent(countdownMusic.path, true)
 			]));
 
+			// add the sledding music!
+			var sledMusicComponent:SoundComponent = new SoundComponent(sledMusic.path, false);
+			entities.push(new Entity(this, 'Sled Music', [sledMusicComponent]));
+
 			// start the countdown!
 			var countdownText:TextComponent = new TextComponent(font, '3',
 					TextAlign.Centre, TextVerticalAlign.Centre,
@@ -273,6 +284,7 @@ class SledTillYoureDead extends Scene {
 				haxe.Timer.delay(function() {
 					// remove the text
 					countdownText.text = '';
+					sledMusicComponent.play = true;
 				}, 1000);
 
 				// start the game!
@@ -288,6 +300,10 @@ class SledTillYoureDead extends Scene {
 				return hitPromise;
 			}).pipe(function(player:Int) {
 				Log.info('${GameTracker.player[player].name} hit an obstacle!');
+
+				// stop the music!
+				sledMusicComponent.play = false;
+				sledMusicComponent.stop = true;
 
 				// prepare for the end!
 				for(entity in entities) {
@@ -306,6 +322,9 @@ class SledTillYoureDead extends Scene {
 
 				// give em a point!
 				GameTracker.player[1 - player].score++;
+
+				// play the win music!
+				entities.push(new Entity(this, 'WinMusic', [new SoundComponent(winMusic.path, true)]));
 
 				// and delay
 				countdownTimer.t = 0;
