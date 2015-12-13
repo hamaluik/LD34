@@ -454,6 +454,31 @@ HxOverrides.iter = function(a) {
 		return this.arr[this.cur++];
 	}};
 };
+var List = function() {
+	this.length = 0;
+};
+$hxClasses["List"] = List;
+List.__name__ = ["List"];
+List.prototype = {
+	add: function(item) {
+		var x = [item];
+		if(this.h == null) this.h = x; else this.q[1] = x;
+		this.q = x;
+		this.length++;
+	}
+	,pop: function() {
+		if(this.h == null) return null;
+		var x = this.h[0];
+		this.h = this.h[1];
+		if(this.h == null) this.q = null;
+		this.length--;
+		return x;
+	}
+	,isEmpty: function() {
+		return this.h == null;
+	}
+	,__class__: List
+};
 var tusk_Scene = function(name) {
 	this.sceneDone = new promhx_Deferred();
 	this.name = null;
@@ -505,209 +530,6 @@ tusk_Scene.prototype = {
 	,onMouseMove: function(event) {
 	}
 	,__class__: tusk_Scene
-};
-var Intro = function() {
-	this.startTimer = 0;
-	tusk_Scene.call(this,"Intro screen!");
-};
-$hxClasses["Intro"] = Intro;
-Intro.__name__ = ["Intro"];
-Intro.__super__ = tusk_Scene;
-Intro.prototype = $extend(tusk_Scene.prototype,{
-	onLoad: function(event) {
-		var _g = this;
-		if(event.scene != this) return;
-		tusk_debug_Log.log("loading intro..",tusk_debug_LogFunctions.Info,{ fileName : "Intro.hx", lineNumber : 41, className : "Intro", methodName : "onLoad"});
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_defaults_Materials.loadUnlitColoured()];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat,bgMaterial) {
-			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			fontMat.textures = [];
-			fontMat.textures.push(font.texture);
-			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
-			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
-			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
-			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
-			_g.useProcessor(new tusk_lib_proc_TextProcessor());
-			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
-			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
-			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
-			var w = tusk_Tusk.instance.app.window.width;
-			var h = tusk_Tusk.instance.app.window.height;
-			_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
-				var $r;
-				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
-				return $r;
-			}(this)),(function($this) {
-				var $r;
-				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
-				return $r;
-			}(this)),-100,100)]));
-			var bgMesh = quad.clone("mesh.bgintro");
-			bgMesh.colours = [];
-			var gradientColours = Util.randomGradientColours();
-			var _g1 = 0;
-			var _g2 = bgMesh.vertices;
-			while(_g1 < _g2.length) {
-				var v = _g2[_g1];
-				++_g1;
-				var colour = gradientColours[glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0?1:0];
-				bgMesh.colours.push(colour);
-			}
-			_g.entities.push(new tusk_Entity(_g,"Image",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
-				var $r;
-				var q = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q[0] = 1;
-					q[1] = 0;
-					q[2] = 0;
-					q[3] = 0;
-					q;
-				}
-				$r = q;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,bgMaterial)]));
-			_g.entities.push(new tusk_Entity(_g,"title",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,116,0.05),(function($this) {
-				var $r;
-				var q1 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q1[0] = 1;
-					q1[1] = 0;
-					q1[2] = 0;
-					q1[3] = 0;
-					q1;
-				}
-				$r = q1;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(5,5,5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("titletext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Ludum Party!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-			_g.entities.push(new tusk_Entity(_g,"instructions",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.05),(function($this) {
-				var $r;
-				var q2 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q2[0] = 1;
-					q2[1] = 0;
-					q2[2] = 0;
-					q2[3] = 0;
-					q2;
-				}
-				$r = q2;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("instructionstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nHold down A+B to start!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-			_g.entities.push(new tusk_Entity(_g,"p1keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,-192,0.05),(function($this) {
-				var $r;
-				var q3 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q3[0] = 1;
-					q3[1] = 0;
-					q3[2] = 0;
-					q3[3] = 0;
-					q3;
-				}
-				$r = q3;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nA => Q\nB => E",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-			_g.p2Text = new tusk_lib_comp_TextComponent(font,"Player 2:\nCPU\nPress 'I' to join!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
-			_g.entities.push(new tusk_Entity(_g,"p2keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,-192,0.05),(function($this) {
-				var $r;
-				var q4 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q4[0] = 1;
-					q4[1] = 0;
-					q4[2] = 0;
-					q4[3] = 0;
-					q4;
-				}
-				$r = q4;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),_g.p2Text]));
-			_g.cec = new tusk_lib_comp_CircleEffectComponent(true);
-			_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
-				var $r;
-				var q5 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q5[0] = 1;
-					q5[1] = 0;
-					q5[2] = 0;
-					q5[3] = 0;
-					q5;
-				}
-				$r = q5;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),_g.cec]));
-			tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
-		});
-	}
-	,onKeyDown: function(event) {
-		if(this.p2Text != null && (event.keyCode == snow_system_input_Keycodes.key_i || event.keyCode == snow_system_input_Keycodes.key_p)) {
-			GameTracker.player[1].isCPU = !GameTracker.player[1].isCPU;
-			this.p2Text.set_text(GameTracker.player[1].isCPU?"Player 2:\nCPU\nPress 'I' to join!":"Player 2:\nA => I\nB => P");
-		}
-	}
-	,onUpdate: function(event) {
-		var _g = this;
-		if(this.cec == null || !this.cec.done._resolved || this.startTimer < 0) return;
-		var aDown = tusk_Tusk.instance.app.input.keydown(GameTracker.player[0].btnA);
-		var bDown = tusk_Tusk.instance.app.input.keydown(GameTracker.player[0].btnB);
-		if(aDown && bDown) this.startTimer += event.dt; else this.startTimer = 0;
-		if(this.startTimer >= 0.5) {
-			this.startTimer = -1;
-			this.cec.t = 0;
-			this.cec.circleIn = false;
-			this.cec.reset();
-			this.cec.done.then(function(_) {
-				_g.sceneDone.resolve(_g);
-			});
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-		tusk_Tusk.routeEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: Intro
-});
-var List = function() {
-	this.length = 0;
-};
-$hxClasses["List"] = List;
-List.__name__ = ["List"];
-List.prototype = {
-	add: function(item) {
-		var x = [item];
-		if(this.h == null) this.h = x; else this.q[1] = x;
-		this.q = x;
-		this.length++;
-	}
-	,pop: function() {
-		if(this.h == null) return null;
-		var x = this.h[0];
-		this.h = this.h[1];
-		if(this.h == null) this.q = null;
-		this.length--;
-		return x;
-	}
-	,isEmpty: function() {
-		return this.h == null;
-	}
-	,__class__: List
 };
 var LoadingScreen = function(gameName,loadingDone) {
 	this.gameName = gameName;
@@ -929,10 +751,27 @@ tusk_Game.prototype = {
 };
 var Main = function() {
 	this.minigameDone = new promhx_Deferred();
+	this.sceneIndices = [0,1];
+	this.shuffleIndex = 0;
 	tusk_Game.call(this);
 };
 $hxClasses["Main"] = Main;
 Main.__name__ = ["Main"];
+Main.shuffle = function(arr) {
+	if(arr != null) {
+		var _g1 = 0;
+		var _g = arr.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var j = Math.floor((arr.length - 1 + 1) * Math.random());
+			var a = arr[i];
+			var b = arr[j];
+			arr[i] = b;
+			arr[j] = a;
+		}
+	}
+	return arr;
+};
 Main.__super__ = tusk_Game;
 Main.prototype = $extend(tusk_Game.prototype,{
 	get_title: function() {
@@ -943,9 +782,9 @@ Main.prototype = $extend(tusk_Game.prototype,{
 	}
 	,pickRandomLevel: function() {
 		var _g = this;
-		var dice = Math.floor(2 * Math.random());
 		var scene;
-		switch(dice) {
+		var _g1 = this.sceneIndices[this.shuffleIndex];
+		switch(_g1) {
 		case 1:
 			scene = new minigames_SledTillYoureDead();
 			break;
@@ -954,35 +793,17 @@ Main.prototype = $extend(tusk_Game.prototype,{
 		}
 		tusk_Tusk.pushScene(scene).then(function(scene1) {
 			tusk_Tusk.removeScene(scene1);
+			_g.shuffleIndex++;
+			if(_g.shuffleIndex >= _g.sceneIndices.length) {
+				_g.sceneIndices = Main.shuffle(_g.sceneIndices);
+				_g.shuffleIndex = 0;
+			}
 			_g.minigameDone.resolve(scene1);
 		});
 	}
 	,setup: function() {
-		var _g = this;
-		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 39, className : "Main", methodName : "setup"});
-		tusk_Tusk.pushScene(new tusk_defaults_scenes_SplashScreen()).pipe(function(scene) {
-			tusk_Tusk.removeScene(scene);
-			return tusk_Tusk.pushScene(new Intro());
-		}).then(function(scene1) {
-			tusk_Tusk.removeScene(scene1);
-			_g.pickRandomLevel();
-			((function($this) {
-				var $r;
-				var varargf = function(f) {
-					var ret = new promhx_Stream();
-					var arr = [_g.minigameDone.stream()];
-					var p = promhx_Stream.wheneverAll(arr);
-					p._update.push({ async : ret, linkf : function(x) {
-						ret.handleResolve(f(arr[0]._val));
-					}});
-					return ret;
-				};
-				$r = { then : varargf};
-				return $r;
-			}(this))).then(function(_) {
-				_g.pickRandomLevel();
-			});
-		});
+		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 60, className : "Main", methodName : "setup"});
+		tusk_Tusk.pushScene(new minigames_SledTillYoureDead());
 	}
 	,__class__: Main
 });
@@ -5202,7 +5023,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				}
 				$r = q5;
 				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(16,16,16));
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(8,8,8));
 			var countdownEntity = new tusk_Entity(_g,"Countdown",[countdownTransform,new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("br.countdowntextmesh")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),countdownText,countdownTimer]);
 			_g.entities.push(countdownEntity);
 			var p1V;
@@ -5341,6 +5162,7 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 			_g.quad = quad;
 			_g.particlesMaterial = particlesMaterial;
 			_g.circleOutMat = circleOutMat;
+			_g.countdownMusic = countdownMusic;
 			_g.textMesh = textMesh;
 			_g.font = font;
 			_g.fontMat = fontMat;
@@ -5358,23 +5180,26 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				def.resolve(_g);
 			});
 		}).catchError(function(err) {
-			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "SledTillYoureDead.hx", lineNumber : 102, className : "minigames.SledTillYoureDead", methodName : "loadAssets"});
+			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "SledTillYoureDead.hx", lineNumber : 104, className : "minigames.SledTillYoureDead", methodName : "loadAssets"});
 			def.handleError("Failed to load assets!");
 		});
 		return prom;
 	}
 	,createObstacle: function() {
 		var mesh;
-		var _g = Math.floor(2 * Math.random());
+		var _g = Math.floor(3 * Math.random());
 		switch(_g) {
 		case 1:
 			mesh = this.rockMesh;
+			break;
+		case 2:
+			mesh = this.flagMesh;
 			break;
 		default:
 			mesh = this.treeMesh;
 		}
 		var x = -380 + 760 * Math.random();
-		this.entities.push(new tusk_Entity(this,"P1 Sled",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(x,tusk_Tusk.game.get_height() / -2 - 64,-0.5),(function($this) {
+		var transform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(x,tusk_Tusk.game.get_height() / -2 - 64,-0.5),(function($this) {
 			var $r;
 			var q = glm__$Quat_Quat_$Impl_$._new();
 			{
@@ -5386,16 +5211,19 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 			}
 			$r = q;
 			return $r;
-		}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,mesh),new tusk_lib_comp_MaterialComponent(null,this.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / 2 + 64)]));
+		}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64));
+		this.entities.push(new tusk_Entity(this,"Obstacle",[transform,new tusk_lib_comp_MeshComponent(null,mesh),new tusk_lib_comp_MaterialComponent(null,this.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / 2 + 64),new minigames_sledtillyouredead_CollisionComponent(16,1)]));
+		minigames_SledTillYoureDead.obstacles.push(transform);
 	}
 	,onLoad: function(event) {
 		var _g = this;
 		if(event.scene != this) return;
-		tusk_debug_Log.log("Loading sled till you're dead scene..",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 128, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+		tusk_debug_Log.log("Loading sled till you're dead scene..",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 136, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
 		var loadComplete = this.loadAssets();
 		loadComplete.then(function(_) {
 			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			tusk_debug_Log.log("Starting sled till you're dead!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 138, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+			tusk_debug_Log.log("Starting sled till you're dead!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 146, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+			_g.useProcessor(new minigames_sledtillyouredead_CollisionProcessor());
 			_g.useProcessor(new minigames_sledtillyouredead_AnimatedSledProcessor());
 			_g.useProcessor(new minigames_sledtillyouredead_MovementProcessor());
 			_g.useProcessor(new minigames_sledtillyouredead_ScrollProcessor());
@@ -5437,19 +5265,6 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 			_g.entities.push(camera);
 			_g.entities.push(new tusk_Entity(_g,"LeftBorder",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2,tusk_Tusk.game.get_height() / -2 - 128,0),(function($this) {
 				var $r;
-				var q1 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q1[0] = 1;
-					q1[1] = 0;
-					q1[2] = 0;
-					q1[3] = 0;
-					q1;
-				}
-				$r = q1;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.sledBGMesh),new tusk_lib_comp_MaterialComponent(null,_g.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / -2,true,64)]));
-			_g.entities.push(new tusk_Entity(_g,"RightBorder",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2,tusk_Tusk.game.get_height() / -2 - 128,0),(function($this) {
-				var $r;
 				var q2 = glm__$Quat_Quat_$Impl_$._new();
 				{
 					q2[0] = 1;
@@ -5460,17 +5275,8 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				}
 				$r = q2;
 				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(-2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.sledBGMesh),new tusk_lib_comp_MaterialComponent(null,_g.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / -2,true,64)]));
-			var sledMesh1 = _g.quad.clone("sled.mesh1");
-			var _g1 = 0;
-			var _g2 = sledMesh1.uvs;
-			while(_g1 < _g2.length) {
-				var uv = _g2[_g1];
-				++_g1;
-				glm__$Vec2_Vec2_$Impl_$.set_x(uv,glm__$Vec2_Vec2_$Impl_$.get_x(uv) / 4);
-			}
-			var sledMesh2 = sledMesh1.clone("sled.mesh2");
-			_g.entities.push(new tusk_Entity(_g,"P1 Sled",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-92,192,-1),(function($this) {
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.sledBGMesh),new tusk_lib_comp_MaterialComponent(null,_g.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / -2,true,64)]));
+			_g.entities.push(new tusk_Entity(_g,"RightBorder",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2,tusk_Tusk.game.get_height() / -2 - 128,0),(function($this) {
 				var $r;
 				var q3 = glm__$Quat_Quat_$Impl_$._new();
 				{
@@ -5482,10 +5288,18 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				}
 				$r = q3;
 				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,sledMesh1),new tusk_lib_comp_MaterialComponent(null,_g.sledMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.sledMaterial.setVec3("colour",GameTracker.player[0].colour);
-			}),new minigames_sledtillyouredead_AnimatedSledComponent(sledMesh1,4,15),new minigames_sledtillyouredead_MovementComponent(0)]));
-			_g.entities.push(new tusk_Entity(_g,"P2 Sled",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(92,192,-1),(function($this) {
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(-2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.sledBGMesh),new tusk_lib_comp_MaterialComponent(null,_g.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / -2,true,64)]));
+			var sledMesh1 = _g.quad.clone("sled.mesh1");
+			var _g1 = 0;
+			var _g2 = sledMesh1.uvs;
+			while(_g1 < _g2.length) {
+				var uv = _g2[_g1];
+				++_g1;
+				glm__$Vec2_Vec2_$Impl_$.set_x(uv,glm__$Vec2_Vec2_$Impl_$.get_x(uv) / 4);
+			}
+			var sledMesh2 = sledMesh1.clone("sled.mesh2");
+			var p1Collision = new minigames_sledtillyouredead_CollisionComponent(16,0);
+			_g.entities.push(new tusk_Entity(_g,"P1 Sled",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-92,192,-1),(function($this) {
 				var $r;
 				var q4 = glm__$Quat_Quat_$Impl_$._new();
 				{
@@ -5497,24 +5311,127 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				}
 				$r = q4;
 				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,sledMesh1),new tusk_lib_comp_MaterialComponent(null,_g.sledMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
+				_g.sledMaterial.setVec3("colour",GameTracker.player[0].colour);
+			}),new minigames_sledtillyouredead_AnimatedSledComponent(sledMesh1,4,15),new minigames_sledtillyouredead_MovementComponent(0),p1Collision]));
+			var p2Collision = new minigames_sledtillyouredead_CollisionComponent(16,0);
+			_g.entities.push(new tusk_Entity(_g,"P2 Sled",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(92,192,-1),(function($this) {
+				var $r;
+				var q5 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q5[0] = 1;
+					q5[1] = 0;
+					q5[2] = 0;
+					q5[3] = 0;
+					q5;
+				}
+				$r = q5;
+				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,sledMesh2),new tusk_lib_comp_MaterialComponent(null,_g.sledMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
 				_g.sledMaterial.setVec3("colour",GameTracker.player[1].colour);
-			}),new minigames_sledtillyouredead_AnimatedSledComponent(sledMesh2,4,15),new minigames_sledtillyouredead_MovementComponent(1)]));
+			}),new minigames_sledtillyouredead_AnimatedSledComponent(sledMesh2,4,15),new minigames_sledtillyouredead_MovementComponent(1),p2Collision]));
 			_g.treeMesh = _g.quad.clone("sled.mesh.tree");
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[0],0.5,1);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[1],1,1);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[2],1,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[3],1,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[0],0.5,1.0);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[1],1.0,1.0);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[2],1.0,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[3],1.0,0.5);
 			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[4],0.5,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[5],0.5,1);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[5],0.5,1.0);
 			_g.rockMesh = _g.quad.clone("sled.mesh.rock");
 			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[0],0.5,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[1],1,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[2],1,0);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[3],1,0);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[4],0.5,0);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[1],1.0,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[2],1.0,0.0);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[3],1.0,0.0);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[4],0.5,0.0);
 			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[5],0.5,0.5);
-			_g.entities.push(new tusk_Entity(_g,"Spawner",[new minigames_sledtillyouredead_SpawnComponent($bind(_g,_g.createObstacle))]));
+			_g.flagMesh = _g.quad.clone("sled.mesh.flag");
+			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[0],0.0,1.0);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[1],0.5,1.0);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[2],0.5,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[3],0.5,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[4],0.0,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[5],0.0,1.0);
+			_g.entities.push(new tusk_Entity(_g,"Countdown Music",[new tusk_lib_comp_SoundComponent(_g.countdownMusic.path,true)]));
+			var countdownText = new tusk_lib_comp_TextComponent(_g.font,"3",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(0,0,0,1));
+			var countdownTimer = new tusk_lib_comp_TimedPromiseComponent(1.0);
+			var countdownTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.99),(function($this) {
+				var $r;
+				var q1 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q1[0] = 1;
+					q1[1] = 0;
+					q1[2] = 0;
+					q1[3] = 0;
+					q1;
+				}
+				$r = q1;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(8,8,8));
+			var countdownEntity = new tusk_Entity(_g,"Countdown",[countdownTransform,new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("br.countdowntextmesh")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),countdownText,countdownTimer]);
+			_g.entities.push(countdownEntity);
+			countdownTimer.done.pipe(function(_1) {
+				countdownText.set_text("2");
+				countdownTimer.t = 0;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_2) {
+				countdownText.set_text("1");
+				countdownTimer.t = 0;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_3) {
+				countdownText.set_text("Go!");
+				haxe_Timer.delay(function() {
+					countdownText.set_text("");
+				},1000);
+				_g.entities.push(new tusk_Entity(_g,"Spawner",[new minigames_sledtillyouredead_SpawnComponent($bind(_g,_g.createObstacle))]));
+				var hitDef = new promhx_Deferred();
+				var hitPromise = hitDef.promise();
+				p1Collision.done.then(function(_4) {
+					if(!hitPromise._resolved) hitDef.resolve(0);
+				});
+				p2Collision.done.then(function(_5) {
+					if(!hitPromise._resolved) hitDef.resolve(1);
+				});
+				return hitPromise;
+			}).pipe(function(player) {
+				tusk_debug_Log.log("" + GameTracker.player[player].name + " hit an obstacle!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 290, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+				var _g11 = 0;
+				var _g21 = _g.entities;
+				while(_g11 < _g21.length) {
+					var entity = _g21[_g11];
+					++_g11;
+					if(entity.hasType(19)) entity.removeType(19);
+					if(entity.name == "Spawner") tusk_Tusk.removeEntity(entity);
+					if(entity.hasType(21)) entity.removeType(21);
+				}
+				countdownText.set_text("" + GameTracker.player[1 - player].name + " wins!");
+				glm__$Vec3_Vec3_$Impl_$.set(countdownTransform.scale,4,4,4);
+				glm__$Vec3_Vec3_$Impl_$.copy(countdownTransform.lastScale,countdownTransform.scale);
+				GameTracker.player[1 - player].score++;
+				countdownTimer.t = 0;
+				countdownTimer.wait = 3;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_6) {
+				var cec = new tusk_lib_comp_CircleEffectComponent(false);
+				_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
+					var $r;
+					var q6 = glm__$Quat_Quat_$Impl_$._new();
+					{
+						q6[0] = 1;
+						q6[1] = 0;
+						q6[2] = 0;
+						q6[3] = 0;
+						q6;
+					}
+					$r = q6;
+					return $r;
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(_g.quad.path),new tusk_lib_comp_MaterialComponent(_g.circleOutMat.path),cec]));
+				return cec.done;
+			}).then(function(_7) {
+				_g.sceneDone.resolve(_g);
+			});
 		});
 	}
 	,___connectRoutes: function() {
@@ -5828,7 +5745,7 @@ minigames_sledtillyouredead_AnimatedSledComponent.__name__ = ["minigames","sledt
 minigames_sledtillyouredead_AnimatedSledComponent.__super__ = tusk_Component;
 minigames_sledtillyouredead_AnimatedSledComponent.prototype = $extend(tusk_Component.prototype,{
 	get__tid: function() {
-		return 20;
+		return 21;
 	}
 	,hxSerialize: function(s) {
 		s.serialize(this.frameTime);
@@ -5849,7 +5766,7 @@ minigames_sledtillyouredead_AnimatedSledComponent.prototype = $extend(tusk_Compo
 	,__class__: minigames_sledtillyouredead_AnimatedSledComponent
 });
 var minigames_sledtillyouredead_AnimatedSledProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(20).include(8);
+	this.matcher = new tusk_Matcher().include(21).include(8);
 	tusk_Processor.call(this,entities);
 };
 $hxClasses["minigames.sledtillyouredead.AnimatedSledProcessor"] = minigames_sledtillyouredead_AnimatedSledProcessor;
@@ -5862,7 +5779,7 @@ minigames_sledtillyouredead_AnimatedSledProcessor.prototype = $extend(tusk_Proce
 		while(_g < _g1.length) {
 			var entity = _g1[_g];
 			++_g;
-			var a = entity.get(20);
+			var a = entity.get(21);
 			var m = entity.get(8);
 			a.t += event.dt;
 			if(a.t >= a.frameTime) {
@@ -5887,8 +5804,79 @@ minigames_sledtillyouredead_AnimatedSledProcessor.prototype = $extend(tusk_Proce
 	}
 	,__class__: minigames_sledtillyouredead_AnimatedSledProcessor
 });
+var minigames_sledtillyouredead_CollisionComponent = function(radius,layer) {
+	if(layer == null) layer = 1;
+	this.radius = radius;
+	this.layer = layer;
+	tusk_PromiseComponent.call(this);
+};
+$hxClasses["minigames.sledtillyouredead.CollisionComponent"] = minigames_sledtillyouredead_CollisionComponent;
+minigames_sledtillyouredead_CollisionComponent.__name__ = ["minigames","sledtillyouredead","CollisionComponent"];
+minigames_sledtillyouredead_CollisionComponent.__super__ = tusk_PromiseComponent;
+minigames_sledtillyouredead_CollisionComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
+	hxSerialize: function(s) {
+		s.serialize(this.radius);
+		s.serialize(this.layer);
+	}
+	,hxUnserialize: function(s) {
+		s.serialize(this.radius);
+		s.serialize(this.layer);
+	}
+	,get__tid: function() {
+		return 20;
+	}
+	,__class__: minigames_sledtillyouredead_CollisionComponent
+});
+var minigames_sledtillyouredead_CollisionProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(20).include(5);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.sledtillyouredead.CollisionProcessor"] = minigames_sledtillyouredead_CollisionProcessor;
+minigames_sledtillyouredead_CollisionProcessor.__name__ = ["minigames","sledtillyouredead","CollisionProcessor"];
+minigames_sledtillyouredead_CollisionProcessor.__super__ = tusk_Processor;
+minigames_sledtillyouredead_CollisionProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var testVec = glm__$Vec2_Vec2_$Impl_$._new();
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entityA = _g1[_g];
+			++_g;
+			var sa = entityA.get(20);
+			if(sa.done._resolved) continue;
+			var _g2 = 0;
+			var _g3 = this.entities;
+			while(_g2 < _g3.length) {
+				var entityB = _g3[_g2];
+				++_g2;
+				if(entityA == entityB) continue;
+				var sb = entityB.get(20);
+				if(sb.done._resolved) continue;
+				if(sa.layer == sb.layer) continue;
+				var ta = entityA.get(5);
+				var tb = entityB.get(5);
+				glm__$Vec2_Vec2_$Impl_$.set_x(testVec,glm__$Vec3_Vec3_$Impl_$.get_x(ta.position) - glm__$Vec3_Vec3_$Impl_$.get_x(tb.position));
+				glm__$Vec2_Vec2_$Impl_$.set_y(testVec,glm__$Vec3_Vec3_$Impl_$.get_y(ta.position) - glm__$Vec3_Vec3_$Impl_$.get_y(tb.position));
+				var sqrLength = glm__$Vec2_Vec2_$Impl_$.sqrLength(testVec);
+				var intersecting = (sa.radius - sb.radius) * (sa.radius - sb.radius) <= sqrLength && sqrLength <= (sa.radius + sb.radius) * (sa.radius + sb.radius);
+				if(intersecting) {
+					sa.finish();
+					sb.finish();
+				}
+			}
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_sledtillyouredead_CollisionProcessor
+});
 var minigames_sledtillyouredead_MovementComponent = function(player) {
 	this.player = player;
+	this.velocity = 0;
 	tusk_Component.call(this);
 };
 $hxClasses["minigames.sledtillyouredead.MovementComponent"] = minigames_sledtillyouredead_MovementComponent;
@@ -5896,18 +5884,20 @@ minigames_sledtillyouredead_MovementComponent.__name__ = ["minigames","sledtilly
 minigames_sledtillyouredead_MovementComponent.__super__ = tusk_Component;
 minigames_sledtillyouredead_MovementComponent.prototype = $extend(tusk_Component.prototype,{
 	get__tid: function() {
-		return 21;
+		return 22;
 	}
 	,hxSerialize: function(s) {
 		s.serialize(this.player);
+		s.serialize(this.velocity);
 	}
 	,hxUnserialize: function(s) {
 		s.serialize(this.player);
+		s.serialize(this.velocity);
 	}
 	,__class__: minigames_sledtillyouredead_MovementComponent
 });
 var minigames_sledtillyouredead_MovementProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(21).include(5);
+	this.matcher = new tusk_Matcher().include(22).include(5);
 	tusk_Processor.call(this,entities);
 };
 $hxClasses["minigames.sledtillyouredead.MovementProcessor"] = minigames_sledtillyouredead_MovementProcessor;
@@ -5921,16 +5911,31 @@ minigames_sledtillyouredead_MovementProcessor.prototype = $extend(tusk_Processor
 			var entity = _g1[_g];
 			++_g;
 			var t = entity.get(5);
-			var m = entity.get(21);
+			var m = entity.get(22);
 			var axis = 0;
 			if(GameTracker.player[m.player].isCPU) {
+				var highestY = 32;
+				var _g2 = 0;
+				var _g3 = minigames_SledTillYoureDead.obstacles;
+				while(_g2 < _g3.length) {
+					var ot = _g3[_g2];
+					++_g2;
+					if(glm__$Vec3_Vec3_$Impl_$.get_y(ot.position) >= glm__$Vec3_Vec3_$Impl_$.get_y(t.position)) continue;
+					var delta = glm__$Vec3_Vec3_$Impl_$.get_x(t.position) - glm__$Vec3_Vec3_$Impl_$.get_x(ot.position);
+					if(glm__$Vec3_Vec3_$Impl_$.get_y(ot.position) > highestY && Math.abs(delta) < 64) {
+						if(delta > 0) axis = 1; else axis = -1;
+						highestY = glm__$Vec3_Vec3_$Impl_$.get_y(ot.position);
+					}
+				}
 			} else {
 				if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[m.player].btnA)) axis -= 1.0;
 				if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[m.player].btnB)) axis += 1.0;
 			}
 			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
-			var _g2 = t.position;
-			glm__$Vec3_Vec3_$Impl_$.set_x(_g2,glm__$Vec3_Vec3_$Impl_$.get_x(_g2) + 384 * event.dt * axis);
+			if(axis != 0) m.velocity += (GameTracker.player[m.player].isCPU?1024:1536) * event.dt; else m.velocity = 0;
+			m.velocity = tusk_math_MathTools.clamp(m.velocity,-384.,384);
+			var _g21 = t.position;
+			glm__$Vec3_Vec3_$Impl_$.set_x(_g21,glm__$Vec3_Vec3_$Impl_$.get_x(_g21) + m.velocity * event.dt * axis);
 			glm__$Vec3_Vec3_$Impl_$.set_x(t.position,tusk_math_MathTools.clamp(glm__$Vec3_Vec3_$Impl_$.get_x(t.position),-380,380));
 		}
 	}
@@ -5976,6 +5981,7 @@ minigames_sledtillyouredead_ScrollProcessor.__name__ = ["minigames","sledtillyou
 minigames_sledtillyouredead_ScrollProcessor.__super__ = tusk_Processor;
 minigames_sledtillyouredead_ScrollProcessor.prototype = $extend(tusk_Processor.prototype,{
 	onUpdate: function(event) {
+		minigames_sledtillyouredead_ScrollProcessor.scrollSpeed += 16 * event.dt;
 		var _g = 0;
 		var _g1 = this.entities;
 		while(_g < _g1.length) {
@@ -5990,9 +5996,11 @@ minigames_sledtillyouredead_ScrollProcessor.prototype = $extend(tusk_Processor.p
 				if(s.repeat) {
 					var _g21 = t.position;
 					glm__$Vec3_Vec3_$Impl_$.set_y(_g21,glm__$Vec3_Vec3_$Impl_$.get_y(_g21) - s.resetY);
-				} else tusk_Tusk.removeEntity(entity);
+				} else {
+					tusk_Tusk.removeEntity(entity);
+					HxOverrides.remove(minigames_SledTillYoureDead.obstacles,t);
+				}
 			}
-			minigames_sledtillyouredead_ScrollProcessor.scrollSpeed += 2 * event.dt;
 		}
 	}
 	,___connectRoutes: function() {
@@ -6013,7 +6021,7 @@ minigames_sledtillyouredead_SpawnComponent.__name__ = ["minigames","sledtillyour
 minigames_sledtillyouredead_SpawnComponent.__super__ = tusk_Component;
 minigames_sledtillyouredead_SpawnComponent.prototype = $extend(tusk_Component.prototype,{
 	get__tid: function() {
-		return 22;
+		return 23;
 	}
 	,hxSerialize: function(s) {
 		s.serialize(this.spawn);
@@ -6026,7 +6034,7 @@ minigames_sledtillyouredead_SpawnComponent.prototype = $extend(tusk_Component.pr
 	,__class__: minigames_sledtillyouredead_SpawnComponent
 });
 var minigames_sledtillyouredead_SpawnProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(22);
+	this.matcher = new tusk_Matcher().include(23);
 	tusk_Processor.call(this,entities);
 };
 $hxClasses["minigames.sledtillyouredead.SpawnProcessor"] = minigames_sledtillyouredead_SpawnProcessor;
@@ -6034,19 +6042,19 @@ minigames_sledtillyouredead_SpawnProcessor.__name__ = ["minigames","sledtillyour
 minigames_sledtillyouredead_SpawnProcessor.__super__ = tusk_Processor;
 minigames_sledtillyouredead_SpawnProcessor.prototype = $extend(tusk_Processor.prototype,{
 	onUpdate: function(event) {
+		minigames_sledtillyouredead_SpawnProcessor.spawnRate += 0.5 * event.dt;
 		var _g = 0;
 		var _g1 = this.entities;
 		while(_g < _g1.length) {
 			var entity = _g1[_g];
 			++_g;
-			var s = entity.get(22);
+			var s = entity.get(23);
 			var obstaclesToSpawn = minigames_sledtillyouredead_SpawnProcessor.spawnRate * event.dt | 0;
 			if(s.spawnAccumulator >= 1.0) {
 				obstaclesToSpawn += 1;
 				s.spawnAccumulator -= 1.0;
 			}
 			s.spawnAccumulator += minigames_sledtillyouredead_SpawnProcessor.spawnRate * event.dt - obstaclesToSpawn;
-			minigames_sledtillyouredead_SpawnProcessor.spawnRate += 0.5 * event.dt;
 			var _g2 = 0;
 			while(_g2 < obstaclesToSpawn) {
 				var i = _g2++;
@@ -14443,6 +14451,7 @@ tusk_Component.tid = -1;
 tusk_PromiseComponent.tid = 3;
 loading_SlamComponent.tid = 17;
 loading_SlideComponent.tid = 18;
+minigames_SledTillYoureDead.obstacles = [];
 minigames_bottlerocket_PumpComponent.tid = 15;
 minigames_bottlerocket_PumpProcessor.pumpAcceleration = 10;
 minigames_bottlerocket_TimerDisplayComponent.tid = 14;
@@ -14451,15 +14460,20 @@ minigames_bottlerocket_TransformTrackerComponent.tid = 16;
 minigames_bottlerocket_TransformTrackerProcessor.gravity = -10;
 minigames_bottlerocket_VelocityComponent.tid = 13;
 minigames_bottlerocket_VelocityProcessor.gravity = -1024;
-minigames_sledtillyouredead_AnimatedSledComponent.tid = 20;
-minigames_sledtillyouredead_MovementComponent.tid = 21;
-minigames_sledtillyouredead_MovementProcessor.moveSpeed = 384;
+minigames_sledtillyouredead_AnimatedSledComponent.tid = 21;
+minigames_sledtillyouredead_CollisionComponent.tid = 20;
+minigames_sledtillyouredead_CollisionProcessor.scrollSpeed = 512;
+minigames_sledtillyouredead_CollisionProcessor.scrollAcceleration = 2;
+minigames_sledtillyouredead_MovementComponent.tid = 22;
+minigames_sledtillyouredead_MovementProcessor.cpuAcceleration = 1024;
+minigames_sledtillyouredead_MovementProcessor.acceleration = 1536;
+minigames_sledtillyouredead_MovementProcessor.topSpeed = 384;
 minigames_sledtillyouredead_ScrollComponent.tid = 19;
-minigames_sledtillyouredead_ScrollProcessor.scrollSpeed = 512;
-minigames_sledtillyouredead_ScrollProcessor.scrollAcceleration = 2;
-minigames_sledtillyouredead_SpawnComponent.tid = 22;
+minigames_sledtillyouredead_ScrollProcessor.scrollSpeed = 256;
+minigames_sledtillyouredead_ScrollProcessor.scrollAcceleration = 16;
+minigames_sledtillyouredead_SpawnComponent.tid = 23;
 minigames_sledtillyouredead_SpawnProcessor.spawnAcceleration = 0.5;
-minigames_sledtillyouredead_SpawnProcessor.spawnRate = 5;
+minigames_sledtillyouredead_SpawnProcessor.spawnRate = 0;
 promhx_base_AsyncBase.id_ctr = 0;
 promhx_base_EventLoop.queue = new List();
 snow_api_Debug._level = 1;
