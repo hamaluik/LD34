@@ -17,4 +17,36 @@ class Util {
 			new Vec4(trgb.red, trgb.green, trgb.blue, 255) / 255
 		];
 	}
+
+	// http://stackoverflow.com/questions/23689001/how-to-reliably-format-a-floating-point-number-to-a-specified-number-of-decimal
+	public static function floatToStringPrecision(n:Float, prec:Int):String {
+		n = Math.round(n * Math.pow(10, prec));
+		var str = ''+n;
+		var len = str.length;
+		if(len <= prec) {
+			while(len < prec) {
+				str = '0'+str;
+				len++;
+			}
+			return '0.'+str;
+		}
+		else{
+			return str.substr(0, str.length-prec) + '.'+str.substr(str.length-prec);
+		}
+	}
+
+	// taken from https://github.com/jasononeil/hxrandom/blob/master/src/Random.hx
+	public static function shuffle<T>(arr:Array<T>):Array<T>
+	{
+		if (arr!=null) {
+			for (i in 0...arr.length) {
+				var j = tusk.math.Random.int(0, arr.length - 1);
+				var a = arr[i];
+				var b = arr[j];
+				arr[i] = b;
+				arr[j] = a;
+			}
+		}
+		return arr;
+	}
 }

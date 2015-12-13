@@ -70,6 +70,8 @@ class SledTillYoureDead extends Scene {
 			this.fontMat.textures = new Array<Texture>();
 			this.fontMat.textures.push(font.texture);
 
+			this.countdownMusic = countdownMusic;
+
 			def.resolve(this);
 		}).catchError(function(err:Dynamic) {
 			Log.error(err);

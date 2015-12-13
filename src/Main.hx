@@ -22,21 +22,6 @@ class Main extends Game {
 		return 900;
 	}
 
-	// taken from https://github.com/jasononeil/hxrandom/blob/master/src/Random.hx
-	public static function shuffle<T>(arr:Array<T>):Array<T>
-	{
-		if (arr!=null) {
-			for (i in 0...arr.length) {
-				var j = tusk.math.Random.int(0, arr.length - 1);
-				var a = arr[i];
-				var b = arr[j];
-				arr[i] = b;
-				arr[j] = a;
-			}
-		}
-		return arr;
-	}
-
 	private var shuffleIndex:Int = 0;
 	private var sceneIndices:Array<Int> = [0, 1];
 	private var minigameDone:Deferred<Scene> = new Deferred<Scene>();
@@ -49,7 +34,7 @@ class Main extends Game {
 			Tusk.removeScene(scene);
 			shuffleIndex++;
 			if(shuffleIndex >= sceneIndices.length) {
-				sceneIndices = shuffle(sceneIndices);
+				sceneIndices = Util.shuffle(sceneIndices);
 				shuffleIndex = 0;
 			}
 			minigameDone.resolve(scene);
@@ -58,7 +43,7 @@ class Main extends Game {
 
 	override public function setup() {
 		Log.info('Setting up game...');
-		/*sceneIndices = shuffle(sceneIndices);
+		/*sceneIndices = Util.shuffle(sceneIndices);
 		Tusk.pushScene(new tusk.defaults.scenes.SplashScreen()).pipe(function(scene:tusk.Scene) {
 			Tusk.removeScene(scene);
 			return Tusk.pushScene(new Intro());
@@ -72,6 +57,7 @@ class Main extends Game {
 		
 		//Tusk.pushScene(new Intro());
 		//Tusk.pushScene(new minigames.BottleRocket());
-		Tusk.pushScene(new minigames.SledTillYoureDead());
+		//Tusk.pushScene(new minigames.SledTillYoureDead());
+		Tusk.pushScene(new minigames.CaptainKnowItAll());
 	}
 }
