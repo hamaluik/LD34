@@ -143,11 +143,11 @@ class SledTillYoureDead extends Scene {
 		Log.info("Loading sled till you're dead scene..");
 
 		var loadComplete:Promise<Scene> = loadAssets();
-		/*var loadingScreen:LoadingScreen = new LoadingScreen('Sled Till You\'re Dead!', loadComplete);
+		var loadingScreen:LoadingScreen = new LoadingScreen('Sled Till You\'re Dead!', loadComplete);
 		Tusk.pushScene(loadingScreen);
 		Promise.when(loadingScreen.sceneDone.promise(), loadComplete).then(function(_, _) {
-			Tusk.removeScene(loadingScreen);*/
-		loadComplete.then(function(_) {			
+			Tusk.removeScene(loadingScreen);
+		//loadComplete.then(function(_) {			
 			Camera2DProcessor.cameras = new Array<Camera2DComponent>();
 			// start the game!
 			Log.info('Starting sled till you\'re dead!');

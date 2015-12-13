@@ -125,7 +125,7 @@ class BottleRocket extends Scene {
 		Log.info("Loading bottle rocket scene..");
 
 		var loadComplete:Promise<Scene> = loadAssets();
-		var loadingScreen:LoadingScreen = new LoadingScreen('Bottle Rocket Blast', loadComplete);
+		var loadingScreen:LoadingScreen = new LoadingScreen('Bottle Rocket Blast!', loadComplete);
 		Tusk.pushScene(loadingScreen);
 		Promise.when(loadingScreen.sceneDone.promise(), loadComplete).then(function(_, _) {
 			Tusk.removeScene(loadingScreen);

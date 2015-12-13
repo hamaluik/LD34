@@ -264,11 +264,11 @@ class CaptainKnowItAll extends Scene {
 		Log.info("Loading captain know it all scene..");
 
 		var loadComplete:Promise<Scene> = loadAssets();
-		/*var loadingScreen:LoadingScreen = new LoadingScreen('Captain Know-It-All!', loadComplete);
+		var loadingScreen:LoadingScreen = new LoadingScreen('Captain Know-It-All!', loadComplete);
 		Tusk.pushScene(loadingScreen);
 		Promise.when(loadingScreen.sceneDone.promise(), loadComplete).then(function(_, _) {
-			Tusk.removeScene(loadingScreen);*/
-		loadComplete.then(function(_) {
+			Tusk.removeScene(loadingScreen);
+		//loadComplete.then(function(_) {
 			// shuffle the questions!
 			questions = Util.shuffle(questions);
 
