@@ -251,31 +251,6 @@ HxOverrides.iter = function(a) {
 		return this.arr[this.cur++];
 	}};
 };
-var List = function() {
-	this.length = 0;
-};
-$hxClasses["List"] = List;
-List.__name__ = ["List"];
-List.prototype = {
-	add: function(item) {
-		var x = [item];
-		if(this.h == null) this.h = x; else this.q[1] = x;
-		this.q = x;
-		this.length++;
-	}
-	,pop: function() {
-		if(this.h == null) return null;
-		var x = this.h[0];
-		this.h = this.h[1];
-		if(this.h == null) this.q = null;
-		this.length--;
-		return x;
-	}
-	,isEmpty: function() {
-		return this.h == null;
-	}
-	,__class__: List
-};
 var tusk_Scene = function(name) {
 	this.name = null;
 	this.name = name;
@@ -326,6 +301,217 @@ tusk_Scene.prototype = {
 	,onMouseMove: function(event) {
 	}
 	,__class__: tusk_Scene
+};
+var Intro = function() {
+	this.startTimer = 0;
+	tusk_Scene.call(this,"Intro screen!");
+};
+$hxClasses["Intro"] = Intro;
+Intro.__name__ = ["Intro"];
+Intro.__super__ = tusk_Scene;
+Intro.prototype = $extend(tusk_Scene.prototype,{
+	onLoad: function(event) {
+		var _g = this;
+		if(event.scene != this) return;
+		tusk_debug_Log.log("loading intro..",tusk_debug_LogFunctions.Info,{ fileName : "Intro.hx", lineNumber : 41, className : "Intro", methodName : "onLoad"});
+		((function($this) {
+			var $r;
+			var varargf = function(f) {
+				var ret = new promhx_Promise();
+				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_Tusk.assets.loadTexture("assets/fonts/paper_cuts.png"),tusk_Tusk.assets.loadText("assets/fonts/paper_cuts.fnt"),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_defaults_Materials.loadUnlitColoured()];
+				var p = promhx_Promise.whenAll(arr);
+				p._update.push({ async : ret, linkf : function(x) {
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val));
+				}});
+				return ret;
+			};
+			$r = { then : varargf};
+			return $r;
+		}(this))).then(function(textMesh,fontTexture,fontSrc,fontMat,quad,circleOutMat,bgMaterial) {
+			tusk_lib_proc_Camera2DProcessor.cameras = [];
+			fontMat.textures = [];
+			fontMat.textures.push(fontTexture);
+			tusk_resources_Font.load("papercuts.fnt",fontSrc.text,fontTexture).then(function(font) {
+				_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
+				_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
+				_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
+				_g.useProcessor(new tusk_lib_proc_TransformProcessor());
+				_g.useProcessor(new tusk_lib_proc_TextProcessor());
+				_g.useProcessor(new tusk_lib_proc_MeshProcessor());
+				_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
+				_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
+				var w = tusk_Tusk.instance.app.window.width;
+				var h = tusk_Tusk.instance.app.window.height;
+				_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
+					var $r;
+					var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
+					$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
+					return $r;
+				}(this)),(function($this) {
+					var $r;
+					var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
+					$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
+					return $r;
+				}(this)),-100,100)]));
+				var bgMesh = quad.clone("mesh.bgintro");
+				bgMesh.colours = [];
+				var _g1 = 0;
+				var _g2 = bgMesh.vertices;
+				while(_g1 < _g2.length) {
+					var v = _g2[_g1];
+					++_g1;
+					var colour;
+					if(glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0) {
+						var a2 = glm__$Vec4_Vec4_$Impl_$._new(68,149,166,255);
+						colour = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a2),255);
+					} else {
+						var a3 = glm__$Vec4_Vec4_$Impl_$._new(42,94,120);
+						colour = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a3),255);
+					}
+					bgMesh.colours.push(colour);
+				}
+				_g.entities.push(new tusk_Entity(_g,"Image",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
+					var $r;
+					var q = glm__$Quat_Quat_$Impl_$._new();
+					{
+						q[0] = 1;
+						q[1] = 0;
+						q[2] = 0;
+						q[3] = 0;
+						q;
+					}
+					$r = q;
+					return $r;
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,bgMaterial)]));
+				_g.entities.push(new tusk_Entity(_g,"title",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,116,0.05),(function($this) {
+					var $r;
+					var q1 = glm__$Quat_Quat_$Impl_$._new();
+					{
+						q1[0] = 1;
+						q1[1] = 0;
+						q1[2] = 0;
+						q1[3] = 0;
+						q1;
+					}
+					$r = q1;
+					return $r;
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1,1,1)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("titletext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Ludum Party!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
+				_g.entities.push(new tusk_Entity(_g,"instructions",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.05),(function($this) {
+					var $r;
+					var q2 = glm__$Quat_Quat_$Impl_$._new();
+					{
+						q2[0] = 1;
+						q2[1] = 0;
+						q2[2] = 0;
+						q2[3] = 0;
+						q2;
+					}
+					$r = q2;
+					return $r;
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(0.5,0.5,0.5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("instructionstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nHold down A+B to start!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
+				_g.entities.push(new tusk_Entity(_g,"p1keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,-192,0.05),(function($this) {
+					var $r;
+					var q3 = glm__$Quat_Quat_$Impl_$._new();
+					{
+						q3[0] = 1;
+						q3[1] = 0;
+						q3[2] = 0;
+						q3[3] = 0;
+						q3;
+					}
+					$r = q3;
+					return $r;
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(0.5,0.5,0.5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nA => Q\nB => E",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
+				_g.p2Text = new tusk_lib_comp_TextComponent(font,"Player 2:\nCPU\nPress 'I' to join!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+				_g.entities.push(new tusk_Entity(_g,"p2keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,-192,0.05),(function($this) {
+					var $r;
+					var q4 = glm__$Quat_Quat_$Impl_$._new();
+					{
+						q4[0] = 1;
+						q4[1] = 0;
+						q4[2] = 0;
+						q4[3] = 0;
+						q4;
+					}
+					$r = q4;
+					return $r;
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(0.5,0.5,0.5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),_g.p2Text]));
+				_g.cec = new tusk_lib_comp_CircleEffectComponent(true);
+				_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
+					var $r;
+					var q5 = glm__$Quat_Quat_$Impl_$._new();
+					{
+						q5[0] = 1;
+						q5[1] = 0;
+						q5[2] = 0;
+						q5[3] = 0;
+						q5;
+					}
+					$r = q5;
+					return $r;
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),_g.cec]));
+				tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
+			});
+		});
+	}
+	,onKeyDown: function(event) {
+		if(this.p2Text != null && (event.keyCode == snow_system_input_Keycodes.key_i || event.keyCode == snow_system_input_Keycodes.key_p)) {
+			GameTracker.player[1].isCPU = !GameTracker.player[1].isCPU;
+			this.p2Text.set_text(GameTracker.player[1].isCPU?"Player 2:\nCPU\nPress 'I' to join!":"Player 2:\nA => I\nB => P");
+		}
+	}
+	,onUpdate: function(event) {
+		var _g = this;
+		if(this.cec == null || !this.cec.done._resolved || this.startTimer < 0) return;
+		var aDown = tusk_Tusk.instance.app.input.keydown(GameTracker.player[0].btnA);
+		var bDown = tusk_Tusk.instance.app.input.keydown(GameTracker.player[0].btnB);
+		if(aDown && bDown) this.startTimer += event.dt; else this.startTimer = 0;
+		if(this.startTimer >= 0.5) {
+			this.startTimer = -1;
+			this.cec.t = 0;
+			this.cec.circleIn = false;
+			this.cec.reset();
+			this.cec.done.then(function(_) {
+				_g.sceneDone.resolve(_g);
+			});
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
+		tusk_Tusk.routeEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: Intro
+});
+var List = function() {
+	this.length = 0;
+};
+$hxClasses["List"] = List;
+List.__name__ = ["List"];
+List.prototype = {
+	add: function(item) {
+		var x = [item];
+		if(this.h == null) this.h = x; else this.q[1] = x;
+		this.q = x;
+		this.length++;
+	}
+	,pop: function() {
+		if(this.h == null) return null;
+		var x = this.h[0];
+		this.h = this.h[1];
+		if(this.h == null) this.q = null;
+		this.length--;
+		return x;
+	}
+	,isEmpty: function() {
+		return this.h == null;
+	}
+	,__class__: List
 };
 var LoadingScreen = function(gameName,loadingDone) {
 	this.gameName = gameName;
@@ -468,7 +654,7 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 				}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"in:\n" + _g.gameName,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scn]));
 				return scn.done;
 			}).pipe(function(_4) {
-				var fadeDelay = new tusk_lib_comp_TimedPromiseComponent(2);
+				var fadeDelay = new tusk_lib_comp_TimedPromiseComponent(1);
 				_g.entities.push(new tusk_Entity(_g,"Delay",[fadeDelay]));
 				return fadeDelay.done;
 			}).pipe(function(_5) {
@@ -544,22 +730,28 @@ Main.prototype = $extend(tusk_Game.prototype,{
 	,setup: function() {
 		var _g = this;
 		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 39, className : "Main", methodName : "setup"});
-		this.pickRandomLevel();
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Stream();
-				var arr = [_g.minigameDone.stream()];
-				var p = promhx_Stream.wheneverAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(_) {
+		tusk_Tusk.pushScene(new tusk_defaults_scenes_SplashScreen()).pipe(function(scene) {
+			tusk_Tusk.removeScene(scene);
+			return tusk_Tusk.pushScene(new Intro());
+		}).then(function(scene1) {
+			tusk_Tusk.removeScene(scene1);
 			_g.pickRandomLevel();
+			((function($this) {
+				var $r;
+				var varargf = function(f) {
+					var ret = new promhx_Stream();
+					var arr = [_g.minigameDone.stream()];
+					var p = promhx_Stream.wheneverAll(arr);
+					p._update.push({ async : ret, linkf : function(x) {
+						ret.handleResolve(f(arr[0]._val));
+					}});
+					return ret;
+				};
+				$r = { then : varargf};
+				return $r;
+			}(this))).then(function(_) {
+				_g.pickRandomLevel();
+			});
 		});
 	}
 	,__class__: Main
@@ -3587,11 +3779,6 @@ var haxe_io_Path = function(path) {
 };
 $hxClasses["haxe.io.Path"] = haxe_io_Path;
 haxe_io_Path.__name__ = ["haxe","io","Path"];
-haxe_io_Path.directory = function(path) {
-	var s = new haxe_io_Path(path);
-	if(s.dir == null) return "";
-	return s.dir;
-};
 haxe_io_Path.extension = function(path) {
 	var s = new haxe_io_Path(path);
 	if(s.ext == null) return "";
@@ -4526,15 +4713,15 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 143, className : "minigames.BottleRocket", methodName : "onLoad"});
 			_g.entities.push(new tusk_Entity(_g,"TileMap",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(_g.backgroundTileMap.width * _g.backgroundTileMap.tilewidth * 2 / -2,tusk_Tusk.game.get_height() / -2 - _g.backgroundTileMap.tileheight * 2 * 2,0),(function($this) {
 				var $r;
-				var q7 = glm__$Quat_Quat_$Impl_$._new();
+				var q6 = glm__$Quat_Quat_$Impl_$._new();
 				{
-					q7[0] = 1;
-					q7[1] = 0;
-					q7[2] = 0;
-					q7[3] = 0;
-					q7;
+					q6[0] = 1;
+					q6[1] = 0;
+					q6[2] = 0;
+					q6[3] = 0;
+					q6;
 				}
-				$r = q7;
+				$r = q6;
 				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.backgroundMesh),new tusk_lib_comp_MaterialComponent(null,_g.backgroundMaterial)]));
 			var groundY = tusk_Tusk.game.get_height() / -2 + 2 * _g.backgroundTileMap.tileheight;
@@ -4568,6 +4755,21 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			var yellow = glm__$Vec3_Vec3_$Impl_$._new(1.0,1.0,0.0);
 			_g.entities.push(new tusk_Entity(_g,"P1 Pump Base",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,groundY + 128,-1),(function($this) {
 				var $r;
+				var q7 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q7[0] = 1;
+					q7[1] = 0;
+					q7[2] = 0;
+					q7[3] = 0;
+					q7;
+				}
+				$r = q7;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(-256,128,128)),new tusk_lib_comp_MeshComponent(null,pumpBaseMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
+				_g.spriteMaterial.setVec3("colour",red);
+			})]));
+			_g.entities.push(new tusk_Entity(_g,"P2 Pump Base",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,groundY + 128,-1),(function($this) {
+				var $r;
 				var q8 = glm__$Quat_Quat_$Impl_$._new();
 				{
 					q8[0] = 1;
@@ -4577,21 +4779,6 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 					q8;
 				}
 				$r = q8;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(-256,128,128)),new tusk_lib_comp_MeshComponent(null,pumpBaseMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.spriteMaterial.setVec3("colour",red);
-			})]));
-			_g.entities.push(new tusk_Entity(_g,"P2 Pump Base",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,groundY + 128,-1),(function($this) {
-				var $r;
-				var q9 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q9[0] = 1;
-					q9[1] = 0;
-					q9[2] = 0;
-					q9[3] = 0;
-					q9;
-				}
-				$r = q9;
 				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(256,128,128)),new tusk_lib_comp_MeshComponent(null,pumpBaseMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
 				_g.spriteMaterial.setVec3("colour",yellow);
@@ -4658,7 +4845,11 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				_g.spriteMaterial.setVec3("colour",yellow);
 			})]);
 			_g.entities.push(p2Rocket);
-			var controlsEntity = new tusk_Entity(_g,"Controls",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,-180,0),(function($this) {
+			var p1Pump;
+			var p2Pump;
+			var countdownText = new tusk_lib_comp_TextComponent(_g.font,"3",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			var countdownTimer = new tusk_lib_comp_TimedPromiseComponent(1.0);
+			var countdownTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.99),(function($this) {
 				var $r;
 				var q5 = glm__$Quat_Quat_$Impl_$._new();
 				{
@@ -4669,24 +4860,6 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 					q5;
 				}
 				$r = q5;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(128,128,128)),new tusk_lib_comp_MeshComponent(null,_g.quad),new tusk_lib_comp_MaterialComponent(null,_g.controlsMaterial)]);
-			_g.entities.push(controlsEntity);
-			var p1Pump;
-			var p2Pump;
-			var countdownText = new tusk_lib_comp_TextComponent(_g.font,"3",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
-			var countdownTimer = new tusk_lib_comp_TimedPromiseComponent(1.0);
-			var countdownTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.99),(function($this) {
-				var $r;
-				var q6 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q6[0] = 1;
-					q6[1] = 0;
-					q6[2] = 0;
-					q6[3] = 0;
-					q6;
-				}
-				$r = q6;
 				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(16,16,16));
 			var countdownEntity = new tusk_Entity(_g,"Countdown",[countdownTransform,new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("br.countdowntextmesh")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),countdownText,countdownTimer]);
@@ -4717,7 +4890,6 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				countdownTimer.reset();
 				return countdownTimer.done;
 			}).pipe(function(_5) {
-				tusk_Tusk.removeEntity(controlsEntity);
 				p1PumpEntity.removeType(15);
 				p2PumpEntity.removeType(15);
 				countdownEntity.removeType(14);
@@ -4769,15 +4941,15 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				var cec = new tusk_lib_comp_CircleEffectComponent(false);
 				_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
 					var $r;
-					var q10 = glm__$Quat_Quat_$Impl_$._new();
+					var q9 = glm__$Quat_Quat_$Impl_$._new();
 					{
-						q10[0] = 1;
-						q10[1] = 0;
-						q10[2] = 0;
-						q10[3] = 0;
-						q10;
+						q9[0] = 1;
+						q9[1] = 0;
+						q9[2] = 0;
+						q9[3] = 0;
+						q9;
 					}
-					$r = q10;
+					$r = q9;
 					return $r;
 				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(_g.quad.path),new tusk_lib_comp_MaterialComponent(_g.circleOutMat.path),cec]));
 				return cec.done;
@@ -4833,6 +5005,7 @@ minigames_bottlerocket_BackgroundMaterial.load = function() {
 	return tusk_Tusk.assets.loadMaterial("br_unlit.textured",mat);
 };
 var minigames_bottlerocket_PumpComponent = function(playerNumber,topY) {
+	this.aiDirection = -1;
 	this.pressure = 0;
 	this.pumpPos = 1;
 	this.pumpVelocity = 0;
@@ -4852,6 +5025,7 @@ minigames_bottlerocket_PumpComponent.prototype = $extend(tusk_Component.prototyp
 		s.serialize(this.pumpPos);
 		s.serialize(this.pumpVelocity);
 		s.serialize(this.playerNumber);
+		s.serialize(this.aiDirection);
 		s.serialize(this.topY);
 	}
 	,hxUnserialize: function(s) {
@@ -4859,6 +5033,7 @@ minigames_bottlerocket_PumpComponent.prototype = $extend(tusk_Component.prototyp
 		s.serialize(this.pumpPos);
 		s.serialize(this.pumpVelocity);
 		s.serialize(this.playerNumber);
+		s.serialize(this.aiDirection);
 		s.serialize(this.topY);
 	}
 	,__class__: minigames_bottlerocket_PumpComponent
@@ -4880,8 +5055,15 @@ minigames_bottlerocket_PumpProcessor.prototype = $extend(tusk_Processor.prototyp
 			var t = entity.get(5);
 			var p = entity.get(15);
 			var axis = 0;
-			if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[p.playerNumber].btnA)) axis -= 1.0;
-			if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[p.playerNumber].btnB)) axis += 1.0;
+			var directionSpeed = 3 + Math.random();
+			if(GameTracker.player[p.playerNumber].isCPU) {
+				if(p.pumpPos < 0.1) p.aiDirection += directionSpeed * event.dt; else if(p.pumpPos >= 0.9) p.aiDirection -= directionSpeed * event.dt;
+				p.aiDirection = tusk_math_MathTools.clamp(p.aiDirection,-1,1);
+				if(p.aiDirection < 0) axis = -1; else if(p.aiDirection > 0) axis = 1;
+			} else {
+				if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[p.playerNumber].btnA)) axis -= 1.0;
+				if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[p.playerNumber].btnB)) axis += 1.0;
+			}
 			p.pumpVelocity += axis * 10 * event.dt;
 			var lastPos = p.pumpPos;
 			p.pumpPos += p.pumpVelocity * event.dt;
@@ -12576,14 +12758,7 @@ tusk_resources_Font.load = function(path,contents,texture) {
 			break;
 		}
 	}
-	if(texture == null) {
-		var basePath = haxe_io_Path.directory(path);
-		var texturePath = haxe_io_Path.join([basePath,font.imageFileName]);
-		tusk_Tusk.assets.loadTexture(texturePath).then(function(fontTexture) {
-			font.texture = fontTexture;
-			def.resolve(font);
-		});
-	} else {
+	if(texture != null) {
 		font.texture = texture;
 		def.resolve(font);
 	}
@@ -13988,6 +14163,8 @@ snow_types__$Types_FileEventType_$Impl_$.remove = 2;
 snow_types__$Types_FileEventType_$Impl_$.create = 3;
 snow_types__$Types_FileEventType_$Impl_$.drop = 4;
 tusk_Entity.nextID = 0;
+tusk_Files.fonts___paper_cuts__fnt = "assets/fonts/paper_cuts.fnt";
+tusk_Files.fonts___paper_cuts__png = "assets/fonts/paper_cuts.png";
 tusk_Files.shaders___colourkey__frag = "assets/shaders/colourkey.frag";
 tusk_Files.shaders___colourkey__vert = "assets/shaders/colourkey.vert";
 tusk_Files.sprites___bottlerocket__png = "assets/sprites/bottlerocket.png";
