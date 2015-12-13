@@ -9,7 +9,7 @@ import tusk.Tusk;
 
 class SpawnProcessor extends Processor {
 	private inline static var spawnAcceleration:Float = 0.5;
-	private static var spawnRate:Float = 5;
+	private static var spawnRate:Float = 0;
 
 	public function new(?entities:Array<Entity>) {
 		matcher = new Matcher().include(SpawnComponent.tid);
@@ -17,6 +17,7 @@ class SpawnProcessor extends Processor {
 	}
 	
 	override public function onUpdate(event:UpdateEvent):Void {
+		spawnRate += spawnAcceleration * event.dt;
 		for(entity in entities) {
 			var s:SpawnComponent = cast entity.get(SpawnComponent.tid);
 
@@ -26,7 +27,6 @@ class SpawnProcessor extends Processor {
 				s.spawnAccumulator -= 1.0;
 			}
 			s.spawnAccumulator += (spawnRate * event.dt) - obstaclesToSpawn;
-			spawnRate += spawnAcceleration * event.dt;
 
 			for(i in 0...obstaclesToSpawn) {
 				s.spawn();

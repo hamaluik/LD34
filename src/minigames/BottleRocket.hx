@@ -261,7 +261,7 @@ class BottleRocket extends Scene {
 					TextAlign.Centre, TextVerticalAlign.Centre,
 					new Vec4(1, 1, 1, 1));
 			var countdownTimer:TimedPromiseComponent = new TimedPromiseComponent(1.0);
-			var countdownTransform:TransformComponent = new TransformComponent(new Vec3(0, 0, -0.99), Quat.identity(), new Vec3(16, 16, 16));
+			var countdownTransform:TransformComponent = new TransformComponent(new Vec3(0, 0, -0.99), Quat.identity(), new Vec3(8, 8, 8));
 			var countdownEntity:Entity = new Entity(this, 'Countdown', [
 				countdownTransform,
 				new MeshComponent(textMesh.clone('br.countdowntextmesh')),

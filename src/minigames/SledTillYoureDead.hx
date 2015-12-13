@@ -79,6 +79,8 @@ class SledTillYoureDead extends Scene {
 
 			this.circleOutMat = circleOutMat;
 
+			this.countdownMusic = countdownMusic;
+
 			this.textMesh = textMesh;
 			this.font = font;
 			this.fontMat = fontMat;
@@ -106,21 +108,27 @@ class SledTillYoureDead extends Scene {
 		return prom;
 	}
 
+	public static var obstacles:Array<TransformComponent> = new Array<TransformComponent>();
 	private var treeMesh:Mesh;
 	private var rockMesh:Mesh;
+	private var flagMesh:Mesh;
 	private function createObstacle() {
-		var mesh:Mesh = switch(tusk.math.Random.int(0, 1)) {
+		var mesh:Mesh = switch(tusk.math.Random.int(0, 2)) {
 			default: treeMesh;
 			case 1: rockMesh;
+			case 2: flagMesh;
 		}
 
 		var x:Float = tusk.math.Random.float(-380, 380);
-		entities.push(new Entity(this, 'P1 Sled', [
-			new TransformComponent(new Vec3(x, Tusk.game.height / -2 - 64, -0.5), Quat.identity(), new Vec3(64, 64, 64)),
+		var transform:TransformComponent = new TransformComponent(new Vec3(x, Tusk.game.height / -2 - 64, -0.5), Quat.identity(), new Vec3(64, 64, 64));
+		entities.push(new Entity(this, 'Obstacle', [
+			transform,
 			new MeshComponent(mesh),
 			new MaterialComponent(sledBGMaterial),
-			new ScrollComponent(Tusk.game.height / 2 + 64)
+			new ScrollComponent(Tusk.game.height / 2 + 64),
+			new CollisionComponent(16, 1)
 		]));
+		obstacles.push(transform);
 	}
 
 	override public function onLoad(event:LoadEvent) {
@@ -137,6 +145,7 @@ class SledTillYoureDead extends Scene {
 			// start the game!
 			Log.info('Starting sled till you\'re dead!');
 
+			this.useProcessor(new CollisionProcessor());
 			this.useProcessor(new AnimatedSledProcessor());
 			this.useProcessor(new MovementProcessor());
 			this.useProcessor(new ScrollProcessor());
@@ -180,6 +189,7 @@ class SledTillYoureDead extends Scene {
 				uv.x /= 4;
 			}
 			var sledMesh2:Mesh = sledMesh1.clone('sled.mesh2');
+			var p1Collision:CollisionComponent = new CollisionComponent(16, 0);
 			entities.push(new Entity(this, 'P1 Sled', [
 				new TransformComponent(new Vec3(-92, 192, -1), Quat.identity(), new Vec3(64, 64, 64)),
 				new MeshComponent(sledMesh1),
@@ -188,8 +198,10 @@ class SledTillYoureDead extends Scene {
 					sledMaterial.setVec3('colour', GameTracker.player[0].colour);
 				}),
 				new AnimatedSledComponent(sledMesh1, 4, 15),
-				new MovementComponent(0)
+				new MovementComponent(0),
+				p1Collision
 			]));
+			var p2Collision:CollisionComponent = new CollisionComponent(16, 0);
 			entities.push(new Entity(this, 'P2 Sled', [
 				new TransformComponent(new Vec3(92, 192, -1), Quat.identity(), new Vec3(64, 64, 64)),
 				new MeshComponent(sledMesh2),
@@ -198,27 +210,121 @@ class SledTillYoureDead extends Scene {
 					sledMaterial.setVec3('colour', GameTracker.player[1].colour);
 				}),
 				new AnimatedSledComponent(sledMesh2, 4, 15),
-				new MovementComponent(1)
+				new MovementComponent(1),
+				p2Collision
 			]));
 
 			// prepare to create some obstacles!
 			treeMesh = quad.clone('sled.mesh.tree');
-			treeMesh.uvs[0].set(0.5, 1);
-			treeMesh.uvs[1].set(1, 1);
-			treeMesh.uvs[2].set(1, 0.5);
-			treeMesh.uvs[3].set(1, 0.5);
+			treeMesh.uvs[0].set(0.5, 1.0);
+			treeMesh.uvs[1].set(1.0, 1.0);
+			treeMesh.uvs[2].set(1.0, 0.5);
+			treeMesh.uvs[3].set(1.0, 0.5);
 			treeMesh.uvs[4].set(0.5, 0.5);
-			treeMesh.uvs[5].set(0.5, 1);
+			treeMesh.uvs[5].set(0.5, 1.0);
 			rockMesh = quad.clone('sled.mesh.rock');
 			rockMesh.uvs[0].set(0.5, 0.5);
-			rockMesh.uvs[1].set(1, 0.5);
-			rockMesh.uvs[2].set(1, 0);
-			rockMesh.uvs[3].set(1, 0);
-			rockMesh.uvs[4].set(0.5, 0);
+			rockMesh.uvs[1].set(1.0, 0.5);
+			rockMesh.uvs[2].set(1.0, 0.0);
+			rockMesh.uvs[3].set(1.0, 0.0);
+			rockMesh.uvs[4].set(0.5, 0.0);
 			rockMesh.uvs[5].set(0.5, 0.5);
+			flagMesh = quad.clone('sled.mesh.flag');
+			flagMesh.uvs[0].set(0.0, 1.0);
+			flagMesh.uvs[1].set(0.5, 1.0);
+			flagMesh.uvs[2].set(0.5, 0.5);
+			flagMesh.uvs[3].set(0.5, 0.5);
+			flagMesh.uvs[4].set(0.0, 0.5);
+			flagMesh.uvs[5].set(0.0, 1.0);
 
-			// setup the obstacle spawning system
-			entities.push(new Entity(this, 'Spawner', [new SpawnComponent(createObstacle)]));
+			// create the countdown music
+			entities.push(new Entity(this, 'Countdown Music', [
+				new SoundComponent(countdownMusic.path, true)
+			]));
+
+			// start the countdown!
+			var countdownText:TextComponent = new TextComponent(font, '3',
+					TextAlign.Centre, TextVerticalAlign.Centre,
+					new Vec4(0, 0, 0, 1));
+			var countdownTimer:TimedPromiseComponent = new TimedPromiseComponent(1.0);
+			var countdownTransform:TransformComponent = new TransformComponent(new Vec3(0, 0, -0.99), Quat.identity(), new Vec3(8, 8, 8));
+			var countdownEntity:Entity = new Entity(this, 'Countdown', [
+				countdownTransform,
+				new MeshComponent(textMesh.clone('br.countdowntextmesh')),
+				new MaterialComponent(fontMat.path),
+				countdownText,
+				countdownTimer
+			]);
+			entities.push(countdownEntity);
+			countdownTimer.done.pipe(function(_) {
+				countdownText.text = '2';
+				countdownTimer.t = 0;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_) {
+				countdownText.text = '1';
+				countdownTimer.t = 0;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_) {
+				countdownText.text = 'Go!';
+
+				// in a second, start displaying the time left
+				haxe.Timer.delay(function() {
+					// remove the text
+					countdownText.text = '';
+				}, 1000);
+
+				// start the game!
+
+				// setup the obstacle spawning system
+				entities.push(new Entity(this, 'Spawner', [new SpawnComponent(createObstacle)]));
+
+				// figure out who hit something first
+				var hitDef:Deferred<Int> = new Deferred<Int>();
+				var hitPromise:Promise<Int> = hitDef.promise();
+				p1Collision.done.then(function(_) { if(!hitPromise.isResolved()) hitDef.resolve(0); });
+				p2Collision.done.then(function(_) { if(!hitPromise.isResolved()) hitDef.resolve(1); });
+				return hitPromise;
+			}).pipe(function(player:Int) {
+				Log.info('${GameTracker.player[player].name} hit an obstacle!');
+
+				// prepare for the end!
+				for(entity in entities) {
+					// stop moving
+					if(entity.hasType(ScrollComponent.tid)) entity.removeType(ScrollComponent.tid);
+					// stop spawning
+					if(entity.name == 'Spawner') Tusk.removeEntity(entity);
+					// stop animating
+					if(entity.hasType(AnimatedSledComponent.tid)) entity.removeType(AnimatedSledComponent.tid);
+				}
+
+				// show who won
+				countdownText.text = '${GameTracker.player[1 - player].name} wins!';
+				countdownTransform.scale.set(4, 4, 4);
+				countdownTransform.lastScale.copy(countdownTransform.scale);
+
+				// give em a point!
+				GameTracker.player[1 - player].score++;
+
+				// and delay
+				countdownTimer.t = 0;
+				countdownTimer.wait = 3;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_) {
+				// circle out
+				var cec:CircleEffectComponent = new CircleEffectComponent(false);
+				entities.push(new Entity(this, 'Circle Effect', [
+					new TransformComponent(new Vec3(0, 0, 0.1), Quat.identity(), new Vec3(1024, 1024, 1024)),
+					new MeshComponent(quad.path),
+					new MaterialComponent(circleOutMat.path),
+					cec
+				]));
+				return cec.done;
+			}).then(function(_) {
+				sceneDone.resolve(this);
+			});
 		});
 	}
 }

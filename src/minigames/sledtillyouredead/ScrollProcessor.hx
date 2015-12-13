@@ -9,8 +9,8 @@ import tusk.lib.comp.TransformComponent;
 import tusk.Tusk;
 
 class ScrollProcessor extends Processor {
-	private static var scrollSpeed:Float = 512;
-	inline private static var scrollAcceleration:Float = 2;
+	private static var scrollSpeed:Float = 256;
+	inline private static var scrollAcceleration:Float = 16;
 
 	public function new(?entities:Array<Entity>) {
 		matcher = new Matcher().include(ScrollComponent.tid).include(TransformComponent.tid);
@@ -18,6 +18,7 @@ class ScrollProcessor extends Processor {
 	}
 	
 	override public function onUpdate(event:UpdateEvent):Void {
+		scrollSpeed += scrollAcceleration * event.dt;
 		for(entity in entities) {
 			var t:TransformComponent = cast entity.get(TransformComponent.tid);
 			var s:ScrollComponent = cast entity.get(ScrollComponent.tid);
@@ -31,10 +32,9 @@ class ScrollProcessor extends Processor {
 				}
 				else {
 					Tusk.removeEntity(entity);
+					SledTillYoureDead.obstacles.remove(t);
 				}
 			}
-
-			scrollSpeed += scrollAcceleration * event.dt;
 		}
 	}
 }
