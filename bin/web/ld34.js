@@ -534,21 +534,21 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 	,onLoad: function(event) {
 		var _g = this;
 		if(event.scene != this) return;
-		tusk_debug_Log.log("load screen..",tusk_debug_LogFunctions.Info,{ fileName : "LoadingScreen.hx", lineNumber : 58, className : "LoadingScreen", methodName : "onLoad"});
+		tusk_debug_Log.log("load screen..",tusk_debug_LogFunctions.Info,{ fileName : "LoadingScreen.hx", lineNumber : 46, className : "LoadingScreen", methodName : "onLoad"});
 		((function($this) {
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut()];
+				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/introtrumpet.ogg")];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val));
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val));
 				}});
 				return ret;
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat) {
+		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat,trumpet) {
 			tusk_lib_proc_Camera2DProcessor.cameras = [];
 			fontMat.textures = [];
 			fontMat.textures.push(font.texture);
@@ -562,6 +562,7 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
 			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
 			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
+			_g.useProcessor(new tusk_lib_proc_SoundProcessor());
 			var w = tusk_Tusk.instance.app.window.width;
 			var h = tusk_Tusk.instance.app.window.height;
 			_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
@@ -654,6 +655,7 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 				}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"in:\n" + _g.gameName,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scn]));
 				return scn.done;
 			}).pipe(function(_4) {
+				_g.entities.push(new tusk_Entity(_g,"Trumpet",[new tusk_lib_comp_SoundComponent(trumpet.path,true)]));
 				var fadeDelay = new tusk_lib_comp_TimedPromiseComponent(1);
 				_g.entities.push(new tusk_Entity(_g,"Delay",[fadeDelay]));
 				return fadeDelay.done;
@@ -4381,6 +4383,7 @@ tusk_Component.prototype = {
 var tusk_PromiseComponent = function() {
 	this.onDone = new promhx_Deferred();
 	this.done = this.onDone.promise();
+	this.doneStream = this.onDone.stream();
 	tusk_Component.call(this);
 };
 $hxClasses["tusk.PromiseComponent"] = tusk_PromiseComponent;
@@ -4391,6 +4394,7 @@ tusk_PromiseComponent.prototype = $extend(tusk_Component.prototype,{
 		if(this.onDone._resolved) {
 			this.onDone = new promhx_Deferred();
 			this.done = this.onDone.promise();
+			this.doneStream = this.onDone.stream();
 		}
 	}
 	,finish: function() {
@@ -4604,16 +4608,16 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),minigames_bottlerocket_SpriteMaterial.load(),minigames_bottlerocket_BackgroundMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json"),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocketcontrols.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut()];
+				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),minigames_bottlerocket_SpriteMaterial.load(),minigames_bottlerocket_BackgroundMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json"),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocketcontrols.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/bottlerocketpump.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg")];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val,arr[12]._val));
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val,arr[12]._val,arr[13]._val,arr[14]._val,arr[15]._val));
 				}});
 				return ret;
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(quad,particlesMaterial,spriteMaterial,backgroundMaterial,spriteSheet,backgroundSheet,backgroundJSON,controls,unlitTextured,textMesh,font,fontMat,circleOutMat) {
+		}(this))).then(function(quad,particlesMaterial,spriteMaterial,backgroundMaterial,spriteSheet,backgroundSheet,backgroundJSON,controls,unlitTextured,textMesh,font,fontMat,circleOutMat,countdownMusic,pumpMusic,winMusic) {
 			_g.quad = quad;
 			_g.particlesMaterial = particlesMaterial;
 			_g.circleOutMat = circleOutMat;
@@ -4631,13 +4635,16 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			_g.backgroundMaterial = backgroundMaterial;
 			_g.backgroundMaterial.textures = [];
 			_g.backgroundMaterial.textures.push(backgroundSheet);
+			_g.countdownMusic = countdownMusic;
+			_g.pumpMusic = pumpMusic;
+			_g.winMusic = winMusic;
 			_g.backgroundTileMap = tusk_modules_tiled_TileMap.fromJSON(backgroundJSON.text);
 			tusk_modules_tiled_TileMap.buildMesh(_g.backgroundTileMap,"tilemap.bottlerocket").then(function(mesh) {
 				_g.backgroundMesh = mesh;
 				def.resolve(_g);
 			});
 		}).catchError(function(err) {
-			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "BottleRocket.hx", lineNumber : 101, className : "minigames.BottleRocket", methodName : "loadAssets"});
+			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "BottleRocket.hx", lineNumber : 113, className : "minigames.BottleRocket", methodName : "loadAssets"});
 			def.handleError("Failed to load assets!");
 		});
 		return prom;
@@ -4645,7 +4652,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 	,onLoad: function(event) {
 		var _g = this;
 		if(event.scene != this) return;
-		tusk_debug_Log.log("Loading bottle rocket scene..",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 110, className : "minigames.BottleRocket", methodName : "onLoad"});
+		tusk_debug_Log.log("Loading bottle rocket scene..",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 122, className : "minigames.BottleRocket", methodName : "onLoad"});
 		var loadComplete = this.loadAssets();
 		var loadingScreen = new LoadingScreen("Bottle Rocket Blast",loadComplete);
 		tusk_Tusk.pushScene(loadingScreen);
@@ -4665,8 +4672,8 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 		}(this))).then(function(_,_1) {
 			tusk_Tusk.removeScene(loadingScreen);
 			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 118, className : "minigames.BottleRocket", methodName : "onLoad"});
-			tusk_debug_Log.log("Starting bottle rocket!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 120, className : "minigames.BottleRocket", methodName : "onLoad"});
+			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 130, className : "minigames.BottleRocket", methodName : "onLoad"});
+			tusk_debug_Log.log("Starting bottle rocket!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 132, className : "minigames.BottleRocket", methodName : "onLoad"});
 			_g.useProcessor(new minigames_bottlerocket_VelocityProcessor());
 			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
 			_g.useProcessor(new minigames_bottlerocket_TimerDisplayProcessor());
@@ -4684,6 +4691,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				return $r;
 			}(this))));
 			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
+			_g.useProcessor(new tusk_lib_proc_SoundProcessor());
 			var w = tusk_Tusk.instance.app.window.width;
 			var h = tusk_Tusk.instance.app.window.height;
 			var camera = new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0),(function($this) {
@@ -4710,7 +4718,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				return $r;
 			}(this)),-100,100)]);
 			_g.entities.push(camera);
-			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 143, className : "minigames.BottleRocket", methodName : "onLoad"});
+			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 156, className : "minigames.BottleRocket", methodName : "onLoad"});
 			_g.entities.push(new tusk_Entity(_g,"TileMap",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(_g.backgroundTileMap.width * _g.backgroundTileMap.tilewidth * 2 / -2,tusk_Tusk.game.get_height() / -2 - _g.backgroundTileMap.tileheight * 2 * 2,0),(function($this) {
 				var $r;
 				var q6 = glm__$Quat_Quat_$Impl_$._new();
@@ -4847,6 +4855,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			_g.entities.push(p2Rocket);
 			var p1Pump;
 			var p2Pump;
+			_g.entities.push(new tusk_Entity(_g,"Countdown Music",[new tusk_lib_comp_SoundComponent(_g.countdownMusic.path,true)]));
 			var countdownText = new tusk_lib_comp_TextComponent(_g.font,"3",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
 			var countdownTimer = new tusk_lib_comp_TimedPromiseComponent(1.0);
 			var countdownTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.99),(function($this) {
@@ -4866,6 +4875,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			_g.entities.push(countdownEntity);
 			var p1V;
 			var p2V;
+			var pumpSound;
 			countdownTimer.done.pipe(function(_2) {
 				countdownText.set_text("2");
 				countdownTimer.t = 0;
@@ -4883,6 +4893,8 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				p2Pump = new minigames_bottlerocket_PumpComponent(1,groundY + 128 + 72);
 				p2PumpEntity.push(p2Pump);
 				haxe_Timer.delay(function() {
+					pumpSound = new tusk_lib_comp_SoundComponent(_g.pumpMusic.path,true);
+					_g.entities.push(new tusk_Entity(_g,"PumpSound",[pumpSound]));
 					countdownEntity.push(new minigames_bottlerocket_TimerDisplayComponent());
 				},1000);
 				countdownTimer.t = 0;
@@ -4898,6 +4910,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				countdownTimer.reset();
 				return countdownTimer.done;
 			}).pipe(function(_6) {
+				pumpSound.stop = true;
 				countdownText.set_text("Launch!");
 				p1V = new minigames_bottlerocket_VelocityComponent(p1Pump.pressure * 512,glm__$Vec3_Vec3_$Impl_$.get_y(p1RocketTransform.position));
 				p2V = new minigames_bottlerocket_VelocityComponent(p2Pump.pressure * 512,glm__$Vec3_Vec3_$Impl_$.get_y(p2RocketTransform.position));
@@ -4931,10 +4944,11 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 					countdownText.set_text(GameTracker.player[winner].name + " wins!");
 					GameTracker.player[winner].score += 1;
 				} else countdownText.set_text("Tie!");
+				_g.entities.push(new tusk_Entity(_g,"WinMusic",[new tusk_lib_comp_SoundComponent(_g.winMusic.path,true)]));
 				p1Rocket.removeType(13);
 				p2Rocket.removeType(13);
 				countdownTimer.t = 0;
-				countdownTimer.wait = 5;
+				countdownTimer.wait = 3;
 				countdownTimer.reset();
 				return countdownTimer.done;
 			}).pipe(function(_10) {
@@ -10990,27 +11004,30 @@ tusk_lib_comp_ParticleSystemComponent.prototype = $extend(tusk_Component.prototy
 var tusk_lib_comp_SoundComponent = function(path,play) {
 	this.path = "";
 	this.playing = false;
+	this.stop = false;
 	this.play = false;
 	this.path = path;
 	this.play = play;
-	tusk_Component.call(this);
+	tusk_PromiseComponent.call(this);
 };
 $hxClasses["tusk.lib.comp.SoundComponent"] = tusk_lib_comp_SoundComponent;
 tusk_lib_comp_SoundComponent.__name__ = ["tusk","lib","comp","SoundComponent"];
-tusk_lib_comp_SoundComponent.__super__ = tusk_Component;
-tusk_lib_comp_SoundComponent.prototype = $extend(tusk_Component.prototype,{
-	get__tid: function() {
-		return 7;
-	}
-	,hxSerialize: function(s) {
+tusk_lib_comp_SoundComponent.__super__ = tusk_PromiseComponent;
+tusk_lib_comp_SoundComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
+	hxSerialize: function(s) {
 		s.serialize(this.play);
+		s.serialize(this.stop);
 		s.serialize(this.playing);
 		s.serialize(this.path);
 	}
 	,hxUnserialize: function(s) {
 		s.serialize(this.play);
+		s.serialize(this.stop);
 		s.serialize(this.playing);
 		s.serialize(this.path);
+	}
+	,get__tid: function() {
+		return 7;
 	}
 	,__class__: tusk_lib_comp_SoundComponent
 });
@@ -11795,10 +11812,16 @@ tusk_lib_proc_SoundProcessor.prototype = $extend(tusk_Processor.prototype,{
 				sound.set_onEnd((function(s) {
 					return function() {
 						s[0].playing = false;
+						s[0].finish();
 					};
 				})(s));
 				s[0].play = false;
 				s[0].playing = true;
+			} else if(s[0].playing && s[0].stop) {
+				var sound1 = tusk_Tusk.assets.getSound(s[0].path);
+				tusk_Tusk.sound.stop(sound1);
+				s[0].stop = false;
+				s[0].playing = false;
 			}
 		}
 	}
@@ -12533,6 +12556,9 @@ tusk_modules_Sound.prototype = {
 	}
 	,play: function(sound) {
 		tusk_Tusk.instance.app.audio.play(sound.path);
+	}
+	,stop: function(sound) {
+		tusk_Tusk.instance.app.audio.stop(sound.path);
 	}
 	,__class__: tusk_modules_Sound
 };
@@ -14167,6 +14193,14 @@ tusk_Files.fonts___paper_cuts__fnt = "assets/fonts/paper_cuts.fnt";
 tusk_Files.fonts___paper_cuts__png = "assets/fonts/paper_cuts.png";
 tusk_Files.shaders___colourkey__frag = "assets/shaders/colourkey.frag";
 tusk_Files.shaders___colourkey__vert = "assets/shaders/colourkey.vert";
+tusk_Files.sounds___bottlerocketpump__ogg = "assets/sounds/bottlerocketpump.ogg";
+tusk_Files.sounds___bottlerocketpump__wav = "assets/sounds/bottlerocketpump.wav";
+tusk_Files.sounds___countdown__ogg = "assets/sounds/countdown.ogg";
+tusk_Files.sounds___countdown__wav = "assets/sounds/countdown.wav";
+tusk_Files.sounds___introtrumpet__ogg = "assets/sounds/introtrumpet.ogg";
+tusk_Files.sounds___introtrumpet__wav = "assets/sounds/introtrumpet.wav";
+tusk_Files.sounds___wintrumpet__ogg = "assets/sounds/wintrumpet.ogg";
+tusk_Files.sounds___wintrumpet__wav = "assets/sounds/wintrumpet.wav";
 tusk_Files.sprites___bottlerocket__png = "assets/sprites/bottlerocket.png";
 tusk_Files.sprites___bottlerocketcontrols__png = "assets/sprites/bottlerocketcontrols.png";
 tusk_Files.tilemaps___bottlerocketbackground__json = "assets/tilemaps/bottlerocketbackground.json";

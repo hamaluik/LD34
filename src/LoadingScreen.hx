@@ -1,19 +1,7 @@
 import tusk.debug.Log;
-import tusk.lib.comp.Camera2DComponent;
-import tusk.lib.comp.MaterialComponent;
-import tusk.lib.comp.MeshComponent;
-import tusk.lib.comp.TransformComponent;
 import tusk.lib.comp.TextComponent;
-import tusk.lib.comp.TimedPromiseComponent;
-import tusk.lib.comp.CircleEffectComponent;
-import tusk.lib.proc.Camera2DProcessor;
-import tusk.lib.proc.MaterialProcessor;
-import tusk.lib.proc.MeshProcessor;
-import tusk.lib.proc.Renderer2DProcessor;
-import tusk.lib.proc.TransformProcessor;
-import tusk.lib.proc.TextProcessor;
-import tusk.lib.proc.TimedPromiseProcessor;
-import tusk.lib.proc.CircleEffectRendererProcessor;
+import tusk.lib.comp.*;
+import tusk.lib.proc.*;
 import tusk.Tusk;
 import tusk.Scene;
 import tusk.Entity;
@@ -63,8 +51,9 @@ class LoadingScreen extends Scene {
 			tusk.defaults.Fonts.loadSubatomic_Screen(),
 			tusk.defaults.Materials.loadTextBasic(),
 			tusk.defaults.Primitives.loadQuad(),
-			tusk.defaults.Materials.loadEffectCircleOut()
-		).then(function(textMesh:Mesh, font:Font, fontMat:Material, quad:Mesh, circleOutMat:Material) {
+			tusk.defaults.Materials.loadEffectCircleOut(),
+			Tusk.assets.loadSound(tusk.Files.sounds___introtrumpet__ogg)
+		).then(function(textMesh:Mesh, font:Font, fontMat:Material, quad:Mesh, circleOutMat:Material, trumpet:Sound) {
 			Camera2DProcessor.cameras = new Array<Camera2DComponent>();
 			// set the material's texture
 			fontMat.textures = new Array<Texture>();
@@ -81,6 +70,7 @@ class LoadingScreen extends Scene {
 			this.useProcessor(new MeshProcessor());
 			this.useProcessor(new Renderer2DProcessor(new Vec4(0.25, 0.25, 0.25, 1.0)));
 			this.useProcessor(new CircleEffectRendererProcessor());
+			this.useProcessor(new SoundProcessor());
 
 			// create the camera
 			var w:Float = Tusk.instance.app.window.width;
@@ -146,6 +136,12 @@ class LoadingScreen extends Scene {
 				]));
 				return scn.done;
 			}).pipe(function(_) {
+				// create the trumpet sound effect
+				entities.push(new Entity(this, 'Trumpet', [
+					new SoundComponent(trumpet.path, true)
+				]));
+
+				// wait a second
 				var fadeDelay:TimedPromiseComponent = new TimedPromiseComponent(1);
 				entities.push(new Entity(this, 'Delay', [fadeDelay]));
 				return fadeDelay.done;

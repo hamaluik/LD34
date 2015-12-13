@@ -20,6 +20,7 @@ import tusk.modules.tiled.TileMap;
 
 import promhx.Deferred;
 import promhx.Promise;
+import promhx.Stream;
 
 import glm.Vec2;
 import glm.Vec3;
@@ -49,6 +50,10 @@ class BottleRocket extends Scene {
 
 	private var circleOutMat:Material;
 
+	private var countdownMusic:Sound;
+	private var pumpMusic:Sound;
+	private var winMusic:Sound;
+
 	private function loadAssets():Promise<Scene> {
 		var def:Deferred<Scene> = new Deferred<Scene>();
 		var prom:Promise<Scene> = def.promise();
@@ -67,8 +72,11 @@ class BottleRocket extends Scene {
 			tusk.defaults.Primitives.loadTextMesh(),
 			tusk.defaults.Fonts.loadSubatomic_Screen(),
 			tusk.defaults.Materials.loadTextBasic(),
-			tusk.defaults.Materials.loadEffectCircleOut()
-		).then(function(quad:Mesh, particlesMaterial:Material, spriteMaterial:Material, backgroundMaterial:Material, spriteSheet:Texture, backgroundSheet:Texture, backgroundJSON:Text, controls:Texture, unlitTextured:Material, textMesh:Mesh, font:Font, fontMat:Material, circleOutMat:Material) {
+			tusk.defaults.Materials.loadEffectCircleOut(),
+			Tusk.assets.loadSound(tusk.Files.sounds___countdown__ogg),
+			Tusk.assets.loadSound(tusk.Files.sounds___bottlerocketpump__ogg),
+			Tusk.assets.loadSound(tusk.Files.sounds___wintrumpet__ogg)
+		).then(function(quad:Mesh, particlesMaterial:Material, spriteMaterial:Material, backgroundMaterial:Material, spriteSheet:Texture, backgroundSheet:Texture, backgroundJSON:Text, controls:Texture, unlitTextured:Material, textMesh:Mesh, font:Font, fontMat:Material, circleOutMat:Material, countdownMusic:Sound, pumpMusic:Sound, winMusic:Sound) {
 			this.quad = quad;
 			this.particlesMaterial = particlesMaterial;
 
@@ -91,6 +99,10 @@ class BottleRocket extends Scene {
 			this.backgroundMaterial = backgroundMaterial;
 			this.backgroundMaterial.textures = new Array<Texture>();
 			this.backgroundMaterial.textures.push(backgroundSheet);
+
+			this.countdownMusic = countdownMusic;
+			this.pumpMusic = pumpMusic;
+			this.winMusic = winMusic;
 
 			backgroundTileMap = TileMap.fromJSON(backgroundJSON.text);
 			TileMap.buildMesh(backgroundTileMap, 'tilemap.bottlerocket').then(function(mesh:Mesh) {
@@ -131,6 +143,7 @@ class BottleRocket extends Scene {
 			this.useProcessor(new TextProcessor());
 			this.useProcessor(new Renderer2DProcessor(new Vec4(110, 175, 231, 255) / 255));
 			this.useProcessor(new CircleEffectRendererProcessor());
+			this.useProcessor(new SoundProcessor());
 
 			// create the camera
 			var w:Float = Tusk.instance.app.window.width;
@@ -238,6 +251,10 @@ class BottleRocket extends Scene {
 			var p1Pump:PumpComponent;
 			var p2Pump:PumpComponent;
 
+			entities.push(new Entity(this, 'Countdown Music', [
+				new SoundComponent(countdownMusic.path, true)
+			]));
+
 			// start the countdown!
 			var countdownText:TextComponent = new TextComponent(font, '3',
 					TextAlign.Centre, TextVerticalAlign.Centre,
@@ -254,6 +271,7 @@ class BottleRocket extends Scene {
 			entities.push(countdownEntity);
 			var p1V:VelocityComponent;
 			var p2V:VelocityComponent;
+			var pumpSound:SoundComponent;
 			countdownTimer.done.pipe(function(_) {
 				countdownText.text = '2';
 				countdownTimer.t = 0;
@@ -273,6 +291,9 @@ class BottleRocket extends Scene {
 
 				// in a second, start displaying the time left
 				haxe.Timer.delay(function() {
+					// add the pump sound
+					pumpSound = new SoundComponent(pumpMusic.path, true);
+					entities.push(new Entity(this, 'PumpSound', [pumpSound]));
 					countdownEntity.push(new TimerDisplayComponent());
 				}, 1000);
 
@@ -293,6 +314,7 @@ class BottleRocket extends Scene {
 				countdownTimer.reset();
 				return countdownTimer.done;
 			}).pipe(function(_) {
+				pumpSound.stop = true;
 				countdownText.text = 'Launch!';
 				p1V = new VelocityComponent(p1Pump.pressure * 512, p1RocketTransform.position.y);
 				p2V = new VelocityComponent(p2Pump.pressure * 512, p2RocketTransform.position.y);
@@ -318,6 +340,8 @@ class BottleRocket extends Scene {
 				else {
 					countdownText.text = 'Tie!';
 				}
+
+				entities.push(new Entity(this, 'WinMusic', [new SoundComponent(winMusic.path, true)]));
 				
 				// remove the velocity components
 				p1Rocket.removeType(VelocityComponent.tid);
@@ -325,7 +349,7 @@ class BottleRocket extends Scene {
 
 				// reset the time
 				countdownTimer.t = 0;
-				countdownTimer.wait = 5;
+				countdownTimer.wait = 3;
 				countdownTimer.reset();
 				return countdownTimer.done;
 			}).pipe(function(_) {
