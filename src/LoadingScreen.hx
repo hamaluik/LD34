@@ -52,8 +52,11 @@ class LoadingScreen extends Scene {
 			tusk.defaults.Materials.loadTextBasic(),
 			tusk.defaults.Primitives.loadQuad(),
 			tusk.defaults.Materials.loadEffectCircleOut(),
-			Tusk.assets.loadSound(tusk.Files.sounds___introtrumpet__ogg)
-		).then(function(textMesh:Mesh, font:Font, fontMat:Material, quad:Mesh, circleOutMat:Material, trumpet:Sound) {
+			Tusk.assets.loadSound(tusk.Files.sounds___loadingcrunch__ogg),
+			Tusk.assets.loadSound(tusk.Files.sounds___introwobble__ogg),
+			Tusk.assets.loadSound(tusk.Files.sounds___introtrumpet__ogg),
+			tusk.defaults.Materials.loadUnlitColoured()
+		).then(function(textMesh:Mesh, font:Font, fontMat:Material, quad:Mesh, circleOutMat:Material, loadingCrunch:Sound, introWobble:Sound, trumpet:Sound, bgMaterial:Material) {
 			Camera2DProcessor.cameras = new Array<Camera2DComponent>();
 			// set the material's texture
 			fontMat.textures = new Array<Texture>();
@@ -80,6 +83,20 @@ class LoadingScreen extends Scene {
 				new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h) / 2.0, -100, 100)
 			]));
 
+			// create the background
+			var bgMesh:Mesh = quad.clone('mesh.bgintro');
+			bgMesh.colours = new Array<Vec4>();
+			var gradientColours:Array<Vec4> = Util.randomGradientColours();
+			for(v in bgMesh.vertices) {
+				var colour:Vec4 = gradientColours[if(v.y > 0) 1 else 0];
+				bgMesh.colours.push(colour);
+			}
+			entities.push(new Entity(this, 'Image', [
+				new TransformComponent(new Vec3(0, 0, 1), Quat.identity(), new Vec3(1024, 1024, 1024)),
+				new MeshComponent(bgMesh),
+				new MaterialComponent(bgMaterial),
+			]));
+
 			var cec:CircleEffectComponent = new CircleEffectComponent(true);
 			entities.push(new Entity(this, 'Circle Effect', [
 				new TransformComponent(new Vec3(0, 0, 0.1), Quat.identity(), new Vec3(1024, 1024, 1024)),
@@ -88,6 +105,7 @@ class LoadingScreen extends Scene {
 				cec
 			]));
 			cec.done.pipe(function(_) {
+				entities.push(new Entity(this, '', [new SoundComponent(loadingCrunch.path, true)]));
 				var scp1:loading.SlamComponent = new loading.SlamComponent(0.5, 16, 2);
 				entities.push(new Entity(this, 'Player 1', [
 					new TransformComponent(new Vec3(-256, 0, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
@@ -100,6 +118,7 @@ class LoadingScreen extends Scene {
 				]));
 				return scp1.done;
 			}).pipe(function(_) {
+				entities.push(new Entity(this, '', [new SoundComponent(loadingCrunch.path, true)]));
 				var scvs:loading.SlamComponent = new loading.SlamComponent(0.5, 96, 16);
 				entities.push(new Entity(this, 'VS', [
 					new TransformComponent(new Vec3(0, 0, 0.05), Quat.identity(), new Vec3(16, 16, 16)),
@@ -112,6 +131,7 @@ class LoadingScreen extends Scene {
 				]));
 				return scvs.done;
 			}).pipe(function(_) {
+				entities.push(new Entity(this, '', [new SoundComponent(loadingCrunch.path, true)]));
 				var scp2:loading.SlamComponent = new loading.SlamComponent(0.5, 16, 2);
 				entities.push(new Entity(this, 'Player 2', [
 					new TransformComponent(new Vec3(256, 0, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
@@ -124,6 +144,7 @@ class LoadingScreen extends Scene {
 				]));
 				return scp2.done;
 			}).pipe(function(_) {
+				entities.push(new Entity(this, '', [new SoundComponent(introWobble.path, true)]));
 				var scn:loading.SlideComponent = new loading.SlideComponent(1, new Vec3(0, -300, 0.05), new Vec3(0, -192, 0.05));
 				entities.push(new Entity(this, 'in:\n${this.gameName}', [
 					new TransformComponent(new Vec3(0, -192, 0.05), Quat.identity(), new Vec3(4, 4, 4)),

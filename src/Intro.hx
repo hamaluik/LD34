@@ -43,20 +43,21 @@ class Intro extends Scene {
 		// load the resources
 		Promise.when(
 			tusk.defaults.Primitives.loadTextMesh(),
-			Tusk.assets.loadTexture(tusk.Files.fonts___paper_cuts__png),
-			Tusk.assets.loadText(tusk.Files.fonts___paper_cuts__fnt),
+			/*Tusk.assets.loadTexture(tusk.Files.fonts___paper_cuts__png),
+			Tusk.assets.loadText(tusk.Files.fonts___paper_cuts__fnt),*/
+			tusk.defaults.Fonts.loadSubatomic_Screen(),
 			tusk.defaults.Materials.loadTextBasic(),
 			tusk.defaults.Primitives.loadQuad(),
 			tusk.defaults.Materials.loadEffectCircleOut(),
 			tusk.defaults.Materials.loadUnlitColoured()
-		).then(function(textMesh:Mesh, fontTexture:Texture, fontSrc:Text, fontMat:Material, quad:Mesh, circleOutMat:Material, bgMaterial:Material) {
+		).then(function(textMesh:Mesh, /*fontTexture:Texture, fontSrc:Text*/font:Font, fontMat:Material, quad:Mesh, circleOutMat:Material, bgMaterial:Material) {
 			Camera2DProcessor.cameras = new Array<Camera2DComponent>();
 			// set the material's texture
 			fontMat.textures = new Array<Texture>();
-			fontMat.textures.push(fontTexture);
+			fontMat.textures.push(font.texture);
 
 			// create the font
-			tusk.resources.Font.load('papercuts.fnt', fontSrc.text, fontTexture).then(function(font:Font) {
+			//tusk.resources.Font.load('papercuts.fnt', fontSrc.text, font.texture).then(function(font:Font) {
 				// load processors
 				this.useProcessor(new TimedPromiseProcessor());
 				this.useProcessor(new MaterialProcessor());
@@ -78,8 +79,9 @@ class Intro extends Scene {
 				// create the background
 				var bgMesh:Mesh = quad.clone('mesh.bgintro');
 				bgMesh.colours = new Array<Vec4>();
+				var gradientColours:Array<Vec4> = Util.randomGradientColours();
 				for(v in bgMesh.vertices) {
-					var colour:Vec4 = if(v.y > 0) new Vec4(68, 149, 166, 255) / 255; else new Vec4(42, 94, 120) / 255;
+					var colour:Vec4 = gradientColours[if(v.y > 0) 1 else 0];
 					bgMesh.colours.push(colour);
 				}
 				entities.push(new Entity(this, 'Image', [
@@ -90,7 +92,7 @@ class Intro extends Scene {
 
 				// create the title
 				entities.push(new Entity(this, 'title', [
-					new TransformComponent(new Vec3(0, 116, 0.05), Quat.identity(), new Vec3(1, 1, 1)),
+					new TransformComponent(new Vec3(0, 116, 0.05), Quat.identity(), new Vec3(5, 5, 5)),
 					new MeshComponent(textMesh.clone('titletext')),
 					new MaterialComponent(fontMat.path),
 					new TextComponent(font, 'Ludum Party!',
@@ -100,7 +102,7 @@ class Intro extends Scene {
 
 				// create the instructions
 				entities.push(new Entity(this, 'instructions', [
-					new TransformComponent(new Vec3(0, 0, 0.05), Quat.identity(), new Vec3(0.5, 0.5, 0.5)),
+					new TransformComponent(new Vec3(0, 0, 0.05), Quat.identity(), new Vec3(3, 3, 3)),
 					new MeshComponent(textMesh.clone('instructionstext')),
 					new MaterialComponent(fontMat.path),
 					new TextComponent(font, 'Player 1:\nHold down A+B to start!',
@@ -110,7 +112,7 @@ class Intro extends Scene {
 
 				// create player 1's indication
 				entities.push(new Entity(this, 'p1keys', [
-					new TransformComponent(new Vec3(-256, -192, 0.05), Quat.identity(), new Vec3(0.5, 0.5, 0.5)),
+					new TransformComponent(new Vec3(-256, -192, 0.05), Quat.identity(), new Vec3(3, 3, 3)),
 					new MeshComponent(textMesh.clone('p1keystext')),
 					new MaterialComponent(fontMat.path),
 					new TextComponent(font, 'Player 1:\nA => Q\nB => E',
@@ -123,7 +125,7 @@ class Intro extends Scene {
 						TextAlign.Centre, TextVerticalAlign.Centre,
 						new Vec4(1, 1, 1, 1));
 				entities.push(new Entity(this, 'p2keys', [
-					new TransformComponent(new Vec3(256, -192, 0.05), Quat.identity(), new Vec3(0.5, 0.5, 0.5)),
+					new TransformComponent(new Vec3(256, -192, 0.05), Quat.identity(), new Vec3(3, 3, 3)),
 					new MeshComponent(textMesh.clone('p2keystext')),
 					new MaterialComponent(fontMat.path),
 					p2Text
@@ -139,7 +141,7 @@ class Intro extends Scene {
 
 				// tell the processors we've started
 				Tusk.router.onEvent(tusk.events.EventType.Start);
-			});
+			//});
 		});
 	}
 

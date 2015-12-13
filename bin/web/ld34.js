@@ -318,140 +318,132 @@ Intro.prototype = $extend(tusk_Scene.prototype,{
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_Tusk.assets.loadTexture("assets/fonts/paper_cuts.png"),tusk_Tusk.assets.loadText("assets/fonts/paper_cuts.fnt"),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_defaults_Materials.loadUnlitColoured()];
+				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_defaults_Materials.loadUnlitColoured()];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val));
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val));
 				}});
 				return ret;
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(textMesh,fontTexture,fontSrc,fontMat,quad,circleOutMat,bgMaterial) {
+		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat,bgMaterial) {
 			tusk_lib_proc_Camera2DProcessor.cameras = [];
 			fontMat.textures = [];
-			fontMat.textures.push(fontTexture);
-			tusk_resources_Font.load("papercuts.fnt",fontSrc.text,fontTexture).then(function(font) {
-				_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
-				_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
-				_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
-				_g.useProcessor(new tusk_lib_proc_TransformProcessor());
-				_g.useProcessor(new tusk_lib_proc_TextProcessor());
-				_g.useProcessor(new tusk_lib_proc_MeshProcessor());
-				_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
-				_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
-				var w = tusk_Tusk.instance.app.window.width;
-				var h = tusk_Tusk.instance.app.window.height;
-				_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
-					var $r;
-					var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-					$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
-					return $r;
-				}(this)),(function($this) {
-					var $r;
-					var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-					$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
-					return $r;
-				}(this)),-100,100)]));
-				var bgMesh = quad.clone("mesh.bgintro");
-				bgMesh.colours = [];
-				var _g1 = 0;
-				var _g2 = bgMesh.vertices;
-				while(_g1 < _g2.length) {
-					var v = _g2[_g1];
-					++_g1;
-					var colour;
-					if(glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0) {
-						var a2 = glm__$Vec4_Vec4_$Impl_$._new(68,149,166,255);
-						colour = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a2),255);
-					} else {
-						var a3 = glm__$Vec4_Vec4_$Impl_$._new(42,94,120);
-						colour = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a3),255);
-					}
-					bgMesh.colours.push(colour);
+			fontMat.textures.push(font.texture);
+			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
+			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
+			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
+			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
+			_g.useProcessor(new tusk_lib_proc_TextProcessor());
+			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
+			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
+			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
+			var w = tusk_Tusk.instance.app.window.width;
+			var h = tusk_Tusk.instance.app.window.height;
+			_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
+				var $r;
+				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
+				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
+				return $r;
+			}(this)),(function($this) {
+				var $r;
+				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
+				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
+				return $r;
+			}(this)),-100,100)]));
+			var bgMesh = quad.clone("mesh.bgintro");
+			bgMesh.colours = [];
+			var gradientColours = Util.randomGradientColours();
+			var _g1 = 0;
+			var _g2 = bgMesh.vertices;
+			while(_g1 < _g2.length) {
+				var v = _g2[_g1];
+				++_g1;
+				var colour = gradientColours[glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0?1:0];
+				bgMesh.colours.push(colour);
+			}
+			_g.entities.push(new tusk_Entity(_g,"Image",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
+				var $r;
+				var q = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q[0] = 1;
+					q[1] = 0;
+					q[2] = 0;
+					q[3] = 0;
+					q;
 				}
-				_g.entities.push(new tusk_Entity(_g,"Image",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
-					var $r;
-					var q = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q[0] = 1;
-						q[1] = 0;
-						q[2] = 0;
-						q[3] = 0;
-						q;
-					}
-					$r = q;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,bgMaterial)]));
-				_g.entities.push(new tusk_Entity(_g,"title",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,116,0.05),(function($this) {
-					var $r;
-					var q1 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q1[0] = 1;
-						q1[1] = 0;
-						q1[2] = 0;
-						q1[3] = 0;
-						q1;
-					}
-					$r = q1;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1,1,1)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("titletext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Ludum Party!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-				_g.entities.push(new tusk_Entity(_g,"instructions",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.05),(function($this) {
-					var $r;
-					var q2 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q2[0] = 1;
-						q2[1] = 0;
-						q2[2] = 0;
-						q2[3] = 0;
-						q2;
-					}
-					$r = q2;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(0.5,0.5,0.5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("instructionstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nHold down A+B to start!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-				_g.entities.push(new tusk_Entity(_g,"p1keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,-192,0.05),(function($this) {
-					var $r;
-					var q3 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q3[0] = 1;
-						q3[1] = 0;
-						q3[2] = 0;
-						q3[3] = 0;
-						q3;
-					}
-					$r = q3;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(0.5,0.5,0.5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nA => Q\nB => E",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-				_g.p2Text = new tusk_lib_comp_TextComponent(font,"Player 2:\nCPU\nPress 'I' to join!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
-				_g.entities.push(new tusk_Entity(_g,"p2keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,-192,0.05),(function($this) {
-					var $r;
-					var q4 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q4[0] = 1;
-						q4[1] = 0;
-						q4[2] = 0;
-						q4[3] = 0;
-						q4;
-					}
-					$r = q4;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(0.5,0.5,0.5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),_g.p2Text]));
-				_g.cec = new tusk_lib_comp_CircleEffectComponent(true);
-				_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
-					var $r;
-					var q5 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q5[0] = 1;
-						q5[1] = 0;
-						q5[2] = 0;
-						q5[3] = 0;
-						q5;
-					}
-					$r = q5;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),_g.cec]));
-				tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
-			});
+				$r = q;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,bgMaterial)]));
+			_g.entities.push(new tusk_Entity(_g,"title",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,116,0.05),(function($this) {
+				var $r;
+				var q1 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q1[0] = 1;
+					q1[1] = 0;
+					q1[2] = 0;
+					q1[3] = 0;
+					q1;
+				}
+				$r = q1;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(5,5,5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("titletext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Ludum Party!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
+			_g.entities.push(new tusk_Entity(_g,"instructions",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.05),(function($this) {
+				var $r;
+				var q2 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q2[0] = 1;
+					q2[1] = 0;
+					q2[2] = 0;
+					q2[3] = 0;
+					q2;
+				}
+				$r = q2;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("instructionstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nHold down A+B to start!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
+			_g.entities.push(new tusk_Entity(_g,"p1keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,-192,0.05),(function($this) {
+				var $r;
+				var q3 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q3[0] = 1;
+					q3[1] = 0;
+					q3[2] = 0;
+					q3[3] = 0;
+					q3;
+				}
+				$r = q3;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nA => Q\nB => E",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
+			_g.p2Text = new tusk_lib_comp_TextComponent(font,"Player 2:\nCPU\nPress 'I' to join!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			_g.entities.push(new tusk_Entity(_g,"p2keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,-192,0.05),(function($this) {
+				var $r;
+				var q4 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q4[0] = 1;
+					q4[1] = 0;
+					q4[2] = 0;
+					q4[3] = 0;
+					q4;
+				}
+				$r = q4;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),_g.p2Text]));
+			_g.cec = new tusk_lib_comp_CircleEffectComponent(true);
+			_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
+				var $r;
+				var q5 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q5[0] = 1;
+					q5[1] = 0;
+					q5[2] = 0;
+					q5[3] = 0;
+					q5;
+				}
+				$r = q5;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),_g.cec]));
+			tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
 		});
 	}
 	,onKeyDown: function(event) {
@@ -539,16 +531,16 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/introtrumpet.ogg")];
+				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/loadingcrunch.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/introwobble.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/introtrumpet.ogg"),tusk_defaults_Materials.loadUnlitColoured()];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val));
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val));
 				}});
 				return ret;
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat,trumpet) {
+		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat,loadingCrunch,introWobble,trumpet,bgMaterial) {
 			tusk_lib_proc_Camera2DProcessor.cameras = [];
 			fontMat.textures = [];
 			fontMat.textures.push(font.texture);
@@ -576,8 +568,18 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
 				return $r;
 			}(this)),-100,100)]));
-			var cec = new tusk_lib_comp_CircleEffectComponent(true);
-			_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
+			var bgMesh = quad.clone("mesh.bgintro");
+			bgMesh.colours = [];
+			var gradientColours = Util.randomGradientColours();
+			var _g1 = 0;
+			var _g2 = bgMesh.vertices;
+			while(_g1 < _g2.length) {
+				var v = _g2[_g1];
+				++_g1;
+				var colour = gradientColours[glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0?1:0];
+				bgMesh.colours.push(colour);
+			}
+			_g.entities.push(new tusk_Entity(_g,"Image",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
 				var $r;
 				var q = glm__$Quat_Quat_$Impl_$._new();
 				{
@@ -589,26 +591,25 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 				}
 				$r = q;
 				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,bgMaterial)]));
+			var cec = new tusk_lib_comp_CircleEffectComponent(true);
+			_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
+				var $r;
+				var q1 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q1[0] = 1;
+					q1[1] = 0;
+					q1[2] = 0;
+					q1[3] = 0;
+					q1;
+				}
+				$r = q1;
+				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),cec]));
 			cec.done.pipe(function(_) {
+				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(loadingCrunch.path,true)]));
 				var scp1 = new loading_SlamComponent(0.5,16,2);
 				_g.entities.push(new tusk_Entity(_g,"Player 1",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,0,0.05),(function($this) {
-					var $r;
-					var q1 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q1[0] = 1;
-						q1[1] = 0;
-						q1[2] = 0;
-						q1[3] = 0;
-						q1;
-					}
-					$r = q1;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[0].name + "\nAKA. " + _g.generateName() + "\nhas " + GameTracker.player[0].score + " points!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp1]));
-				return scp1.done;
-			}).pipe(function(_1) {
-				var scvs = new loading_SlamComponent(0.5,96,16);
-				_g.entities.push(new tusk_Entity(_g,"VS",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.05),(function($this) {
 					var $r;
 					var q2 = glm__$Quat_Quat_$Impl_$._new();
 					{
@@ -620,11 +621,12 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 					}
 					$r = q2;
 					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(16,16,16)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"VS",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scvs]));
-				return scvs.done;
-			}).pipe(function(_2) {
-				var scp2 = new loading_SlamComponent(0.5,16,2);
-				_g.entities.push(new tusk_Entity(_g,"Player 2",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,0,0.05),(function($this) {
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[0].name + "\nAKA. " + _g.generateName() + "\nhas " + GameTracker.player[0].score + " points!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp1]));
+				return scp1.done;
+			}).pipe(function(_1) {
+				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(loadingCrunch.path,true)]));
+				var scvs = new loading_SlamComponent(0.5,96,16);
+				_g.entities.push(new tusk_Entity(_g,"VS",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.05),(function($this) {
 					var $r;
 					var q3 = glm__$Quat_Quat_$Impl_$._new();
 					{
@@ -636,11 +638,12 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 					}
 					$r = q3;
 					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[1].name + "\nAKA. " + _g.generateName() + "\nhas " + GameTracker.player[1].score + " points!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp2]));
-				return scp2.done;
-			}).pipe(function(_3) {
-				var scn = new loading_SlideComponent(1,glm__$Vec3_Vec3_$Impl_$._new(0,-300,0.05),glm__$Vec3_Vec3_$Impl_$._new(0,-192,0.05));
-				_g.entities.push(new tusk_Entity(_g,"in:\n" + _g.gameName,[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,-192,0.05),(function($this) {
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(16,16,16)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"VS",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scvs]));
+				return scvs.done;
+			}).pipe(function(_2) {
+				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(loadingCrunch.path,true)]));
+				var scp2 = new loading_SlamComponent(0.5,16,2);
+				_g.entities.push(new tusk_Entity(_g,"Player 2",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,0,0.05),(function($this) {
 					var $r;
 					var q4 = glm__$Quat_Quat_$Impl_$._new();
 					{
@@ -651,6 +654,23 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 						q4;
 					}
 					$r = q4;
+					return $r;
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[1].name + "\nAKA. " + _g.generateName() + "\nhas " + GameTracker.player[1].score + " points!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp2]));
+				return scp2.done;
+			}).pipe(function(_3) {
+				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(introWobble.path,true)]));
+				var scn = new loading_SlideComponent(1,glm__$Vec3_Vec3_$Impl_$._new(0,-300,0.05),glm__$Vec3_Vec3_$Impl_$._new(0,-192,0.05));
+				_g.entities.push(new tusk_Entity(_g,"in:\n" + _g.gameName,[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,-192,0.05),(function($this) {
+					var $r;
+					var q5 = glm__$Quat_Quat_$Impl_$._new();
+					{
+						q5[0] = 1;
+						q5[1] = 0;
+						q5[2] = 0;
+						q5[3] = 0;
+						q5;
+					}
+					$r = q5;
 					return $r;
 				}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"in:\n" + _g.gameName,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scn]));
 				return scn.done;
@@ -963,6 +983,27 @@ Type["typeof"] = function(v) {
 	default:
 		return ValueType.TUnknown;
 	}
+};
+var Util = function() { };
+$hxClasses["Util"] = Util;
+Util.__name__ = ["Util"];
+Util.randomGradientColours = function() {
+	var hue = 359.9 * Math.random();
+	var topColour = new hxColorToolkit_spaces_HSB(hue,75,90);
+	var bottomColour = new hxColorToolkit_spaces_HSB(hue,75,10);
+	var trgb = topColour.toRGB();
+	var brgb = bottomColour.toRGB();
+	return [(function($this) {
+		var $r;
+		var a = glm__$Vec4_Vec4_$Impl_$._new(brgb.get_red(),brgb.get_green(),brgb.get_blue(),255);
+		$r = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),255);
+		return $r;
+	}(this)),(function($this) {
+		var $r;
+		var a1 = glm__$Vec4_Vec4_$Impl_$._new(trgb.get_red(),trgb.get_green(),trgb.get_blue(),255);
+		$r = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a1),255);
+		return $r;
+	}(this))];
 };
 var glm_GLM = function() { };
 $hxClasses["glm.GLM"] = glm_GLM;
@@ -4002,6 +4043,244 @@ haxe_macro_ComplexType.TAnonymous = function(fields) { var $x = ["TAnonymous",2,
 haxe_macro_ComplexType.TParent = function(t) { var $x = ["TParent",3,t]; $x.__enum__ = haxe_macro_ComplexType; $x.toString = $estr; return $x; };
 haxe_macro_ComplexType.TExtend = function(p,fields) { var $x = ["TExtend",4,p,fields]; $x.__enum__ = haxe_macro_ComplexType; $x.toString = $estr; return $x; };
 haxe_macro_ComplexType.TOptional = function(t) { var $x = ["TOptional",5,t]; $x.__enum__ = haxe_macro_ComplexType; $x.toString = $estr; return $x; };
+var hxColorToolkit_spaces_Color = function() { };
+$hxClasses["hxColorToolkit.spaces.Color"] = hxColorToolkit_spaces_Color;
+hxColorToolkit_spaces_Color.__name__ = ["hxColorToolkit","spaces","Color"];
+hxColorToolkit_spaces_Color.prototype = {
+	__class__: hxColorToolkit_spaces_Color
+};
+var hxColorToolkit_spaces_HSB = function(hue,saturation,brightness) {
+	if(brightness == null) brightness = 0;
+	if(saturation == null) saturation = 0;
+	if(hue == null) hue = 0;
+	this.numOfChannels = 3;
+	this.data = [];
+	this.set_hue(hue);
+	this.set_saturation(saturation);
+	this.set_brightness(brightness);
+};
+$hxClasses["hxColorToolkit.spaces.HSB"] = hxColorToolkit_spaces_HSB;
+hxColorToolkit_spaces_HSB.__name__ = ["hxColorToolkit","spaces","HSB"];
+hxColorToolkit_spaces_HSB.__interfaces__ = [hxColorToolkit_spaces_Color];
+hxColorToolkit_spaces_HSB.loop = function(index,length) {
+	if(index < 0) index = length + index % length;
+	if(index >= length) index %= length;
+	return index;
+};
+hxColorToolkit_spaces_HSB.prototype = {
+	getValue: function(channel) {
+		return this.data[channel];
+	}
+	,setValue: function(channel,val) {
+		if(channel == 0) this.data[channel] = hxColorToolkit_spaces_HSB.loop(val,360); else this.data[channel] = Math.min(channel == 0?360:100,Math.max(val,0));
+		return val;
+	}
+	,minValue: function(channel) {
+		return 0;
+	}
+	,maxValue: function(channel) {
+		if(channel == 0) return 360; else return 100;
+	}
+	,get_hue: function() {
+		return this.getValue(0);
+	}
+	,set_hue: function(val) {
+		this.data[0] = hxColorToolkit_spaces_HSB.loop(val,360);
+		return val;
+	}
+	,get_saturation: function() {
+		return this.getValue(1);
+	}
+	,set_saturation: function(val) {
+		this.data[1] = Math.min(100,Math.max(val,0));
+		return val;
+	}
+	,get_brightness: function() {
+		return this.getValue(2);
+	}
+	,set_brightness: function(val) {
+		this.data[2] = Math.min(100,Math.max(val,0));
+		return val;
+	}
+	,toRGB: function() {
+		var hue = this.get_hue();
+		var saturation = this.get_saturation();
+		var brightness = this.get_brightness();
+		var r = 0;
+		var g = 0;
+		var b = 0;
+		var i;
+		var f;
+		var p;
+		var q;
+		var t;
+		hue %= 360;
+		if(brightness == 0) return new hxColorToolkit_spaces_RGB();
+		saturation *= 0.01;
+		brightness *= 0.01;
+		hue /= 60;
+		i = Math.floor(hue);
+		f = hue - i;
+		p = brightness * (1 - saturation);
+		q = brightness * (1 - saturation * f);
+		t = brightness * (1 - saturation * (1 - f));
+		if(i == 0) {
+			r = brightness;
+			g = t;
+			b = p;
+		} else if(i == 1) {
+			r = q;
+			g = brightness;
+			b = p;
+		} else if(i == 2) {
+			r = p;
+			g = brightness;
+			b = t;
+		} else if(i == 3) {
+			r = p;
+			g = q;
+			b = brightness;
+		} else if(i == 4) {
+			r = t;
+			g = p;
+			b = brightness;
+		} else if(i == 5) {
+			r = brightness;
+			g = p;
+			b = q;
+		}
+		return new hxColorToolkit_spaces_RGB(r * 255,g * 255,b * 255);
+	}
+	,getColor: function() {
+		return this.toRGB().getColor();
+	}
+	,fromRGB: function(rgb) {
+		var r = rgb.get_red();
+		var g = rgb.get_green();
+		var b = rgb.get_blue();
+		r /= 255;
+		g /= 255;
+		b /= 255;
+		var h;
+		var s;
+		var v;
+		var min;
+		var max;
+		var delta;
+		min = Math.min(r,Math.min(g,b));
+		max = Math.max(r,Math.max(g,b));
+		v = max * 100;
+		delta = max - min;
+		if(max != 0) s = delta / max * 100; else {
+			s = 0;
+			h = -1;
+			this.set_hue(h);
+			this.set_saturation(s);
+			this.set_brightness(v);
+			return this;
+		}
+		if(delta == 0) {
+			this.set_hue(0);
+			this.set_saturation(s);
+			this.set_brightness(v);
+			return this;
+		}
+		if(r == max) h = (g - b) / delta; else if(g == max) h = 2 + (b - r) / delta; else h = 4 + (r - g) / delta;
+		h *= 60;
+		if(h < 0) h += 360;
+		this.set_hue(h);
+		this.set_saturation(s);
+		this.set_brightness(v);
+		return this;
+	}
+	,setColor: function(color) {
+		return this.fromRGB(new hxColorToolkit_spaces_RGB(color >> 16 & 255,color >> 8 & 255,color & 255));
+	}
+	,clone: function() {
+		return new hxColorToolkit_spaces_HSB(this.get_hue(),this.get_saturation(),this.get_brightness());
+	}
+	,interpolate: function(target,ratio) {
+		if(ratio == null) ratio = 0.5;
+		var target1;
+		if(js_Boot.__instanceof(target,hxColorToolkit_spaces_HSB)) target1 = target; else target1 = new hxColorToolkit_spaces_HSB().fromRGB(target.toRGB());
+		return new hxColorToolkit_spaces_HSB(this.get_hue() + (target1.get_hue() - this.get_hue()) * ratio,this.get_saturation() + (target1.get_saturation() - this.get_saturation()) * ratio,this.get_brightness() + (target1.get_brightness() - this.get_brightness()) * ratio);
+	}
+	,__class__: hxColorToolkit_spaces_HSB
+};
+var hxColorToolkit_spaces_RGB = function(r,g,b) {
+	if(b == null) b = 0;
+	if(g == null) g = 0;
+	if(r == null) r = 0;
+	this.numOfChannels = 3;
+	this.data = [];
+	this.set_red(r);
+	this.set_green(g);
+	this.set_blue(b);
+};
+$hxClasses["hxColorToolkit.spaces.RGB"] = hxColorToolkit_spaces_RGB;
+hxColorToolkit_spaces_RGB.__name__ = ["hxColorToolkit","spaces","RGB"];
+hxColorToolkit_spaces_RGB.__interfaces__ = [hxColorToolkit_spaces_Color];
+hxColorToolkit_spaces_RGB.prototype = {
+	getValue: function(channel) {
+		return this.data[channel];
+	}
+	,setValue: function(channel,val) {
+		this.data[channel] = Math.min(255,Math.max(val,0));
+		return val;
+	}
+	,minValue: function(channel) {
+		return 0;
+	}
+	,maxValue: function(channel) {
+		return 255;
+	}
+	,get_red: function() {
+		return this.getValue(0);
+	}
+	,set_red: function(value) {
+		return this.setValue(0,value);
+	}
+	,get_green: function() {
+		return this.getValue(1);
+	}
+	,set_green: function(value) {
+		return this.setValue(1,value);
+	}
+	,get_blue: function() {
+		return this.getValue(2);
+	}
+	,set_blue: function(value) {
+		return this.setValue(2,value);
+	}
+	,toRGB: function() {
+		return this.clone();
+	}
+	,getColor: function() {
+		return Math.round(this.get_red()) << 16 | Math.round(this.get_green()) << 8 | Math.round(this.get_blue());
+	}
+	,fromRGB: function(rgb) {
+		this.set_red(rgb.get_red());
+		this.set_green(rgb.get_green());
+		this.set_blue(rgb.get_blue());
+		return this;
+	}
+	,setColor: function(color) {
+		this.set_red(color >> 16 & 255);
+		this.set_green(color >> 8 & 255);
+		this.set_blue(color & 255);
+		return this;
+	}
+	,clone: function() {
+		return new hxColorToolkit_spaces_RGB(this.get_red(),this.get_green(),this.get_blue());
+	}
+	,interpolate: function(target,ratio) {
+		if(ratio == null) ratio = 0.5;
+		var target1;
+		if(js_Boot.__instanceof(target,hxColorToolkit_spaces_RGB)) target1 = target; else target1 = new hxColorToolkit_spaces_RGB().fromRGB(target.toRGB());
+		return new hxColorToolkit_spaces_RGB(this.get_red() + (target1.get_red() - this.get_red()) * ratio,this.get_green() + (target1.get_green() - this.get_green()) * ratio,this.get_blue() + (target1.get_blue() - this.get_blue()) * ratio);
+	}
+	,__class__: hxColorToolkit_spaces_RGB
+};
 var js__$Boot_HaxeError = function(val) {
 	Error.call(this);
 	this.val = val;
@@ -4608,16 +4887,16 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),minigames_bottlerocket_SpriteMaterial.load(),minigames_bottlerocket_BackgroundMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json"),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocketcontrols.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/bottlerocketpump.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg")];
+				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),minigames_bottlerocket_SpriteMaterial.load(),minigames_bottlerocket_BackgroundMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json"),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocketcontrols.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/bottlerocketpump.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/bottlerocketwhoosh.ogg")];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val,arr[12]._val,arr[13]._val,arr[14]._val,arr[15]._val));
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val,arr[12]._val,arr[13]._val,arr[14]._val,arr[15]._val,arr[16]._val));
 				}});
 				return ret;
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(quad,particlesMaterial,spriteMaterial,backgroundMaterial,spriteSheet,backgroundSheet,backgroundJSON,controls,unlitTextured,textMesh,font,fontMat,circleOutMat,countdownMusic,pumpMusic,winMusic) {
+		}(this))).then(function(quad,particlesMaterial,spriteMaterial,backgroundMaterial,spriteSheet,backgroundSheet,backgroundJSON,controls,unlitTextured,textMesh,font,fontMat,circleOutMat,countdownMusic,pumpMusic,winMusic,whooshSound) {
 			_g.quad = quad;
 			_g.particlesMaterial = particlesMaterial;
 			_g.circleOutMat = circleOutMat;
@@ -4638,13 +4917,14 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			_g.countdownMusic = countdownMusic;
 			_g.pumpMusic = pumpMusic;
 			_g.winMusic = winMusic;
+			_g.whooshSound = whooshSound;
 			_g.backgroundTileMap = tusk_modules_tiled_TileMap.fromJSON(backgroundJSON.text);
 			tusk_modules_tiled_TileMap.buildMesh(_g.backgroundTileMap,"tilemap.bottlerocket").then(function(mesh) {
 				_g.backgroundMesh = mesh;
 				def.resolve(_g);
 			});
 		}).catchError(function(err) {
-			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "BottleRocket.hx", lineNumber : 113, className : "minigames.BottleRocket", methodName : "loadAssets"});
+			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "BottleRocket.hx", lineNumber : 116, className : "minigames.BottleRocket", methodName : "loadAssets"});
 			def.handleError("Failed to load assets!");
 		});
 		return prom;
@@ -4652,7 +4932,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 	,onLoad: function(event) {
 		var _g = this;
 		if(event.scene != this) return;
-		tusk_debug_Log.log("Loading bottle rocket scene..",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 122, className : "minigames.BottleRocket", methodName : "onLoad"});
+		tusk_debug_Log.log("Loading bottle rocket scene..",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 125, className : "minigames.BottleRocket", methodName : "onLoad"});
 		var loadComplete = this.loadAssets();
 		var loadingScreen = new LoadingScreen("Bottle Rocket Blast",loadComplete);
 		tusk_Tusk.pushScene(loadingScreen);
@@ -4672,8 +4952,8 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 		}(this))).then(function(_,_1) {
 			tusk_Tusk.removeScene(loadingScreen);
 			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 130, className : "minigames.BottleRocket", methodName : "onLoad"});
-			tusk_debug_Log.log("Starting bottle rocket!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 132, className : "minigames.BottleRocket", methodName : "onLoad"});
+			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 133, className : "minigames.BottleRocket", methodName : "onLoad"});
+			tusk_debug_Log.log("Starting bottle rocket!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 135, className : "minigames.BottleRocket", methodName : "onLoad"});
 			_g.useProcessor(new minigames_bottlerocket_VelocityProcessor());
 			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
 			_g.useProcessor(new minigames_bottlerocket_TimerDisplayProcessor());
@@ -4718,7 +4998,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				return $r;
 			}(this)),-100,100)]);
 			_g.entities.push(camera);
-			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 156, className : "minigames.BottleRocket", methodName : "onLoad"});
+			tusk_debug_Log.log("Num cameras: " + tusk_lib_proc_Camera2DProcessor.cameras.length,tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 159, className : "minigames.BottleRocket", methodName : "onLoad"});
 			_g.entities.push(new tusk_Entity(_g,"TileMap",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(_g.backgroundTileMap.width * _g.backgroundTileMap.tilewidth * 2 / -2,tusk_Tusk.game.get_height() / -2 - _g.backgroundTileMap.tileheight * 2 * 2,0),(function($this) {
 				var $r;
 				var q6 = glm__$Quat_Quat_$Impl_$._new();
@@ -4917,6 +5197,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				p1Rocket.push(p1V);
 				p2Rocket.push(p2V);
 				camera.push(new minigames_bottlerocket_TransformTrackerComponent(p1RocketTransform,p2RocketTransform));
+				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(_g.whooshSound.path,true)]));
 				var def = new promhx_Deferred();
 				((function($this) {
 					var $r;
@@ -14194,13 +14475,12 @@ tusk_Files.fonts___paper_cuts__png = "assets/fonts/paper_cuts.png";
 tusk_Files.shaders___colourkey__frag = "assets/shaders/colourkey.frag";
 tusk_Files.shaders___colourkey__vert = "assets/shaders/colourkey.vert";
 tusk_Files.sounds___bottlerocketpump__ogg = "assets/sounds/bottlerocketpump.ogg";
-tusk_Files.sounds___bottlerocketpump__wav = "assets/sounds/bottlerocketpump.wav";
+tusk_Files.sounds___bottlerocketwhoosh__ogg = "assets/sounds/bottlerocketwhoosh.ogg";
 tusk_Files.sounds___countdown__ogg = "assets/sounds/countdown.ogg";
-tusk_Files.sounds___countdown__wav = "assets/sounds/countdown.wav";
 tusk_Files.sounds___introtrumpet__ogg = "assets/sounds/introtrumpet.ogg";
-tusk_Files.sounds___introtrumpet__wav = "assets/sounds/introtrumpet.wav";
+tusk_Files.sounds___introwobble__ogg = "assets/sounds/introwobble.ogg";
+tusk_Files.sounds___loadingcrunch__ogg = "assets/sounds/loadingcrunch.ogg";
 tusk_Files.sounds___wintrumpet__ogg = "assets/sounds/wintrumpet.ogg";
-tusk_Files.sounds___wintrumpet__wav = "assets/sounds/wintrumpet.wav";
 tusk_Files.sprites___bottlerocket__png = "assets/sprites/bottlerocket.png";
 tusk_Files.sprites___bottlerocketcontrols__png = "assets/sprites/bottlerocketcontrols.png";
 tusk_Files.tilemaps___bottlerocketbackground__json = "assets/tilemaps/bottlerocketbackground.json";

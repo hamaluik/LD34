@@ -53,6 +53,7 @@ class BottleRocket extends Scene {
 	private var countdownMusic:Sound;
 	private var pumpMusic:Sound;
 	private var winMusic:Sound;
+	private var whooshSound:Sound;
 
 	private function loadAssets():Promise<Scene> {
 		var def:Deferred<Scene> = new Deferred<Scene>();
@@ -75,8 +76,9 @@ class BottleRocket extends Scene {
 			tusk.defaults.Materials.loadEffectCircleOut(),
 			Tusk.assets.loadSound(tusk.Files.sounds___countdown__ogg),
 			Tusk.assets.loadSound(tusk.Files.sounds___bottlerocketpump__ogg),
-			Tusk.assets.loadSound(tusk.Files.sounds___wintrumpet__ogg)
-		).then(function(quad:Mesh, particlesMaterial:Material, spriteMaterial:Material, backgroundMaterial:Material, spriteSheet:Texture, backgroundSheet:Texture, backgroundJSON:Text, controls:Texture, unlitTextured:Material, textMesh:Mesh, font:Font, fontMat:Material, circleOutMat:Material, countdownMusic:Sound, pumpMusic:Sound, winMusic:Sound) {
+			Tusk.assets.loadSound(tusk.Files.sounds___wintrumpet__ogg),
+			Tusk.assets.loadSound(tusk.Files.sounds___bottlerocketwhoosh__ogg)
+		).then(function(quad:Mesh, particlesMaterial:Material, spriteMaterial:Material, backgroundMaterial:Material, spriteSheet:Texture, backgroundSheet:Texture, backgroundJSON:Text, controls:Texture, unlitTextured:Material, textMesh:Mesh, font:Font, fontMat:Material, circleOutMat:Material, countdownMusic:Sound, pumpMusic:Sound, winMusic:Sound, whooshSound:Sound) {
 			this.quad = quad;
 			this.particlesMaterial = particlesMaterial;
 
@@ -103,6 +105,7 @@ class BottleRocket extends Scene {
 			this.countdownMusic = countdownMusic;
 			this.pumpMusic = pumpMusic;
 			this.winMusic = winMusic;
+			this.whooshSound = whooshSound;
 
 			backgroundTileMap = TileMap.fromJSON(backgroundJSON.text);
 			TileMap.buildMesh(backgroundTileMap, 'tilemap.bottlerocket').then(function(mesh:Mesh) {
@@ -321,6 +324,7 @@ class BottleRocket extends Scene {
 				p1Rocket.push(p1V);
 				p2Rocket.push(p2V);
 				camera.push(new TransformTrackerComponent(p1RocketTransform, p2RocketTransform));
+				entities.push(new Entity(this, '', [new SoundComponent(whooshSound.path, true)]));
 
 				var def:Deferred<Bool> = new Deferred<Bool>();
 				Promise.when(p1V.done, p2V.done).then(function(_, _) { def.resolve(true); });
