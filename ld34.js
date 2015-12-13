@@ -28,7 +28,7 @@ EReg.prototype = {
 	}
 	,__class__: EReg
 };
-var Player = function(name,isCPU,btnA,btnAName,btnB,btnBName) {
+var Player = function(name,isCPU,btnA,btnAName,btnB,btnBName,colour) {
 	this.name = name;
 	this.isCPU = isCPU;
 	this.btnA = btnA;
@@ -36,6 +36,7 @@ var Player = function(name,isCPU,btnA,btnAName,btnB,btnBName) {
 	this.score = 0;
 	this.btnAName = btnAName;
 	this.btnBName = btnBName;
+	this.colour = colour;
 };
 $hxClasses["Player"] = Player;
 Player.__name__ = ["Player"];
@@ -179,6 +180,208 @@ snow_system_input_Keycodes.$name = function(keycode) {
 		return decoder.__b;
 	}
 };
+var glm__$Vec3_Vec3_$Impl_$ = {};
+$hxClasses["glm._Vec3.Vec3_Impl_"] = glm__$Vec3_Vec3_$Impl_$;
+glm__$Vec3_Vec3_$Impl_$.__name__ = ["glm","_Vec3","Vec3_Impl_"];
+glm__$Vec3_Vec3_$Impl_$.get_x = function(this1) {
+	return this1[0];
+};
+glm__$Vec3_Vec3_$Impl_$.set_x = function(this1,v) {
+	return this1[0] = v;
+};
+glm__$Vec3_Vec3_$Impl_$.get_y = function(this1) {
+	return this1[1];
+};
+glm__$Vec3_Vec3_$Impl_$.set_y = function(this1,v) {
+	return this1[1] = v;
+};
+glm__$Vec3_Vec3_$Impl_$.get_z = function(this1) {
+	return this1[2];
+};
+glm__$Vec3_Vec3_$Impl_$.set_z = function(this1,v) {
+	return this1[2] = v;
+};
+glm__$Vec3_Vec3_$Impl_$.get_r = function(this1) {
+	return this1[0];
+};
+glm__$Vec3_Vec3_$Impl_$.set_r = function(this1,v) {
+	return this1[0] = v;
+};
+glm__$Vec3_Vec3_$Impl_$.get_g = function(this1) {
+	return this1[1];
+};
+glm__$Vec3_Vec3_$Impl_$.set_g = function(this1,v) {
+	return this1[1] = v;
+};
+glm__$Vec3_Vec3_$Impl_$.get_b = function(this1) {
+	return this1[2];
+};
+glm__$Vec3_Vec3_$Impl_$.set_b = function(this1,v) {
+	return this1[2] = v;
+};
+glm__$Vec3_Vec3_$Impl_$.get_s = function(this1) {
+	return this1[0];
+};
+glm__$Vec3_Vec3_$Impl_$.set_s = function(this1,v) {
+	return this1[0] = v;
+};
+glm__$Vec3_Vec3_$Impl_$.get_t = function(this1) {
+	return this1[1];
+};
+glm__$Vec3_Vec3_$Impl_$.set_t = function(this1,v) {
+	return this1[1] = v;
+};
+glm__$Vec3_Vec3_$Impl_$.get_p = function(this1) {
+	return this1[2];
+};
+glm__$Vec3_Vec3_$Impl_$.set_p = function(this1,v) {
+	return this1[2] = v;
+};
+glm__$Vec3_Vec3_$Impl_$._new = function(x,y,z) {
+	if(z == null) z = 0;
+	if(y == null) y = 0;
+	if(x == null) x = 0;
+	var this1;
+	var arr = [];
+	arr.push(x);
+	arr.push(y);
+	arr.push(z);
+	this1 = arr;
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.set = function(this1,x,y,z) {
+	if(x != null) this1[0] = x;
+	if(y != null) this1[1] = y;
+	if(z != null) this1[2] = z;
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.zero = function(this1) {
+	this1[0] = 0;
+	this1[1] = 0;
+	this1[2] = 0;
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.sqrLength = function(this1) {
+	return this1[0] * this1[0] + this1[1] * this1[1] + this1[2] * this1[2];
+};
+glm__$Vec3_Vec3_$Impl_$.$length = function(this1) {
+	return Math.sqrt(glm__$Vec3_Vec3_$Impl_$.sqrLength(this1));
+};
+glm__$Vec3_Vec3_$Impl_$.normalize = function(this1) {
+	var l = glm__$Vec3_Vec3_$Impl_$.$length(this1);
+	if(l != 0) {
+		this1[0] /= l;
+		this1[1] /= l;
+		this1[2] /= l;
+	} else glm__$Vec3_Vec3_$Impl_$.zero(this1);
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.clone = function(this1) {
+	var copy = glm__$Vec3_Vec3_$Impl_$._new();
+	copy[0] = this1[0];
+	copy[1] = this1[1];
+	copy[2] = this1[2];
+	return copy;
+};
+glm__$Vec3_Vec3_$Impl_$.copy = function(this1,v) {
+	this1[0] = v[0];
+	this1[1] = v[1];
+	this1[2] = v[2];
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.addVec3 = function(this1,b) {
+	this1[0] += b[0];
+	this1[1] += b[1];
+	this1[2] += b[2];
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.addVec3Op = function(a,b) {
+	return glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
+};
+glm__$Vec3_Vec3_$Impl_$.subtractVec3 = function(this1,b) {
+	this1[0] -= b[0];
+	this1[1] -= b[1];
+	this1[2] -= b[2];
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.subtractVec3Op = function(a,b) {
+	return glm__$Vec3_Vec3_$Impl_$.subtractVec3(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
+};
+glm__$Vec3_Vec3_$Impl_$.addScalar = function(this1,b) {
+	this1[0] += b;
+	this1[1] += b;
+	this1[2] += b;
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.addScalarOp = function(a,b) {
+	return glm__$Vec3_Vec3_$Impl_$.addScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
+};
+glm__$Vec3_Vec3_$Impl_$.addScalarOp2 = function(b,a) {
+	return glm__$Vec3_Vec3_$Impl_$.addScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
+};
+glm__$Vec3_Vec3_$Impl_$.subtractScalar = function(this1,b) {
+	this1[0] -= b;
+	this1[1] -= b;
+	this1[2] -= b;
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.subtractScalarOp = function(a,b) {
+	return glm__$Vec3_Vec3_$Impl_$.subtractScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
+};
+glm__$Vec3_Vec3_$Impl_$.subtractScalarOp2 = function(a,b) {
+	return glm__$Vec3_Vec3_$Impl_$.addScalar(glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b),-1),a);
+};
+glm__$Vec3_Vec3_$Impl_$.multiplyScalar = function(this1,b) {
+	this1[0] *= b;
+	this1[1] *= b;
+	this1[2] *= b;
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.multiplyScalarOp = function(a,b) {
+	return glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
+};
+glm__$Vec3_Vec3_$Impl_$.multiplyScalarOp2 = function(b,a) {
+	return glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
+};
+glm__$Vec3_Vec3_$Impl_$.divideScalar = function(this1,b) {
+	this1[0] /= b;
+	this1[1] /= b;
+	this1[2] /= b;
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.divideScalarOp = function(a,b) {
+	return glm__$Vec3_Vec3_$Impl_$.divideScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
+};
+glm__$Vec3_Vec3_$Impl_$.arrayGet = function(this1,i) {
+	return this1[i];
+};
+glm__$Vec3_Vec3_$Impl_$.arraySet = function(this1,i,x) {
+	return this1[i] = x;
+};
+glm__$Vec3_Vec3_$Impl_$.toArray = function(this1) {
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.lerp = function(this1,target,t) {
+	this1[0] = glm_GLM.lerp(this1[0],target[0],t);
+	this1[1] = glm_GLM.lerp(this1[1],target[1],t);
+	this1[2] = glm_GLM.lerp(this1[2],target[2],t);
+	return this1;
+};
+glm__$Vec3_Vec3_$Impl_$.toVec4 = function(this1) {
+	return glm__$Vec4_Vec4_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(this1),glm__$Vec3_Vec3_$Impl_$.get_y(this1),glm__$Vec3_Vec3_$Impl_$.get_z(this1),0);
+};
+glm__$Vec3_Vec3_$Impl_$.dot = function(a,b) {
+	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+};
+glm__$Vec3_Vec3_$Impl_$.cross = function(a,b) {
+	return glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_y(a) * glm__$Vec3_Vec3_$Impl_$.get_z(b) - glm__$Vec3_Vec3_$Impl_$.get_y(b) * glm__$Vec3_Vec3_$Impl_$.get_z(a),glm__$Vec3_Vec3_$Impl_$.get_z(a) * glm__$Vec3_Vec3_$Impl_$.get_x(b) - glm__$Vec3_Vec3_$Impl_$.get_z(b) * glm__$Vec3_Vec3_$Impl_$.get_x(a),glm__$Vec3_Vec3_$Impl_$.get_x(a) * glm__$Vec3_Vec3_$Impl_$.get_y(b) - glm__$Vec3_Vec3_$Impl_$.get_x(b) * glm__$Vec3_Vec3_$Impl_$.get_y(a));
+};
+glm__$Vec3_Vec3_$Impl_$.fromVec2 = function(v) {
+	return glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(v),glm__$Vec2_Vec2_$Impl_$.get_y(v),0);
+};
+glm__$Vec3_Vec3_$Impl_$.fromVec4 = function(v) {
+	return glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec4_Vec4_$Impl_$.get_x(v),glm__$Vec4_Vec4_$Impl_$.get_y(v),glm__$Vec4_Vec4_$Impl_$.get_z(v));
+};
 var GameTracker = function() {
 };
 $hxClasses["GameTracker"] = GameTracker;
@@ -251,31 +454,6 @@ HxOverrides.iter = function(a) {
 		return this.arr[this.cur++];
 	}};
 };
-var List = function() {
-	this.length = 0;
-};
-$hxClasses["List"] = List;
-List.__name__ = ["List"];
-List.prototype = {
-	add: function(item) {
-		var x = [item];
-		if(this.h == null) this.h = x; else this.q[1] = x;
-		this.q = x;
-		this.length++;
-	}
-	,pop: function() {
-		if(this.h == null) return null;
-		var x = this.h[0];
-		this.h = this.h[1];
-		if(this.h == null) this.q = null;
-		this.length--;
-		return x;
-	}
-	,isEmpty: function() {
-		return this.h == null;
-	}
-	,__class__: List
-};
 var tusk_Scene = function(name) {
 	this.sceneDone = new promhx_Deferred();
 	this.name = null;
@@ -327,6 +505,209 @@ tusk_Scene.prototype = {
 	,onMouseMove: function(event) {
 	}
 	,__class__: tusk_Scene
+};
+var Intro = function() {
+	this.startTimer = 0;
+	tusk_Scene.call(this,"Intro screen!");
+};
+$hxClasses["Intro"] = Intro;
+Intro.__name__ = ["Intro"];
+Intro.__super__ = tusk_Scene;
+Intro.prototype = $extend(tusk_Scene.prototype,{
+	onLoad: function(event) {
+		var _g = this;
+		if(event.scene != this) return;
+		tusk_debug_Log.log("loading intro..",tusk_debug_LogFunctions.Info,{ fileName : "Intro.hx", lineNumber : 41, className : "Intro", methodName : "onLoad"});
+		((function($this) {
+			var $r;
+			var varargf = function(f) {
+				var ret = new promhx_Promise();
+				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_defaults_Materials.loadUnlitColoured()];
+				var p = promhx_Promise.whenAll(arr);
+				p._update.push({ async : ret, linkf : function(x) {
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val));
+				}});
+				return ret;
+			};
+			$r = { then : varargf};
+			return $r;
+		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat,bgMaterial) {
+			tusk_lib_proc_Camera2DProcessor.cameras = [];
+			fontMat.textures = [];
+			fontMat.textures.push(font.texture);
+			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
+			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
+			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
+			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
+			_g.useProcessor(new tusk_lib_proc_TextProcessor());
+			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
+			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
+			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
+			var w = tusk_Tusk.instance.app.window.width;
+			var h = tusk_Tusk.instance.app.window.height;
+			_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
+				var $r;
+				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
+				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
+				return $r;
+			}(this)),(function($this) {
+				var $r;
+				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
+				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
+				return $r;
+			}(this)),-100,100)]));
+			var bgMesh = quad.clone("mesh.bgintro");
+			bgMesh.colours = [];
+			var gradientColours = Util.randomGradientColours();
+			var _g1 = 0;
+			var _g2 = bgMesh.vertices;
+			while(_g1 < _g2.length) {
+				var v = _g2[_g1];
+				++_g1;
+				var colour = gradientColours[glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0?1:0];
+				bgMesh.colours.push(colour);
+			}
+			_g.entities.push(new tusk_Entity(_g,"Image",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
+				var $r;
+				var q = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q[0] = 1;
+					q[1] = 0;
+					q[2] = 0;
+					q[3] = 0;
+					q;
+				}
+				$r = q;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,bgMaterial)]));
+			_g.entities.push(new tusk_Entity(_g,"title",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,116,0.05),(function($this) {
+				var $r;
+				var q1 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q1[0] = 1;
+					q1[1] = 0;
+					q1[2] = 0;
+					q1[3] = 0;
+					q1;
+				}
+				$r = q1;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(5,5,5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("titletext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Ludum Party!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
+			_g.entities.push(new tusk_Entity(_g,"instructions",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.05),(function($this) {
+				var $r;
+				var q2 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q2[0] = 1;
+					q2[1] = 0;
+					q2[2] = 0;
+					q2[3] = 0;
+					q2;
+				}
+				$r = q2;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("instructionstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nHold down A+B to start!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
+			_g.entities.push(new tusk_Entity(_g,"p1keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,-192,0.05),(function($this) {
+				var $r;
+				var q3 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q3[0] = 1;
+					q3[1] = 0;
+					q3[2] = 0;
+					q3[3] = 0;
+					q3;
+				}
+				$r = q3;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nA => Q\nB => E",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
+			_g.p2Text = new tusk_lib_comp_TextComponent(font,"Player 2:\nCPU\nPress 'I' to join!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			_g.entities.push(new tusk_Entity(_g,"p2keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,-192,0.05),(function($this) {
+				var $r;
+				var q4 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q4[0] = 1;
+					q4[1] = 0;
+					q4[2] = 0;
+					q4[3] = 0;
+					q4;
+				}
+				$r = q4;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),_g.p2Text]));
+			_g.cec = new tusk_lib_comp_CircleEffectComponent(true);
+			_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
+				var $r;
+				var q5 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q5[0] = 1;
+					q5[1] = 0;
+					q5[2] = 0;
+					q5[3] = 0;
+					q5;
+				}
+				$r = q5;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),_g.cec]));
+			tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
+		});
+	}
+	,onKeyDown: function(event) {
+		if(this.p2Text != null && (event.keyCode == snow_system_input_Keycodes.key_i || event.keyCode == snow_system_input_Keycodes.key_p)) {
+			GameTracker.player[1].isCPU = !GameTracker.player[1].isCPU;
+			this.p2Text.set_text(GameTracker.player[1].isCPU?"Player 2:\nCPU\nPress 'I' to join!":"Player 2:\nA => I\nB => P");
+		}
+	}
+	,onUpdate: function(event) {
+		var _g = this;
+		if(this.cec == null || !this.cec.done._resolved || this.startTimer < 0) return;
+		var aDown = tusk_Tusk.instance.app.input.keydown(GameTracker.player[0].btnA);
+		var bDown = tusk_Tusk.instance.app.input.keydown(GameTracker.player[0].btnB);
+		if(aDown && bDown) this.startTimer += event.dt; else this.startTimer = 0;
+		if(this.startTimer >= 0.5) {
+			this.startTimer = -1;
+			this.cec.t = 0;
+			this.cec.circleIn = false;
+			this.cec.reset();
+			this.cec.done.then(function(_) {
+				_g.sceneDone.resolve(_g);
+			});
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
+		tusk_Tusk.routeEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: Intro
+});
+var List = function() {
+	this.length = 0;
+};
+$hxClasses["List"] = List;
+List.__name__ = ["List"];
+List.prototype = {
+	add: function(item) {
+		var x = [item];
+		if(this.h == null) this.h = x; else this.q[1] = x;
+		this.q = x;
+		this.length++;
+	}
+	,pop: function() {
+		if(this.h == null) return null;
+		var x = this.h[0];
+		this.h = this.h[1];
+		if(this.h == null) this.q = null;
+		this.length--;
+		return x;
+	}
+	,isEmpty: function() {
+		return this.h == null;
+	}
+	,__class__: List
 };
 var LoadingScreen = function(gameName,loadingDone) {
 	this.gameName = gameName;
@@ -577,8 +958,31 @@ Main.prototype = $extend(tusk_Game.prototype,{
 		});
 	}
 	,setup: function() {
+		var _g = this;
 		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 39, className : "Main", methodName : "setup"});
-		tusk_Tusk.pushScene(new minigames_SledTillYoureDead());
+		tusk_Tusk.pushScene(new tusk_defaults_scenes_SplashScreen()).pipe(function(scene) {
+			tusk_Tusk.removeScene(scene);
+			return tusk_Tusk.pushScene(new Intro());
+		}).then(function(scene1) {
+			tusk_Tusk.removeScene(scene1);
+			_g.pickRandomLevel();
+			((function($this) {
+				var $r;
+				var varargf = function(f) {
+					var ret = new promhx_Stream();
+					var arr = [_g.minigameDone.stream()];
+					var p = promhx_Stream.wheneverAll(arr);
+					p._update.push({ async : ret, linkf : function(x) {
+						ret.handleResolve(f(arr[0]._val));
+					}});
+					return ret;
+				};
+				$r = { then : varargf};
+				return $r;
+			}(this))).then(function(_) {
+				_g.pickRandomLevel();
+			});
+		});
 	}
 	,__class__: Main
 });
@@ -620,6 +1024,58 @@ Reflect.deleteField = function(o,field) {
 	if(!Object.prototype.hasOwnProperty.call(o,field)) return false;
 	delete(o[field]);
 	return true;
+};
+var SpriteMaterial = function() { };
+$hxClasses["SpriteMaterial"] = SpriteMaterial;
+SpriteMaterial.__name__ = ["SpriteMaterial"];
+SpriteMaterial.load = function() {
+	var d = new promhx_Deferred();
+	((function($this) {
+		var $r;
+		var varargf = function(f) {
+			var ret = new promhx_Promise();
+			var arr = [tusk_Tusk.assets.loadText("assets/shaders/colourkey.vert"),tusk_Tusk.assets.loadText("assets/shaders/colourkey.frag")];
+			var p = promhx_Promise.whenAll(arr);
+			p._update.push({ async : ret, linkf : function(x) {
+				ret.handleResolve(f(arr[0]._val,arr[1]._val));
+			}});
+			return ret;
+		};
+		$r = { then : varargf};
+		return $r;
+	}(this))).then(function(vert,frag) {
+		var shader = new tusk_resources_Shader("textured.colourkey",vert.text,frag.text);
+		var mat = new tusk_resources_Material("textured.colourkey",shader);
+		mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
+		mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.UV[1];
+		snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
+		var posLocation = mat.shader.getAttributeLocation("position");
+		var uvLocation = mat.shader.getAttributeLocation("uv");
+		mat.onRender = function(setupUniforms,vertexBuffer,vertexCount) {
+			snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
+			snow_modules_opengl_web_GL.current_context.blendFunc(770,771);
+			if(mat.textures != null && mat.textures.length > 0) {
+				snow_modules_opengl_web_GL.current_context.activeTexture(33984);
+				snow_modules_opengl_web_GL.current_context.bindTexture(3553,mat.textures[0].texture);
+			}
+			setupUniforms(mat);
+			snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(posLocation);
+			snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(uvLocation);
+			snow_modules_opengl_web_GL.current_context.bindBuffer(34962,vertexBuffer);
+			snow_modules_opengl_web_GL.current_context.vertexAttribPointer(posLocation,3,5126,false,20,0);
+			snow_modules_opengl_web_GL.current_context.vertexAttribPointer(uvLocation,2,5126,false,20,12);
+			snow_modules_opengl_web_GL.current_context.drawArrays(4,0,vertexCount);
+			snow_modules_opengl_web_GL.current_context.bindTexture(3553,null);
+			snow_modules_opengl_web_GL.current_context.bindBuffer(34962,null);
+			snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(posLocation);
+			snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(uvLocation);
+			snow_modules_opengl_web_GL.current_context.useProgram(null);
+		};
+		tusk_Tusk.assets.loadMaterial("textured.colourkey",mat).then(function(mat1) {
+			d.resolve(mat1);
+		});
+	});
+	return d.promise();
 };
 var Std = function() { };
 $hxClasses["Std"] = Std;
@@ -1943,208 +2399,6 @@ glm__$Vec2_Vec2_$Impl_$.fromVec3 = function(v) {
 };
 glm__$Vec2_Vec2_$Impl_$.fromVec4 = function(v) {
 	return glm__$Vec2_Vec2_$Impl_$._new(glm__$Vec4_Vec4_$Impl_$.get_x(v),glm__$Vec4_Vec4_$Impl_$.get_y(v));
-};
-var glm__$Vec3_Vec3_$Impl_$ = {};
-$hxClasses["glm._Vec3.Vec3_Impl_"] = glm__$Vec3_Vec3_$Impl_$;
-glm__$Vec3_Vec3_$Impl_$.__name__ = ["glm","_Vec3","Vec3_Impl_"];
-glm__$Vec3_Vec3_$Impl_$.get_x = function(this1) {
-	return this1[0];
-};
-glm__$Vec3_Vec3_$Impl_$.set_x = function(this1,v) {
-	return this1[0] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_y = function(this1) {
-	return this1[1];
-};
-glm__$Vec3_Vec3_$Impl_$.set_y = function(this1,v) {
-	return this1[1] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_z = function(this1) {
-	return this1[2];
-};
-glm__$Vec3_Vec3_$Impl_$.set_z = function(this1,v) {
-	return this1[2] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_r = function(this1) {
-	return this1[0];
-};
-glm__$Vec3_Vec3_$Impl_$.set_r = function(this1,v) {
-	return this1[0] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_g = function(this1) {
-	return this1[1];
-};
-glm__$Vec3_Vec3_$Impl_$.set_g = function(this1,v) {
-	return this1[1] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_b = function(this1) {
-	return this1[2];
-};
-glm__$Vec3_Vec3_$Impl_$.set_b = function(this1,v) {
-	return this1[2] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_s = function(this1) {
-	return this1[0];
-};
-glm__$Vec3_Vec3_$Impl_$.set_s = function(this1,v) {
-	return this1[0] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_t = function(this1) {
-	return this1[1];
-};
-glm__$Vec3_Vec3_$Impl_$.set_t = function(this1,v) {
-	return this1[1] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_p = function(this1) {
-	return this1[2];
-};
-glm__$Vec3_Vec3_$Impl_$.set_p = function(this1,v) {
-	return this1[2] = v;
-};
-glm__$Vec3_Vec3_$Impl_$._new = function(x,y,z) {
-	if(z == null) z = 0;
-	if(y == null) y = 0;
-	if(x == null) x = 0;
-	var this1;
-	var arr = [];
-	arr.push(x);
-	arr.push(y);
-	arr.push(z);
-	this1 = arr;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.set = function(this1,x,y,z) {
-	if(x != null) this1[0] = x;
-	if(y != null) this1[1] = y;
-	if(z != null) this1[2] = z;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.zero = function(this1) {
-	this1[0] = 0;
-	this1[1] = 0;
-	this1[2] = 0;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.sqrLength = function(this1) {
-	return this1[0] * this1[0] + this1[1] * this1[1] + this1[2] * this1[2];
-};
-glm__$Vec3_Vec3_$Impl_$.$length = function(this1) {
-	return Math.sqrt(glm__$Vec3_Vec3_$Impl_$.sqrLength(this1));
-};
-glm__$Vec3_Vec3_$Impl_$.normalize = function(this1) {
-	var l = glm__$Vec3_Vec3_$Impl_$.$length(this1);
-	if(l != 0) {
-		this1[0] /= l;
-		this1[1] /= l;
-		this1[2] /= l;
-	} else glm__$Vec3_Vec3_$Impl_$.zero(this1);
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.clone = function(this1) {
-	var copy = glm__$Vec3_Vec3_$Impl_$._new();
-	copy[0] = this1[0];
-	copy[1] = this1[1];
-	copy[2] = this1[2];
-	return copy;
-};
-glm__$Vec3_Vec3_$Impl_$.copy = function(this1,v) {
-	this1[0] = v[0];
-	this1[1] = v[1];
-	this1[2] = v[2];
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.addVec3 = function(this1,b) {
-	this1[0] += b[0];
-	this1[1] += b[1];
-	this1[2] += b[2];
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.addVec3Op = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.subtractVec3 = function(this1,b) {
-	this1[0] -= b[0];
-	this1[1] -= b[1];
-	this1[2] -= b[2];
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.subtractVec3Op = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.subtractVec3(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.addScalar = function(this1,b) {
-	this1[0] += b;
-	this1[1] += b;
-	this1[2] += b;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.addScalarOp = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.addScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.addScalarOp2 = function(b,a) {
-	return glm__$Vec3_Vec3_$Impl_$.addScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.subtractScalar = function(this1,b) {
-	this1[0] -= b;
-	this1[1] -= b;
-	this1[2] -= b;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.subtractScalarOp = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.subtractScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.subtractScalarOp2 = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.addScalar(glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b),-1),a);
-};
-glm__$Vec3_Vec3_$Impl_$.multiplyScalar = function(this1,b) {
-	this1[0] *= b;
-	this1[1] *= b;
-	this1[2] *= b;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.multiplyScalarOp = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.multiplyScalarOp2 = function(b,a) {
-	return glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.divideScalar = function(this1,b) {
-	this1[0] /= b;
-	this1[1] /= b;
-	this1[2] /= b;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.divideScalarOp = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.divideScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.arrayGet = function(this1,i) {
-	return this1[i];
-};
-glm__$Vec3_Vec3_$Impl_$.arraySet = function(this1,i,x) {
-	return this1[i] = x;
-};
-glm__$Vec3_Vec3_$Impl_$.toArray = function(this1) {
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.lerp = function(this1,target,t) {
-	this1[0] = glm_GLM.lerp(this1[0],target[0],t);
-	this1[1] = glm_GLM.lerp(this1[1],target[1],t);
-	this1[2] = glm_GLM.lerp(this1[2],target[2],t);
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.toVec4 = function(this1) {
-	return glm__$Vec4_Vec4_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(this1),glm__$Vec3_Vec3_$Impl_$.get_y(this1),glm__$Vec3_Vec3_$Impl_$.get_z(this1),0);
-};
-glm__$Vec3_Vec3_$Impl_$.dot = function(a,b) {
-	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-};
-glm__$Vec3_Vec3_$Impl_$.cross = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_y(a) * glm__$Vec3_Vec3_$Impl_$.get_z(b) - glm__$Vec3_Vec3_$Impl_$.get_y(b) * glm__$Vec3_Vec3_$Impl_$.get_z(a),glm__$Vec3_Vec3_$Impl_$.get_z(a) * glm__$Vec3_Vec3_$Impl_$.get_x(b) - glm__$Vec3_Vec3_$Impl_$.get_z(b) * glm__$Vec3_Vec3_$Impl_$.get_x(a),glm__$Vec3_Vec3_$Impl_$.get_x(a) * glm__$Vec3_Vec3_$Impl_$.get_y(b) - glm__$Vec3_Vec3_$Impl_$.get_x(b) * glm__$Vec3_Vec3_$Impl_$.get_y(a));
-};
-glm__$Vec3_Vec3_$Impl_$.fromVec2 = function(v) {
-	return glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(v),glm__$Vec2_Vec2_$Impl_$.get_y(v),0);
-};
-glm__$Vec3_Vec3_$Impl_$.fromVec4 = function(v) {
-	return glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec4_Vec4_$Impl_$.get_x(v),glm__$Vec4_Vec4_$Impl_$.get_y(v),glm__$Vec4_Vec4_$Impl_$.get_z(v));
 };
 var glm__$Vec4_Vec4_$Impl_$ = {};
 $hxClasses["glm._Vec4.Vec4_Impl_"] = glm__$Vec4_Vec4_$Impl_$;
@@ -4689,7 +4943,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),minigames_bottlerocket_SpriteMaterial.load(),minigames_bottlerocket_BackgroundMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json"),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocketcontrols.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/bottlerocketpump.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/bottlerocketwhoosh.ogg")];
+				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),SpriteMaterial.load(),minigames_bottlerocket_BackgroundMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json"),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocketcontrols.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/bottlerocketpump.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/bottlerocketwhoosh.ogg")];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
 					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val,arr[12]._val,arr[13]._val,arr[14]._val,arr[15]._val,arr[16]._val));
@@ -4839,8 +5093,6 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				glm__$Vec2_Vec2_$Impl_$.set_x(uv2,glm__$Vec2_Vec2_$Impl_$.get_x(uv2) / 2);
 				glm__$Vec2_Vec2_$Impl_$.set_y(uv2,glm__$Vec2_Vec2_$Impl_$.get_y(uv2) / 2);
 			}
-			var red = glm__$Vec3_Vec3_$Impl_$._new(1.0,0.0,0.0);
-			var yellow = glm__$Vec3_Vec3_$Impl_$._new(1.0,1.0,0.0);
 			_g.entities.push(new tusk_Entity(_g,"P1 Pump Base",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,groundY + 128,-1),(function($this) {
 				var $r;
 				var q7 = glm__$Quat_Quat_$Impl_$._new();
@@ -4854,7 +5106,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				$r = q7;
 				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(-256,128,128)),new tusk_lib_comp_MeshComponent(null,pumpBaseMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.spriteMaterial.setVec3("colour",red);
+				_g.spriteMaterial.setVec3("colour",GameTracker.player[0].colour);
 			})]));
 			_g.entities.push(new tusk_Entity(_g,"P2 Pump Base",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,groundY + 128,-1),(function($this) {
 				var $r;
@@ -4869,7 +5121,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				$r = q8;
 				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(256,128,128)),new tusk_lib_comp_MeshComponent(null,pumpBaseMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.spriteMaterial.setVec3("colour",yellow);
+				_g.spriteMaterial.setVec3("colour",GameTracker.player[1].colour);
 			})]));
 			var p1PumpEntity = new tusk_Entity(_g,"P1 Pump",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-300,groundY + 128 + 72,-0.5),(function($this) {
 				var $r;
@@ -4913,7 +5165,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(128,128,128));
 			var p1Rocket = new tusk_Entity(_g,"P1 Rocket",[p1RocketTransform,new tusk_lib_comp_MeshComponent(null,bottleRocketMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.spriteMaterial.setVec3("colour",red);
+				_g.spriteMaterial.setVec3("colour",GameTracker.player[0].colour);
 			})]);
 			_g.entities.push(p1Rocket);
 			var p2RocketTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(192,groundY + 128 + 8,-0.75),(function($this) {
@@ -4930,7 +5182,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(128,128,128));
 			var p2Rocket = new tusk_Entity(_g,"P2 Rocket",[p2RocketTransform,new tusk_lib_comp_MeshComponent(null,bottleRocketMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.spriteMaterial.setVec3("colour",yellow);
+				_g.spriteMaterial.setVec3("colour",GameTracker.player[1].colour);
 			})]);
 			_g.entities.push(p2Rocket);
 			var p1Pump;
@@ -5076,16 +5328,16 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg")];
+				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),SpriteMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/sled.png"),tusk_Tusk.assets.loadText("assets/tilemaps/sledside.json"),tusk_Tusk.assets.loadTexture("assets/tilemaps/sledbg.png"),tusk_defaults_Materials.loadUnlitTextured()];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val));
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val));
 				}});
 				return ret;
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(quad,particlesMaterial,textMesh,font,fontMat,circleOutMat,countdownMusic) {
+		}(this))).then(function(quad,particlesMaterial,textMesh,font,fontMat,circleOutMat,countdownMusic,sledMaterial,sledTexture,sledSideSrc,sideBG,sledBGMaterial) {
 			_g.quad = quad;
 			_g.particlesMaterial = particlesMaterial;
 			_g.circleOutMat = circleOutMat;
@@ -5094,37 +5346,60 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 			_g.fontMat = fontMat;
 			_g.fontMat.textures = [];
 			_g.fontMat.textures.push(font.texture);
-			def.resolve(_g);
+			_g.sledMaterial = sledMaterial;
+			_g.sledMaterial.textures = [];
+			_g.sledMaterial.textures.push(sledTexture);
+			_g.sledBGMaterial = sledBGMaterial;
+			_g.sledBGMaterial.textures = [];
+			_g.sledBGMaterial.textures.push(sideBG);
+			_g.sledTileMap = tusk_modules_tiled_TileMap.fromJSON(sledSideSrc.text);
+			tusk_modules_tiled_TileMap.buildMesh(_g.sledTileMap,"tilemap.sled").then(function(mesh) {
+				_g.sledBGMesh = mesh;
+				def.resolve(_g);
+			});
 		}).catchError(function(err) {
-			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "SledTillYoureDead.hx", lineNumber : 75, className : "minigames.SledTillYoureDead", methodName : "loadAssets"});
+			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "SledTillYoureDead.hx", lineNumber : 102, className : "minigames.SledTillYoureDead", methodName : "loadAssets"});
 			def.handleError("Failed to load assets!");
 		});
 		return prom;
 	}
+	,createObstacle: function() {
+		var mesh;
+		var _g = Math.floor(2 * Math.random());
+		switch(_g) {
+		case 1:
+			mesh = this.rockMesh;
+			break;
+		default:
+			mesh = this.treeMesh;
+		}
+		var x = -380 + 760 * Math.random();
+		this.entities.push(new tusk_Entity(this,"P1 Sled",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(x,tusk_Tusk.game.get_height() / -2 - 64,-0.5),(function($this) {
+			var $r;
+			var q = glm__$Quat_Quat_$Impl_$._new();
+			{
+				q[0] = 1;
+				q[1] = 0;
+				q[2] = 0;
+				q[3] = 0;
+				q;
+			}
+			$r = q;
+			return $r;
+		}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,mesh),new tusk_lib_comp_MaterialComponent(null,this.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / 2 + 64)]));
+	}
 	,onLoad: function(event) {
 		var _g = this;
 		if(event.scene != this) return;
-		tusk_debug_Log.log("Loading sled till you're dead scene..",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 84, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+		tusk_debug_Log.log("Loading sled till you're dead scene..",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 128, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
 		var loadComplete = this.loadAssets();
-		var loadingScreen = new LoadingScreen("Sled Till You're Dead!",loadComplete);
-		tusk_Tusk.pushScene(loadingScreen);
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [loadingScreen.sceneDone.promise(),loadComplete];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(_,_1) {
-			tusk_Tusk.removeScene(loadingScreen);
+		loadComplete.then(function(_) {
 			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			tusk_debug_Log.log("Starting sled till you're dead!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 93, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+			tusk_debug_Log.log("Starting sled till you're dead!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 138, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+			_g.useProcessor(new minigames_sledtillyouredead_AnimatedSledProcessor());
+			_g.useProcessor(new minigames_sledtillyouredead_MovementProcessor());
+			_g.useProcessor(new minigames_sledtillyouredead_ScrollProcessor());
+			_g.useProcessor(new minigames_sledtillyouredead_SpawnProcessor());
 			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
 			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
 			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
@@ -5160,6 +5435,86 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				return $r;
 			}(this)),-100,100)]);
 			_g.entities.push(camera);
+			_g.entities.push(new tusk_Entity(_g,"LeftBorder",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2,tusk_Tusk.game.get_height() / -2 - 128,0),(function($this) {
+				var $r;
+				var q1 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q1[0] = 1;
+					q1[1] = 0;
+					q1[2] = 0;
+					q1[3] = 0;
+					q1;
+				}
+				$r = q1;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.sledBGMesh),new tusk_lib_comp_MaterialComponent(null,_g.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / -2,true,64)]));
+			_g.entities.push(new tusk_Entity(_g,"RightBorder",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2,tusk_Tusk.game.get_height() / -2 - 128,0),(function($this) {
+				var $r;
+				var q2 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q2[0] = 1;
+					q2[1] = 0;
+					q2[2] = 0;
+					q2[3] = 0;
+					q2;
+				}
+				$r = q2;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(-2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.sledBGMesh),new tusk_lib_comp_MaterialComponent(null,_g.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / -2,true,64)]));
+			var sledMesh1 = _g.quad.clone("sled.mesh1");
+			var _g1 = 0;
+			var _g2 = sledMesh1.uvs;
+			while(_g1 < _g2.length) {
+				var uv = _g2[_g1];
+				++_g1;
+				glm__$Vec2_Vec2_$Impl_$.set_x(uv,glm__$Vec2_Vec2_$Impl_$.get_x(uv) / 4);
+			}
+			var sledMesh2 = sledMesh1.clone("sled.mesh2");
+			_g.entities.push(new tusk_Entity(_g,"P1 Sled",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-92,192,-1),(function($this) {
+				var $r;
+				var q3 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q3[0] = 1;
+					q3[1] = 0;
+					q3[2] = 0;
+					q3[3] = 0;
+					q3;
+				}
+				$r = q3;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,sledMesh1),new tusk_lib_comp_MaterialComponent(null,_g.sledMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
+				_g.sledMaterial.setVec3("colour",GameTracker.player[0].colour);
+			}),new minigames_sledtillyouredead_AnimatedSledComponent(sledMesh1,4,15),new minigames_sledtillyouredead_MovementComponent(0)]));
+			_g.entities.push(new tusk_Entity(_g,"P2 Sled",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(92,192,-1),(function($this) {
+				var $r;
+				var q4 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q4[0] = 1;
+					q4[1] = 0;
+					q4[2] = 0;
+					q4[3] = 0;
+					q4;
+				}
+				$r = q4;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,sledMesh2),new tusk_lib_comp_MaterialComponent(null,_g.sledMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
+				_g.sledMaterial.setVec3("colour",GameTracker.player[1].colour);
+			}),new minigames_sledtillyouredead_AnimatedSledComponent(sledMesh2,4,15),new minigames_sledtillyouredead_MovementComponent(1)]));
+			_g.treeMesh = _g.quad.clone("sled.mesh.tree");
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[0],0.5,1);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[1],1,1);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[2],1,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[3],1,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[4],0.5,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[5],0.5,1);
+			_g.rockMesh = _g.quad.clone("sled.mesh.rock");
+			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[0],0.5,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[1],1,0.5);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[2],1,0);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[3],1,0);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[4],0.5,0);
+			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[5],0.5,0.5);
+			_g.entities.push(new tusk_Entity(_g,"Spawner",[new minigames_sledtillyouredead_SpawnComponent($bind(_g,_g.createObstacle))]));
 		});
 	}
 	,___connectRoutes: function() {
@@ -5286,62 +5641,6 @@ minigames_bottlerocket_PumpProcessor.prototype = $extend(tusk_Processor.prototyp
 	}
 	,__class__: minigames_bottlerocket_PumpProcessor
 });
-var minigames_bottlerocket_SpriteMaterial = function() { };
-$hxClasses["minigames.bottlerocket.SpriteMaterial"] = minigames_bottlerocket_SpriteMaterial;
-minigames_bottlerocket_SpriteMaterial.__name__ = ["minigames","bottlerocket","SpriteMaterial"];
-minigames_bottlerocket_SpriteMaterial.load = function() {
-	var d = new promhx_Deferred();
-	if(tusk_Tusk.assets.isLoaded("br_sprite.textured")) {
-		d.resolve(tusk_Tusk.assets.getMaterial("br_sprite.textured"));
-		return d.promise();
-	}
-	((function($this) {
-		var $r;
-		var varargf = function(f) {
-			var ret = new promhx_Promise();
-			var arr = [tusk_Tusk.assets.loadText("assets/shaders/colourkey.vert"),tusk_Tusk.assets.loadText("assets/shaders/colourkey.frag")];
-			var p = promhx_Promise.whenAll(arr);
-			p._update.push({ async : ret, linkf : function(x) {
-				ret.handleResolve(f(arr[0]._val,arr[1]._val));
-			}});
-			return ret;
-		};
-		$r = { then : varargf};
-		return $r;
-	}(this))).then(function(vert,frag) {
-		var shader = new tusk_resources_Shader("br_sprite.textured",vert.text,frag.text);
-		var mat = new tusk_resources_Material("br_sprite.textured",shader);
-		mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
-		mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.UV[1];
-		snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
-		var posLocation = mat.shader.getAttributeLocation("position");
-		var uvLocation = mat.shader.getAttributeLocation("uv");
-		mat.onRender = function(setupUniforms,vertexBuffer,vertexCount) {
-			snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
-			snow_modules_opengl_web_GL.current_context.blendFunc(770,771);
-			if(mat.textures != null && mat.textures.length > 0) {
-				snow_modules_opengl_web_GL.current_context.activeTexture(33984);
-				snow_modules_opengl_web_GL.current_context.bindTexture(3553,mat.textures[0].texture);
-			}
-			setupUniforms(mat);
-			snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(posLocation);
-			snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(uvLocation);
-			snow_modules_opengl_web_GL.current_context.bindBuffer(34962,vertexBuffer);
-			snow_modules_opengl_web_GL.current_context.vertexAttribPointer(posLocation,3,5126,false,20,0);
-			snow_modules_opengl_web_GL.current_context.vertexAttribPointer(uvLocation,2,5126,false,20,12);
-			snow_modules_opengl_web_GL.current_context.drawArrays(4,0,vertexCount);
-			snow_modules_opengl_web_GL.current_context.bindTexture(3553,null);
-			snow_modules_opengl_web_GL.current_context.bindBuffer(34962,null);
-			snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(posLocation);
-			snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(uvLocation);
-			snow_modules_opengl_web_GL.current_context.useProgram(null);
-		};
-		tusk_Tusk.assets.loadMaterial("br_sprite.textured",mat).then(function(mat1) {
-			d.resolve(mat1);
-		});
-	});
-	return d.promise();
-};
 var minigames_bottlerocket_TimerDisplayComponent = function() {
 	tusk_Component.call(this);
 };
@@ -5513,6 +5812,255 @@ minigames_bottlerocket_VelocityProcessor.prototype = $extend(tusk_Processor.prot
 		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
 	,__class__: minigames_bottlerocket_VelocityProcessor
+});
+var minigames_sledtillyouredead_AnimatedSledComponent = function(mesh,frames,frameRate) {
+	this.t = 0;
+	this.mesh = mesh;
+	this.t = 0;
+	this.frame = Math.floor((frames - 1 + 1) * Math.random());
+	this.frames = frames;
+	this.uvxDelta = 1.0 / frames;
+	this.frameTime = 1.0 / frameRate;
+	tusk_Component.call(this);
+};
+$hxClasses["minigames.sledtillyouredead.AnimatedSledComponent"] = minigames_sledtillyouredead_AnimatedSledComponent;
+minigames_sledtillyouredead_AnimatedSledComponent.__name__ = ["minigames","sledtillyouredead","AnimatedSledComponent"];
+minigames_sledtillyouredead_AnimatedSledComponent.__super__ = tusk_Component;
+minigames_sledtillyouredead_AnimatedSledComponent.prototype = $extend(tusk_Component.prototype,{
+	get__tid: function() {
+		return 20;
+	}
+	,hxSerialize: function(s) {
+		s.serialize(this.frameTime);
+		s.serialize(this.t);
+		s.serialize(this.frame);
+		s.serialize(this.frames);
+		s.serialize(this.mesh);
+		s.serialize(this.uvxDelta);
+	}
+	,hxUnserialize: function(s) {
+		s.serialize(this.frameTime);
+		s.serialize(this.t);
+		s.serialize(this.frame);
+		s.serialize(this.frames);
+		s.serialize(this.mesh);
+		s.serialize(this.uvxDelta);
+	}
+	,__class__: minigames_sledtillyouredead_AnimatedSledComponent
+});
+var minigames_sledtillyouredead_AnimatedSledProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(20).include(8);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.sledtillyouredead.AnimatedSledProcessor"] = minigames_sledtillyouredead_AnimatedSledProcessor;
+minigames_sledtillyouredead_AnimatedSledProcessor.__name__ = ["minigames","sledtillyouredead","AnimatedSledProcessor"];
+minigames_sledtillyouredead_AnimatedSledProcessor.__super__ = tusk_Processor;
+minigames_sledtillyouredead_AnimatedSledProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var a = entity.get(20);
+			var m = entity.get(8);
+			a.t += event.dt;
+			if(a.t >= a.frameTime) {
+				a.t = 0;
+				a.frame++;
+				if(a.frame >= a.frames) a.frame = 0;
+				glm__$Vec2_Vec2_$Impl_$.set_x(m.mesh.uvs[0],a.frame * a.uvxDelta);
+				glm__$Vec2_Vec2_$Impl_$.set_x(m.mesh.uvs[1],(a.frame + 1) * a.uvxDelta);
+				glm__$Vec2_Vec2_$Impl_$.set_x(m.mesh.uvs[2],(a.frame + 1) * a.uvxDelta);
+				glm__$Vec2_Vec2_$Impl_$.set_x(m.mesh.uvs[3],(a.frame + 1) * a.uvxDelta);
+				glm__$Vec2_Vec2_$Impl_$.set_x(m.mesh.uvs[4],a.frame * a.uvxDelta);
+				glm__$Vec2_Vec2_$Impl_$.set_x(m.mesh.uvs[5],a.frame * a.uvxDelta);
+				m.bufferDirty = true;
+			}
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_sledtillyouredead_AnimatedSledProcessor
+});
+var minigames_sledtillyouredead_MovementComponent = function(player) {
+	this.player = player;
+	tusk_Component.call(this);
+};
+$hxClasses["minigames.sledtillyouredead.MovementComponent"] = minigames_sledtillyouredead_MovementComponent;
+minigames_sledtillyouredead_MovementComponent.__name__ = ["minigames","sledtillyouredead","MovementComponent"];
+minigames_sledtillyouredead_MovementComponent.__super__ = tusk_Component;
+minigames_sledtillyouredead_MovementComponent.prototype = $extend(tusk_Component.prototype,{
+	get__tid: function() {
+		return 21;
+	}
+	,hxSerialize: function(s) {
+		s.serialize(this.player);
+	}
+	,hxUnserialize: function(s) {
+		s.serialize(this.player);
+	}
+	,__class__: minigames_sledtillyouredead_MovementComponent
+});
+var minigames_sledtillyouredead_MovementProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(21).include(5);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.sledtillyouredead.MovementProcessor"] = minigames_sledtillyouredead_MovementProcessor;
+minigames_sledtillyouredead_MovementProcessor.__name__ = ["minigames","sledtillyouredead","MovementProcessor"];
+minigames_sledtillyouredead_MovementProcessor.__super__ = tusk_Processor;
+minigames_sledtillyouredead_MovementProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var t = entity.get(5);
+			var m = entity.get(21);
+			var axis = 0;
+			if(GameTracker.player[m.player].isCPU) {
+			} else {
+				if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[m.player].btnA)) axis -= 1.0;
+				if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[m.player].btnB)) axis += 1.0;
+			}
+			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
+			var _g2 = t.position;
+			glm__$Vec3_Vec3_$Impl_$.set_x(_g2,glm__$Vec3_Vec3_$Impl_$.get_x(_g2) + 384 * event.dt * axis);
+			glm__$Vec3_Vec3_$Impl_$.set_x(t.position,tusk_math_MathTools.clamp(glm__$Vec3_Vec3_$Impl_$.get_x(t.position),-380,380));
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_sledtillyouredead_MovementProcessor
+});
+var minigames_sledtillyouredead_ScrollComponent = function(clipY,repeat,resetY) {
+	this.clipY = clipY;
+	if(repeat == null) this.repeat = false; else this.repeat = repeat;
+	if(resetY == null) this.resetY = 0; else this.resetY = resetY;
+	tusk_Component.call(this);
+};
+$hxClasses["minigames.sledtillyouredead.ScrollComponent"] = minigames_sledtillyouredead_ScrollComponent;
+minigames_sledtillyouredead_ScrollComponent.__name__ = ["minigames","sledtillyouredead","ScrollComponent"];
+minigames_sledtillyouredead_ScrollComponent.__super__ = tusk_Component;
+minigames_sledtillyouredead_ScrollComponent.prototype = $extend(tusk_Component.prototype,{
+	get__tid: function() {
+		return 19;
+	}
+	,hxSerialize: function(s) {
+		s.serialize(this.clipY);
+		s.serialize(this.repeat);
+		s.serialize(this.resetY);
+	}
+	,hxUnserialize: function(s) {
+		s.serialize(this.clipY);
+		s.serialize(this.repeat);
+		s.serialize(this.resetY);
+	}
+	,__class__: minigames_sledtillyouredead_ScrollComponent
+});
+var minigames_sledtillyouredead_ScrollProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(19).include(5);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.sledtillyouredead.ScrollProcessor"] = minigames_sledtillyouredead_ScrollProcessor;
+minigames_sledtillyouredead_ScrollProcessor.__name__ = ["minigames","sledtillyouredead","ScrollProcessor"];
+minigames_sledtillyouredead_ScrollProcessor.__super__ = tusk_Processor;
+minigames_sledtillyouredead_ScrollProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var t = entity.get(5);
+			var s = entity.get(19);
+			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
+			var _g2 = t.position;
+			glm__$Vec3_Vec3_$Impl_$.set_y(_g2,glm__$Vec3_Vec3_$Impl_$.get_y(_g2) + minigames_sledtillyouredead_ScrollProcessor.scrollSpeed * event.dt);
+			if(glm__$Vec3_Vec3_$Impl_$.get_y(t.position) >= s.clipY) {
+				if(s.repeat) {
+					var _g21 = t.position;
+					glm__$Vec3_Vec3_$Impl_$.set_y(_g21,glm__$Vec3_Vec3_$Impl_$.get_y(_g21) - s.resetY);
+				} else tusk_Tusk.removeEntity(entity);
+			}
+			minigames_sledtillyouredead_ScrollProcessor.scrollSpeed += 2 * event.dt;
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_sledtillyouredead_ScrollProcessor
+});
+var minigames_sledtillyouredead_SpawnComponent = function(spawn) {
+	this.spawnAccumulator = 0;
+	this.spawn = spawn;
+	tusk_Component.call(this);
+};
+$hxClasses["minigames.sledtillyouredead.SpawnComponent"] = minigames_sledtillyouredead_SpawnComponent;
+minigames_sledtillyouredead_SpawnComponent.__name__ = ["minigames","sledtillyouredead","SpawnComponent"];
+minigames_sledtillyouredead_SpawnComponent.__super__ = tusk_Component;
+minigames_sledtillyouredead_SpawnComponent.prototype = $extend(tusk_Component.prototype,{
+	get__tid: function() {
+		return 22;
+	}
+	,hxSerialize: function(s) {
+		s.serialize(this.spawn);
+		s.serialize(this.spawnAccumulator);
+	}
+	,hxUnserialize: function(s) {
+		s.serialize(this.spawn);
+		s.serialize(this.spawnAccumulator);
+	}
+	,__class__: minigames_sledtillyouredead_SpawnComponent
+});
+var minigames_sledtillyouredead_SpawnProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(22);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.sledtillyouredead.SpawnProcessor"] = minigames_sledtillyouredead_SpawnProcessor;
+minigames_sledtillyouredead_SpawnProcessor.__name__ = ["minigames","sledtillyouredead","SpawnProcessor"];
+minigames_sledtillyouredead_SpawnProcessor.__super__ = tusk_Processor;
+minigames_sledtillyouredead_SpawnProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var s = entity.get(22);
+			var obstaclesToSpawn = minigames_sledtillyouredead_SpawnProcessor.spawnRate * event.dt | 0;
+			if(s.spawnAccumulator >= 1.0) {
+				obstaclesToSpawn += 1;
+				s.spawnAccumulator -= 1.0;
+			}
+			s.spawnAccumulator += minigames_sledtillyouredead_SpawnProcessor.spawnRate * event.dt - obstaclesToSpawn;
+			minigames_sledtillyouredead_SpawnProcessor.spawnRate += 0.5 * event.dt;
+			var _g2 = 0;
+			while(_g2 < obstaclesToSpawn) {
+				var i = _g2++;
+				s.spawn();
+			}
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_sledtillyouredead_SpawnProcessor
 });
 var partials_Partial = function() { };
 $hxClasses["partials.Partial"] = partials_Partial;
@@ -10312,11 +10860,6 @@ var tusk_defaults_Materials = function() {
 $hxClasses["tusk.defaults.Materials"] = tusk_defaults_Materials;
 tusk_defaults_Materials.__name__ = ["tusk","defaults","Materials"];
 tusk_defaults_Materials.loadUnlitColoured = function() {
-	if(tusk_Tusk.assets.isLoaded("unlit.coloured")) {
-		var d = new promhx_Deferred();
-		d.resolve(tusk_Tusk.assets.getMaterial("unlit.coloured"));
-		return d.promise();
-	}
 	var shader = new tusk_resources_Shader("unlit.coloured",haxe_Resource.getString("unlit.coloured.vert"),haxe_Resource.getString("unlit.coloured.frag"));
 	var mat = new tusk_resources_Material("unlit.coloured",shader);
 	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
@@ -10343,11 +10886,6 @@ tusk_defaults_Materials.loadUnlitColoured = function() {
 	return tusk_Tusk.assets.loadMaterial("unlit.coloured",mat);
 };
 tusk_defaults_Materials.loadUnlitTextured = function() {
-	if(tusk_Tusk.assets.isLoaded("unlit.textured")) {
-		var d = new promhx_Deferred();
-		d.resolve(tusk_Tusk.assets.getMaterial("unlit.textured"));
-		return d.promise();
-	}
 	var shader = new tusk_resources_Shader("unlit.textured",haxe_Resource.getString("unlit.textured.vert"),haxe_Resource.getString("unlit.textured.frag"));
 	var mat = new tusk_resources_Material("unlit.textured",shader);
 	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
@@ -10378,11 +10916,6 @@ tusk_defaults_Materials.loadUnlitTextured = function() {
 	return tusk_Tusk.assets.loadMaterial("unlit.textured",mat);
 };
 tusk_defaults_Materials.loadEffectFadeout = function() {
-	if(tusk_Tusk.assets.isLoaded("effect.fadeout")) {
-		var d = new promhx_Deferred();
-		d.resolve(tusk_Tusk.assets.getMaterial("effect.fadeout"));
-		return d.promise();
-	}
 	var shader = new tusk_resources_Shader("effect.fadeout",haxe_Resource.getString("unlit.textured.vert"),haxe_Resource.getString("effect.fadeout.frag"));
 	var mat = new tusk_resources_Material("effect.fadeout",shader);
 	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
@@ -10405,11 +10938,6 @@ tusk_defaults_Materials.loadEffectFadeout = function() {
 	return tusk_Tusk.assets.loadMaterial("effect.fadeout",mat);
 };
 tusk_defaults_Materials.loadEffectCircleOut = function() {
-	if(tusk_Tusk.assets.isLoaded("effect.circleout")) {
-		var d = new promhx_Deferred();
-		d.resolve(tusk_Tusk.assets.getMaterial("effect.circleout"));
-		return d.promise();
-	}
 	var shader = new tusk_resources_Shader("effect.circleout",haxe_Resource.getString("unlit.textured.vert"),haxe_Resource.getString("effect.circleout.frag"));
 	var mat = new tusk_resources_Material("effect.circleout",shader);
 	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
@@ -10432,11 +10960,6 @@ tusk_defaults_Materials.loadEffectCircleOut = function() {
 	return tusk_Tusk.assets.loadMaterial("effect.circleout",mat);
 };
 tusk_defaults_Materials.loadTextBasic = function() {
-	if(tusk_Tusk.assets.isLoaded("text.basic")) {
-		var d = new promhx_Deferred();
-		d.resolve(tusk_Tusk.assets.getMaterial("text.basic"));
-		return d.promise();
-	}
 	var shader = new tusk_resources_Shader("text.basic",haxe_Resource.getString("unlit.textured.coloured.vert"),haxe_Resource.getString("unlit.textured.coloured.frag"));
 	var mat = new tusk_resources_Material("text.basic",shader);
 	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
@@ -10467,11 +10990,6 @@ tusk_defaults_Materials.loadTextBasic = function() {
 	return tusk_Tusk.assets.loadMaterial("text.basic",mat);
 };
 tusk_defaults_Materials.loadParticlesUntextured = function() {
-	if(tusk_Tusk.assets.isLoaded("particles.untextured")) {
-		var d = new promhx_Deferred();
-		d.resolve(tusk_Tusk.assets.getMaterial("particles.untextured"));
-		return d.promise();
-	}
 	var shader = new tusk_resources_Shader("particles.untextured",haxe_Resource.getString("particles.untextured.vert"),haxe_Resource.getString("particles.untextured.frag"));
 	var mat = new tusk_resources_Material("particles.untextured",shader);
 	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
@@ -13889,7 +14407,17 @@ snow_system_input_Keycodes.kbdillumdown = snow_system_input_Keycodes.from_scan(s
 snow_system_input_Keycodes.kbdillumup = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kbdillumup);
 snow_system_input_Keycodes.eject = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.eject);
 snow_system_input_Keycodes.sleep = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.sleep);
-GameTracker.player = [new Player("Player 1",false,snow_system_input_Keycodes.key_q,"Q",snow_system_input_Keycodes.key_e,"E"),new Player("Mr. Computer",true,snow_system_input_Keycodes.key_i,"I",snow_system_input_Keycodes.key_p,"P")];
+GameTracker.player = [new Player("Player 1",false,snow_system_input_Keycodes.key_q,"Q",snow_system_input_Keycodes.key_e,"E",(function($this) {
+	var $r;
+	var a = glm__$Vec3_Vec3_$Impl_$._new(205,53,23);
+	$r = glm__$Vec3_Vec3_$Impl_$.divideScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),255);
+	return $r;
+}(this))),new Player("Mr. Computer",true,snow_system_input_Keycodes.key_i,"I",snow_system_input_Keycodes.key_p,"P",(function($this) {
+	var $r;
+	var a1 = glm__$Vec3_Vec3_$Impl_$._new(238,196,49);
+	$r = glm__$Vec3_Vec3_$Impl_$.divideScalar(glm__$Vec3_Vec3_$Impl_$.clone(a1),255);
+	return $r;
+}(this)))];
 LoadingScreen.salutations = ["Mr.","Mrs.","Ms.","Dr.","The"];
 LoadingScreen.adjectives = ["Purple","Green","Fast","Slow","Time-Travelling","Time Traveller's","Clever","Crispy","Clumsy","Thrifty","Quick","Cranky","Lumpy","Polite","Sparkling","Sturdy","Creaky","Odd","Friendly"];
 LoadingScreen.nouns = ["Wife","Husband","Son","Daughter","Lawyer","Swordfish","Squid","Cheetah","Space-man","Cosmonaut","Apprentice","Champ","Pancake","Chicken","Unicorn","Bunny","Gnome","Mermaid"];
@@ -13923,6 +14451,15 @@ minigames_bottlerocket_TransformTrackerComponent.tid = 16;
 minigames_bottlerocket_TransformTrackerProcessor.gravity = -10;
 minigames_bottlerocket_VelocityComponent.tid = 13;
 minigames_bottlerocket_VelocityProcessor.gravity = -1024;
+minigames_sledtillyouredead_AnimatedSledComponent.tid = 20;
+minigames_sledtillyouredead_MovementComponent.tid = 21;
+minigames_sledtillyouredead_MovementProcessor.moveSpeed = 384;
+minigames_sledtillyouredead_ScrollComponent.tid = 19;
+minigames_sledtillyouredead_ScrollProcessor.scrollSpeed = 512;
+minigames_sledtillyouredead_ScrollProcessor.scrollAcceleration = 2;
+minigames_sledtillyouredead_SpawnComponent.tid = 22;
+minigames_sledtillyouredead_SpawnProcessor.spawnAcceleration = 0.5;
+minigames_sledtillyouredead_SpawnProcessor.spawnRate = 5;
 promhx_base_AsyncBase.id_ctr = 0;
 promhx_base_EventLoop.queue = new List();
 snow_api_Debug._level = 1;
@@ -14391,8 +14928,11 @@ tusk_Files.sounds___loadingcrunch__ogg = "assets/sounds/loadingcrunch.ogg";
 tusk_Files.sounds___wintrumpet__ogg = "assets/sounds/wintrumpet.ogg";
 tusk_Files.sprites___bottlerocket__png = "assets/sprites/bottlerocket.png";
 tusk_Files.sprites___bottlerocketcontrols__png = "assets/sprites/bottlerocketcontrols.png";
+tusk_Files.sprites___sled__png = "assets/sprites/sled.png";
 tusk_Files.tilemaps___bottlerocketbackground__json = "assets/tilemaps/bottlerocketbackground.json";
 tusk_Files.tilemaps___bottlerocketbackground__png = "assets/tilemaps/bottlerocketbackground.png";
+tusk_Files.tilemaps___sledbg__png = "assets/tilemaps/sledbg.png";
+tusk_Files.tilemaps___sledside__json = "assets/tilemaps/sledside.json";
 tusk_Tusk.version = "unknown+17fd14";
 tusk_debug_Exception.showStackTrace = false;
 tusk_lib_comp_Camera2DComponent.tid = 11;
