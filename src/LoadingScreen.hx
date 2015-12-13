@@ -146,7 +146,7 @@ class LoadingScreen extends Scene {
 				]));
 				return scn.done;
 			}).pipe(function(_) {
-				var fadeDelay:TimedPromiseComponent = new TimedPromiseComponent(2);
+				var fadeDelay:TimedPromiseComponent = new TimedPromiseComponent(1);
 				entities.push(new Entity(this, 'Delay', [fadeDelay]));
 				return fadeDelay.done;
 			}).pipe(function(_) {

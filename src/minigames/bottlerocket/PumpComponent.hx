@@ -8,6 +8,8 @@ class PumpComponent extends Component {
 	public var pumpVelocity:Float;
 	public var playerNumber:Int;
 
+	public var aiDirection:Float = -1;
+
 	public var topY:Float;
 
 	public function new(playerNumber:Int, topY:Float) {

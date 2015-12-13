@@ -21,10 +21,24 @@ class PumpProcessor extends Processor {
 			var t:TransformComponent = cast entity.get(TransformComponent.tid);
 			var p:PumpComponent = cast entity.get(PumpComponent.tid);
 
-			// get the desired movement
 			var axis:Float = 0;
-			if(Tusk.instance.app.input.keydown(GameTracker.player[p.playerNumber].btnA)) axis -= 1.0;
-			if(Tusk.instance.app.input.keydown(GameTracker.player[p.playerNumber].btnB)) axis += 1.0;
+			var directionSpeed = tusk.math.Random.float(3, 4);
+			if(GameTracker.player[p.playerNumber].isCPU) {
+				if(p.pumpPos < 0.1) {
+					p.aiDirection += directionSpeed * event.dt;
+				}
+				else if(p.pumpPos >= 0.9) {
+					p.aiDirection -= directionSpeed * event.dt;
+				}
+				p.aiDirection = tusk.math.MathTools.clamp(p.aiDirection, -1, 1);
+				if(p.aiDirection < 0) axis = -1;
+				else if(p.aiDirection > 0) axis = 1;
+			}
+			else {
+				// get the desired movement
+				if(Tusk.instance.app.input.keydown(GameTracker.player[p.playerNumber].btnA)) axis -= 1.0;
+				if(Tusk.instance.app.input.keydown(GameTracker.player[p.playerNumber].btnB)) axis += 1.0;
+			}
 
 			// figure out the pump's motion
 			p.pumpVelocity += axis * pumpAcceleration * event.dt;

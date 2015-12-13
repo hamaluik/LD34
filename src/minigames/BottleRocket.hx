@@ -228,12 +228,12 @@ class BottleRocket extends Scene {
 			entities.push(p2Rocket);
 
 			// show the controls
-			var controlsEntity:Entity = new Entity(this, 'Controls', [
+			/*var controlsEntity:Entity = new Entity(this, 'Controls', [
 				new TransformComponent(new Vec3(0, -180, 0), Quat.identity(), new Vec3(128, 128, 128)),
 				new MeshComponent(quad),
 				new MaterialComponent(controlsMaterial)
 			]);
-			entities.push(controlsEntity);
+			entities.push(controlsEntity);*/
 
 			var p1Pump:PumpComponent;
 			var p2Pump:PumpComponent;
@@ -283,7 +283,7 @@ class BottleRocket extends Scene {
 				return countdownTimer.done;
 			}).pipe(function(_) {
 				// stop pumping!
-				Tusk.removeEntity(controlsEntity);
+				//Tusk.removeEntity(controlsEntity);
 				p1PumpEntity.removeType(PumpComponent.tid);
 				p2PumpEntity.removeType(PumpComponent.tid);
 				countdownEntity.removeType(TimerDisplayComponent.tid);
