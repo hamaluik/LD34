@@ -757,21 +757,6 @@ var Main = function() {
 };
 $hxClasses["Main"] = Main;
 Main.__name__ = ["Main"];
-Main.shuffle = function(arr) {
-	if(arr != null) {
-		var _g1 = 0;
-		var _g = arr.length;
-		while(_g1 < _g) {
-			var i = _g1++;
-			var j = Math.floor((arr.length - 1 + 1) * Math.random());
-			var a = arr[i];
-			var b = arr[j];
-			arr[i] = b;
-			arr[j] = a;
-		}
-	}
-	return arr;
-};
 Main.__super__ = tusk_Game;
 Main.prototype = $extend(tusk_Game.prototype,{
 	get_title: function() {
@@ -795,15 +780,15 @@ Main.prototype = $extend(tusk_Game.prototype,{
 			tusk_Tusk.removeScene(scene1);
 			_g.shuffleIndex++;
 			if(_g.shuffleIndex >= _g.sceneIndices.length) {
-				_g.sceneIndices = Main.shuffle(_g.sceneIndices);
+				_g.sceneIndices = Util.shuffle(_g.sceneIndices);
 				_g.shuffleIndex = 0;
 			}
 			_g.minigameDone.resolve(scene1);
 		});
 	}
 	,setup: function() {
-		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 60, className : "Main", methodName : "setup"});
-		tusk_Tusk.pushScene(new minigames_SledTillYoureDead());
+		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 45, className : "Main", methodName : "setup"});
+		tusk_Tusk.pushScene(new minigames_CaptainKnowItAll());
 	}
 	,__class__: Main
 });
@@ -1085,6 +1070,33 @@ Util.randomGradientColours = function() {
 		$r = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a1),255);
 		return $r;
 	}(this))];
+};
+Util.floatToStringPrecision = function(n,prec) {
+	n = Math.round(n * Math.pow(10,prec));
+	var str = "" + n;
+	var len = str.length;
+	if(len <= prec) {
+		while(len < prec) {
+			str = "0" + str;
+			len++;
+		}
+		return "0." + str;
+	} else return HxOverrides.substr(str,0,str.length - prec) + "." + HxOverrides.substr(str,str.length - prec,null);
+};
+Util.shuffle = function(arr) {
+	if(arr != null) {
+		var _g1 = 0;
+		var _g = arr.length;
+		while(_g1 < _g) {
+			var i = _g1++;
+			var j = Math.floor((arr.length - 1 + 1) * Math.random());
+			var a = arr[i];
+			var b = arr[j];
+			arr[i] = b;
+			arr[j] = a;
+		}
+	}
+	return arr;
 };
 var glm_GLM = function() { };
 $hxClasses["glm.GLM"] = glm_GLM;
@@ -5134,6 +5146,419 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 	}
 	,__class__: minigames_BottleRocket
 });
+var minigames_Question = function(question,correctAnswer,wrongAnswer) {
+	this.question = question;
+	this.correctAnswer = correctAnswer;
+	this.wrongAnswer = wrongAnswer;
+};
+$hxClasses["minigames.Question"] = minigames_Question;
+minigames_Question.__name__ = ["minigames","Question"];
+minigames_Question.prototype = {
+	__class__: minigames_Question
+};
+var minigames_CaptainKnowItAll = function() {
+	this.questionsAllDoneDef = new promhx_Deferred();
+	this.questionDoneDef = new promhx_Deferred();
+	this.questions = [new minigames_Question("How tall is Mount Everest?","8,848 m","11,426 m"),new minigames_Question("How hot is the sun?","5,778 K","4,923 K"),new minigames_Question("What is the population of Canada?","35 million","45 million"),new minigames_Question("How far away is the moon?","384 Mm","229 Mm"),new minigames_Question("How many days are in May?","31","30"),new minigames_Question("Where is the hottest place on Earth?","Al Aziziyah","Death Valley"),new minigames_Question("What year did the titanic sink?","1912","1914"),new minigames_Question("How many Earths can fit into the sun?","1.3 million","6.9 million"),new minigames_Question("What year was Elton John born?","1947","1952"),new minigames_Question("Where is the coldest place on earth?","Antarctica","The North Pole"),new minigames_Question("What is 6 x 7?","42","47"),new minigames_Question("Who is the fastest man in the world?","Usain Bolt","Tyson Gay"),new minigames_Question("What element begins with the letter 'K'?","Potassium","Krypton"),new minigames_Question("Who painted the Mona Lisa?","Da Vinci","Michelangelo"),new minigames_Question("Who painted the Sistine Chapel?","Michelangelo","Da Vinci"),new minigames_Question("Who wrote the James Bond books?","Ian Fleming","Arthur Conan Doyle"),new minigames_Question("Who sang \"My Way\"?","Frank Sinatra","Dean Martin"),new minigames_Question("What's the capital of Scotland?","Edinburgh","Glasgow"),new minigames_Question("Which is the smallest ocean?","Artic","Indian"),new minigames_Question("Can Queen Elizabeth the Second vote?","No","Yes"),new minigames_Question("Where was Christopher Columbus born?","Italy","Spain"),new minigames_Question("Who starts first in chess?","White","Black"),new minigames_Question("Which planet is nearest the sun?","Mercury","Venus"),new minigames_Question("What does the roman numeral C represent?","100","1000"),new minigames_Question("Where is St. Paul's Cathedral?","London","Rome"),new minigames_Question("Which country has the longest coastline?","Canada","Russia"),new minigames_Question("Which is bigger?","Jupiter","Saturn"),new minigames_Question("How many planets are in our solar system?","Eight","Nine"),new minigames_Question("What colour is Yoda?","Green","Peach")];
+	this.questionNumber = 0;
+	tusk_Scene.call(this,"CaptainKnowItAll");
+};
+$hxClasses["minigames.CaptainKnowItAll"] = minigames_CaptainKnowItAll;
+minigames_CaptainKnowItAll.__name__ = ["minigames","CaptainKnowItAll"];
+minigames_CaptainKnowItAll.__super__ = tusk_Scene;
+minigames_CaptainKnowItAll.prototype = $extend(tusk_Scene.prototype,{
+	loadAssets: function() {
+		var _g = this;
+		var def = new promhx_Deferred();
+		var prom = def.promise();
+		((function($this) {
+			var $r;
+			var varargf = function(f) {
+				var ret = new promhx_Promise();
+				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),tusk_defaults_Materials.loadUnlitColoured(),tusk_Tusk.assets.loadSound("assets/sounds/loadingcrunch.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg")];
+				var p = promhx_Promise.whenAll(arr);
+				p._update.push({ async : ret, linkf : function(x) {
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val));
+				}});
+				return ret;
+			};
+			$r = { then : varargf};
+			return $r;
+		}(this))).then(function(quad,particlesMaterial,textMesh,font,fontMat,circleOutMat,countdownMusic,bgMaterial,loadingCrunch,winMusic) {
+			_g.quad = quad;
+			_g.particlesMaterial = particlesMaterial;
+			_g.circleOutMat = circleOutMat;
+			_g.textMesh = textMesh;
+			_g.font = font;
+			_g.fontMat = fontMat;
+			_g.fontMat.textures = [];
+			_g.fontMat.textures.push(font.texture);
+			_g.countdownMusic = countdownMusic;
+			_g.bgMaterial = bgMaterial;
+			_g.loadingCrunch = loadingCrunch;
+			_g.winMusic = winMusic;
+			def.resolve(_g);
+		}).catchError(function(err) {
+			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "CaptainKnowItAll.hx", lineNumber : 140, className : "minigames.CaptainKnowItAll", methodName : "loadAssets"});
+			def.handleError("Failed to load assets!");
+		});
+		return prom;
+	}
+	,doQuestion: function() {
+		var _g = this;
+		this.player1Answer.answer = -1;
+		this.player2Answer.answer = -1;
+		minigames_CaptainKnowItAll.aIsCorrect = Math.random() < 0.5;
+		this.crunchSoundComponent.play = true;
+		var scvs = new loading_SlamComponent(0.5,96,4);
+		this.questionEntity = new tusk_Entity(this,"Question",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,128,0.05),(function($this) {
+			var $r;
+			var q = glm__$Quat_Quat_$Impl_$._new();
+			{
+				q[0] = 1;
+				q[1] = 0;
+				q[2] = 0;
+				q[3] = 0;
+				q;
+			}
+			$r = q;
+			return $r;
+		}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,this.textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(this.fontMat.path),new tusk_lib_comp_TextComponent(this.font,this.questions[this.questionNumber].question,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scvs]);
+		this.entities.push(this.questionEntity);
+		scvs.done.pipe(function(_) {
+			_g.crunchSoundComponent.play = true;
+			var scaa = new loading_SlamComponent(0.5,16,3);
+			_g.answerAEntity = new tusk_Entity(_g,"Answer A",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,0,0.05),(function($this) {
+				var $r;
+				var q1 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q1[0] = 1;
+					q1[1] = 0;
+					q1[2] = 0;
+					q1[3] = 0;
+					q1;
+				}
+				$r = q1;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("answerAtext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,minigames_CaptainKnowItAll.aIsCorrect?_g.questions[_g.questionNumber].correctAnswer:_g.questions[_g.questionNumber].wrongAnswer,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scaa]);
+			_g.entities.push(_g.answerAEntity);
+			return scaa.done;
+		}).pipe(function(_1) {
+			_g.crunchSoundComponent.play = true;
+			var scab = new loading_SlamComponent(0.5,16,3);
+			_g.answerBEntity = new tusk_Entity(_g,"Answer B",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,0,0.05),(function($this) {
+				var $r;
+				var q2 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q2[0] = 1;
+					q2[1] = 0;
+					q2[2] = 0;
+					q2[3] = 0;
+					q2;
+				}
+				$r = q2;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("answerBtext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,minigames_CaptainKnowItAll.aIsCorrect?_g.questions[_g.questionNumber].wrongAnswer:_g.questions[_g.questionNumber].correctAnswer,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scab]);
+			_g.entities.push(_g.answerBEntity);
+			return scab.done;
+		}).pipe(function(_2) {
+			_g.bgColourShift.active = true;
+			_g.player1Timer.active = true;
+			_g.player1Answer.reset();
+			_g.player2Timer.active = true;
+			_g.player2Answer.reset();
+			var answerDef = new promhx_Deferred();
+			var answerPromise = answerDef.promise();
+			_g.player1Answer.done.then(function(_3) {
+				_g.player1LockedIn.set_text("Locked in!");
+				if(_g.player2Answer.done._resolved) answerDef.resolve(true);
+			});
+			_g.player2Answer.done.then(function(_4) {
+				_g.player2LockedIn.set_text("Locked in!");
+				if(_g.player1Answer.done._resolved) answerDef.resolve(true);
+			});
+			return answerPromise;
+		}).then(function(_5) {
+			if(minigames_CaptainKnowItAll.aIsCorrect) {
+				if(_g.player1Answer.answer == 0) _g.player1Score.score += 1; else if(_g.player1Answer.answer == 1) _g.player1Score.score += -1; else _g.player1Score.score += 0;
+				if(_g.player2Answer.answer == 0) _g.player2Score.score += 1; else if(_g.player2Answer.answer == 1) _g.player2Score.score += -1; else _g.player2Score.score += 0;
+			} else if(!minigames_CaptainKnowItAll.aIsCorrect) {
+				if(_g.player1Answer.answer == 1) _g.player1Score.score += 1; else if(_g.player1Answer.answer == 0) _g.player1Score.score += -1; else _g.player1Score.score += 0;
+				if(_g.player2Answer.answer == 1) _g.player2Score.score += 1; else if(_g.player2Answer.answer == 0) _g.player2Score.score += -1; else _g.player2Score.score += 0;
+			}
+			_g.bgColourShift.reset(359.9 * Math.random());
+			_g.bgColourShift.active = false;
+			tusk_Tusk.removeEntity(_g.questionEntity);
+			tusk_Tusk.removeEntity(_g.answerAEntity);
+			tusk_Tusk.removeEntity(_g.answerBEntity);
+			_g.questionNumber++;
+			_g.player1Answer.reset();
+			_g.player1LockedIn.set_text("");
+			_g.player2Answer.reset();
+			_g.player2LockedIn.set_text("");
+			if(_g.player1Timer.t <= 0 && _g.player2Timer.t <= 0 || _g.questionNumber >= _g.questions.length) _g.questionsAllDoneDef.resolve(true); else _g.questionDoneDef.resolve(true);
+		});
+	}
+	,onLoad: function(event) {
+		var _g = this;
+		if(event.scene != this) return;
+		tusk_debug_Log.log("Loading captain know it all scene..",tusk_debug_LogFunctions.Info,{ fileName : "CaptainKnowItAll.hx", lineNumber : 264, className : "minigames.CaptainKnowItAll", methodName : "onLoad"});
+		var loadComplete = this.loadAssets();
+		loadComplete.then(function(_) {
+			_g.questions = Util.shuffle(_g.questions);
+			tusk_lib_proc_Camera2DProcessor.cameras = [];
+			tusk_debug_Log.log("Starting captain know it all!",tusk_debug_LogFunctions.Info,{ fileName : "CaptainKnowItAll.hx", lineNumber : 277, className : "minigames.CaptainKnowItAll", methodName : "onLoad"});
+			_g.useProcessor(new minigames_captainknowitall_PlayerAnswerProcessor());
+			_g.useProcessor(new loading_SlamProcessor());
+			_g.useProcessor(new loading_SlideProcessor());
+			_g.useProcessor(new minigames_captainknowitall_PlayerTimerProcessor());
+			_g.useProcessor(new minigames_captainknowitall_PlayerScoreProcessor());
+			_g.useProcessor(new minigames_captainknowitall_ColourShiftProcessor());
+			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
+			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
+			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
+			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
+			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
+			_g.useProcessor(new tusk_lib_proc_TextProcessor());
+			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.9,0.9,0.9,1)));
+			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
+			_g.useProcessor(new tusk_lib_proc_SoundProcessor());
+			_g.questionsAllDone = _g.questionsAllDoneDef.promise();
+			_g.questionDone = _g.questionDoneDef.stream();
+			var w = tusk_Tusk.instance.app.window.width;
+			var h = tusk_Tusk.instance.app.window.height;
+			var camera = new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0),(function($this) {
+				var $r;
+				var q = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q[0] = 1;
+					q[1] = 0;
+					q[2] = 0;
+					q[3] = 0;
+					q;
+				}
+				$r = q;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1,1,1)),new tusk_lib_comp_Camera2DComponent((function($this) {
+				var $r;
+				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
+				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
+				return $r;
+			}(this)),(function($this) {
+				var $r;
+				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
+				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
+				return $r;
+			}(this)),-100,100)]);
+			_g.entities.push(camera);
+			var bgMesh = _g.quad.clone("mesh.bgcaptain");
+			bgMesh.colours = [];
+			var gradientColours = Util.randomGradientColours();
+			var _g1 = 0;
+			var _g2 = bgMesh.vertices;
+			while(_g1 < _g2.length) {
+				var v = _g2[_g1];
+				++_g1;
+				var colour = gradientColours[glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0?1:0];
+				bgMesh.colours.push(colour);
+			}
+			_g.bgColourShift = new minigames_captainknowitall_ColourShiftComponent(359.9 * Math.random(),5,tusk_math_Ease.OutCubic);
+			_g.entities.push(new tusk_Entity(_g,"BG",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
+				var $r;
+				var q2 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q2[0] = 1;
+					q2[1] = 0;
+					q2[2] = 0;
+					q2[3] = 0;
+					q2;
+				}
+				$r = q2;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,_g.bgMaterial),_g.bgColourShift]));
+			_g.player1Score = new minigames_captainknowitall_PlayerScoreComponent(0);
+			_g.player1Timer = new minigames_captainknowitall_PlayerTimerComponent(10);
+			_g.player1Answer = new minigames_captainknowitall_PlayerAnswerComponent(0,_g.player1Timer);
+			_g.player1LockedIn = new tusk_lib_comp_TextComponent(_g.font,"",tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Bottom,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			_g.player2Score = new minigames_captainknowitall_PlayerScoreComponent(1);
+			_g.player2Timer = new minigames_captainknowitall_PlayerTimerComponent(10);
+			_g.player2Answer = new minigames_captainknowitall_PlayerAnswerComponent(1,_g.player2Timer);
+			_g.player2LockedIn = new tusk_lib_comp_TextComponent(_g.font,"",tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Bottom,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			_g.entities.push(new tusk_Entity(_g,"Player 1",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2 + 32,tusk_Tusk.game.get_height() / -2 + _g.font.lineHeight * 2 + 32,0.05),(function($this) {
+				var $r;
+				var q3 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q3[0] = 1;
+					q3[1] = 0;
+					q3[2] = 0;
+					q3[3] = 0;
+					q3;
+				}
+				$r = q3;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[0].name + ": 0",tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player1Score,_g.player1Answer]));
+			_g.entities.push(new tusk_Entity(_g,"Player 1 Timer",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2 + 32,tusk_Tusk.game.get_height() / -2 + 32,0.05),(function($this) {
+				var $r;
+				var q4 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q4[0] = 1;
+					q4[1] = 0;
+					q4[2] = 0;
+					q4[3] = 0;
+					q4;
+				}
+				$r = q4;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p1timertext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"10.000",tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player1Timer]));
+			_g.entities.push(new tusk_Entity(_g,"Player 1 Locked In",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2 + 32,tusk_Tusk.game.get_height() / -2 + _g.font.lineHeight * 3 + 32,0.05),(function($this) {
+				var $r;
+				var q5 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q5[0] = 1;
+					q5[1] = 0;
+					q5[2] = 0;
+					q5[3] = 0;
+					q5;
+				}
+				$r = q5;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p1lockedintext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),_g.player1LockedIn]));
+			_g.entities.push(new tusk_Entity(_g,"Player 2",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2 - 32,tusk_Tusk.game.get_height() / -2 + _g.font.lineHeight * 2 + 32,0.05),(function($this) {
+				var $r;
+				var q6 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q6[0] = 1;
+					q6[1] = 0;
+					q6[2] = 0;
+					q6[3] = 0;
+					q6;
+				}
+				$r = q6;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[1].name + ": 0",tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player2Score,_g.player2Answer]));
+			_g.entities.push(new tusk_Entity(_g,"Player 2 Timer",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2 - 32,tusk_Tusk.game.get_height() / -2 + 32,0.05),(function($this) {
+				var $r;
+				var q7 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q7[0] = 1;
+					q7[1] = 0;
+					q7[2] = 0;
+					q7[3] = 0;
+					q7;
+				}
+				$r = q7;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p2timertext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"10.000",tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player2Timer]));
+			_g.entities.push(new tusk_Entity(_g,"Player 2 Locked In",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2 - 32,tusk_Tusk.game.get_height() / -2 + _g.font.lineHeight * 3 + 32,0.05),(function($this) {
+				var $r;
+				var q8 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q8[0] = 1;
+					q8[1] = 0;
+					q8[2] = 0;
+					q8[3] = 0;
+					q8;
+				}
+				$r = q8;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p2lockedintext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),_g.player2LockedIn]));
+			_g.entities.push(new tusk_Entity(_g,"Countdown Music",[new tusk_lib_comp_SoundComponent(_g.countdownMusic.path,true)]));
+			_g.crunchSoundComponent = new tusk_lib_comp_SoundComponent(_g.loadingCrunch.path,false);
+			_g.entities.push(new tusk_Entity(_g,"CrunchSound",[_g.crunchSoundComponent]));
+			var countdownText = new tusk_lib_comp_TextComponent(_g.font,"3",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			var countdownTimer = new tusk_lib_comp_TimedPromiseComponent(1.0);
+			var countdownTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.99),(function($this) {
+				var $r;
+				var q1 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q1[0] = 1;
+					q1[1] = 0;
+					q1[2] = 0;
+					q1[3] = 0;
+					q1;
+				}
+				$r = q1;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(8,8,8));
+			var countdownEntity = new tusk_Entity(_g,"Countdown",[countdownTransform,new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("br.countdowntextmesh")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),countdownText,countdownTimer]);
+			_g.entities.push(countdownEntity);
+			countdownTimer.done.pipe(function(_1) {
+				countdownText.set_text("2");
+				countdownTimer.t = 0;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_2) {
+				countdownText.set_text("1");
+				countdownTimer.t = 0;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_3) {
+				countdownText.set_text("Go!");
+				countdownTimer.t = 0;
+				countdownTimer.wait = 0.5;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_4) {
+				countdownText.set_text("");
+				((function($this) {
+					var $r;
+					var varargf = function(f) {
+						var ret = new promhx_Stream();
+						var arr = [_g.questionDone];
+						var p = promhx_Stream.wheneverAll(arr);
+						p._update.push({ async : ret, linkf : function(x) {
+							ret.handleResolve(f(arr[0]._val));
+						}});
+						return ret;
+					};
+					$r = { then : varargf};
+					return $r;
+				}(this))).then(function(_5) {
+					_g.doQuestion();
+				});
+				_g.questionDoneDef.resolve(true);
+				return _g.questionsAllDone;
+			}).pipe(function(_6) {
+				var winningPlayer = -1;
+				if(_g.player1Score.score == _g.player2Score.score) if(_g.player1Timer.t >= _g.player2Timer.t) winningPlayer = 0; else winningPlayer = 1; else if(_g.player1Score.score > _g.player2Score.score) winningPlayer = 0; else winningPlayer = 1;
+				countdownText.set_text("" + GameTracker.player[winningPlayer].name + " wins!");
+				glm__$Vec3_Vec3_$Impl_$.set(countdownTransform.scale,4,4,4);
+				glm__$Vec3_Vec3_$Impl_$.copy(countdownTransform.lastScale,countdownTransform.scale);
+				GameTracker.player[winningPlayer].score++;
+				_g.entities.push(new tusk_Entity(_g,"WinMusic",[new tusk_lib_comp_SoundComponent(_g.winMusic.path,true)]));
+				countdownTimer.t = 0;
+				countdownTimer.wait = 3;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_7) {
+				var cec = new tusk_lib_comp_CircleEffectComponent(false);
+				_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
+					var $r;
+					var q9 = glm__$Quat_Quat_$Impl_$._new();
+					{
+						q9[0] = 1;
+						q9[1] = 0;
+						q9[2] = 0;
+						q9[3] = 0;
+						q9;
+					}
+					$r = q9;
+					return $r;
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(_g.quad.path),new tusk_lib_comp_MaterialComponent(_g.circleOutMat.path),cec]));
+				return cec.done;
+			}).then(function(_8) {
+				_g.sceneDone.resolve(_g);
+			});
+		});
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
+	}
+	,__class__: minigames_CaptainKnowItAll
+});
 var minigames_SledTillYoureDead = function() {
 	tusk_Scene.call(this,"SledTillYoureDead");
 };
@@ -5588,18 +6013,6 @@ var minigames_bottlerocket_TimerDisplayProcessor = function(entities) {
 };
 $hxClasses["minigames.bottlerocket.TimerDisplayProcessor"] = minigames_bottlerocket_TimerDisplayProcessor;
 minigames_bottlerocket_TimerDisplayProcessor.__name__ = ["minigames","bottlerocket","TimerDisplayProcessor"];
-minigames_bottlerocket_TimerDisplayProcessor.floatToStringPrecision = function(n,prec) {
-	n = Math.round(n * Math.pow(10,prec));
-	var str = "" + n;
-	var len = str.length;
-	if(len <= prec) {
-		while(len < prec) {
-			str = "0" + str;
-			len++;
-		}
-		return "0." + str;
-	} else return HxOverrides.substr(str,0,str.length - prec) + "." + HxOverrides.substr(str,str.length - prec,null);
-};
 minigames_bottlerocket_TimerDisplayProcessor.__super__ = tusk_Processor;
 minigames_bottlerocket_TimerDisplayProcessor.prototype = $extend(tusk_Processor.prototype,{
 	onUpdate: function(event) {
@@ -5612,7 +6025,7 @@ minigames_bottlerocket_TimerDisplayProcessor.prototype = $extend(tusk_Processor.
 			var timer = entity.get(6);
 			var timeLeft = timer.wait - timer.t;
 			if(timeLeft < 0) timeLeft = 0;
-			text.set_text(minigames_bottlerocket_TimerDisplayProcessor.floatToStringPrecision(timeLeft,2));
+			text.set_text(Util.floatToStringPrecision(timeLeft,2));
 		}
 	}
 	,___connectRoutes: function() {
@@ -5737,6 +6150,282 @@ minigames_bottlerocket_VelocityProcessor.prototype = $extend(tusk_Processor.prot
 		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
 	,__class__: minigames_bottlerocket_VelocityProcessor
+});
+var minigames_captainknowitall_ColourShiftComponent = function(hue,fadeTime,easing) {
+	this.secondStartBrightness = 10;
+	this.mainStartBrightness = 90;
+	this.startSaturation = 75;
+	this.active = false;
+	this.fadeTime = fadeTime;
+	this.easing = easing;
+	this.reset(hue);
+	tusk_Component.call(this);
+};
+$hxClasses["minigames.captainknowitall.ColourShiftComponent"] = minigames_captainknowitall_ColourShiftComponent;
+minigames_captainknowitall_ColourShiftComponent.__name__ = ["minigames","captainknowitall","ColourShiftComponent"];
+minigames_captainknowitall_ColourShiftComponent.__super__ = tusk_Component;
+minigames_captainknowitall_ColourShiftComponent.prototype = $extend(tusk_Component.prototype,{
+	reset: function(hue) {
+		this.t = 0;
+		this.colourMain = new hxColorToolkit_spaces_HSB(hue,this.startSaturation,this.mainStartBrightness);
+		this.colourSecond = new hxColorToolkit_spaces_HSB(hue,this.startSaturation,this.secondStartBrightness);
+	}
+	,get__tid: function() {
+		return 27;
+	}
+	,hxSerialize: function(s) {
+		s.serialize(this.colourMain);
+		s.serialize(this.colourSecond);
+		s.serialize(this.t);
+		s.serialize(this.fadeTime);
+		s.serialize(this.active);
+		s.serialize(this.startSaturation);
+		s.serialize(this.mainStartBrightness);
+		s.serialize(this.secondStartBrightness);
+		s.serialize(this.easing);
+	}
+	,hxUnserialize: function(s) {
+		s.serialize(this.colourMain);
+		s.serialize(this.colourSecond);
+		s.serialize(this.t);
+		s.serialize(this.fadeTime);
+		s.serialize(this.active);
+		s.serialize(this.startSaturation);
+		s.serialize(this.mainStartBrightness);
+		s.serialize(this.secondStartBrightness);
+		s.serialize(this.easing);
+	}
+	,__class__: minigames_captainknowitall_ColourShiftComponent
+});
+var minigames_captainknowitall_ColourShiftProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(27).include(8);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.captainknowitall.ColourShiftProcessor"] = minigames_captainknowitall_ColourShiftProcessor;
+minigames_captainknowitall_ColourShiftProcessor.__name__ = ["minigames","captainknowitall","ColourShiftProcessor"];
+minigames_captainknowitall_ColourShiftProcessor.__super__ = tusk_Processor;
+minigames_captainknowitall_ColourShiftProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var c = entity.get(27);
+			var m = entity.get(8);
+			c.colourMain.set_saturation(c.easing(c.t,c.startSaturation,0 - c.startSaturation,c.fadeTime));
+			c.colourSecond.set_saturation(c.easing(c.t,c.startSaturation,0 - c.startSaturation,c.fadeTime));
+			c.colourMain.set_brightness(c.easing(c.t,c.mainStartBrightness,0 - c.mainStartBrightness,c.fadeTime));
+			c.colourSecond.set_brightness(c.easing(c.t,c.secondStartBrightness,0 - c.secondStartBrightness,c.fadeTime));
+			var topColour = c.colourMain.toRGB();
+			var botColour = c.colourSecond.toRGB();
+			var top;
+			var a = glm__$Vec4_Vec4_$Impl_$._new(topColour.get_red(),topColour.get_green(),topColour.get_blue(),255);
+			top = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),255);
+			var bot;
+			var a1 = glm__$Vec4_Vec4_$Impl_$._new(botColour.get_red(),botColour.get_green(),botColour.get_blue(),255);
+			bot = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a1),255);
+			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[0],bot);
+			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[1],bot);
+			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[2],top);
+			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[3],top);
+			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[4],top);
+			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[5],bot);
+			m.bufferDirty = true;
+			if(!c.active) continue;
+			c.t += event.dt;
+			if(c.t >= c.fadeTime) c.t = c.fadeTime;
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_captainknowitall_ColourShiftProcessor
+});
+var minigames_captainknowitall_PlayerAnswerComponent = function(player,timer) {
+	this.aiAnswerTimer = 0.1 + 0.9 * Math.random();
+	this.player = player;
+	this.answer = -1;
+	this.timer = timer;
+	tusk_PromiseComponent.call(this);
+};
+$hxClasses["minigames.captainknowitall.PlayerAnswerComponent"] = minigames_captainknowitall_PlayerAnswerComponent;
+minigames_captainknowitall_PlayerAnswerComponent.__name__ = ["minigames","captainknowitall","PlayerAnswerComponent"];
+minigames_captainknowitall_PlayerAnswerComponent.__super__ = tusk_PromiseComponent;
+minigames_captainknowitall_PlayerAnswerComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
+	hxSerialize: function(s) {
+		s.serialize(this.player);
+		s.serialize(this.answer);
+		s.serialize(this.timer);
+		s.serialize(this.aiAnswerTimer);
+	}
+	,hxUnserialize: function(s) {
+		s.serialize(this.player);
+		s.serialize(this.answer);
+		s.serialize(this.timer);
+		s.serialize(this.aiAnswerTimer);
+	}
+	,get__tid: function() {
+		return 24;
+	}
+	,__class__: minigames_captainknowitall_PlayerAnswerComponent
+});
+var minigames_captainknowitall_PlayerAnswerProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(24).include(1);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.captainknowitall.PlayerAnswerProcessor"] = minigames_captainknowitall_PlayerAnswerProcessor;
+minigames_captainknowitall_PlayerAnswerProcessor.__name__ = ["minigames","captainknowitall","PlayerAnswerProcessor"];
+minigames_captainknowitall_PlayerAnswerProcessor.__super__ = tusk_Processor;
+minigames_captainknowitall_PlayerAnswerProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var p = entity.get(24);
+			var t = entity.get(1);
+			if(p.timer.active && p.timer.t > 0) {
+				if(GameTracker.player[p.player].isCPU) {
+					p.aiAnswerTimer -= event.dt;
+					if(p.aiAnswerTimer <= 0) {
+						var dice = Math.random();
+						if(dice >= 0.15) {
+							tusk_debug_Log.log("AI answering correctly",tusk_debug_LogFunctions.Info,{ fileName : "PlayerAnswerProcessor.hx", lineNumber : 32, className : "minigames.captainknowitall.PlayerAnswerProcessor", methodName : "onUpdate"});
+							if(minigames_CaptainKnowItAll.aIsCorrect) p.answer = 0; else p.answer = 1;
+						} else {
+							tusk_debug_Log.log("AI answering incorrectly",tusk_debug_LogFunctions.Info,{ fileName : "PlayerAnswerProcessor.hx", lineNumber : 37, className : "minigames.captainknowitall.PlayerAnswerProcessor", methodName : "onUpdate"});
+							if(minigames_CaptainKnowItAll.aIsCorrect) p.answer = 1; else p.answer = 0;
+						}
+						p.timer.active = false;
+						p.finish();
+						p.aiAnswerTimer = 0.05 + 0.7 * Math.random();
+					}
+				} else if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[p.player].btnA)) {
+					p.timer.active = false;
+					p.answer = 0;
+					p.finish();
+				} else if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[p.player].btnB)) {
+					p.timer.active = false;
+					p.answer = 1;
+					p.finish();
+				}
+			} else if(p.timer.t <= 0 && !p.done._resolved) p.finish();
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_captainknowitall_PlayerAnswerProcessor
+});
+var minigames_captainknowitall_PlayerScoreComponent = function(player) {
+	this.player = player;
+	this.score = 0;
+	tusk_Component.call(this);
+};
+$hxClasses["minigames.captainknowitall.PlayerScoreComponent"] = minigames_captainknowitall_PlayerScoreComponent;
+minigames_captainknowitall_PlayerScoreComponent.__name__ = ["minigames","captainknowitall","PlayerScoreComponent"];
+minigames_captainknowitall_PlayerScoreComponent.__super__ = tusk_Component;
+minigames_captainknowitall_PlayerScoreComponent.prototype = $extend(tusk_Component.prototype,{
+	get__tid: function() {
+		return 26;
+	}
+	,hxSerialize: function(s) {
+		s.serialize(this.player);
+		s.serialize(this.score);
+	}
+	,hxUnserialize: function(s) {
+		s.serialize(this.player);
+		s.serialize(this.score);
+	}
+	,__class__: minigames_captainknowitall_PlayerScoreComponent
+});
+var minigames_captainknowitall_PlayerScoreProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(26).include(1);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.captainknowitall.PlayerScoreProcessor"] = minigames_captainknowitall_PlayerScoreProcessor;
+minigames_captainknowitall_PlayerScoreProcessor.__name__ = ["minigames","captainknowitall","PlayerScoreProcessor"];
+minigames_captainknowitall_PlayerScoreProcessor.__super__ = tusk_Processor;
+minigames_captainknowitall_PlayerScoreProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var p = entity.get(26);
+			var t = entity.get(1);
+			t.set_text("" + GameTracker.player[p.player].name + ": " + p.score);
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_captainknowitall_PlayerScoreProcessor
+});
+var minigames_captainknowitall_PlayerTimerComponent = function(t) {
+	this.active = false;
+	this.t = t;
+	tusk_Component.call(this);
+};
+$hxClasses["minigames.captainknowitall.PlayerTimerComponent"] = minigames_captainknowitall_PlayerTimerComponent;
+minigames_captainknowitall_PlayerTimerComponent.__name__ = ["minigames","captainknowitall","PlayerTimerComponent"];
+minigames_captainknowitall_PlayerTimerComponent.__super__ = tusk_Component;
+minigames_captainknowitall_PlayerTimerComponent.prototype = $extend(tusk_Component.prototype,{
+	get__tid: function() {
+		return 25;
+	}
+	,hxSerialize: function(s) {
+		s.serialize(this.t);
+		s.serialize(this.active);
+	}
+	,hxUnserialize: function(s) {
+		s.serialize(this.t);
+		s.serialize(this.active);
+	}
+	,__class__: minigames_captainknowitall_PlayerTimerComponent
+});
+var minigames_captainknowitall_PlayerTimerProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(25).include(1);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.captainknowitall.PlayerTimerProcessor"] = minigames_captainknowitall_PlayerTimerProcessor;
+minigames_captainknowitall_PlayerTimerProcessor.__name__ = ["minigames","captainknowitall","PlayerTimerProcessor"];
+minigames_captainknowitall_PlayerTimerProcessor.__super__ = tusk_Processor;
+minigames_captainknowitall_PlayerTimerProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var p = entity.get(25);
+			var t = entity.get(1);
+			if(p.active && p.t > 0) {
+				p.t -= event.dt;
+				if(p.t < 0) p.t = 0;
+			}
+			t.set_text(Util.floatToStringPrecision(p.t,3));
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,___disconnectRoutes: function() {
+		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_captainknowitall_PlayerTimerProcessor
 });
 var minigames_sledtillyouredead_AnimatedSledComponent = function(mesh,frames,frameRate) {
 	this.t = 0;
@@ -14468,6 +15157,10 @@ minigames_bottlerocket_TransformTrackerComponent.tid = 16;
 minigames_bottlerocket_TransformTrackerProcessor.gravity = -10;
 minigames_bottlerocket_VelocityComponent.tid = 13;
 minigames_bottlerocket_VelocityProcessor.gravity = -1024;
+minigames_captainknowitall_ColourShiftComponent.tid = 27;
+minigames_captainknowitall_PlayerAnswerComponent.tid = 24;
+minigames_captainknowitall_PlayerScoreComponent.tid = 26;
+minigames_captainknowitall_PlayerTimerComponent.tid = 25;
 minigames_sledtillyouredead_AnimatedSledComponent.tid = 21;
 minigames_sledtillyouredead_CollisionComponent.tid = 20;
 minigames_sledtillyouredead_CollisionProcessor.scrollSpeed = 512;
