@@ -23,7 +23,7 @@ class LoadingScreen extends Scene {
 	public function new(gameName:String, loadingDone:Promise<Scene>) {
 		this.gameName = gameName;
 		this.loadingDone = loadingDone;
-		super('Loading screen!');
+		super('LoadingScreen');
 	}
 
 	private static var salutations:Array<String> = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'The'];
@@ -108,10 +108,10 @@ class LoadingScreen extends Scene {
 				entities.push(new Entity(this, '', [new SoundComponent(loadingCrunch.path, true)]));
 				var scp1:loading.SlamComponent = new loading.SlamComponent(0.5, 16, 2);
 				entities.push(new Entity(this, 'Player 1', [
-					new TransformComponent(new Vec3(-256, 0, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
+					new TransformComponent(new Vec3(-256, 192, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
 					new MeshComponent(textMesh.clone('p1text')),
 					new MaterialComponent(fontMat.path),
-					new TextComponent(font, '${GameTracker.player[0].name}\nAKA. ${generateName()}\nhas ${GameTracker.player[0].score} points!',
+					new TextComponent(font, '${GameTracker.player[0].name}\nAKA. ${generateName()}\n(with ${GameTracker.player[0].score} points!)',
 						TextAlign.Centre, TextVerticalAlign.Centre,
 						new Vec4(1, 1, 1, 1)),
 					scp1
@@ -125,7 +125,7 @@ class LoadingScreen extends Scene {
 					new MeshComponent(textMesh.clone('vstext')),
 					new MaterialComponent(fontMat.path),
 					new TextComponent(font, 'VS',
-						TextAlign.Centre, TextVerticalAlign.Centre,
+						TextAlign.Centre, TextVerticalAlign.Top,
 						new Vec4(1, 1, 1, 1)),
 					scvs
 				]));
@@ -134,10 +134,10 @@ class LoadingScreen extends Scene {
 				entities.push(new Entity(this, '', [new SoundComponent(loadingCrunch.path, true)]));
 				var scp2:loading.SlamComponent = new loading.SlamComponent(0.5, 16, 2);
 				entities.push(new Entity(this, 'Player 2', [
-					new TransformComponent(new Vec3(256, 0, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
+					new TransformComponent(new Vec3(256, 192, 0.05), Quat.identity(), new Vec3(2, 2, 2)),
 					new MeshComponent(textMesh.clone('p2text')),
 					new MaterialComponent(fontMat.path),
-					new TextComponent(font, '${GameTracker.player[1].name}\nAKA. ${generateName()}\nhas ${GameTracker.player[1].score} points!',
+					new TextComponent(font, '${GameTracker.player[1].name}\nAKA. ${generateName()}\n(with ${GameTracker.player[1].score} points!)',
 						TextAlign.Centre, TextVerticalAlign.Centre,
 						new Vec4(1, 1, 1, 1)),
 					scp2
@@ -167,6 +167,7 @@ class LoadingScreen extends Scene {
 				entities.push(new Entity(this, 'Delay', [fadeDelay]));
 				return fadeDelay.done;
 			}).pipe(function(_) {
+				Log.info('Waiting for loading to complete..');
 				return loadingDone;
 			}).pipe(function(_) {
 				cec.t = 0;
@@ -174,7 +175,10 @@ class LoadingScreen extends Scene {
 				cec.reset();
 				return cec.done;
 			}).then(function(_) {
+				Log.info('Loading screen done!');
 				sceneDone.resolve(this);
+			}).catchError(function(err:Dynamic) {
+				Log.error(err);
 			});
 
 			// tell the processors we've started

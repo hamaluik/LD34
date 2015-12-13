@@ -24,10 +24,10 @@ class Main extends Game {
 
 	private var minigameDone:Deferred<Scene> = new Deferred<Scene>();
 	private function pickRandomLevel() {
-		var dice:Int = tusk.math.Random.int(0, 0);
+		var dice:Int = tusk.math.Random.int(0, 1);
 		var scene:Scene = switch(dice) {
-			case 0: new minigames.BottleRocket();
 			default: new minigames.BottleRocket();
+			case 1: new minigames.SledTillYoureDead();
 		}
 		Tusk.pushScene(scene).then(function(scene:Scene) {
 			Tusk.removeScene(scene);
@@ -37,7 +37,7 @@ class Main extends Game {
 
 	override public function setup() {
 		Log.info('Setting up game...');
-		Tusk.pushScene(new tusk.defaults.scenes.SplashScreen()).pipe(function(scene:tusk.Scene) {
+		/*Tusk.pushScene(new tusk.defaults.scenes.SplashScreen()).pipe(function(scene:tusk.Scene) {
 			Tusk.removeScene(scene);
 			return Tusk.pushScene(new Intro());
 		}).then(function(scene:Scene) {
@@ -46,7 +46,7 @@ class Main extends Game {
 			Stream.whenever(minigameDone.stream()).then(function(_) {
 				pickRandomLevel();
 			});
-		});
+		});*/
 
 		/*pickRandomLevel();
 		Stream.whenever(minigameDone.stream()).then(function(_) {
@@ -55,5 +55,6 @@ class Main extends Game {
 		
 		//Tusk.pushScene(new Intro());
 		//Tusk.pushScene(new minigames.BottleRocket());
+		Tusk.pushScene(new minigames.SledTillYoureDead());
 	}
 }

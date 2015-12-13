@@ -130,7 +130,6 @@ class BottleRocket extends Scene {
 		Promise.when(loadingScreen.sceneDone.promise(), loadComplete).then(function(_, _) {
 			Tusk.removeScene(loadingScreen);
 			Camera2DProcessor.cameras = new Array<Camera2DComponent>();
-			Log.info('Num cameras: ${Camera2DProcessor.cameras.length}');
 			// start the game!
 			Log.info('Starting bottle rocket!');
 
@@ -156,7 +155,6 @@ class BottleRocket extends Scene {
 				new Camera2DComponent(new Vec2(w, h) / -2.0, new Vec2(w, h) / 2.0, -100, 100)
 			]);
 			entities.push(camera);
-			Log.info('Num cameras: ${Camera2DProcessor.cameras.length}');
 
 			// the tilemap in the background
 			entities.push(new Entity(this, 'TileMap', [
