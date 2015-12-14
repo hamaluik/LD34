@@ -27,21 +27,21 @@ class PlayerAnswerProcessor extends Processor {
 					if(p.aiAnswerTimer <= 0) {
 						// answer the question!
 						var dice:Float = tusk.math.Random.float(0, 1);
-						if(dice >= 0.15) {
+						if(dice >= 0.25) {
 							// answer correctly
-							Log.info('AI answering correctly');
+							//Log.info('AI answering correctly');
 							p.answer = CaptainKnowItAll.aIsCorrect ? 0 : 1;
 						}
 						else {
 							// answer incorrectly
-							Log.info('AI answering incorrectly');
+							//Log.info('AI answering incorrectly');
 							p.answer = CaptainKnowItAll.aIsCorrect ? 1 : 0;
 						}
 						p.timer.active = false;
 						p.finish();
 
 						// reset the timer
-						p.aiAnswerTimer = tusk.math.Random.float(0.05, 0.75);
+						p.aiAnswerTimer = tusk.math.Random.float(0.05, 1.5);
 					}
 				}
 				else {

@@ -309,6 +309,7 @@ class SledTillYoureDead extends Scene {
 				for(entity in entities) {
 					// stop moving
 					if(entity.hasType(ScrollComponent.tid)) entity.removeType(ScrollComponent.tid);
+					if(entity.hasType(MovementComponent.tid)) entity.removeType(MovementComponent.tid);
 					// stop spawning
 					if(entity.name == 'Spawner') Tusk.removeEntity(entity);
 					// stop animating

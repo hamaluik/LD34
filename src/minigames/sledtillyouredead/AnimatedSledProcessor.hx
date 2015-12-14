@@ -24,7 +24,12 @@ class AnimatedSledProcessor extends Processor {
 				a.t = 0;
 				a.frame++;
 				if(a.frame >= a.frames) {
-					a.frame = 0;
+					if(a.destroyOnDone) {
+						Tusk.removeEntity(entity);
+					}
+					else {
+						a.frame = 0;
+					}
 				}
 
 				m.mesh.uvs[0].x = a.frame * a.uvxDelta;

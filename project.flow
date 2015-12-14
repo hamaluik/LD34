@@ -11,7 +11,7 @@
 		},
 
 		build: {
-			flags: [],
+			flags: ['-dce full'],
 			dependencies: {
 				tusk: '*',
 				hxColorToolkit: '*'
