@@ -189,7 +189,14 @@ class SpaceCops extends Scene {
 	private var movements:Array<Float->Float->Float> = [
 		function(t:Float, end:Float):Float { return 220; },
 		function(t:Float, end:Float):Float { return tusk.math.Lerp.LerpF(-500, 500, t/end); },
-		function(t:Float, end:Float):Float { return tusk.math.Lerp.LerpF(500, -500, t/end); }
+		function(t:Float, end:Float):Float { return tusk.math.Lerp.LerpF(500, -500, t/end); },
+		function(t:Float, end:Float):Float { return tusk.math.Lerp.LerpF(300, 0, t/end); },
+		function(t:Float, end:Float):Float { return Math.sin(2 * Math.PI * 2 * (t/end)) * 100 + 100; },
+		function(t:Float, end:Float):Float { return 100*Math.pow(t - end/2,2); },
+		function(t:Float, end:Float):Float { return -100*Math.pow(t - end/2,2); },
+		function(t:Float, end:Float):Float { return 50*Math.sin(2*Math.PI*t/end - (end/3))+100; },
+		function(t:Float, end:Float):Float { return 450*Math.cos(2*Math.PI*t/(end/2)); },
+		function(t:Float, end:Float):Float { return -450*Math.cos(2*Math.PI*t/(end/2)); },
 	];
 
 	public function spawnCrook(life:Float, xMoveIndex:Int, yMoveIndex:Int):Promise<Bool> {
@@ -216,11 +223,11 @@ class SpaceCops extends Scene {
 		Log.info("Loading space cops scene..");
 
 		var loadComplete:Promise<Scene> = loadAssets();
-		/*var loadingScreen:LoadingScreen = new LoadingScreen('Space Cops!', loadComplete);
+		var loadingScreen:LoadingScreen = new LoadingScreen('Space Cops!', loadComplete);
 		Tusk.pushScene(loadingScreen);
 		Promise.when(loadingScreen.sceneDone.promise(), loadComplete).then(function(_, _) {
-			Tusk.removeScene(loadingScreen);*/
-		loadComplete.then(function(_) {
+			Tusk.removeScene(loadingScreen);
+		//loadComplete.then(function(_) {
 			Camera2DProcessor.cameras = new Array<Camera2DComponent>();
 			// start the game!
 			Log.info('Starting space cops!');
@@ -383,11 +390,55 @@ class SpaceCops extends Scene {
 				spaceJamComponent.play = true;
 
 				// start the waves
-				var wave:WaveComponent = new WaveComponent(0.25, 10, spawnCrook, 5, 1, 0);
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 1, 0);
 				entities.push(new Entity(this, '', [wave]));
 				return wave.done;
 			}).pipe(function(_) {
-				var wave:WaveComponent = new WaveComponent(0.25, 10, spawnCrook, 5, 2, 0);
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 2, 0);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 1, 0);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 1, 3);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 2, 3);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 1, 4);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 2, 4);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 5, 0);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 6, 0);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 1, 7);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 2, 7);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 8, 7);
+				entities.push(new Entity(this, '', [wave]));
+				return wave.done;
+			}).pipe(function(_) {
+				var wave:WaveComponent = new WaveComponent(0.25, 5, spawnCrook, 5, 9, 7);
 				entities.push(new Entity(this, '', [wave]));
 				return wave.done;
 			}).pipe(function(_) {

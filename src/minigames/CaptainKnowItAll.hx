@@ -218,8 +218,8 @@ class CaptainKnowItAll extends Scene {
 			var answerDef:Deferred<Bool> = new Deferred<Bool>();
 			var answerPromise:Promise<Bool> = answerDef.promise();
 			//Promise.when(player1Answer.done).then(function(_) { js.Lib.debug(); answerDef.resolve(true); });
-			player1Answer.done.then(function(_) { player1LockedIn.text = 'Locked in!'; if(player2Answer.done.isResolved()) answerDef.resolve(true); });
-			player2Answer.done.then(function(_) { player2LockedIn.text = 'Locked in!'; if(player1Answer.done.isResolved()) answerDef.resolve(true); });
+			player1Answer.done.then(function(_) { player1LockedIn.text = player1Timer.t <= 0 ? 'Outta time!' : 'Locked in!'; if(player2Answer.done.isResolved()) answerDef.resolve(true); });
+			player2Answer.done.then(function(_) { player2LockedIn.text = player2Timer.t <= 0 ? 'Outta time!' : 'Locked in!'; if(player1Answer.done.isResolved()) answerDef.resolve(true); });
 			return answerPromise;
 		}).then(function(_) {
 			// ok, both players have answered!
