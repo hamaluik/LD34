@@ -29,7 +29,7 @@ EReg.prototype = {
 	,__class__: EReg
 };
 var Player = function(name,isCPU,btnA,btnAName,btnB,btnBName,colour) {
-	this.name = name;
+	this._name = name;
 	this.isCPU = isCPU;
 	this.btnA = btnA;
 	this.btnB = btnB;
@@ -41,7 +41,11 @@ var Player = function(name,isCPU,btnA,btnAName,btnB,btnBName,colour) {
 $hxClasses["Player"] = Player;
 Player.__name__ = ["Player"];
 Player.prototype = {
-	__class__: Player
+	get_name: function() {
+		if(this.isCPU) return "Mr. Computer";
+		return this._name;
+	}
+	,__class__: Player
 };
 var snow_system_input_Scancodes = function() { };
 $hxClasses["snow.system.input.Scancodes"] = snow_system_input_Scancodes;
@@ -637,7 +641,7 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 					}
 					$r = q2;
 					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[0].name + "\nAKA. " + _g.generateName() + "\n(with " + GameTracker.player[0].score + " points!)",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp1]));
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[0].get_name() + "\nAKA. " + _g.generateName() + "\n(with " + GameTracker.player[0].score + " points!)",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp1]));
 				return scp1.done;
 			}).pipe(function(_1) {
 				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(loadingCrunch.path,true)]));
@@ -671,7 +675,7 @@ LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
 					}
 					$r = q4;
 					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[1].name + "\nAKA. " + _g.generateName() + "\n(with " + GameTracker.player[1].score + " points!)",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp2]));
+				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[1].get_name() + "\nAKA. " + _g.generateName() + "\n(with " + GameTracker.player[1].score + " points!)",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp2]));
 				return scp2.done;
 			}).pipe(function(_3) {
 				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(introWobble.path,true)]));
@@ -3776,7 +3780,7 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 				glm__$Vec3_Vec3_$Impl_$.set(countdownTransform.scale,4,4,4);
 				glm__$Vec3_Vec3_$Impl_$.copy(countdownTransform.lastScale,countdownTransform.scale);
 				if(winner >= 0) {
-					countdownText.set_text(GameTracker.player[winner].name + " wins!");
+					countdownText.set_text(GameTracker.player[winner].get_name() + " wins!");
 					GameTracker.player[winner].score += 1;
 				} else countdownText.set_text("Tie!");
 				_g.entities.push(new tusk_Entity(_g,"WinMusic",[new tusk_lib_comp_SoundComponent(_g.winMusic.path,true)]));
@@ -4081,7 +4085,7 @@ minigames_CaptainKnowItAll.prototype = $extend(tusk_Scene.prototype,{
 				}
 				$r = q3;
 				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[0].name + ": 0",tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player1Score,_g.player1Answer]));
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[0].get_name() + ": 0",tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player1Score,_g.player1Answer]));
 			_g.entities.push(new tusk_Entity(_g,"Player 1 Timer",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2 + 32,tusk_Tusk.game.get_height() / -2 + 32,0.05),(function($this) {
 				var $r;
 				var q4 = glm__$Quat_Quat_$Impl_$._new();
@@ -4120,7 +4124,7 @@ minigames_CaptainKnowItAll.prototype = $extend(tusk_Scene.prototype,{
 				}
 				$r = q6;
 				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[1].name + ": 0",tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player2Score,_g.player2Answer]));
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[1].get_name() + ": 0",tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player2Score,_g.player2Answer]));
 			_g.entities.push(new tusk_Entity(_g,"Player 2 Timer",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2 - 32,tusk_Tusk.game.get_height() / -2 + 32,0.05),(function($this) {
 				var $r;
 				var q7 = glm__$Quat_Quat_$Impl_$._new();
@@ -4206,7 +4210,7 @@ minigames_CaptainKnowItAll.prototype = $extend(tusk_Scene.prototype,{
 			}).pipe(function(_7) {
 				var winningPlayer = -1;
 				if(_g.player1Score.score == _g.player2Score.score) if(_g.player1Timer.t >= _g.player2Timer.t) winningPlayer = 0; else winningPlayer = 1; else if(_g.player1Score.score > _g.player2Score.score) winningPlayer = 0; else winningPlayer = 1;
-				countdownText.set_text("" + GameTracker.player[winningPlayer].name + " wins!");
+				countdownText.set_text("" + GameTracker.player[winningPlayer].get_name() + " wins!");
 				glm__$Vec3_Vec3_$Impl_$.set(countdownTransform.scale,4,4,4);
 				glm__$Vec3_Vec3_$Impl_$.copy(countdownTransform.lastScale,countdownTransform.scale);
 				GameTracker.player[winningPlayer].score++;
@@ -4526,7 +4530,7 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				});
 				return hitPromise;
 			}).pipe(function(player) {
-				tusk_debug_Log.log("" + GameTracker.player[player].name + " hit an obstacle!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 302, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+				tusk_debug_Log.log("" + GameTracker.player[player].get_name() + " hit an obstacle!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 302, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
 				sledMusicComponent.play = false;
 				sledMusicComponent.stop = true;
 				var _g11 = 0;
@@ -4539,7 +4543,7 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 					if(entity.name == "Spawner") tusk_Tusk.removeEntity(entity);
 					if(entity.hasType(25)) entity.removeType(25);
 				}
-				countdownText.set_text("" + GameTracker.player[1 - player].name + " wins!");
+				countdownText.set_text("" + GameTracker.player[1 - player].get_name() + " wins!");
 				glm__$Vec3_Vec3_$Impl_$.set(countdownTransform.scale,4,4,4);
 				glm__$Vec3_Vec3_$Impl_$.copy(countdownTransform.lastScale,countdownTransform.scale);
 				GameTracker.player[1 - player].score++;
@@ -4675,12 +4679,12 @@ minigames_SpaceCops.prototype = $extend(tusk_Scene.prototype,{
 	}
 	,set_p1Score: function(x) {
 		this.p1Score = x;
-		this.player1ScoreDisplay.set_text("" + GameTracker.player[0].name + ": " + this.p1Score);
+		this.player1ScoreDisplay.set_text("" + GameTracker.player[0].get_name() + ": " + this.p1Score);
 		return x;
 	}
 	,set_p2Score: function(x) {
 		this.p2Score = x;
-		this.player2ScoreDisplay.set_text("" + GameTracker.player[1].name + ": " + this.p2Score);
+		this.player2ScoreDisplay.set_text("" + GameTracker.player[1].get_name() + ": " + this.p2Score);
 		return x;
 	}
 	,spawnBullet: function(player,x,y) {
@@ -4891,8 +4895,8 @@ minigames_SpaceCops.prototype = $extend(tusk_Scene.prototype,{
 				++_g12;
 				glm__$Vec2_Vec2_$Impl_$.set_x(uv1,glm__$Vec2_Vec2_$Impl_$.get_x(uv1) / 8);
 			}
-			_g.player1ScoreDisplay = new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[0].name + ": " + _g.p1Score,tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
-			_g.player2ScoreDisplay = new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[1].name + ": " + _g.p2Score,tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			_g.player1ScoreDisplay = new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[0].get_name() + ": " + _g.p1Score,tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			_g.player2ScoreDisplay = new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[1].get_name() + ": " + _g.p2Score,tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
 			_g.entities.push(new tusk_Entity(_g,"Player 1 Score",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2 + 8,tusk_Tusk.game.get_height() / -2 + 8,-0.05),(function($this) {
 				var $r;
 				var q6 = glm__$Quat_Quat_$Impl_$._new();
@@ -5029,7 +5033,7 @@ minigames_SpaceCops.prototype = $extend(tusk_Scene.prototype,{
 				glm__$Vec3_Vec3_$Impl_$.set(countdownTransform.scale,4,4,4);
 				glm__$Vec3_Vec3_$Impl_$.copy(countdownTransform.lastScale,countdownTransform.scale);
 				if(winner >= 0) {
-					countdownText.set_text(GameTracker.player[winner].name + " wins!");
+					countdownText.set_text(GameTracker.player[winner].get_name() + " wins!");
 					GameTracker.player[winner].score += 1;
 				} else countdownText.set_text("Tie!");
 				var _g14 = 0;
@@ -5476,7 +5480,7 @@ minigames_captainknowitall_PlayerScoreProcessor.prototype = $extend(tusk_Process
 			++_g;
 			var p = entity.get(15);
 			var t = entity.get(1);
-			t.set_text("" + GameTracker.player[p.player].name + ": " + p.score);
+			t.set_text("" + GameTracker.player[p.player].get_name() + ": " + p.score);
 		}
 	}
 	,___connectRoutes: function() {
@@ -6171,7 +6175,6 @@ var partials_Partial = function() { };
 $hxClasses["partials.Partial"] = partials_Partial;
 partials_Partial.__name__ = ["partials","Partial"];
 var promhx_base_AsyncBase = function(d) {
-	this.id = promhx_base_AsyncBase.id_ctr += 1;
 	this._resolved = false;
 	this._pending = false;
 	this._errorPending = false;
@@ -11866,14 +11869,14 @@ GameTracker.player = [new Player("Player 1",false,snow_system_input_Keycodes.key
 	var a = glm__$Vec3_Vec3_$Impl_$._new(205,53,23);
 	$r = glm__$Vec3_Vec3_$Impl_$.divideScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),255);
 	return $r;
-}(this))),new Player("Mr. Computer",true,snow_system_input_Keycodes.key_i,"I",snow_system_input_Keycodes.key_p,"P",(function($this) {
+}(this))),new Player("Player 2",true,snow_system_input_Keycodes.key_i,"I",snow_system_input_Keycodes.key_p,"P",(function($this) {
 	var $r;
 	var a1 = glm__$Vec3_Vec3_$Impl_$._new(238,196,49);
 	$r = glm__$Vec3_Vec3_$Impl_$.divideScalar(glm__$Vec3_Vec3_$Impl_$.clone(a1),255);
 	return $r;
 }(this)))];
 LoadingScreen.salutations = ["Mr.","Mrs.","Ms.","Dr.","The"];
-LoadingScreen.adjectives = ["Purple","Green","Fast","Slow","Time-Travelling","Time Traveller's","Clever","Crispy","Clumsy","Thrifty","Quick","Cranky","Lumpy","Polite","Sparkling","Sturdy","Creaky","Odd","Friendly"];
+LoadingScreen.adjectives = ["Purple","Green","Fast","Slow","Time-Travelling","Time Traveller's","Clever","Clumsy","Thrifty","Quick","Cranky","Lumpy","Polite","Sparkling","Sturdy","Creaky","Odd","Friendly"];
 LoadingScreen.nouns = ["Wife","Husband","Son","Daughter","Lawyer","Swordfish","Squid","Cheetah","Space-man","Cosmonaut","Apprentice","Champ","Pancake","Chicken","Unicorn","Bunny","Gnome","Mermaid"];
 haxe_Serializer.BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%:";
 haxe_Unserializer.BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%:";
@@ -11914,7 +11917,6 @@ minigames_spacecops_RailedMovementComponent.tid = 26;
 minigames_spacecops_ScrollComponent.tid = 29;
 minigames_spacecops_ShooterComponent.tid = 28;
 minigames_spacecops_WaveComponent.tid = 27;
-promhx_base_AsyncBase.id_ctr = 0;
 promhx_base_EventLoop.queue = new List();
 snow_api_Promises.calls = [];
 snow_api_Promises.defers = [];
@@ -11938,5 +11940,3 @@ tusk_lib_comp_TransformComponent.tid = 5;
 tusk_lib_proc_Camera2DProcessor.cameras = [];
 TuskApp.main();
 })(typeof console != "undefined" ? console : {log:function(){}}, typeof window != "undefined" ? window : exports, typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
-
-//# sourceMappingURL=ld34.js.map

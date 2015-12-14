@@ -27,7 +27,7 @@ class LoadingScreen extends Scene {
 	}
 
 	private static var salutations:Array<String> = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'The'];
-	private static var adjectives:Array<String> = ['Purple', 'Green', 'Fast', 'Slow', 'Time-Travelling', 'Time Traveller\'s', 'Clever', 'Crispy',
+	private static var adjectives:Array<String> = ['Purple', 'Green', 'Fast', 'Slow', 'Time-Travelling', 'Time Traveller\'s', 'Clever',
 		'Clumsy', 'Thrifty', 'Quick', 'Cranky', 'Lumpy', 'Polite', 'Sparkling', 'Sturdy', 'Creaky', 'Odd', 'Friendly'];
 	private static var nouns:Array<String> = ['Wife', 'Husband', 'Son', 'Daughter', 'Lawyer', 'Swordfish', 'Squid', 'Cheetah', 'Space-man',
 		'Cosmonaut', 'Apprentice', 'Champ', 'Pancake', 'Chicken', 'Unicorn', 'Bunny', 'Gnome', 'Mermaid'];

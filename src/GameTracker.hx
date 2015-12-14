@@ -3,7 +3,12 @@ import snow.types.Types.Key;
 import glm.Vec3;
 
 class Player {
-	public var name:String;
+	private var _name:String;
+	public var name(get, null):String;
+	public function get_name():String {
+		if(isCPU) return 'Mr. Computer';
+		return _name;
+	}
 	public var isCPU:Bool;
 	public var btnA:Int;
 	public var btnB:Int;
@@ -13,7 +18,7 @@ class Player {
 	public var colour:Vec3;
 
 	public function new(name:String, isCPU:Bool, btnA:Int, btnAName:String, btnB:Int, btnBName:String, colour:Vec3) {
-		this.name = name;
+		this._name = name;
 		this.isCPU = isCPU;
 		this.btnA = btnA;
 		this.btnB = btnB;
@@ -29,6 +34,6 @@ class GameTracker {
 
 	public static var player:Array<Player> = [
 		new Player('Player 1', false, Key.key_q, 'Q', Key.key_e, 'E', new Vec3(205, 53, 23) / 255),
-		new Player('Mr. Computer', true, Key.key_i, 'I', Key.key_p, 'P', new Vec3(238, 196, 49) / 255)
+		new Player('Player 2', true, Key.key_i, 'I', Key.key_p, 'P', new Vec3(238, 196, 49) / 255)
 	];
 }
