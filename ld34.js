@@ -46,11 +46,6 @@ Player.prototype = {
 var snow_system_input_Scancodes = function() { };
 $hxClasses["snow.system.input.Scancodes"] = snow_system_input_Scancodes;
 snow_system_input_Scancodes.__name__ = ["snow","system","input","Scancodes"];
-snow_system_input_Scancodes.$name = function(scancode) {
-	var res = null;
-	if(scancode >= 0 && scancode < snow_system_input_Scancodes.scancode_names.length) res = snow_system_input_Scancodes.scancode_names[scancode];
-	if(res != null) return res; else return "";
-};
 var snow_system_input_Keycodes = function() { };
 $hxClasses["snow.system.input.Keycodes"] = snow_system_input_Keycodes;
 snow_system_input_Keycodes.__name__ = ["snow","system","input","Keycodes"];
@@ -159,27 +154,6 @@ snow_system_input_Keycodes.to_scan = function(keycode) {
 	}
 	return snow_system_input_Scancodes.unknown;
 };
-snow_system_input_Keycodes.$name = function(keycode) {
-	if((keycode & snow_system_input_Scancodes.MASK) != 0) return snow_system_input_Scancodes.$name(keycode & ~snow_system_input_Scancodes.MASK);
-	switch(keycode) {
-	case 13:
-		return snow_system_input_Scancodes.$name(snow_system_input_Scancodes.enter);
-	case 27:
-		return snow_system_input_Scancodes.$name(snow_system_input_Scancodes.escape);
-	case 8:
-		return snow_system_input_Scancodes.$name(snow_system_input_Scancodes.backspace);
-	case 9:
-		return snow_system_input_Scancodes.$name(snow_system_input_Scancodes.tab);
-	case 32:
-		return snow_system_input_Scancodes.$name(snow_system_input_Scancodes.space);
-	case 127:
-		return snow_system_input_Scancodes.$name(snow_system_input_Scancodes["delete"]);
-	default:
-		var decoder = new haxe_Utf8();
-		decoder.__b += String.fromCharCode(keycode);
-		return decoder.__b;
-	}
-};
 var glm__$Vec3_Vec3_$Impl_$ = {};
 $hxClasses["glm._Vec3.Vec3_Impl_"] = glm__$Vec3_Vec3_$Impl_$;
 glm__$Vec3_Vec3_$Impl_$.__name__ = ["glm","_Vec3","Vec3_Impl_"];
@@ -201,42 +175,6 @@ glm__$Vec3_Vec3_$Impl_$.get_z = function(this1) {
 glm__$Vec3_Vec3_$Impl_$.set_z = function(this1,v) {
 	return this1[2] = v;
 };
-glm__$Vec3_Vec3_$Impl_$.get_r = function(this1) {
-	return this1[0];
-};
-glm__$Vec3_Vec3_$Impl_$.set_r = function(this1,v) {
-	return this1[0] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_g = function(this1) {
-	return this1[1];
-};
-glm__$Vec3_Vec3_$Impl_$.set_g = function(this1,v) {
-	return this1[1] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_b = function(this1) {
-	return this1[2];
-};
-glm__$Vec3_Vec3_$Impl_$.set_b = function(this1,v) {
-	return this1[2] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_s = function(this1) {
-	return this1[0];
-};
-glm__$Vec3_Vec3_$Impl_$.set_s = function(this1,v) {
-	return this1[0] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_t = function(this1) {
-	return this1[1];
-};
-glm__$Vec3_Vec3_$Impl_$.set_t = function(this1,v) {
-	return this1[1] = v;
-};
-glm__$Vec3_Vec3_$Impl_$.get_p = function(this1) {
-	return this1[2];
-};
-glm__$Vec3_Vec3_$Impl_$.set_p = function(this1,v) {
-	return this1[2] = v;
-};
 glm__$Vec3_Vec3_$Impl_$._new = function(x,y,z) {
 	if(z == null) z = 0;
 	if(y == null) y = 0;
@@ -253,27 +191,6 @@ glm__$Vec3_Vec3_$Impl_$.set = function(this1,x,y,z) {
 	if(x != null) this1[0] = x;
 	if(y != null) this1[1] = y;
 	if(z != null) this1[2] = z;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.zero = function(this1) {
-	this1[0] = 0;
-	this1[1] = 0;
-	this1[2] = 0;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.sqrLength = function(this1) {
-	return this1[0] * this1[0] + this1[1] * this1[1] + this1[2] * this1[2];
-};
-glm__$Vec3_Vec3_$Impl_$.$length = function(this1) {
-	return Math.sqrt(glm__$Vec3_Vec3_$Impl_$.sqrLength(this1));
-};
-glm__$Vec3_Vec3_$Impl_$.normalize = function(this1) {
-	var l = glm__$Vec3_Vec3_$Impl_$.$length(this1);
-	if(l != 0) {
-		this1[0] /= l;
-		this1[1] /= l;
-		this1[2] /= l;
-	} else glm__$Vec3_Vec3_$Impl_$.zero(this1);
 	return this1;
 };
 glm__$Vec3_Vec3_$Impl_$.clone = function(this1) {
@@ -295,53 +212,11 @@ glm__$Vec3_Vec3_$Impl_$.addVec3 = function(this1,b) {
 	this1[2] += b[2];
 	return this1;
 };
-glm__$Vec3_Vec3_$Impl_$.addVec3Op = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.subtractVec3 = function(this1,b) {
-	this1[0] -= b[0];
-	this1[1] -= b[1];
-	this1[2] -= b[2];
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.subtractVec3Op = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.subtractVec3(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.addScalar = function(this1,b) {
-	this1[0] += b;
-	this1[1] += b;
-	this1[2] += b;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.addScalarOp = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.addScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.addScalarOp2 = function(b,a) {
-	return glm__$Vec3_Vec3_$Impl_$.addScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.subtractScalar = function(this1,b) {
-	this1[0] -= b;
-	this1[1] -= b;
-	this1[2] -= b;
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.subtractScalarOp = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.subtractScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.subtractScalarOp2 = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.addScalar(glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b),-1),a);
-};
 glm__$Vec3_Vec3_$Impl_$.multiplyScalar = function(this1,b) {
 	this1[0] *= b;
 	this1[1] *= b;
 	this1[2] *= b;
 	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.multiplyScalarOp = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.multiplyScalarOp2 = function(b,a) {
-	return glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
 };
 glm__$Vec3_Vec3_$Impl_$.divideScalar = function(this1,b) {
 	this1[0] /= b;
@@ -349,46 +224,9 @@ glm__$Vec3_Vec3_$Impl_$.divideScalar = function(this1,b) {
 	this1[2] /= b;
 	return this1;
 };
-glm__$Vec3_Vec3_$Impl_$.divideScalarOp = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$.divideScalar(glm__$Vec3_Vec3_$Impl_$.clone(a),b);
-};
-glm__$Vec3_Vec3_$Impl_$.arrayGet = function(this1,i) {
-	return this1[i];
-};
-glm__$Vec3_Vec3_$Impl_$.arraySet = function(this1,i,x) {
-	return this1[i] = x;
-};
-glm__$Vec3_Vec3_$Impl_$.toArray = function(this1) {
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.lerp = function(this1,target,t) {
-	this1[0] = glm_GLM.lerp(this1[0],target[0],t);
-	this1[1] = glm_GLM.lerp(this1[1],target[1],t);
-	this1[2] = glm_GLM.lerp(this1[2],target[2],t);
-	return this1;
-};
-glm__$Vec3_Vec3_$Impl_$.toVec4 = function(this1) {
-	return glm__$Vec4_Vec4_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(this1),glm__$Vec3_Vec3_$Impl_$.get_y(this1),glm__$Vec3_Vec3_$Impl_$.get_z(this1),0);
-};
-glm__$Vec3_Vec3_$Impl_$.dot = function(a,b) {
-	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-};
-glm__$Vec3_Vec3_$Impl_$.cross = function(a,b) {
-	return glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_y(a) * glm__$Vec3_Vec3_$Impl_$.get_z(b) - glm__$Vec3_Vec3_$Impl_$.get_y(b) * glm__$Vec3_Vec3_$Impl_$.get_z(a),glm__$Vec3_Vec3_$Impl_$.get_z(a) * glm__$Vec3_Vec3_$Impl_$.get_x(b) - glm__$Vec3_Vec3_$Impl_$.get_z(b) * glm__$Vec3_Vec3_$Impl_$.get_x(a),glm__$Vec3_Vec3_$Impl_$.get_x(a) * glm__$Vec3_Vec3_$Impl_$.get_y(b) - glm__$Vec3_Vec3_$Impl_$.get_x(b) * glm__$Vec3_Vec3_$Impl_$.get_y(a));
-};
-glm__$Vec3_Vec3_$Impl_$.fromVec2 = function(v) {
-	return glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(v),glm__$Vec2_Vec2_$Impl_$.get_y(v),0);
-};
-glm__$Vec3_Vec3_$Impl_$.fromVec4 = function(v) {
-	return glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec4_Vec4_$Impl_$.get_x(v),glm__$Vec4_Vec4_$Impl_$.get_y(v),glm__$Vec4_Vec4_$Impl_$.get_z(v));
-};
-var GameTracker = function() {
-};
+var GameTracker = function() { };
 $hxClasses["GameTracker"] = GameTracker;
 GameTracker.__name__ = ["GameTracker"];
-GameTracker.prototype = {
-	__class__: GameTracker
-};
 var HxOverrides = function() { };
 $hxClasses["HxOverrides"] = HxOverrides;
 HxOverrides.__name__ = ["HxOverrides"];
@@ -454,236 +292,6 @@ HxOverrides.iter = function(a) {
 		return this.arr[this.cur++];
 	}};
 };
-var tusk_Scene = function(name) {
-	this.sceneDone = new promhx_Deferred();
-	this.name = null;
-	this.name = name;
-	this.processors = [];
-	this.entities = [];
-};
-$hxClasses["tusk.Scene"] = tusk_Scene;
-tusk_Scene.__name__ = ["tusk","Scene"];
-tusk_Scene.prototype = {
-	___connectRoutes: function() {
-	}
-	,___disconnectRoutes: function() {
-	}
-	,hasProcessor: function(processor) {
-		return HxOverrides.indexOf(this.processors,processor,0) > -1;
-	}
-	,useProcessor: function(processor) {
-		if(this.hasProcessor(processor)) throw new js__$Boot_HaxeError(new tusk_debug_Exception("Can't add processor '" + Type.getClassName(processor == null?null:js_Boot.getClass(processor)) + "' because it already exists!",null,null,{ fileName : "Scene.hx", lineNumber : 67, className : "tusk.Scene", methodName : "useProcessor"}));
-		processor.___connectRoutes();
-		this.processors.push(processor);
-	}
-	,getProcessor: function(type) {
-		var _g = 0;
-		var _g1 = this.processors;
-		while(_g < _g1.length) {
-			var processor = _g1[_g];
-			++_g;
-			if((processor == null?null:js_Boot.getClass(processor)) == type) return processor;
-		}
-		return null;
-	}
-	,onLoad: function(event) {
-	}
-	,onDestroy: function(event) {
-	}
-	,onUpdate: function(event) {
-	}
-	,onRender: function(event) {
-	}
-	,onKeyDown: function(event) {
-	}
-	,onKeyUp: function(event) {
-	}
-	,onMouseDown: function(event) {
-	}
-	,onMouseUp: function(event) {
-	}
-	,onMouseMove: function(event) {
-	}
-	,__class__: tusk_Scene
-};
-var Intro = function() {
-	this.startTimer = 0;
-	tusk_Scene.call(this,"Intro screen!");
-};
-$hxClasses["Intro"] = Intro;
-Intro.__name__ = ["Intro"];
-Intro.__super__ = tusk_Scene;
-Intro.prototype = $extend(tusk_Scene.prototype,{
-	onLoad: function(event) {
-		var _g = this;
-		if(event.scene != this) return;
-		tusk_debug_Log.log("loading intro..",tusk_debug_LogFunctions.Info,{ fileName : "Intro.hx", lineNumber : 41, className : "Intro", methodName : "onLoad"});
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_defaults_Materials.loadUnlitColoured()];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat,bgMaterial) {
-			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			fontMat.textures = [];
-			fontMat.textures.push(font.texture);
-			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
-			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
-			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
-			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
-			_g.useProcessor(new tusk_lib_proc_TextProcessor());
-			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
-			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
-			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
-			var w = tusk_Tusk.instance.app.window.width;
-			var h = tusk_Tusk.instance.app.window.height;
-			_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
-				var $r;
-				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
-				return $r;
-			}(this)),(function($this) {
-				var $r;
-				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
-				return $r;
-			}(this)),-100,100)]));
-			var bgMesh = quad.clone("mesh.bgintro");
-			bgMesh.colours = [];
-			var gradientColours = Util.randomGradientColours();
-			var _g1 = 0;
-			var _g2 = bgMesh.vertices;
-			while(_g1 < _g2.length) {
-				var v = _g2[_g1];
-				++_g1;
-				var colour = gradientColours[glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0?1:0];
-				bgMesh.colours.push(colour);
-			}
-			_g.entities.push(new tusk_Entity(_g,"Image",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
-				var $r;
-				var q = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q[0] = 1;
-					q[1] = 0;
-					q[2] = 0;
-					q[3] = 0;
-					q;
-				}
-				$r = q;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,bgMaterial)]));
-			_g.entities.push(new tusk_Entity(_g,"title",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,116,0.05),(function($this) {
-				var $r;
-				var q1 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q1[0] = 1;
-					q1[1] = 0;
-					q1[2] = 0;
-					q1[3] = 0;
-					q1;
-				}
-				$r = q1;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(5,5,5)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("titletext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Ludum Party!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-			_g.entities.push(new tusk_Entity(_g,"instructions",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.05),(function($this) {
-				var $r;
-				var q2 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q2[0] = 1;
-					q2[1] = 0;
-					q2[2] = 0;
-					q2[3] = 0;
-					q2;
-				}
-				$r = q2;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("instructionstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nHold down A+B to start!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-			_g.entities.push(new tusk_Entity(_g,"p1keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,-192,0.05),(function($this) {
-				var $r;
-				var q3 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q3[0] = 1;
-					q3[1] = 0;
-					q3[2] = 0;
-					q3[3] = 0;
-					q3;
-				}
-				$r = q3;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Player 1:\nA => Q\nB => E",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-			_g.p2Text = new tusk_lib_comp_TextComponent(font,"Player 2:\nCPU\nPress 'I' to join!",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
-			_g.entities.push(new tusk_Entity(_g,"p2keys",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,-192,0.05),(function($this) {
-				var $r;
-				var q4 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q4[0] = 1;
-					q4[1] = 0;
-					q4[2] = 0;
-					q4[3] = 0;
-					q4;
-				}
-				$r = q4;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2keystext")),new tusk_lib_comp_MaterialComponent(fontMat.path),_g.p2Text]));
-			_g.cec = new tusk_lib_comp_CircleEffectComponent(true);
-			_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
-				var $r;
-				var q5 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q5[0] = 1;
-					q5[1] = 0;
-					q5[2] = 0;
-					q5[3] = 0;
-					q5;
-				}
-				$r = q5;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),_g.cec]));
-			tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
-		});
-	}
-	,onKeyDown: function(event) {
-		if(this.p2Text != null && (event.keyCode == snow_system_input_Keycodes.key_i || event.keyCode == snow_system_input_Keycodes.key_p)) {
-			GameTracker.player[1].isCPU = !GameTracker.player[1].isCPU;
-			this.p2Text.set_text(GameTracker.player[1].isCPU?"Player 2:\nCPU\nPress 'I' to join!":"Player 2:\nA => I\nB => P");
-		}
-	}
-	,onUpdate: function(event) {
-		var _g = this;
-		if(this.cec == null || !this.cec.done._resolved || this.startTimer < 0) return;
-		var aDown = tusk_Tusk.instance.app.input.keydown(GameTracker.player[0].btnA);
-		var bDown = tusk_Tusk.instance.app.input.keydown(GameTracker.player[0].btnB);
-		if(aDown && bDown) this.startTimer += event.dt; else this.startTimer = 0;
-		if(this.startTimer >= 0.5) {
-			this.startTimer = -1;
-			this.cec.t = 0;
-			this.cec.circleIn = false;
-			this.cec.reset();
-			this.cec.done.then(function(_) {
-				_g.sceneDone.resolve(_g);
-			});
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-		tusk_Tusk.routeEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: Intro
-});
 var List = function() {
 	this.length = 0;
 };
@@ -709,205 +317,30 @@ List.prototype = {
 	}
 	,__class__: List
 };
-var LoadingScreen = function(gameName,loadingDone) {
-	this.gameName = gameName;
-	this.loadingDone = loadingDone;
-	tusk_Scene.call(this,"LoadingScreen");
+var tusk_Scene = function(name) {
+	this.sceneDone = new promhx_Deferred();
+	this.name = null;
+	this.name = name;
+	this.processors = [];
+	this.entities = [];
 };
-$hxClasses["LoadingScreen"] = LoadingScreen;
-LoadingScreen.__name__ = ["LoadingScreen"];
-LoadingScreen.__super__ = tusk_Scene;
-LoadingScreen.prototype = $extend(tusk_Scene.prototype,{
-	generateName: function() {
-		var s = new StringBuf();
-		s.add(LoadingScreen.salutations[Math.floor((LoadingScreen.salutations.length - 1 + 1) * Math.random())]);
-		s.b += " ";
-		s.add(LoadingScreen.adjectives[Math.floor((LoadingScreen.adjectives.length - 1 + 1) * Math.random())]);
-		s.b += " ";
-		s.add(LoadingScreen.nouns[Math.floor((LoadingScreen.nouns.length - 1 + 1) * Math.random())]);
-		return s.b;
+$hxClasses["tusk.Scene"] = tusk_Scene;
+tusk_Scene.__name__ = ["tusk","Scene"];
+tusk_Scene.prototype = {
+	___connectRoutes: function() {
+	}
+	,hasProcessor: function(processor) {
+		return HxOverrides.indexOf(this.processors,processor,0) > -1;
+	}
+	,useProcessor: function(processor) {
+		if(this.hasProcessor(processor)) throw new js__$Boot_HaxeError(new tusk_debug_Exception("Can't add processor '" + Type.getClassName(processor == null?null:js_Boot.getClass(processor)) + "' because it already exists!",null,null,{ fileName : "Scene.hx", lineNumber : 67, className : "tusk.Scene", methodName : "useProcessor"}));
+		processor.___connectRoutes();
+		this.processors.push(processor);
 	}
 	,onLoad: function(event) {
-		var _g = this;
-		if(event.scene != this) return;
-		tusk_debug_Log.log("load screen..",tusk_debug_LogFunctions.Info,{ fileName : "LoadingScreen.hx", lineNumber : 46, className : "LoadingScreen", methodName : "onLoad"});
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/loadingcrunch.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/introwobble.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/introtrumpet.ogg"),tusk_defaults_Materials.loadUnlitColoured()];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(textMesh,font,fontMat,quad,circleOutMat,loadingCrunch,introWobble,trumpet,bgMaterial) {
-			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			fontMat.textures = [];
-			fontMat.textures.push(font.texture);
-			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
-			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
-			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
-			_g.useProcessor(new loading_SlamProcessor());
-			_g.useProcessor(new loading_SlideProcessor());
-			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
-			_g.useProcessor(new tusk_lib_proc_TextProcessor());
-			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
-			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
-			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
-			_g.useProcessor(new tusk_lib_proc_SoundProcessor());
-			var w = tusk_Tusk.instance.app.window.width;
-			var h = tusk_Tusk.instance.app.window.height;
-			_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
-				var $r;
-				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
-				return $r;
-			}(this)),(function($this) {
-				var $r;
-				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
-				return $r;
-			}(this)),-100,100)]));
-			var bgMesh = quad.clone("mesh.bgintro");
-			bgMesh.colours = [];
-			var gradientColours = Util.randomGradientColours();
-			var _g1 = 0;
-			var _g2 = bgMesh.vertices;
-			while(_g1 < _g2.length) {
-				var v = _g2[_g1];
-				++_g1;
-				var colour = gradientColours[glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0?1:0];
-				bgMesh.colours.push(colour);
-			}
-			_g.entities.push(new tusk_Entity(_g,"Image",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
-				var $r;
-				var q = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q[0] = 1;
-					q[1] = 0;
-					q[2] = 0;
-					q[3] = 0;
-					q;
-				}
-				$r = q;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,bgMaterial)]));
-			var cec = new tusk_lib_comp_CircleEffectComponent(true);
-			_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
-				var $r;
-				var q1 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q1[0] = 1;
-					q1[1] = 0;
-					q1[2] = 0;
-					q1[3] = 0;
-					q1;
-				}
-				$r = q1;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),cec]));
-			cec.done.pipe(function(_) {
-				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(loadingCrunch.path,true)]));
-				var scp1 = new loading_SlamComponent(0.5,16,2);
-				_g.entities.push(new tusk_Entity(_g,"Player 1",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,192,0.05),(function($this) {
-					var $r;
-					var q2 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q2[0] = 1;
-						q2[1] = 0;
-						q2[2] = 0;
-						q2[3] = 0;
-						q2;
-					}
-					$r = q2;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[0].name + "\nAKA. " + _g.generateName() + "\n(with " + GameTracker.player[0].score + " points!)",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp1]));
-				return scp1.done;
-			}).pipe(function(_1) {
-				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(loadingCrunch.path,true)]));
-				var scvs = new loading_SlamComponent(0.5,96,16);
-				_g.entities.push(new tusk_Entity(_g,"VS",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.05),(function($this) {
-					var $r;
-					var q3 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q3[0] = 1;
-						q3[1] = 0;
-						q3[2] = 0;
-						q3[3] = 0;
-						q3;
-					}
-					$r = q3;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(16,16,16)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"VS",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scvs]));
-				return scvs.done;
-			}).pipe(function(_2) {
-				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(loadingCrunch.path,true)]));
-				var scp2 = new loading_SlamComponent(0.5,16,2);
-				_g.entities.push(new tusk_Entity(_g,"Player 2",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,192,0.05),(function($this) {
-					var $r;
-					var q4 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q4[0] = 1;
-						q4[1] = 0;
-						q4[2] = 0;
-						q4[3] = 0;
-						q4;
-					}
-					$r = q4;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"" + GameTracker.player[1].name + "\nAKA. " + _g.generateName() + "\n(with " + GameTracker.player[1].score + " points!)",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scp2]));
-				return scp2.done;
-			}).pipe(function(_3) {
-				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(introWobble.path,true)]));
-				var scn = new loading_SlideComponent(1,glm__$Vec3_Vec3_$Impl_$._new(0,-300,0.05),glm__$Vec3_Vec3_$Impl_$._new(0,-192,0.05));
-				_g.entities.push(new tusk_Entity(_g,"in:\n" + _g.gameName,[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,-192,0.05),(function($this) {
-					var $r;
-					var q5 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q5[0] = 1;
-						q5[1] = 0;
-						q5[2] = 0;
-						q5[3] = 0;
-						q5;
-					}
-					$r = q5;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"in:\n" + _g.gameName,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scn]));
-				return scn.done;
-			}).pipe(function(_4) {
-				_g.entities.push(new tusk_Entity(_g,"Trumpet",[new tusk_lib_comp_SoundComponent(trumpet.path,true)]));
-				var fadeDelay = new tusk_lib_comp_TimedPromiseComponent(1);
-				_g.entities.push(new tusk_Entity(_g,"Delay",[fadeDelay]));
-				return fadeDelay.done;
-			}).pipe(function(_5) {
-				tusk_debug_Log.log("Waiting for loading to complete..",tusk_debug_LogFunctions.Info,{ fileName : "LoadingScreen.hx", lineNumber : 170, className : "LoadingScreen", methodName : "onLoad"});
-				return _g.loadingDone;
-			}).pipe(function(_6) {
-				cec.t = 0;
-				cec.circleIn = false;
-				cec.reset();
-				return cec.done;
-			}).then(function(_7) {
-				tusk_debug_Log.log("Loading screen done!",tusk_debug_LogFunctions.Info,{ fileName : "LoadingScreen.hx", lineNumber : 178, className : "LoadingScreen", methodName : "onLoad"});
-				_g.sceneDone.resolve(_g);
-			}).catchError(function(err) {
-				tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "LoadingScreen.hx", lineNumber : 181, className : "LoadingScreen", methodName : "onLoad"});
-			});
-			tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
-		});
 	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-	}
-	,__class__: LoadingScreen
-});
+	,__class__: tusk_Scene
+};
 var tusk_Game = function() {
 	this.currentScenes = [];
 };
@@ -928,9 +361,6 @@ tusk_Game.prototype = {
 	,__class__: tusk_Game
 };
 var Main = function() {
-	this.minigameDone = new promhx_Deferred();
-	this.sceneIndices = [0,1,2];
-	this.shuffleIndex = 0;
 	tusk_Game.call(this);
 };
 $hxClasses["Main"] = Main;
@@ -943,57 +373,9 @@ Main.prototype = $extend(tusk_Game.prototype,{
 	,get_width: function() {
 		return 900;
 	}
-	,pickRandomLevel: function() {
-		var _g = this;
-		var scene;
-		var _g1 = this.sceneIndices[this.shuffleIndex];
-		switch(_g1) {
-		case 1:
-			scene = new minigames_SledTillYoureDead();
-			break;
-		case 2:
-			scene = new minigames_CaptainKnowItAll();
-			break;
-		default:
-			scene = new minigames_BottleRocket();
-		}
-		tusk_Tusk.pushScene(scene).then(function(scene1) {
-			tusk_Tusk.removeScene(scene1);
-			_g.shuffleIndex++;
-			if(_g.shuffleIndex >= _g.sceneIndices.length) {
-				_g.sceneIndices = Util.shuffle(_g.sceneIndices);
-				_g.shuffleIndex = 0;
-			}
-			_g.minigameDone.resolve(scene1);
-		});
-	}
 	,setup: function() {
-		var _g = this;
 		tusk_debug_Log.log("Setting up game...",tusk_debug_LogFunctions.Info,{ fileName : "Main.hx", lineNumber : 46, className : "Main", methodName : "setup"});
-		this.sceneIndices = Util.shuffle(this.sceneIndices);
-		tusk_Tusk.pushScene(new tusk_defaults_scenes_SplashScreen()).pipe(function(scene) {
-			tusk_Tusk.removeScene(scene);
-			return tusk_Tusk.pushScene(new Intro());
-		}).then(function(scene1) {
-			tusk_Tusk.removeScene(scene1);
-			_g.pickRandomLevel();
-			((function($this) {
-				var $r;
-				var varargf = function(f) {
-					var ret = new promhx_Stream();
-					var arr = [_g.minigameDone.stream()];
-					var p = promhx_Stream.wheneverAll(arr);
-					p._update.push({ async : ret, linkf : function(x) {
-						ret.handleResolve(f(arr[0]._val));
-					}});
-					return ret;
-				};
-				$r = { then : varargf};
-				return $r;
-			}(this))).then(function(_) {
-				_g.pickRandomLevel();
-			});
-		});
+		tusk_Tusk.pushScene(new minigames_SpaceCops());
 	}
 	,__class__: Main
 });
@@ -1189,9 +571,6 @@ ValueType.TUnknown.__enum__ = ValueType;
 var Type = function() { };
 $hxClasses["Type"] = Type;
 Type.__name__ = ["Type"];
-Type.getClass = function(o) {
-	if(o == null) return null; else return js_Boot.getClass(o);
-};
 Type.getClassName = function(c) {
 	var a = c.__name__;
 	if(a == null) return null;
@@ -1254,54 +633,6 @@ Type["typeof"] = function(v) {
 	default:
 		return ValueType.TUnknown;
 	}
-};
-var Util = function() { };
-$hxClasses["Util"] = Util;
-Util.__name__ = ["Util"];
-Util.randomGradientColours = function() {
-	var hue = 359.9 * Math.random();
-	var topColour = new hxColorToolkit_spaces_HSB(hue,75,90);
-	var bottomColour = new hxColorToolkit_spaces_HSB(hue,75,10);
-	var trgb = topColour.toRGB();
-	var brgb = bottomColour.toRGB();
-	return [(function($this) {
-		var $r;
-		var a = glm__$Vec4_Vec4_$Impl_$._new(brgb.get_red(),brgb.get_green(),brgb.get_blue(),255);
-		$r = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),255);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a1 = glm__$Vec4_Vec4_$Impl_$._new(trgb.get_red(),trgb.get_green(),trgb.get_blue(),255);
-		$r = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a1),255);
-		return $r;
-	}(this))];
-};
-Util.floatToStringPrecision = function(n,prec) {
-	n = Math.round(n * Math.pow(10,prec));
-	var str = "" + n;
-	var len = str.length;
-	if(len <= prec) {
-		while(len < prec) {
-			str = "0" + str;
-			len++;
-		}
-		return "0." + str;
-	} else return HxOverrides.substr(str,0,str.length - prec) + "." + HxOverrides.substr(str,str.length - prec,null);
-};
-Util.shuffle = function(arr) {
-	if(arr != null) {
-		var _g1 = 0;
-		var _g = arr.length;
-		while(_g1 < _g) {
-			var i = _g1++;
-			var j = Math.floor((arr.length - 1 + 1) * Math.random());
-			var a = arr[i];
-			var b = arr[j];
-			arr[i] = b;
-			arr[j] = a;
-		}
-	}
-	return arr;
 };
 var glm_GLM = function() { };
 $hxClasses["glm.GLM"] = glm_GLM;
@@ -1446,68 +777,6 @@ glm_GLM.scale = function(m,scale) {
 	a = rows;
 	return a;
 };
-glm_GLM.axisAngle = function(axis,angle) {
-	angle /= 2;
-	var s = Math.sin(angle);
-	var q = glm__$Quat_Quat_$Impl_$._new(Math.cos(angle),s * glm__$Vec3_Vec3_$Impl_$.get_x(axis),s * glm__$Vec3_Vec3_$Impl_$.get_y(axis),s * glm__$Vec3_Vec3_$Impl_$.get_z(axis));
-	return q;
-};
-glm_GLM.rotate = function(q,v) {
-	var l = Math.sqrt(q[0] * q[0] + q[1] * q[1] + q[2] * q[2] + q[3] * q[3]);
-	if(l != 0) {
-		q[0] /= l;
-		q[1] /= l;
-		q[2] /= l;
-		q[3] /= l;
-	} else {
-		q[0] = 0;
-		q[1] = 0;
-		q[2] = 0;
-		q[3] = 0;
-		q;
-	}
-	q;
-	var qv = glm__$Quat_Quat_$Impl_$._new(0,glm__$Vec3_Vec3_$Impl_$.get_x(v),glm__$Vec3_Vec3_$Impl_$.get_y(v),glm__$Vec3_Vec3_$Impl_$.get_z(v));
-	var r;
-	var a;
-	var this1 = glm__$Quat_Quat_$Impl_$.clone(q);
-	var ax = glm__$Quat_Quat_$Impl_$.get_x(this1);
-	var ay = glm__$Quat_Quat_$Impl_$.get_y(this1);
-	var az = glm__$Quat_Quat_$Impl_$.get_z(this1);
-	var aw = glm__$Quat_Quat_$Impl_$.get_w(this1);
-	var bx = glm__$Quat_Quat_$Impl_$.get_x(qv);
-	var by = glm__$Quat_Quat_$Impl_$.get_y(qv);
-	var bz = glm__$Quat_Quat_$Impl_$.get_z(qv);
-	var bw = glm__$Quat_Quat_$Impl_$.get_w(qv);
-	glm__$Quat_Quat_$Impl_$.set_x(this1,ax * bw + aw * bx + ay * bz - az * by);
-	glm__$Quat_Quat_$Impl_$.set_y(this1,ay * bw + aw * by + az * bx - ax * bz);
-	glm__$Quat_Quat_$Impl_$.set_z(this1,az * bw + aw * bz + ax * by - ay * bx);
-	glm__$Quat_Quat_$Impl_$.set_w(this1,aw * bw - ax * bx - ay * by - az * bz);
-	a = this1;
-	var b;
-	q[1] *= -1;
-	q[2] *= -1;
-	q[3] *= -1;
-	b = q;
-	var this2 = glm__$Quat_Quat_$Impl_$.clone(a);
-	var ax1 = glm__$Quat_Quat_$Impl_$.get_x(this2);
-	var ay1 = glm__$Quat_Quat_$Impl_$.get_y(this2);
-	var az1 = glm__$Quat_Quat_$Impl_$.get_z(this2);
-	var aw1 = glm__$Quat_Quat_$Impl_$.get_w(this2);
-	var bx1 = glm__$Quat_Quat_$Impl_$.get_x(b);
-	var by1 = glm__$Quat_Quat_$Impl_$.get_y(b);
-	var bz1 = glm__$Quat_Quat_$Impl_$.get_z(b);
-	var bw1 = glm__$Quat_Quat_$Impl_$.get_w(b);
-	glm__$Quat_Quat_$Impl_$.set_x(this2,ax1 * bw1 + aw1 * bx1 + ay1 * bz1 - az1 * by1);
-	glm__$Quat_Quat_$Impl_$.set_y(this2,ay1 * bw1 + aw1 * by1 + az1 * bx1 - ax1 * bz1);
-	glm__$Quat_Quat_$Impl_$.set_z(this2,az1 * bw1 + aw1 * bz1 + ax1 * by1 - ay1 * bx1);
-	glm__$Quat_Quat_$Impl_$.set_w(this2,aw1 * bw1 - ax1 * bx1 - ay1 * by1 - az1 * bz1);
-	r = this2;
-	return glm__$Vec3_Vec3_$Impl_$._new(glm__$Quat_Quat_$Impl_$.get_x(r),glm__$Quat_Quat_$Impl_$.get_y(r),glm__$Quat_Quat_$Impl_$.get_z(r));
-};
-glm_GLM.lerp = function(a,b,t) {
-	return a + t * (b - a);
-};
 var glm__$Mat3_Mat3_$Impl_$ = {};
 $hxClasses["glm._Mat3.Mat3_Impl_"] = glm__$Mat3_Mat3_$Impl_$;
 glm__$Mat3_Mat3_$Impl_$.__name__ = ["glm","_Mat3","Mat3_Impl_"];
@@ -1518,14 +787,6 @@ glm__$Mat3_Mat3_$Impl_$._new = function(scale) {
 	this1 = arr;
 	return this1;
 	return this1;
-};
-glm__$Mat3_Mat3_$Impl_$.fromRowArray = function(rows) {
-	if(rows.length != 3) throw new js__$Boot_HaxeError("You must supply 3 Vec3s to build a Mat3 this way!");
-	var m = glm__$Mat3_Mat3_$Impl_$._new();
-	m[0] = rows[0];
-	m[1] = rows[1];
-	m[2] = rows[2];
-	return m;
 };
 glm__$Mat3_Mat3_$Impl_$.fromRows = function(a,b,c) {
 	var m = glm__$Mat3_Mat3_$Impl_$._new();
@@ -1541,187 +802,6 @@ glm__$Mat3_Mat3_$Impl_$.fromQuat = function(q) {
 	var m = glm__$Mat3_Mat3_$Impl_$.fromRows(glm__$Vec3_Vec3_$Impl_$._new(1 - 2 * qy2 - 2 * qz2,2 * glm__$Quat_Quat_$Impl_$.get_x(q) * glm__$Quat_Quat_$Impl_$.get_y(q) - 2 * glm__$Quat_Quat_$Impl_$.get_z(q) * glm__$Quat_Quat_$Impl_$.get_w(q),2 * glm__$Quat_Quat_$Impl_$.get_x(q) * glm__$Quat_Quat_$Impl_$.get_z(q) + 2 * glm__$Quat_Quat_$Impl_$.get_y(q) * glm__$Quat_Quat_$Impl_$.get_w(q)),glm__$Vec3_Vec3_$Impl_$._new(2 * glm__$Quat_Quat_$Impl_$.get_x(q) * glm__$Quat_Quat_$Impl_$.get_y(q) + 2 * glm__$Quat_Quat_$Impl_$.get_z(q) * glm__$Quat_Quat_$Impl_$.get_w(q),1 - 2 * qx2 - 2 * qz2,2 * glm__$Quat_Quat_$Impl_$.get_y(q) * glm__$Quat_Quat_$Impl_$.get_z(q) - 2 * glm__$Quat_Quat_$Impl_$.get_x(q) * glm__$Quat_Quat_$Impl_$.get_w(q)),glm__$Vec3_Vec3_$Impl_$._new(2 * glm__$Quat_Quat_$Impl_$.get_x(q) * glm__$Quat_Quat_$Impl_$.get_z(q) - 2 * glm__$Quat_Quat_$Impl_$.get_y(q) * glm__$Quat_Quat_$Impl_$.get_w(q),2 * glm__$Quat_Quat_$Impl_$.get_y(q) * glm__$Quat_Quat_$Impl_$.get_z(q) + 2 * glm__$Quat_Quat_$Impl_$.get_x(q) * glm__$Quat_Quat_$Impl_$.get_w(q),1 - 2 * qx2 - 2 * qy2));
 	return m;
 };
-glm__$Mat3_Mat3_$Impl_$.setZero = function(this1) {
-	glm__$Vec3_Vec3_$Impl_$.zero(this1[0]);
-	glm__$Vec3_Vec3_$Impl_$.zero(this1[1]);
-	glm__$Vec3_Vec3_$Impl_$.zero(this1[2]);
-	return this1;
-};
-glm__$Mat3_Mat3_$Impl_$.zero = function() {
-	var m = glm__$Mat3_Mat3_$Impl_$._new();
-	glm__$Mat3_Mat3_$Impl_$.setZero(m);
-	return m;
-};
-glm__$Mat3_Mat3_$Impl_$.clone = function(this1) {
-	var copy = glm__$Mat3_Mat3_$Impl_$._new();
-	var x = glm__$Vec3_Vec3_$Impl_$.clone(this1[0]);
-	copy[0] = x;
-	var x1 = glm__$Vec3_Vec3_$Impl_$.clone(this1[1]);
-	copy[1] = x1;
-	var x2 = glm__$Vec3_Vec3_$Impl_$.clone(this1[2]);
-	copy[2] = x2;
-	return copy;
-};
-glm__$Mat3_Mat3_$Impl_$.copy = function(this1,m) {
-	glm__$Vec3_Vec3_$Impl_$.copy(this1[0],m[0]);
-	glm__$Vec3_Vec3_$Impl_$.copy(this1[1],m[1]);
-	glm__$Vec3_Vec3_$Impl_$.copy(this1[1],m[2]);
-	return this1;
-};
-glm__$Mat3_Mat3_$Impl_$.setIdentity = function(this1) {
-	glm__$Vec3_Vec3_$Impl_$.set(this1[0],1,0,0);
-	glm__$Vec3_Vec3_$Impl_$.set(this1[1],0,1,0);
-	glm__$Vec3_Vec3_$Impl_$.set(this1[2],0,0,1);
-	return this1;
-};
-glm__$Mat3_Mat3_$Impl_$.identity = function() {
-	var m = glm__$Mat3_Mat3_$Impl_$._new();
-	glm__$Mat3_Mat3_$Impl_$.setIdentity(m);
-	return m;
-};
-glm__$Mat3_Mat3_$Impl_$.arrayGet = function(this1,i) {
-	return this1[i];
-};
-glm__$Mat3_Mat3_$Impl_$.arraySet = function(this1,i,x) {
-	return this1[i] = x;
-};
-glm__$Mat3_Mat3_$Impl_$.toArrayRowMajor = function(this1) {
-	return this1[0].concat(this1[1].concat(this1[2]));
-};
-glm__$Mat3_Mat3_$Impl_$.toArrayColMajor = function(this1) {
-	var ret = [];
-	var _g = 0;
-	while(_g < 3) {
-		var j = _g++;
-		var _g1 = 0;
-		while(_g1 < 3) {
-			var i = _g1++;
-			ret.push(this1[i][j]);
-		}
-	}
-	return ret;
-};
-glm__$Mat3_Mat3_$Impl_$.multVec3 = function(this1,b) {
-	return glm__$Vec3_Vec3_$Impl_$._new(this1[0][0] * b[0] + this1[0][1] * b[1] + this1[0][2] * b[2],this1[1][0] * b[0] + this1[1][1] * b[1] + this1[1][2] * b[2],this1[2][0] * b[0] + this1[2][1] * b[1] + this1[2][2] * b[2]);
-};
-glm__$Mat3_Mat3_$Impl_$.multiplyVec3Op = function(a,b) {
-	return glm__$Mat3_Mat3_$Impl_$.multVec3(a,b);
-};
-glm__$Mat3_Mat3_$Impl_$.multMat3 = function(this1,b) {
-	var rows = [(function($this) {
-		var $r;
-		var a;
-		{
-			var a1 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[0]),this1[0][0]);
-			var b2 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[1]),this1[0][1]);
-			a = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a1),b2);
-		}
-		var b1 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[2]),this1[0][2]);
-		$r = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a),b1);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a2;
-		{
-			var a3 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[0]),this1[1][0]);
-			var b4 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[1]),this1[1][1]);
-			a2 = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a3),b4);
-		}
-		var b3 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[2]),this1[1][2]);
-		$r = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a2),b3);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a4;
-		{
-			var a5 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[0]),this1[2][0]);
-			var b6 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[1]),this1[2][1]);
-			a4 = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a5),b6);
-		}
-		var b5 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[2]),this1[2][2]);
-		$r = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a4),b5);
-		return $r;
-	}(this))];
-	this1 = rows;
-	return this1;
-};
-glm__$Mat3_Mat3_$Impl_$.multiplyMat3Op = function(a,b) {
-	var rows = [(function($this) {
-		var $r;
-		var a1;
-		{
-			var a2 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[0]),a[0][0]);
-			var b2 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[1]),a[0][1]);
-			a1 = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a2),b2);
-		}
-		var b1 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[2]),a[0][2]);
-		$r = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a1),b1);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a3;
-		{
-			var a4 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[0]),a[1][0]);
-			var b4 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[1]),a[1][1]);
-			a3 = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a4),b4);
-		}
-		var b3 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[2]),a[1][2]);
-		$r = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a3),b3);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a5;
-		{
-			var a6 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[0]),a[2][0]);
-			var b6 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[1]),a[2][1]);
-			a5 = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a6),b6);
-		}
-		var b5 = glm__$Vec3_Vec3_$Impl_$.multiplyScalar(glm__$Vec3_Vec3_$Impl_$.clone(b[2]),a[2][2]);
-		$r = glm__$Vec3_Vec3_$Impl_$.addVec3(glm__$Vec3_Vec3_$Impl_$.clone(a5),b5);
-		return $r;
-	}(this))];
-	a = rows;
-	return a;
-};
-glm__$Mat3_Mat3_$Impl_$.transpose = function(this1) {
-	var t01 = this1[0][1];
-	var t02 = this1[0][2];
-	var t12 = this1[1][2];
-	this1[0][1] = this1[1][0];
-	this1[0][2] = this1[2][0];
-	this1[1][2] = this1[2][1];
-	this1[1][0] = t01;
-	this1[2][0] = t02;
-	this1[2][1] = t12;
-	return this1;
-};
-glm__$Mat3_Mat3_$Impl_$.invert = function(this1) {
-	var det = this1[0][0] * (this1[2][2] * this1[1][1] - this1[1][2] * this1[2][1]) + this1[0][1] * (-this1[2][2] * this1[1][0] + this1[1][2] * this1[2][0]) + this1[0][2] * (this1[2][1] * this1[1][0] - this1[1][1] * this1[2][0]);
-	if(det == 0) return null;
-	det = 1.0 / det;
-	var t00 = this1[0][0];
-	var t01 = this1[0][1];
-	var t02 = this1[0][2];
-	var t10 = this1[1][0];
-	var t11 = this1[1][1];
-	var t12 = this1[1][2];
-	var t20 = this1[2][0];
-	var t21 = this1[2][1];
-	var t22 = this1[2][2];
-	this1[0][0] = (t22 * t11 - t12 * t21) * det;
-	this1[0][1] = (-t22 * t01 + t02 * t21) * det;
-	this1[0][2] = (t12 * t01 - t02 * t11) * det;
-	this1[1][0] = (-t22 * t10 + t12 * t20) * det;
-	this1[1][1] = (t22 * t00 - t02 * t20) * det;
-	this1[1][2] = (-t12 * t00 + t02 * t10) * det;
-	this1[2][0] = (t21 * t10 - t11 * t20) * det;
-	this1[2][1] = (-t21 * t00 + t01 * t20) * det;
-	this1[2][2] = (t11 * t00 - t01 * t10) * det;
-	return this1;
-};
-glm__$Mat3_Mat3_$Impl_$.determinant = function(this1) {
-	return this1[0][0] * (this1[2][2] * this1[1][1] - this1[1][2] * this1[2][1]) + this1[0][1] * (-this1[2][2] * this1[1][0] + this1[1][2] * this1[2][0]) + this1[0][2] * (this1[2][1] * this1[1][0] - this1[1][1] * this1[2][0]);
-};
 var glm__$Mat4_Mat4_$Impl_$ = {};
 $hxClasses["glm._Mat4.Mat4_Impl_"] = glm__$Mat4_Mat4_$Impl_$;
 glm__$Mat4_Mat4_$Impl_$.__name__ = ["glm","_Mat4","Mat4_Impl_"];
@@ -1733,15 +813,6 @@ glm__$Mat4_Mat4_$Impl_$._new = function(scale) {
 	return this1;
 	return this1;
 };
-glm__$Mat4_Mat4_$Impl_$.fromRowArray = function(rows) {
-	if(rows.length != 4) throw new js__$Boot_HaxeError("You must supply 4 Vec4s to build a Mat4 this way!");
-	var m = glm__$Mat4_Mat4_$Impl_$._new();
-	m[0] = rows[0];
-	m[1] = rows[1];
-	m[2] = rows[2];
-	m[3] = rows[3];
-	return m;
-};
 glm__$Mat4_Mat4_$Impl_$.fromRows = function(a,b,c,d) {
 	var m = glm__$Mat4_Mat4_$Impl_$._new();
 	m[0] = a;
@@ -1749,58 +820,6 @@ glm__$Mat4_Mat4_$Impl_$.fromRows = function(a,b,c,d) {
 	m[2] = c;
 	m[3] = d;
 	return m;
-};
-glm__$Mat4_Mat4_$Impl_$.setZero = function(this1) {
-	glm__$Vec4_Vec4_$Impl_$.zero(this1[0]);
-	glm__$Vec4_Vec4_$Impl_$.zero(this1[1]);
-	glm__$Vec4_Vec4_$Impl_$.zero(this1[2]);
-	glm__$Vec4_Vec4_$Impl_$.zero(this1[3]);
-	return this1;
-};
-glm__$Mat4_Mat4_$Impl_$.zero = function() {
-	var m = glm__$Mat4_Mat4_$Impl_$._new();
-	glm__$Mat4_Mat4_$Impl_$.setZero(m);
-	return m;
-};
-glm__$Mat4_Mat4_$Impl_$.clone = function(this1) {
-	var copy = glm__$Mat4_Mat4_$Impl_$._new();
-	var x = glm__$Vec4_Vec4_$Impl_$.clone(this1[0]);
-	copy[0] = x;
-	var x1 = glm__$Vec4_Vec4_$Impl_$.clone(this1[1]);
-	copy[1] = x1;
-	var x2 = glm__$Vec4_Vec4_$Impl_$.clone(this1[2]);
-	copy[2] = x2;
-	var x3 = glm__$Vec4_Vec4_$Impl_$.clone(this1[3]);
-	copy[3] = x3;
-	return copy;
-};
-glm__$Mat4_Mat4_$Impl_$.copy = function(this1,m) {
-	glm__$Vec4_Vec4_$Impl_$.copy(this1[0],m[0]);
-	glm__$Vec4_Vec4_$Impl_$.copy(this1[1],m[1]);
-	glm__$Vec4_Vec4_$Impl_$.copy(this1[2],m[2]);
-	glm__$Vec4_Vec4_$Impl_$.copy(this1[3],m[3]);
-	return this1;
-};
-glm__$Mat4_Mat4_$Impl_$.setIdentity = function(this1) {
-	glm__$Vec4_Vec4_$Impl_$.set(this1[0],1,0,0,0);
-	glm__$Vec4_Vec4_$Impl_$.set(this1[1],0,1,0,0);
-	glm__$Vec4_Vec4_$Impl_$.set(this1[2],0,0,1,0);
-	glm__$Vec4_Vec4_$Impl_$.set(this1[3],0,0,0,1);
-	return this1;
-};
-glm__$Mat4_Mat4_$Impl_$.identity = function() {
-	var m = glm__$Mat4_Mat4_$Impl_$._new();
-	glm__$Mat4_Mat4_$Impl_$.setIdentity(m);
-	return m;
-};
-glm__$Mat4_Mat4_$Impl_$.arrayGet = function(this1,i) {
-	return this1[i];
-};
-glm__$Mat4_Mat4_$Impl_$.arraySet = function(this1,i,x) {
-	return this1[i] = x;
-};
-glm__$Mat4_Mat4_$Impl_$.toArrayRowMajor = function(this1) {
-	return this1[0].concat(this1[1].concat(this1[2].concat(this1[3])));
 };
 glm__$Mat4_Mat4_$Impl_$.toArrayColMajor = function(this1) {
 	var ret = [];
@@ -1815,237 +834,6 @@ glm__$Mat4_Mat4_$Impl_$.toArrayColMajor = function(this1) {
 	}
 	return ret;
 };
-glm__$Mat4_Mat4_$Impl_$.multVec4 = function(this1,b) {
-	return glm__$Vec4_Vec4_$Impl_$._new(this1[0][0] * b[0] + this1[0][1] * b[1] + this1[0][2] * b[2] + this1[0][3] * b[3],this1[1][0] * b[0] + this1[1][1] * b[1] + this1[1][2] * b[2] + this1[1][3] * b[3],this1[2][0] * b[0] + this1[2][1] * b[1] + this1[2][2] * b[2] + this1[2][3] * b[3],this1[3][0] * b[0] + this1[3][1] * b[1] + this1[3][2] * b[2] + this1[3][3] * b[3]);
-};
-glm__$Mat4_Mat4_$Impl_$.multiplyVec4Op = function(a,b) {
-	return glm__$Mat4_Mat4_$Impl_$.multVec4(a,b);
-};
-glm__$Mat4_Mat4_$Impl_$.multMat4 = function(this1,b) {
-	var rows = [(function($this) {
-		var $r;
-		var a;
-		{
-			var a1;
-			var a2 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[0]),this1[0][0]);
-			var b3 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[1]),this1[0][1]);
-			a1 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a2),b3);
-			var b2 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[2]),this1[0][2]);
-			a = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a1),b2);
-		}
-		var b1 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[3]),this1[0][3]);
-		$r = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a),b1);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a3;
-		{
-			var a4;
-			var a5 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[0]),this1[1][0]);
-			var b6 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[1]),this1[1][1]);
-			a4 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a5),b6);
-			var b5 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[2]),this1[1][2]);
-			a3 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a4),b5);
-		}
-		var b4 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[3]),this1[1][3]);
-		$r = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a3),b4);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a6;
-		{
-			var a7;
-			var a8 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[0]),this1[2][0]);
-			var b9 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[1]),this1[2][1]);
-			a7 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a8),b9);
-			var b8 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[2]),this1[2][2]);
-			a6 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a7),b8);
-		}
-		var b7 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[3]),this1[2][3]);
-		$r = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a6),b7);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a9;
-		{
-			var a10;
-			var a11 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[0]),this1[3][0]);
-			var b12 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[1]),this1[3][1]);
-			a10 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a11),b12);
-			var b11 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[2]),this1[3][2]);
-			a9 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a10),b11);
-		}
-		var b10 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[3]),this1[3][3]);
-		$r = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a9),b10);
-		return $r;
-	}(this))];
-	this1 = rows;
-	return this1;
-};
-glm__$Mat4_Mat4_$Impl_$.multiplyMat4Op = function(a,b) {
-	var rows = [(function($this) {
-		var $r;
-		var a1;
-		{
-			var a2;
-			var a3 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[0]),a[0][0]);
-			var b3 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[1]),a[0][1]);
-			a2 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a3),b3);
-			var b2 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[2]),a[0][2]);
-			a1 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a2),b2);
-		}
-		var b1 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[3]),a[0][3]);
-		$r = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a1),b1);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a4;
-		{
-			var a5;
-			var a6 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[0]),a[1][0]);
-			var b6 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[1]),a[1][1]);
-			a5 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a6),b6);
-			var b5 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[2]),a[1][2]);
-			a4 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a5),b5);
-		}
-		var b4 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[3]),a[1][3]);
-		$r = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a4),b4);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a7;
-		{
-			var a8;
-			var a9 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[0]),a[2][0]);
-			var b9 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[1]),a[2][1]);
-			a8 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a9),b9);
-			var b8 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[2]),a[2][2]);
-			a7 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a8),b8);
-		}
-		var b7 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[3]),a[2][3]);
-		$r = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a7),b7);
-		return $r;
-	}(this)),(function($this) {
-		var $r;
-		var a10;
-		{
-			var a11;
-			var a12 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[0]),a[3][0]);
-			var b12 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[1]),a[3][1]);
-			a11 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a12),b12);
-			var b11 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[2]),a[3][2]);
-			a10 = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a11),b11);
-		}
-		var b10 = glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b[3]),a[3][3]);
-		$r = glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a10),b10);
-		return $r;
-	}(this))];
-	a = rows;
-	return a;
-};
-glm__$Mat4_Mat4_$Impl_$.transpose = function(this1) {
-	var t01 = this1[0][1];
-	var t02 = this1[0][2];
-	var t03 = this1[0][3];
-	var t12 = this1[1][2];
-	var t13 = this1[1][3];
-	var t23 = this1[2][3];
-	this1[0][1] = this1[1][0];
-	this1[0][2] = this1[2][0];
-	this1[0][3] = this1[3][0];
-	this1[1][2] = this1[2][1];
-	this1[1][3] = this1[3][1];
-	this1[2][3] = this1[3][2];
-	this1[1][0] = t01;
-	this1[2][0] = t02;
-	this1[3][0] = t03;
-	this1[2][1] = t12;
-	this1[3][1] = t13;
-	this1[3][2] = t23;
-	return this1;
-};
-glm__$Mat4_Mat4_$Impl_$.invert = function(this1) {
-	var det;
-	var b001 = this1[0][0] * this1[1][1] - this1[0][1] * this1[1][0];
-	var b011 = this1[0][0] * this1[1][2] - this1[0][2] * this1[1][0];
-	var b021 = this1[0][0] * this1[1][3] - this1[0][3] * this1[1][0];
-	var b031 = this1[0][1] * this1[1][2] - this1[0][2] * this1[1][1];
-	var b041 = this1[0][1] * this1[1][3] - this1[0][3] * this1[1][1];
-	var b051 = this1[0][2] * this1[1][3] - this1[0][3] * this1[1][2];
-	var b061 = this1[2][0] * this1[3][1] - this1[2][1] * this1[3][0];
-	var b071 = this1[2][0] * this1[3][2] - this1[2][2] * this1[3][0];
-	var b081 = this1[2][0] * this1[3][3] - this1[2][3] * this1[3][0];
-	var b091 = this1[2][1] * this1[3][2] - this1[2][2] * this1[3][1];
-	var b101 = this1[2][1] * this1[3][3] - this1[2][3] * this1[3][1];
-	var b111 = this1[2][2] * this1[3][3] - this1[2][3] * this1[3][2];
-	det = b001 * b111 - b011 * b101 + b021 * b091 + b031 * b081 - b041 * b071 + b051 * b061;
-	if(det == 0) return null;
-	det = 1.0 / det;
-	var t00 = this1[0][0];
-	var t01 = this1[0][1];
-	var t02 = this1[0][2];
-	var t03 = this1[0][3];
-	var t10 = this1[1][0];
-	var t11 = this1[1][1];
-	var t12 = this1[1][2];
-	var t13 = this1[1][3];
-	var t20 = this1[2][0];
-	var t21 = this1[2][1];
-	var t22 = this1[2][2];
-	var t23 = this1[2][3];
-	var t30 = this1[3][0];
-	var t31 = this1[3][1];
-	var t32 = this1[3][2];
-	var t33 = this1[3][3];
-	var b00 = t00 * t11 - t01 * t10;
-	var b01 = t00 * t12 - t02 * t10;
-	var b02 = t00 * t13 - t03 * t10;
-	var b03 = t01 * t12 - t02 * t11;
-	var b04 = t01 * t13 - t03 * t11;
-	var b05 = t02 * t13 - t03 * t12;
-	var b06 = t20 * t31 - t21 * t30;
-	var b07 = t20 * t32 - t22 * t30;
-	var b08 = t20 * t33 - t23 * t30;
-	var b09 = t21 * t32 - t22 * t31;
-	var b10 = t21 * t33 - t23 * t31;
-	var b11 = t22 * t33 - t23 * t32;
-	this1[0][0] = (t11 * b11 - t12 * b10 + t13 * b09) * det;
-	this1[0][1] = (t02 * b10 - t01 * b11 - t03 * b09) * det;
-	this1[0][2] = (t31 * b05 - t32 * b04 + t33 * b03) * det;
-	this1[0][3] = (t22 * b04 - t21 * b05 - t23 * b03) * det;
-	this1[1][0] = (t12 * b08 - t10 * b11 - t13 * b07) * det;
-	this1[1][1] = (t00 * b11 - t02 * b08 + t03 * b07) * det;
-	this1[1][2] = (t32 * b02 - t30 * b05 - t33 * b01) * det;
-	this1[1][3] = (t20 * b05 - t22 * b02 + t23 * b01) * det;
-	this1[2][0] = (t10 * b10 - t11 * b08 + t13 * b06) * det;
-	this1[2][1] = (t01 * b08 - t00 * b10 - t03 * b06) * det;
-	this1[2][2] = (t30 * b04 - t31 * b02 + t33 * b00) * det;
-	this1[2][3] = (t21 * b02 - t20 * b04 - t23 * b00) * det;
-	this1[3][0] = (t11 * b07 - t10 * b09 - t12 * b06) * det;
-	this1[3][1] = (t00 * b09 - t01 * b07 + t02 * b06) * det;
-	this1[3][2] = (t31 * b01 - t30 * b03 - t32 * b00) * det;
-	this1[3][3] = (t20 * b03 - t21 * b01 + t22 * b00) * det;
-	return this1;
-};
-glm__$Mat4_Mat4_$Impl_$.determinant = function(this1) {
-	var b00 = this1[0][0] * this1[1][1] - this1[0][1] * this1[1][0];
-	var b01 = this1[0][0] * this1[1][2] - this1[0][2] * this1[1][0];
-	var b02 = this1[0][0] * this1[1][3] - this1[0][3] * this1[1][0];
-	var b03 = this1[0][1] * this1[1][2] - this1[0][2] * this1[1][1];
-	var b04 = this1[0][1] * this1[1][3] - this1[0][3] * this1[1][1];
-	var b05 = this1[0][2] * this1[1][3] - this1[0][3] * this1[1][2];
-	var b06 = this1[2][0] * this1[3][1] - this1[2][1] * this1[3][0];
-	var b07 = this1[2][0] * this1[3][2] - this1[2][2] * this1[3][0];
-	var b08 = this1[2][0] * this1[3][3] - this1[2][3] * this1[3][0];
-	var b09 = this1[2][1] * this1[3][2] - this1[2][2] * this1[3][1];
-	var b10 = this1[2][1] * this1[3][3] - this1[2][3] * this1[3][1];
-	var b11 = this1[2][2] * this1[3][3] - this1[2][3] * this1[3][2];
-	return b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
-};
-glm__$Mat4_Mat4_$Impl_$.fromMat3 = function(v) {
-	var r = glm__$Mat4_Mat4_$Impl_$.fromRows(glm__$Vec4_Vec4_$Impl_$._new(v[0][0],v[0][1],v[0][2],0),glm__$Vec4_Vec4_$Impl_$._new(v[1][0],v[1][1],v[1][2],0),glm__$Vec4_Vec4_$Impl_$._new(v[2][0],v[2][1],v[2][2],0),glm__$Vec4_Vec4_$Impl_$._new(0,0,0,1));
-	return r;
-};
 var glm_Projection = function() { };
 $hxClasses["glm.Projection"] = glm_Projection;
 glm_Projection.__name__ = ["glm","Projection"];
@@ -2055,49 +843,20 @@ glm_Projection.ortho = function(left,right,bottom,top,near,far) {
 	var result = glm__$Mat4_Mat4_$Impl_$.fromRows(glm__$Vec4_Vec4_$Impl_$._new(2 / (right - left),0,0,-(right + left) / (right - left)),glm__$Vec4_Vec4_$Impl_$._new(0,2 / (top - bottom),0,-(top + bottom) / (top - bottom)),glm__$Vec4_Vec4_$Impl_$._new(0,0,-2 / (far - near),-(far + near) / (far - near)),glm__$Vec4_Vec4_$Impl_$._new(0,0,0,1));
 	return result;
 };
-glm_Projection.perspective = function(fovy,aspect,near,far) {
-	var result = glm__$Mat4_Mat4_$Impl_$.identity();
-	var x = 1 / (aspect * Math.tan(fovy / 2));
-	result[0][0] = x;
-	var x1 = 1 / Math.tan(fovy / 2);
-	result[1][1] = x1;
-	result[2][2] = -(far + near) / (far - near);
-	result[3][2] = -1;
-	result[2][3] = -(2 * far * near) / (far - near);
-	return result;
-};
-glm_Projection.frustum = function(left,right,bottom,top,near,far) {
-	if(far == null) far = 1;
-	if(near == null) near = -1;
-	var result = glm__$Mat4_Mat4_$Impl_$.fromRows(glm__$Vec4_Vec4_$Impl_$._new(2 * near / (right - left),0,(right + left) / (right - left),0),glm__$Vec4_Vec4_$Impl_$._new(0,2 * near / (top - bottom),(top + bottom) / (top - bottom),0),glm__$Vec4_Vec4_$Impl_$._new(0,0,-(far + near) / (far - near),-2 * far * near / (far - near)),glm__$Vec4_Vec4_$Impl_$._new(0,0,-1,0));
-	return result;
-};
 var glm__$Quat_Quat_$Impl_$ = {};
 $hxClasses["glm._Quat.Quat_Impl_"] = glm__$Quat_Quat_$Impl_$;
 glm__$Quat_Quat_$Impl_$.__name__ = ["glm","_Quat","Quat_Impl_"];
 glm__$Quat_Quat_$Impl_$.get_w = function(this1) {
 	return this1[0];
 };
-glm__$Quat_Quat_$Impl_$.set_w = function(this1,v) {
-	return this1[0] = v;
-};
 glm__$Quat_Quat_$Impl_$.get_x = function(this1) {
 	return this1[1];
-};
-glm__$Quat_Quat_$Impl_$.set_x = function(this1,v) {
-	return this1[1] = v;
 };
 glm__$Quat_Quat_$Impl_$.get_y = function(this1) {
 	return this1[2];
 };
-glm__$Quat_Quat_$Impl_$.set_y = function(this1,v) {
-	return this1[2] = v;
-};
 glm__$Quat_Quat_$Impl_$.get_z = function(this1) {
 	return this1[3];
-};
-glm__$Quat_Quat_$Impl_$.set_z = function(this1,v) {
-	return this1[3] = v;
 };
 glm__$Quat_Quat_$Impl_$._new = function(w,x,y,z) {
 	if(z == null) z = 0;
@@ -2111,179 +870,6 @@ glm__$Quat_Quat_$Impl_$._new = function(w,x,y,z) {
 	arr.push(y);
 	arr.push(z);
 	this1 = arr;
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.set = function(this1,w,x,y,z) {
-	if(w != null) this1[0] = w;
-	if(x != null) this1[1] = x;
-	if(y != null) this1[2] = y;
-	if(z != null) this1[3] = z;
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.clone = function(this1) {
-	var copy = glm__$Quat_Quat_$Impl_$._new();
-	copy[0] = this1[0];
-	copy[1] = this1[1];
-	copy[2] = this1[2];
-	copy[3] = this1[3];
-	return copy;
-};
-glm__$Quat_Quat_$Impl_$.copy = function(this1,q) {
-	this1[0] = q[0];
-	this1[1] = q[1];
-	this1[2] = q[2];
-	this1[3] = q[3];
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.arrayGet = function(this1,i) {
-	return this1[i];
-};
-glm__$Quat_Quat_$Impl_$.arraySet = function(this1,i,x) {
-	return this1[i] = x;
-};
-glm__$Quat_Quat_$Impl_$.toArray = function(this1) {
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.setIdentity = function(this1) {
-	this1[0] = 1;
-	this1[1] = 0;
-	this1[2] = 0;
-	this1[3] = 0;
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.identity = function() {
-	var q = glm__$Quat_Quat_$Impl_$._new();
-	q[0] = 1;
-	q[1] = 0;
-	q[2] = 0;
-	q[3] = 0;
-	q;
-	return q;
-};
-glm__$Quat_Quat_$Impl_$.setZero = function(this1) {
-	this1[0] = 0;
-	this1[1] = 0;
-	this1[2] = 0;
-	this1[3] = 0;
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.zero = function() {
-	var q = glm__$Quat_Quat_$Impl_$._new();
-	q[0] = 0;
-	q[1] = 0;
-	q[2] = 0;
-	q[3] = 0;
-	q;
-	return q;
-};
-glm__$Quat_Quat_$Impl_$.sqrLength = function(this1) {
-	return this1[0] * this1[0] + this1[1] * this1[1] + this1[2] * this1[2] + this1[3] * this1[3];
-};
-glm__$Quat_Quat_$Impl_$.$length = function(this1) {
-	return Math.sqrt(this1[0] * this1[0] + this1[1] * this1[1] + this1[2] * this1[2] + this1[3] * this1[3]);
-};
-glm__$Quat_Quat_$Impl_$.normalize = function(this1) {
-	var l = Math.sqrt(this1[0] * this1[0] + this1[1] * this1[1] + this1[2] * this1[2] + this1[3] * this1[3]);
-	if(l != 0) {
-		this1[0] /= l;
-		this1[1] /= l;
-		this1[2] /= l;
-		this1[3] /= l;
-	} else {
-		this1[0] = 0;
-		this1[1] = 0;
-		this1[2] = 0;
-		this1[3] = 0;
-		this1;
-	}
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.conjugate = function(this1) {
-	this1[1] *= -1;
-	this1[2] *= -1;
-	this1[3] *= -1;
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.invert = function(this1) {
-	var a_0 = this1[0];
-	var a_1 = this1[1];
-	var a_2 = this1[2];
-	var a_3 = this1[3];
-	var dot = this1[0] * a_0 + this1[1] * a_1 + this1[2] * a_2 + this1[3] * a_3;
-	if(dot == 0) {
-		this1[0] = 0;
-		this1[1] = 0;
-		this1[2] = 0;
-		this1[3] = 0;
-		this1;
-		return this1;
-	}
-	var invDot = 1.0 / dot;
-	this1[0] = a_0 * invDot;
-	this1[1] = -a_1 * invDot;
-	this1[2] = -a_2 * invDot;
-	this1[3] = -a_3 * invDot;
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.multQuat = function(this1,b) {
-	var ax = glm__$Quat_Quat_$Impl_$.get_x(this1);
-	var ay = glm__$Quat_Quat_$Impl_$.get_y(this1);
-	var az = glm__$Quat_Quat_$Impl_$.get_z(this1);
-	var aw = glm__$Quat_Quat_$Impl_$.get_w(this1);
-	var bx = glm__$Quat_Quat_$Impl_$.get_x(b);
-	var by = glm__$Quat_Quat_$Impl_$.get_y(b);
-	var bz = glm__$Quat_Quat_$Impl_$.get_z(b);
-	var bw = glm__$Quat_Quat_$Impl_$.get_w(b);
-	glm__$Quat_Quat_$Impl_$.set_x(this1,ax * bw + aw * bx + ay * bz - az * by);
-	glm__$Quat_Quat_$Impl_$.set_y(this1,ay * bw + aw * by + az * bx - ax * bz);
-	glm__$Quat_Quat_$Impl_$.set_z(this1,az * bw + aw * bz + ax * by - ay * bx);
-	glm__$Quat_Quat_$Impl_$.set_w(this1,aw * bw - ax * bx - ay * by - az * bz);
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.multQuatOp = function(a,b) {
-	var this1 = glm__$Quat_Quat_$Impl_$.clone(a);
-	var ax = glm__$Quat_Quat_$Impl_$.get_x(this1);
-	var ay = glm__$Quat_Quat_$Impl_$.get_y(this1);
-	var az = glm__$Quat_Quat_$Impl_$.get_z(this1);
-	var aw = glm__$Quat_Quat_$Impl_$.get_w(this1);
-	var bx = glm__$Quat_Quat_$Impl_$.get_x(b);
-	var by = glm__$Quat_Quat_$Impl_$.get_y(b);
-	var bz = glm__$Quat_Quat_$Impl_$.get_z(b);
-	var bw = glm__$Quat_Quat_$Impl_$.get_w(b);
-	glm__$Quat_Quat_$Impl_$.set_x(this1,ax * bw + aw * bx + ay * bz - az * by);
-	glm__$Quat_Quat_$Impl_$.set_y(this1,ay * bw + aw * by + az * bx - ax * bz);
-	glm__$Quat_Quat_$Impl_$.set_z(this1,az * bw + aw * bz + ax * by - ay * bx);
-	glm__$Quat_Quat_$Impl_$.set_w(this1,aw * bw - ax * bx - ay * by - az * bz);
-	return this1;
-};
-glm__$Quat_Quat_$Impl_$.fromVec4 = function(v) {
-	return glm__$Quat_Quat_$Impl_$._new(glm__$Vec4_Vec4_$Impl_$.get_w(v),glm__$Vec4_Vec4_$Impl_$.get_x(v),glm__$Vec4_Vec4_$Impl_$.get_y(v),glm__$Vec4_Vec4_$Impl_$.get_z(v));
-};
-glm__$Quat_Quat_$Impl_$.slerp = function(this1,target,t) {
-	var b = glm__$Quat_Quat_$Impl_$.clone(target);
-	var cosom = glm__$Quat_Quat_$Impl_$.get_x(this1) * glm__$Quat_Quat_$Impl_$.get_x(b) + glm__$Quat_Quat_$Impl_$.get_y(this1) * glm__$Quat_Quat_$Impl_$.get_y(b) + glm__$Quat_Quat_$Impl_$.get_z(this1) * glm__$Quat_Quat_$Impl_$.get_z(b) + glm__$Quat_Quat_$Impl_$.get_w(this1) * glm__$Quat_Quat_$Impl_$.get_w(b);
-	if(cosom < 0) {
-		cosom *= -1;
-		glm__$Quat_Quat_$Impl_$.set_w(b,glm__$Quat_Quat_$Impl_$.get_w(b) * -1);
-		glm__$Quat_Quat_$Impl_$.set_x(b,glm__$Quat_Quat_$Impl_$.get_x(b) * -1);
-		glm__$Quat_Quat_$Impl_$.set_y(b,glm__$Quat_Quat_$Impl_$.get_y(b) * -1);
-		glm__$Quat_Quat_$Impl_$.set_z(b,glm__$Quat_Quat_$Impl_$.get_z(b) * -1);
-	}
-	var scale0;
-	var scale1;
-	if(1.0 - cosom > 0.000001) {
-		var omega = Math.acos(cosom);
-		var sinom = Math.sin(omega);
-		scale0 = Math.sin((1.0 - t) * omega) / sinom;
-		scale1 = Math.sin(t * omega) / sinom;
-	} else {
-		scale0 = 1.0 - t;
-		scale1 = t;
-	}
-	this1[0] = scale0 * this1[0] + b[0] * scale1;
-	this1[1] = scale0 * this1[1] + b[1] * scale1;
-	this1[2] = scale0 * this1[2] + b[2] * scale1;
-	this1[3] = scale0 * this1[3] + b[3] * scale1;
 	return this1;
 };
 var glm__$Vec2_Vec2_$Impl_$ = {};
@@ -2301,18 +887,6 @@ glm__$Vec2_Vec2_$Impl_$.get_y = function(this1) {
 glm__$Vec2_Vec2_$Impl_$.set_y = function(this1,v) {
 	return this1[1] = v;
 };
-glm__$Vec2_Vec2_$Impl_$.get_s = function(this1) {
-	return this1[0];
-};
-glm__$Vec2_Vec2_$Impl_$.set_s = function(this1,v) {
-	return this1[0] = v;
-};
-glm__$Vec2_Vec2_$Impl_$.get_t = function(this1) {
-	return this1[1];
-};
-glm__$Vec2_Vec2_$Impl_$.set_t = function(this1,v) {
-	return this1[1] = v;
-};
 glm__$Vec2_Vec2_$Impl_$._new = function(x,y) {
 	if(y == null) y = 0;
 	if(x == null) x = 0;
@@ -2323,29 +897,8 @@ glm__$Vec2_Vec2_$Impl_$._new = function(x,y) {
 	this1 = arr;
 	return this1;
 };
-glm__$Vec2_Vec2_$Impl_$.set = function(this1,x,y) {
-	if(x != null) this1[0] = x;
-	if(y != null) this1[1] = y;
-	return this1;
-};
-glm__$Vec2_Vec2_$Impl_$.zero = function(this1) {
-	this1[0] = 0;
-	this1[1] = 0;
-	return this1;
-};
 glm__$Vec2_Vec2_$Impl_$.sqrLength = function(this1) {
 	return this1[0] * this1[0] + this1[1] * this1[1];
-};
-glm__$Vec2_Vec2_$Impl_$.$length = function(this1) {
-	return Math.sqrt(glm__$Vec2_Vec2_$Impl_$.sqrLength(this1));
-};
-glm__$Vec2_Vec2_$Impl_$.normalize = function(this1) {
-	var l = glm__$Vec2_Vec2_$Impl_$.$length(this1);
-	if(l != 0) {
-		this1[0] /= l;
-		this1[1] /= l;
-	} else glm__$Vec2_Vec2_$Impl_$.zero(this1);
-	return this1;
 };
 glm__$Vec2_Vec2_$Impl_$.clone = function(this1) {
 	var copy = glm__$Vec2_Vec2_$Impl_$._new();
@@ -2353,90 +906,15 @@ glm__$Vec2_Vec2_$Impl_$.clone = function(this1) {
 	copy[1] = this1[1];
 	return copy;
 };
-glm__$Vec2_Vec2_$Impl_$.copy = function(this1,v) {
-	this1[0] = v[0];
-	this1[1] = v[1];
-	return this1;
-};
 glm__$Vec2_Vec2_$Impl_$.addVec2 = function(this1,b) {
 	this1[0] += b[0];
 	this1[1] += b[1];
 	return this1;
 };
-glm__$Vec2_Vec2_$Impl_$.addVec2Op = function(a,b) {
-	return glm__$Vec2_Vec2_$Impl_$.addVec2(glm__$Vec2_Vec2_$Impl_$.clone(a),b);
-};
-glm__$Vec2_Vec2_$Impl_$.subtractVec2 = function(this1,b) {
-	this1[0] -= b[0];
-	this1[1] -= b[1];
-	return this1;
-};
-glm__$Vec2_Vec2_$Impl_$.subtractVec2Op = function(a,b) {
-	return glm__$Vec2_Vec2_$Impl_$.subtractVec2(glm__$Vec2_Vec2_$Impl_$.clone(a),b);
-};
-glm__$Vec2_Vec2_$Impl_$.addScalar = function(this1,b) {
-	this1[0] += b;
-	this1[1] += b;
-	return this1;
-};
-glm__$Vec2_Vec2_$Impl_$.addScalarOp = function(a,b) {
-	return glm__$Vec2_Vec2_$Impl_$.addScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),b);
-};
-glm__$Vec2_Vec2_$Impl_$.addScalarOp2 = function(b,a) {
-	return glm__$Vec2_Vec2_$Impl_$.addScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),b);
-};
-glm__$Vec2_Vec2_$Impl_$.subtractScalar = function(this1,b) {
-	this1[0] -= b;
-	this1[1] -= b;
-	return this1;
-};
-glm__$Vec2_Vec2_$Impl_$.subtractScalarOp = function(a,b) {
-	return glm__$Vec2_Vec2_$Impl_$.subtractScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),b);
-};
-glm__$Vec2_Vec2_$Impl_$.subtractScalarOp2 = function(a,b) {
-	return glm__$Vec2_Vec2_$Impl_$.addScalar(glm__$Vec2_Vec2_$Impl_$.multiplyScalar(glm__$Vec2_Vec2_$Impl_$.clone(b),-1),a);
-};
-glm__$Vec2_Vec2_$Impl_$.multiplyScalar = function(this1,b) {
-	this1[0] *= b;
-	this1[1] *= b;
-	return this1;
-};
-glm__$Vec2_Vec2_$Impl_$.multiplyScalarOp = function(a,b) {
-	return glm__$Vec2_Vec2_$Impl_$.multiplyScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),b);
-};
-glm__$Vec2_Vec2_$Impl_$.multiplyScalarOp2 = function(b,a) {
-	return glm__$Vec2_Vec2_$Impl_$.multiplyScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),b);
-};
 glm__$Vec2_Vec2_$Impl_$.divideScalar = function(this1,b) {
 	this1[0] /= b;
 	this1[1] /= b;
 	return this1;
-};
-glm__$Vec2_Vec2_$Impl_$.divideScalarOp = function(a,b) {
-	return glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),b);
-};
-glm__$Vec2_Vec2_$Impl_$.arrayGet = function(this1,i) {
-	return this1[i];
-};
-glm__$Vec2_Vec2_$Impl_$.arraySet = function(this1,i,x) {
-	return this1[i] = x;
-};
-glm__$Vec2_Vec2_$Impl_$.toArray = function(this1) {
-	return this1;
-};
-glm__$Vec2_Vec2_$Impl_$.lerp = function(this1,target,t) {
-	this1[0] = glm_GLM.lerp(this1[0],target[0],t);
-	this1[1] = glm_GLM.lerp(this1[1],target[1],t);
-	return this1;
-};
-glm__$Vec2_Vec2_$Impl_$.dot = function(a,b) {
-	return a[0] * b[0] + a[1] * b[1];
-};
-glm__$Vec2_Vec2_$Impl_$.fromVec3 = function(v) {
-	return glm__$Vec2_Vec2_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(v),glm__$Vec3_Vec3_$Impl_$.get_y(v));
-};
-glm__$Vec2_Vec2_$Impl_$.fromVec4 = function(v) {
-	return glm__$Vec2_Vec2_$Impl_$._new(glm__$Vec4_Vec4_$Impl_$.get_x(v),glm__$Vec4_Vec4_$Impl_$.get_y(v));
 };
 var glm__$Vec4_Vec4_$Impl_$ = {};
 $hxClasses["glm._Vec4.Vec4_Impl_"] = glm__$Vec4_Vec4_$Impl_$;
@@ -2444,74 +922,26 @@ glm__$Vec4_Vec4_$Impl_$.__name__ = ["glm","_Vec4","Vec4_Impl_"];
 glm__$Vec4_Vec4_$Impl_$.get_x = function(this1) {
 	return this1[0];
 };
-glm__$Vec4_Vec4_$Impl_$.set_x = function(this1,v) {
-	return this1[0] = v;
-};
 glm__$Vec4_Vec4_$Impl_$.get_y = function(this1) {
 	return this1[1];
-};
-glm__$Vec4_Vec4_$Impl_$.set_y = function(this1,v) {
-	return this1[1] = v;
 };
 glm__$Vec4_Vec4_$Impl_$.get_z = function(this1) {
 	return this1[2];
 };
-glm__$Vec4_Vec4_$Impl_$.set_z = function(this1,v) {
-	return this1[2] = v;
-};
 glm__$Vec4_Vec4_$Impl_$.get_w = function(this1) {
 	return this1[3];
-};
-glm__$Vec4_Vec4_$Impl_$.set_w = function(this1,v) {
-	return this1[3] = v;
 };
 glm__$Vec4_Vec4_$Impl_$.get_r = function(this1) {
 	return this1[0];
 };
-glm__$Vec4_Vec4_$Impl_$.set_r = function(this1,v) {
-	return this1[0] = v;
-};
 glm__$Vec4_Vec4_$Impl_$.get_g = function(this1) {
 	return this1[1];
-};
-glm__$Vec4_Vec4_$Impl_$.set_g = function(this1,v) {
-	return this1[1] = v;
 };
 glm__$Vec4_Vec4_$Impl_$.get_b = function(this1) {
 	return this1[2];
 };
-glm__$Vec4_Vec4_$Impl_$.set_b = function(this1,v) {
-	return this1[2] = v;
-};
 glm__$Vec4_Vec4_$Impl_$.get_a = function(this1) {
 	return this1[3];
-};
-glm__$Vec4_Vec4_$Impl_$.set_a = function(this1,v) {
-	return this1[3] = v;
-};
-glm__$Vec4_Vec4_$Impl_$.get_s = function(this1) {
-	return this1[0];
-};
-glm__$Vec4_Vec4_$Impl_$.set_s = function(this1,v) {
-	return this1[0] = v;
-};
-glm__$Vec4_Vec4_$Impl_$.get_t = function(this1) {
-	return this1[1];
-};
-glm__$Vec4_Vec4_$Impl_$.set_t = function(this1,v) {
-	return this1[1] = v;
-};
-glm__$Vec4_Vec4_$Impl_$.get_p = function(this1) {
-	return this1[2];
-};
-glm__$Vec4_Vec4_$Impl_$.set_p = function(this1,v) {
-	return this1[2] = v;
-};
-glm__$Vec4_Vec4_$Impl_$.get_q = function(this1) {
-	return this1[3];
-};
-glm__$Vec4_Vec4_$Impl_$.set_q = function(this1,v) {
-	return this1[3] = v;
 };
 glm__$Vec4_Vec4_$Impl_$._new = function(x,y,z,w) {
 	if(w == null) w = 0;
@@ -2527,36 +957,6 @@ glm__$Vec4_Vec4_$Impl_$._new = function(x,y,z,w) {
 	this1 = arr;
 	return this1;
 };
-glm__$Vec4_Vec4_$Impl_$.set = function(this1,x,y,z,w) {
-	if(x != null) this1[0] = x;
-	if(y != null) this1[1] = y;
-	if(z != null) this1[2] = z;
-	if(w != null) this1[3] = w;
-	return this1;
-};
-glm__$Vec4_Vec4_$Impl_$.zero = function(this1) {
-	this1[0] = 0;
-	this1[1] = 0;
-	this1[2] = 0;
-	this1[3] = 0;
-	return this1;
-};
-glm__$Vec4_Vec4_$Impl_$.sqrLength = function(this1) {
-	return this1[0] * this1[0] + this1[1] * this1[1] + this1[2] * this1[2] + this1[3] * this1[3];
-};
-glm__$Vec4_Vec4_$Impl_$.$length = function(this1) {
-	return Math.sqrt(glm__$Vec4_Vec4_$Impl_$.sqrLength(this1));
-};
-glm__$Vec4_Vec4_$Impl_$.normalize = function(this1) {
-	var l = glm__$Vec4_Vec4_$Impl_$.$length(this1);
-	if(l != 0) {
-		this1[0] /= l;
-		this1[1] /= l;
-		this1[2] /= l;
-		this1[3] /= l;
-	} else glm__$Vec4_Vec4_$Impl_$.zero(this1);
-	return this1;
-};
 glm__$Vec4_Vec4_$Impl_$.clone = function(this1) {
 	var copy = glm__$Vec4_Vec4_$Impl_$._new();
 	copy[0] = this1[0];
@@ -2565,13 +965,6 @@ glm__$Vec4_Vec4_$Impl_$.clone = function(this1) {
 	copy[3] = this1[3];
 	return copy;
 };
-glm__$Vec4_Vec4_$Impl_$.copy = function(this1,v) {
-	this1[0] = v[0];
-	this1[1] = v[1];
-	this1[2] = v[2];
-	this1[3] = v[3];
-	return this1;
-};
 glm__$Vec4_Vec4_$Impl_$.addVec4 = function(this1,b) {
 	this1[0] += b[0];
 	this1[1] += b[1];
@@ -2579,92 +972,12 @@ glm__$Vec4_Vec4_$Impl_$.addVec4 = function(this1,b) {
 	this1[3] += b[3];
 	return this1;
 };
-glm__$Vec4_Vec4_$Impl_$.addVec4Op = function(a,b) {
-	return glm__$Vec4_Vec4_$Impl_$.addVec4(glm__$Vec4_Vec4_$Impl_$.clone(a),b);
-};
-glm__$Vec4_Vec4_$Impl_$.subtractVec4 = function(this1,b) {
-	this1[0] -= b[0];
-	this1[1] -= b[1];
-	this1[2] -= b[2];
-	this1[3] -= b[3];
-	return this1;
-};
-glm__$Vec4_Vec4_$Impl_$.subtractVec4Op = function(a,b) {
-	return glm__$Vec4_Vec4_$Impl_$.subtractVec4(glm__$Vec4_Vec4_$Impl_$.clone(a),b);
-};
-glm__$Vec4_Vec4_$Impl_$.addScalar = function(this1,b) {
-	this1[0] += b;
-	this1[1] += b;
-	this1[2] += b;
-	this1[3] += b;
-	return this1;
-};
-glm__$Vec4_Vec4_$Impl_$.addScalarOp = function(a,b) {
-	return glm__$Vec4_Vec4_$Impl_$.addScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),b);
-};
-glm__$Vec4_Vec4_$Impl_$.addScalarOp2 = function(b,a) {
-	return glm__$Vec4_Vec4_$Impl_$.addScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),b);
-};
-glm__$Vec4_Vec4_$Impl_$.subtractScalar = function(this1,b) {
-	this1[0] -= b;
-	this1[1] -= b;
-	this1[2] -= b;
-	this1[3] -= b;
-	return this1;
-};
-glm__$Vec4_Vec4_$Impl_$.subtractScalarOp = function(a,b) {
-	return glm__$Vec4_Vec4_$Impl_$.subtractScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),b);
-};
-glm__$Vec4_Vec4_$Impl_$.subtractScalarOp2 = function(a,b) {
-	return glm__$Vec4_Vec4_$Impl_$.addScalar(glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(b),-1),a);
-};
 glm__$Vec4_Vec4_$Impl_$.multiplyScalar = function(this1,b) {
 	this1[0] *= b;
 	this1[1] *= b;
 	this1[2] *= b;
 	this1[3] *= b;
 	return this1;
-};
-glm__$Vec4_Vec4_$Impl_$.multiplyScalarOp = function(a,b) {
-	return glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),b);
-};
-glm__$Vec4_Vec4_$Impl_$.multiplyScalarOp2 = function(b,a) {
-	return glm__$Vec4_Vec4_$Impl_$.multiplyScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),b);
-};
-glm__$Vec4_Vec4_$Impl_$.divideScalar = function(this1,b) {
-	this1[0] /= b;
-	this1[1] /= b;
-	this1[2] /= b;
-	this1[3] /= b;
-	return this1;
-};
-glm__$Vec4_Vec4_$Impl_$.divideScalarOp = function(a,b) {
-	return glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),b);
-};
-glm__$Vec4_Vec4_$Impl_$.arrayGet = function(this1,i) {
-	return this1[i];
-};
-glm__$Vec4_Vec4_$Impl_$.arraySet = function(this1,i,x) {
-	return this1[i] = x;
-};
-glm__$Vec4_Vec4_$Impl_$.toArray = function(this1) {
-	return this1;
-};
-glm__$Vec4_Vec4_$Impl_$.lerp = function(this1,target,t) {
-	this1[0] = glm_GLM.lerp(this1[0],target[0],t);
-	this1[1] = glm_GLM.lerp(this1[1],target[1],t);
-	this1[2] = glm_GLM.lerp(this1[2],target[2],t);
-	this1[3] = glm_GLM.lerp(this1[3],target[3],t);
-	return this1;
-};
-glm__$Vec4_Vec4_$Impl_$.dot = function(a,b) {
-	return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
-};
-glm__$Vec4_Vec4_$Impl_$.fromVec2 = function(v) {
-	return glm__$Vec4_Vec4_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(v),glm__$Vec2_Vec2_$Impl_$.get_y(v),0,1);
-};
-glm__$Vec4_Vec4_$Impl_$.fromVec3 = function(v) {
-	return glm__$Vec4_Vec4_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(v),glm__$Vec3_Vec3_$Impl_$.get_y(v),glm__$Vec3_Vec3_$Impl_$.get_z(v),1);
 };
 var haxe_StackItem = $hxClasses["haxe.StackItem"] = { __ename__ : ["haxe","StackItem"], __constructs__ : ["CFunction","Module","FilePos","Method","LocalFunction"] };
 haxe_StackItem.CFunction = ["CFunction",0];
@@ -2751,12 +1064,6 @@ haxe__$Int64__$_$_$Int64.__name__ = ["haxe","_Int64","___Int64"];
 haxe__$Int64__$_$_$Int64.prototype = {
 	__class__: haxe__$Int64__$_$_$Int64
 };
-var haxe_Log = function() { };
-$hxClasses["haxe.Log"] = haxe_Log;
-haxe_Log.__name__ = ["haxe","Log"];
-haxe_Log.trace = function(v,infos) {
-	js_Boot.__trace(v,infos);
-};
 var haxe_Resource = function() { };
 $hxClasses["haxe.Resource"] = haxe_Resource;
 haxe_Resource.__name__ = ["haxe","Resource"];
@@ -2787,26 +1094,11 @@ haxe_Resource.getBytes = function(name) {
 	}
 	return null;
 };
-var haxe_Serializer = function() {
-	this.buf = new StringBuf();
-	this.cache = [];
-	this.useCache = haxe_Serializer.USE_CACHE;
-	this.useEnumIndex = haxe_Serializer.USE_ENUM_INDEX;
-	this.shash = new haxe_ds_StringMap();
-	this.scount = 0;
-};
+var haxe_Serializer = function() { };
 $hxClasses["haxe.Serializer"] = haxe_Serializer;
 haxe_Serializer.__name__ = ["haxe","Serializer"];
-haxe_Serializer.run = function(v) {
-	var s = new haxe_Serializer();
-	s.serialize(v);
-	return s.toString();
-};
 haxe_Serializer.prototype = {
-	toString: function() {
-		return this.buf.b;
-	}
-	,serializeString: function(s) {
+	serializeString: function(s) {
 		var x = this.shash.get(s);
 		if(x != null) {
 			this.buf.b += "R";
@@ -3057,48 +1349,13 @@ haxe_Serializer.prototype = {
 	}
 	,__class__: haxe_Serializer
 };
-var haxe_Timer = function(time_ms) {
-	var me = this;
-	this.id = setInterval(function() {
-		me.run();
-	},time_ms);
-};
+var haxe_Timer = function() { };
 $hxClasses["haxe.Timer"] = haxe_Timer;
 haxe_Timer.__name__ = ["haxe","Timer"];
-haxe_Timer.delay = function(f,time_ms) {
-	var t = new haxe_Timer(time_ms);
-	t.run = function() {
-		t.stop();
-		f();
-	};
-	return t;
-};
 haxe_Timer.stamp = function() {
 	return new Date().getTime() / 1000;
 };
-haxe_Timer.prototype = {
-	stop: function() {
-		if(this.id == null) return;
-		clearInterval(this.id);
-		this.id = null;
-	}
-	,run: function() {
-	}
-	,__class__: haxe_Timer
-};
-var haxe_Unserializer = function(buf) {
-	this.buf = buf;
-	this.length = buf.length;
-	this.pos = 0;
-	this.scache = [];
-	this.cache = [];
-	var r = haxe_Unserializer.DEFAULT_RESOLVER;
-	if(r == null) {
-		r = Type;
-		haxe_Unserializer.DEFAULT_RESOLVER = r;
-	}
-	this.setResolver(r);
-};
+var haxe_Unserializer = function() { };
 $hxClasses["haxe.Unserializer"] = haxe_Unserializer;
 haxe_Unserializer.__name__ = ["haxe","Unserializer"];
 haxe_Unserializer.initCodes = function() {
@@ -3111,18 +1368,8 @@ haxe_Unserializer.initCodes = function() {
 	}
 	return codes;
 };
-haxe_Unserializer.run = function(v) {
-	return new haxe_Unserializer(v).unserialize();
-};
 haxe_Unserializer.prototype = {
-	setResolver: function(r) {
-		if(r == null) this.resolver = { resolveClass : function(_) {
-			return null;
-		}, resolveEnum : function(_1) {
-			return null;
-		}}; else this.resolver = r;
-	}
-	,get: function(p) {
+	get: function(p) {
 		return this.buf.charCodeAt(p);
 	}
 	,readDigits: function() {
@@ -3375,14 +1622,6 @@ haxe_Unserializer.prototype = {
 		throw new js__$Boot_HaxeError("Invalid char " + this.buf.charAt(this.pos) + " at position " + this.pos);
 	}
 	,__class__: haxe_Unserializer
-};
-var haxe_Utf8 = function(size) {
-	this.__b = "";
-};
-$hxClasses["haxe.Utf8"] = haxe_Utf8;
-haxe_Utf8.__name__ = ["haxe","Utf8"];
-haxe_Utf8.prototype = {
-	__class__: haxe_Utf8
 };
 var haxe_io_Bytes = function(data) {
 	this.length = data.byteLength;
@@ -3750,11 +1989,6 @@ haxe_ds_ObjectMap.prototype = {
 	}
 	,__class__: haxe_ds_ObjectMap
 };
-var haxe_ds_Option = $hxClasses["haxe.ds.Option"] = { __ename__ : ["haxe","ds","Option"], __constructs__ : ["Some","None"] };
-haxe_ds_Option.Some = function(v) { var $x = ["Some",0,v]; $x.__enum__ = haxe_ds_Option; $x.toString = $estr; return $x; };
-haxe_ds_Option.None = ["None",1];
-haxe_ds_Option.None.toString = $estr;
-haxe_ds_Option.None.__enum__ = haxe_ds_Option;
 var haxe_ds__$StringMap_StringMapIterator = function(map,keys) {
 	this.map = map;
 	this.keys = keys;
@@ -4007,376 +2241,6 @@ haxe_io_Path.addTrailingSlash = function(path) {
 haxe_io_Path.prototype = {
 	__class__: haxe_io_Path
 };
-var haxe_macro_Constant = $hxClasses["haxe.macro.Constant"] = { __ename__ : ["haxe","macro","Constant"], __constructs__ : ["CInt","CFloat","CString","CIdent","CRegexp"] };
-haxe_macro_Constant.CInt = function(v) { var $x = ["CInt",0,v]; $x.__enum__ = haxe_macro_Constant; $x.toString = $estr; return $x; };
-haxe_macro_Constant.CFloat = function(f) { var $x = ["CFloat",1,f]; $x.__enum__ = haxe_macro_Constant; $x.toString = $estr; return $x; };
-haxe_macro_Constant.CString = function(s) { var $x = ["CString",2,s]; $x.__enum__ = haxe_macro_Constant; $x.toString = $estr; return $x; };
-haxe_macro_Constant.CIdent = function(s) { var $x = ["CIdent",3,s]; $x.__enum__ = haxe_macro_Constant; $x.toString = $estr; return $x; };
-haxe_macro_Constant.CRegexp = function(r,opt) { var $x = ["CRegexp",4,r,opt]; $x.__enum__ = haxe_macro_Constant; $x.toString = $estr; return $x; };
-var haxe_macro_Binop = $hxClasses["haxe.macro.Binop"] = { __ename__ : ["haxe","macro","Binop"], __constructs__ : ["OpAdd","OpMult","OpDiv","OpSub","OpAssign","OpEq","OpNotEq","OpGt","OpGte","OpLt","OpLte","OpAnd","OpOr","OpXor","OpBoolAnd","OpBoolOr","OpShl","OpShr","OpUShr","OpMod","OpAssignOp","OpInterval","OpArrow"] };
-haxe_macro_Binop.OpAdd = ["OpAdd",0];
-haxe_macro_Binop.OpAdd.toString = $estr;
-haxe_macro_Binop.OpAdd.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpMult = ["OpMult",1];
-haxe_macro_Binop.OpMult.toString = $estr;
-haxe_macro_Binop.OpMult.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpDiv = ["OpDiv",2];
-haxe_macro_Binop.OpDiv.toString = $estr;
-haxe_macro_Binop.OpDiv.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpSub = ["OpSub",3];
-haxe_macro_Binop.OpSub.toString = $estr;
-haxe_macro_Binop.OpSub.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpAssign = ["OpAssign",4];
-haxe_macro_Binop.OpAssign.toString = $estr;
-haxe_macro_Binop.OpAssign.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpEq = ["OpEq",5];
-haxe_macro_Binop.OpEq.toString = $estr;
-haxe_macro_Binop.OpEq.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpNotEq = ["OpNotEq",6];
-haxe_macro_Binop.OpNotEq.toString = $estr;
-haxe_macro_Binop.OpNotEq.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpGt = ["OpGt",7];
-haxe_macro_Binop.OpGt.toString = $estr;
-haxe_macro_Binop.OpGt.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpGte = ["OpGte",8];
-haxe_macro_Binop.OpGte.toString = $estr;
-haxe_macro_Binop.OpGte.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpLt = ["OpLt",9];
-haxe_macro_Binop.OpLt.toString = $estr;
-haxe_macro_Binop.OpLt.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpLte = ["OpLte",10];
-haxe_macro_Binop.OpLte.toString = $estr;
-haxe_macro_Binop.OpLte.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpAnd = ["OpAnd",11];
-haxe_macro_Binop.OpAnd.toString = $estr;
-haxe_macro_Binop.OpAnd.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpOr = ["OpOr",12];
-haxe_macro_Binop.OpOr.toString = $estr;
-haxe_macro_Binop.OpOr.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpXor = ["OpXor",13];
-haxe_macro_Binop.OpXor.toString = $estr;
-haxe_macro_Binop.OpXor.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpBoolAnd = ["OpBoolAnd",14];
-haxe_macro_Binop.OpBoolAnd.toString = $estr;
-haxe_macro_Binop.OpBoolAnd.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpBoolOr = ["OpBoolOr",15];
-haxe_macro_Binop.OpBoolOr.toString = $estr;
-haxe_macro_Binop.OpBoolOr.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpShl = ["OpShl",16];
-haxe_macro_Binop.OpShl.toString = $estr;
-haxe_macro_Binop.OpShl.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpShr = ["OpShr",17];
-haxe_macro_Binop.OpShr.toString = $estr;
-haxe_macro_Binop.OpShr.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpUShr = ["OpUShr",18];
-haxe_macro_Binop.OpUShr.toString = $estr;
-haxe_macro_Binop.OpUShr.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpMod = ["OpMod",19];
-haxe_macro_Binop.OpMod.toString = $estr;
-haxe_macro_Binop.OpMod.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpAssignOp = function(op) { var $x = ["OpAssignOp",20,op]; $x.__enum__ = haxe_macro_Binop; $x.toString = $estr; return $x; };
-haxe_macro_Binop.OpInterval = ["OpInterval",21];
-haxe_macro_Binop.OpInterval.toString = $estr;
-haxe_macro_Binop.OpInterval.__enum__ = haxe_macro_Binop;
-haxe_macro_Binop.OpArrow = ["OpArrow",22];
-haxe_macro_Binop.OpArrow.toString = $estr;
-haxe_macro_Binop.OpArrow.__enum__ = haxe_macro_Binop;
-var haxe_macro_Unop = $hxClasses["haxe.macro.Unop"] = { __ename__ : ["haxe","macro","Unop"], __constructs__ : ["OpIncrement","OpDecrement","OpNot","OpNeg","OpNegBits"] };
-haxe_macro_Unop.OpIncrement = ["OpIncrement",0];
-haxe_macro_Unop.OpIncrement.toString = $estr;
-haxe_macro_Unop.OpIncrement.__enum__ = haxe_macro_Unop;
-haxe_macro_Unop.OpDecrement = ["OpDecrement",1];
-haxe_macro_Unop.OpDecrement.toString = $estr;
-haxe_macro_Unop.OpDecrement.__enum__ = haxe_macro_Unop;
-haxe_macro_Unop.OpNot = ["OpNot",2];
-haxe_macro_Unop.OpNot.toString = $estr;
-haxe_macro_Unop.OpNot.__enum__ = haxe_macro_Unop;
-haxe_macro_Unop.OpNeg = ["OpNeg",3];
-haxe_macro_Unop.OpNeg.toString = $estr;
-haxe_macro_Unop.OpNeg.__enum__ = haxe_macro_Unop;
-haxe_macro_Unop.OpNegBits = ["OpNegBits",4];
-haxe_macro_Unop.OpNegBits.toString = $estr;
-haxe_macro_Unop.OpNegBits.__enum__ = haxe_macro_Unop;
-var haxe_macro_ExprDef = $hxClasses["haxe.macro.ExprDef"] = { __ename__ : ["haxe","macro","ExprDef"], __constructs__ : ["EConst","EArray","EBinop","EField","EParenthesis","EObjectDecl","EArrayDecl","ECall","ENew","EUnop","EVars","EFunction","EBlock","EFor","EIn","EIf","EWhile","ESwitch","ETry","EReturn","EBreak","EContinue","EUntyped","EThrow","ECast","EDisplay","EDisplayNew","ETernary","ECheckType","EMeta"] };
-haxe_macro_ExprDef.EConst = function(c) { var $x = ["EConst",0,c]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EArray = function(e1,e2) { var $x = ["EArray",1,e1,e2]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EBinop = function(op,e1,e2) { var $x = ["EBinop",2,op,e1,e2]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EField = function(e,field) { var $x = ["EField",3,e,field]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EParenthesis = function(e) { var $x = ["EParenthesis",4,e]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EObjectDecl = function(fields) { var $x = ["EObjectDecl",5,fields]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EArrayDecl = function(values) { var $x = ["EArrayDecl",6,values]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.ECall = function(e,params) { var $x = ["ECall",7,e,params]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.ENew = function(t,params) { var $x = ["ENew",8,t,params]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EUnop = function(op,postFix,e) { var $x = ["EUnop",9,op,postFix,e]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EVars = function(vars) { var $x = ["EVars",10,vars]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EFunction = function(name,f) { var $x = ["EFunction",11,name,f]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EBlock = function(exprs) { var $x = ["EBlock",12,exprs]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EFor = function(it,expr) { var $x = ["EFor",13,it,expr]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EIn = function(e1,e2) { var $x = ["EIn",14,e1,e2]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EIf = function(econd,eif,eelse) { var $x = ["EIf",15,econd,eif,eelse]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EWhile = function(econd,e,normalWhile) { var $x = ["EWhile",16,econd,e,normalWhile]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.ESwitch = function(e,cases,edef) { var $x = ["ESwitch",17,e,cases,edef]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.ETry = function(e,catches) { var $x = ["ETry",18,e,catches]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EReturn = function(e) { var $x = ["EReturn",19,e]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EBreak = ["EBreak",20];
-haxe_macro_ExprDef.EBreak.toString = $estr;
-haxe_macro_ExprDef.EBreak.__enum__ = haxe_macro_ExprDef;
-haxe_macro_ExprDef.EContinue = ["EContinue",21];
-haxe_macro_ExprDef.EContinue.toString = $estr;
-haxe_macro_ExprDef.EContinue.__enum__ = haxe_macro_ExprDef;
-haxe_macro_ExprDef.EUntyped = function(e) { var $x = ["EUntyped",22,e]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EThrow = function(e) { var $x = ["EThrow",23,e]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.ECast = function(e,t) { var $x = ["ECast",24,e,t]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EDisplay = function(e,isCall) { var $x = ["EDisplay",25,e,isCall]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EDisplayNew = function(t) { var $x = ["EDisplayNew",26,t]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.ETernary = function(econd,eif,eelse) { var $x = ["ETernary",27,econd,eif,eelse]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.ECheckType = function(e,t) { var $x = ["ECheckType",28,e,t]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-haxe_macro_ExprDef.EMeta = function(s,e) { var $x = ["EMeta",29,s,e]; $x.__enum__ = haxe_macro_ExprDef; $x.toString = $estr; return $x; };
-var haxe_macro_ComplexType = $hxClasses["haxe.macro.ComplexType"] = { __ename__ : ["haxe","macro","ComplexType"], __constructs__ : ["TPath","TFunction","TAnonymous","TParent","TExtend","TOptional"] };
-haxe_macro_ComplexType.TPath = function(p) { var $x = ["TPath",0,p]; $x.__enum__ = haxe_macro_ComplexType; $x.toString = $estr; return $x; };
-haxe_macro_ComplexType.TFunction = function(args,ret) { var $x = ["TFunction",1,args,ret]; $x.__enum__ = haxe_macro_ComplexType; $x.toString = $estr; return $x; };
-haxe_macro_ComplexType.TAnonymous = function(fields) { var $x = ["TAnonymous",2,fields]; $x.__enum__ = haxe_macro_ComplexType; $x.toString = $estr; return $x; };
-haxe_macro_ComplexType.TParent = function(t) { var $x = ["TParent",3,t]; $x.__enum__ = haxe_macro_ComplexType; $x.toString = $estr; return $x; };
-haxe_macro_ComplexType.TExtend = function(p,fields) { var $x = ["TExtend",4,p,fields]; $x.__enum__ = haxe_macro_ComplexType; $x.toString = $estr; return $x; };
-haxe_macro_ComplexType.TOptional = function(t) { var $x = ["TOptional",5,t]; $x.__enum__ = haxe_macro_ComplexType; $x.toString = $estr; return $x; };
-var hxColorToolkit_spaces_Color = function() { };
-$hxClasses["hxColorToolkit.spaces.Color"] = hxColorToolkit_spaces_Color;
-hxColorToolkit_spaces_Color.__name__ = ["hxColorToolkit","spaces","Color"];
-hxColorToolkit_spaces_Color.prototype = {
-	__class__: hxColorToolkit_spaces_Color
-};
-var hxColorToolkit_spaces_HSB = function(hue,saturation,brightness) {
-	if(brightness == null) brightness = 0;
-	if(saturation == null) saturation = 0;
-	if(hue == null) hue = 0;
-	this.numOfChannels = 3;
-	this.data = [];
-	this.set_hue(hue);
-	this.set_saturation(saturation);
-	this.set_brightness(brightness);
-};
-$hxClasses["hxColorToolkit.spaces.HSB"] = hxColorToolkit_spaces_HSB;
-hxColorToolkit_spaces_HSB.__name__ = ["hxColorToolkit","spaces","HSB"];
-hxColorToolkit_spaces_HSB.__interfaces__ = [hxColorToolkit_spaces_Color];
-hxColorToolkit_spaces_HSB.loop = function(index,length) {
-	if(index < 0) index = length + index % length;
-	if(index >= length) index %= length;
-	return index;
-};
-hxColorToolkit_spaces_HSB.prototype = {
-	getValue: function(channel) {
-		return this.data[channel];
-	}
-	,setValue: function(channel,val) {
-		if(channel == 0) this.data[channel] = hxColorToolkit_spaces_HSB.loop(val,360); else this.data[channel] = Math.min(channel == 0?360:100,Math.max(val,0));
-		return val;
-	}
-	,minValue: function(channel) {
-		return 0;
-	}
-	,maxValue: function(channel) {
-		if(channel == 0) return 360; else return 100;
-	}
-	,get_hue: function() {
-		return this.getValue(0);
-	}
-	,set_hue: function(val) {
-		this.data[0] = hxColorToolkit_spaces_HSB.loop(val,360);
-		return val;
-	}
-	,get_saturation: function() {
-		return this.getValue(1);
-	}
-	,set_saturation: function(val) {
-		this.data[1] = Math.min(100,Math.max(val,0));
-		return val;
-	}
-	,get_brightness: function() {
-		return this.getValue(2);
-	}
-	,set_brightness: function(val) {
-		this.data[2] = Math.min(100,Math.max(val,0));
-		return val;
-	}
-	,toRGB: function() {
-		var hue = this.get_hue();
-		var saturation = this.get_saturation();
-		var brightness = this.get_brightness();
-		var r = 0;
-		var g = 0;
-		var b = 0;
-		var i;
-		var f;
-		var p;
-		var q;
-		var t;
-		hue %= 360;
-		if(brightness == 0) return new hxColorToolkit_spaces_RGB();
-		saturation *= 0.01;
-		brightness *= 0.01;
-		hue /= 60;
-		i = Math.floor(hue);
-		f = hue - i;
-		p = brightness * (1 - saturation);
-		q = brightness * (1 - saturation * f);
-		t = brightness * (1 - saturation * (1 - f));
-		if(i == 0) {
-			r = brightness;
-			g = t;
-			b = p;
-		} else if(i == 1) {
-			r = q;
-			g = brightness;
-			b = p;
-		} else if(i == 2) {
-			r = p;
-			g = brightness;
-			b = t;
-		} else if(i == 3) {
-			r = p;
-			g = q;
-			b = brightness;
-		} else if(i == 4) {
-			r = t;
-			g = p;
-			b = brightness;
-		} else if(i == 5) {
-			r = brightness;
-			g = p;
-			b = q;
-		}
-		return new hxColorToolkit_spaces_RGB(r * 255,g * 255,b * 255);
-	}
-	,getColor: function() {
-		return this.toRGB().getColor();
-	}
-	,fromRGB: function(rgb) {
-		var r = rgb.get_red();
-		var g = rgb.get_green();
-		var b = rgb.get_blue();
-		r /= 255;
-		g /= 255;
-		b /= 255;
-		var h;
-		var s;
-		var v;
-		var min;
-		var max;
-		var delta;
-		min = Math.min(r,Math.min(g,b));
-		max = Math.max(r,Math.max(g,b));
-		v = max * 100;
-		delta = max - min;
-		if(max != 0) s = delta / max * 100; else {
-			s = 0;
-			h = -1;
-			this.set_hue(h);
-			this.set_saturation(s);
-			this.set_brightness(v);
-			return this;
-		}
-		if(delta == 0) {
-			this.set_hue(0);
-			this.set_saturation(s);
-			this.set_brightness(v);
-			return this;
-		}
-		if(r == max) h = (g - b) / delta; else if(g == max) h = 2 + (b - r) / delta; else h = 4 + (r - g) / delta;
-		h *= 60;
-		if(h < 0) h += 360;
-		this.set_hue(h);
-		this.set_saturation(s);
-		this.set_brightness(v);
-		return this;
-	}
-	,setColor: function(color) {
-		return this.fromRGB(new hxColorToolkit_spaces_RGB(color >> 16 & 255,color >> 8 & 255,color & 255));
-	}
-	,clone: function() {
-		return new hxColorToolkit_spaces_HSB(this.get_hue(),this.get_saturation(),this.get_brightness());
-	}
-	,interpolate: function(target,ratio) {
-		if(ratio == null) ratio = 0.5;
-		var target1;
-		if(js_Boot.__instanceof(target,hxColorToolkit_spaces_HSB)) target1 = target; else target1 = new hxColorToolkit_spaces_HSB().fromRGB(target.toRGB());
-		return new hxColorToolkit_spaces_HSB(this.get_hue() + (target1.get_hue() - this.get_hue()) * ratio,this.get_saturation() + (target1.get_saturation() - this.get_saturation()) * ratio,this.get_brightness() + (target1.get_brightness() - this.get_brightness()) * ratio);
-	}
-	,__class__: hxColorToolkit_spaces_HSB
-};
-var hxColorToolkit_spaces_RGB = function(r,g,b) {
-	if(b == null) b = 0;
-	if(g == null) g = 0;
-	if(r == null) r = 0;
-	this.numOfChannels = 3;
-	this.data = [];
-	this.set_red(r);
-	this.set_green(g);
-	this.set_blue(b);
-};
-$hxClasses["hxColorToolkit.spaces.RGB"] = hxColorToolkit_spaces_RGB;
-hxColorToolkit_spaces_RGB.__name__ = ["hxColorToolkit","spaces","RGB"];
-hxColorToolkit_spaces_RGB.__interfaces__ = [hxColorToolkit_spaces_Color];
-hxColorToolkit_spaces_RGB.prototype = {
-	getValue: function(channel) {
-		return this.data[channel];
-	}
-	,setValue: function(channel,val) {
-		this.data[channel] = Math.min(255,Math.max(val,0));
-		return val;
-	}
-	,minValue: function(channel) {
-		return 0;
-	}
-	,maxValue: function(channel) {
-		return 255;
-	}
-	,get_red: function() {
-		return this.getValue(0);
-	}
-	,set_red: function(value) {
-		return this.setValue(0,value);
-	}
-	,get_green: function() {
-		return this.getValue(1);
-	}
-	,set_green: function(value) {
-		return this.setValue(1,value);
-	}
-	,get_blue: function() {
-		return this.getValue(2);
-	}
-	,set_blue: function(value) {
-		return this.setValue(2,value);
-	}
-	,toRGB: function() {
-		return this.clone();
-	}
-	,getColor: function() {
-		return Math.round(this.get_red()) << 16 | Math.round(this.get_green()) << 8 | Math.round(this.get_blue());
-	}
-	,fromRGB: function(rgb) {
-		this.set_red(rgb.get_red());
-		this.set_green(rgb.get_green());
-		this.set_blue(rgb.get_blue());
-		return this;
-	}
-	,setColor: function(color) {
-		this.set_red(color >> 16 & 255);
-		this.set_green(color >> 8 & 255);
-		this.set_blue(color & 255);
-		return this;
-	}
-	,clone: function() {
-		return new hxColorToolkit_spaces_RGB(this.get_red(),this.get_green(),this.get_blue());
-	}
-	,interpolate: function(target,ratio) {
-		if(ratio == null) ratio = 0.5;
-		var target1;
-		if(js_Boot.__instanceof(target,hxColorToolkit_spaces_RGB)) target1 = target; else target1 = new hxColorToolkit_spaces_RGB().fromRGB(target.toRGB());
-		return new hxColorToolkit_spaces_RGB(this.get_red() + (target1.get_red() - this.get_red()) * ratio,this.get_green() + (target1.get_green() - this.get_green()) * ratio,this.get_blue() + (target1.get_blue() - this.get_blue()) * ratio);
-	}
-	,__class__: hxColorToolkit_spaces_RGB
-};
 var js__$Boot_HaxeError = function(val) {
 	Error.call(this);
 	this.val = val;
@@ -4392,25 +2256,6 @@ js__$Boot_HaxeError.prototype = $extend(Error.prototype,{
 var js_Boot = function() { };
 $hxClasses["js.Boot"] = js_Boot;
 js_Boot.__name__ = ["js","Boot"];
-js_Boot.__unhtml = function(s) {
-	return s.split("&").join("&amp;").split("<").join("&lt;").split(">").join("&gt;");
-};
-js_Boot.__trace = function(v,i) {
-	var msg;
-	if(i != null) msg = i.fileName + ":" + i.lineNumber + ": "; else msg = "";
-	msg += js_Boot.__string_rec(v,"");
-	if(i != null && i.customParams != null) {
-		var _g = 0;
-		var _g1 = i.customParams;
-		while(_g < _g1.length) {
-			var v1 = _g1[_g];
-			++_g;
-			msg += "," + js_Boot.__string_rec(v1,"");
-		}
-	}
-	var d;
-	if(typeof(document) != "undefined" && (d = document.getElementById("haxe:trace")) != null) d.innerHTML += js_Boot.__unhtml(msg) + "<br/>"; else if(typeof console != "undefined" && console.log != null) console.log(msg);
-};
 js_Boot.getClass = function(o) {
 	if((o instanceof Array) && o.__enum__ == null) return Array; else {
 		var cl = o.__class__;
@@ -4776,42 +2621,7 @@ tusk_PromiseComponent.prototype = $extend(tusk_Component.prototype,{
 	,get__tid: function() {
 		return 3;
 	}
-	,hxSerialize: function(s) {
-	}
-	,hxUnserialize: function(s) {
-	}
 	,__class__: tusk_PromiseComponent
-});
-var loading_SlamComponent = function(time,startScale,endScale,easing) {
-	this.t = 0;
-	this.totalLength = time;
-	this.startScale = startScale;
-	this.endScale = endScale;
-	if(easing == null) this.easing = tusk_math_Ease.OutElastic; else this.easing = easing;
-	tusk_PromiseComponent.call(this);
-};
-$hxClasses["loading.SlamComponent"] = loading_SlamComponent;
-loading_SlamComponent.__name__ = ["loading","SlamComponent"];
-loading_SlamComponent.__super__ = tusk_PromiseComponent;
-loading_SlamComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
-	hxSerialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.totalLength);
-		s.serialize(this.easing);
-		s.serialize(this.startScale);
-		s.serialize(this.endScale);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.totalLength);
-		s.serialize(this.easing);
-		s.serialize(this.startScale);
-		s.serialize(this.endScale);
-	}
-	,get__tid: function() {
-		return 21;
-	}
-	,__class__: loading_SlamComponent
 });
 var tusk_Processor = function(entities) {
 	this.enabled = true;
@@ -4829,31 +2639,11 @@ tusk_Processor.prototype = {
 	}
 	,___connectRoutes: function() {
 	}
-	,___disconnectRoutes: function() {
-	}
 	,onEnabled: function() {
 	}
 	,onDisabled: function() {
 	}
 	,onEntityChanged: function(entity,event) {
-	}
-	,onStart: function(event) {
-	}
-	,onDestroy: function(event) {
-	}
-	,onUpdate: function(event) {
-	}
-	,onRender: function(event) {
-	}
-	,onKeyDown: function(event) {
-	}
-	,onKeyUp: function(event) {
-	}
-	,onMouseDown: function(event) {
-	}
-	,onMouseUp: function(event) {
-	}
-	,onMouseMove: function(event) {
 	}
 	,hxSerialize: function(s) {
 		s.serialize(this.enabled);
@@ -4863,116 +2653,36 @@ tusk_Processor.prototype = {
 	}
 	,__class__: tusk_Processor
 };
-var loading_SlamProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(5).include(21);
-	tusk_Processor.call(this,entities);
+var minigames_SpaceCops = function() {
+	this.movements = [function(t,end) {
+		return 220;
+	},function(t1,end1) {
+		return tusk_math_Lerp.LerpF(-500,500,t1 / end1);
+	},function(t2,end2) {
+		return tusk_math_Lerp.LerpF(500,-500,t2 / end2);
+	}];
+	this.p2Score = 0;
+	this.p1Score = 0;
+	minigames_SpaceCops.instance = this;
+	tusk_Scene.call(this,"SpaceCops");
 };
-$hxClasses["loading.SlamProcessor"] = loading_SlamProcessor;
-loading_SlamProcessor.__name__ = ["loading","SlamProcessor"];
-loading_SlamProcessor.__super__ = tusk_Processor;
-loading_SlamProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(data) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var t = entity.get(5);
-			var s = entity.get(21);
-			if(s.done._resolved) continue;
-			s.t += data.dt;
-			if(s.t >= s.totalLength) {
-				s.t = s.totalLength;
-				s.finish();
-			}
-			glm__$Vec3_Vec3_$Impl_$.copy(t.lastScale,t.scale);
-			glm__$Vec3_Vec3_$Impl_$.set_x(t.scale,s.easing(s.t,s.startScale,s.endScale - s.startScale,s.totalLength));
-			glm__$Vec3_Vec3_$Impl_$.set_y(t.scale,glm__$Vec3_Vec3_$Impl_$.get_x(t.scale));
-			glm__$Vec3_Vec3_$Impl_$.set_z(t.scale,glm__$Vec3_Vec3_$Impl_$.get_x(t.scale));
-		}
+$hxClasses["minigames.SpaceCops"] = minigames_SpaceCops;
+minigames_SpaceCops.__name__ = ["minigames","SpaceCops"];
+minigames_SpaceCops.addToScore = function(player) {
+	if(player == 0) {
+		var _g = minigames_SpaceCops.instance;
+		var _g1 = _g.p1Score;
+		_g.set_p1Score(_g1 + 1);
+		_g1;
+	} else if(player == 1) {
+		var _g2 = minigames_SpaceCops.instance;
+		var _g11 = _g2.p2Score;
+		_g2.set_p2Score(_g11 + 1);
+		_g11;
 	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: loading_SlamProcessor
-});
-var loading_SlideComponent = function(time,startPos,endPos,easing) {
-	this.t = 0;
-	this.totalLength = time;
-	this.startPos = startPos;
-	this.endPos = endPos;
-	if(easing == null) this.easing = tusk_math_Ease.OutElastic; else this.easing = easing;
-	tusk_PromiseComponent.call(this);
 };
-$hxClasses["loading.SlideComponent"] = loading_SlideComponent;
-loading_SlideComponent.__name__ = ["loading","SlideComponent"];
-loading_SlideComponent.__super__ = tusk_PromiseComponent;
-loading_SlideComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
-	hxSerialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.totalLength);
-		s.serialize(this.easing);
-		s.serialize(this.startPos);
-		s.serialize(this.endPos);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.totalLength);
-		s.serialize(this.easing);
-		s.serialize(this.startPos);
-		s.serialize(this.endPos);
-	}
-	,get__tid: function() {
-		return 22;
-	}
-	,__class__: loading_SlideComponent
-});
-var loading_SlideProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(5).include(22);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["loading.SlideProcessor"] = loading_SlideProcessor;
-loading_SlideProcessor.__name__ = ["loading","SlideProcessor"];
-loading_SlideProcessor.__super__ = tusk_Processor;
-loading_SlideProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(data) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var t = entity.get(5);
-			var s = entity.get(22);
-			if(s.done._resolved) continue;
-			s.t += data.dt;
-			if(s.t >= s.totalLength) {
-				s.t = s.totalLength;
-				s.finish();
-			}
-			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
-			glm__$Vec3_Vec3_$Impl_$.set_x(t.position,s.easing(s.t,glm__$Vec3_Vec3_$Impl_$.get_x(s.startPos),glm__$Vec3_Vec3_$Impl_$.get_x(s.endPos) - glm__$Vec3_Vec3_$Impl_$.get_x(s.startPos),s.totalLength));
-			glm__$Vec3_Vec3_$Impl_$.set_y(t.position,s.easing(s.t,glm__$Vec3_Vec3_$Impl_$.get_y(s.startPos),glm__$Vec3_Vec3_$Impl_$.get_y(s.endPos) - glm__$Vec3_Vec3_$Impl_$.get_y(s.startPos),s.totalLength));
-			glm__$Vec3_Vec3_$Impl_$.set_z(t.position,s.easing(s.t,glm__$Vec3_Vec3_$Impl_$.get_z(s.startPos),glm__$Vec3_Vec3_$Impl_$.get_z(s.endPos) - glm__$Vec3_Vec3_$Impl_$.get_z(s.startPos),s.totalLength));
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: loading_SlideProcessor
-});
-var minigames_BottleRocket = function() {
-	tusk_Scene.call(this,"BottleRocket");
-};
-$hxClasses["minigames.BottleRocket"] = minigames_BottleRocket;
-minigames_BottleRocket.__name__ = ["minigames","BottleRocket"];
-minigames_BottleRocket.__super__ = tusk_Scene;
-minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
+minigames_SpaceCops.__super__ = tusk_Scene;
+minigames_SpaceCops.prototype = $extend(tusk_Scene.prototype,{
 	loadAssets: function() {
 		var _g = this;
 		var def = new promhx_Deferred();
@@ -4981,415 +2691,16 @@ minigames_BottleRocket.prototype = $extend(tusk_Scene.prototype,{
 			var $r;
 			var varargf = function(f) {
 				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),SpriteMaterial.load(),minigames_bottlerocket_BackgroundMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocket.png"),tusk_Tusk.assets.loadTexture("assets/tilemaps/bottlerocketbackground.png"),tusk_Tusk.assets.loadText("assets/tilemaps/bottlerocketbackground.json"),tusk_Tusk.assets.loadTexture("assets/sprites/bottlerocketcontrols.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/bottlerocketpump.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/bottlerocketwhoosh.ogg")];
+				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),tusk_Tusk.assets.loadTexture("assets/sprites/stars.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_Tusk.assets.loadTexture("assets/sprites/spacecop.png"),SpriteMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/copbullet.png"),SpriteMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/explosion.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_Tusk.assets.loadTexture("assets/sprites/spacecrook1.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/crookexplosion.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/spacejam.ogg")];
 				var p = promhx_Promise.whenAll(arr);
 				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val,arr[12]._val,arr[13]._val,arr[14]._val,arr[15]._val,arr[16]._val));
+					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val,arr[12]._val,arr[13]._val,arr[14]._val,arr[15]._val,arr[16]._val,arr[17]._val,arr[18]._val,arr[19]._val));
 				}});
 				return ret;
 			};
 			$r = { then : varargf};
 			return $r;
-		}(this))).then(function(quad,particlesMaterial,spriteMaterial,backgroundMaterial,spriteSheet,backgroundSheet,backgroundJSON,controls,unlitTextured,textMesh,font,fontMat,circleOutMat,countdownMusic,pumpMusic,winMusic,whooshSound) {
-			_g.quad = quad;
-			_g.particlesMaterial = particlesMaterial;
-			_g.circleOutMat = circleOutMat;
-			_g.textMesh = textMesh;
-			_g.font = font;
-			_g.fontMat = fontMat;
-			_g.fontMat.textures = [];
-			_g.fontMat.textures.push(font.texture);
-			_g.controlsMaterial = unlitTextured;
-			_g.controlsMaterial.textures = [];
-			_g.controlsMaterial.textures.push(controls);
-			_g.spriteMaterial = spriteMaterial;
-			_g.spriteMaterial.textures = [];
-			_g.spriteMaterial.textures.push(spriteSheet);
-			_g.backgroundMaterial = backgroundMaterial;
-			_g.backgroundMaterial.textures = [];
-			_g.backgroundMaterial.textures.push(backgroundSheet);
-			_g.countdownMusic = countdownMusic;
-			_g.pumpMusic = pumpMusic;
-			_g.winMusic = winMusic;
-			_g.whooshSound = whooshSound;
-			_g.backgroundTileMap = tusk_modules_tiled_TileMap.fromJSON(backgroundJSON.text);
-			tusk_modules_tiled_TileMap.buildMesh(_g.backgroundTileMap,"tilemap.bottlerocket").then(function(mesh) {
-				_g.backgroundMesh = mesh;
-				def.resolve(_g);
-			});
-		}).catchError(function(err) {
-			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "BottleRocket.hx", lineNumber : 116, className : "minigames.BottleRocket", methodName : "loadAssets"});
-			def.handleError("Failed to load assets!");
-		});
-		return prom;
-	}
-	,onLoad: function(event) {
-		var _g = this;
-		if(event.scene != this) return;
-		tusk_debug_Log.log("Loading bottle rocket scene..",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 125, className : "minigames.BottleRocket", methodName : "onLoad"});
-		var loadComplete = this.loadAssets();
-		var loadingScreen = new LoadingScreen("Bottle Rocket Blast!",loadComplete);
-		tusk_Tusk.pushScene(loadingScreen);
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [loadingScreen.sceneDone.promise(),loadComplete];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(_,_1) {
-			tusk_Tusk.removeScene(loadingScreen);
-			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			tusk_debug_Log.log("Starting bottle rocket!",tusk_debug_LogFunctions.Info,{ fileName : "BottleRocket.hx", lineNumber : 134, className : "minigames.BottleRocket", methodName : "onLoad"});
-			_g.useProcessor(new minigames_bottlerocket_VelocityProcessor());
-			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
-			_g.useProcessor(new minigames_bottlerocket_TimerDisplayProcessor());
-			_g.useProcessor(new minigames_bottlerocket_PumpProcessor());
-			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
-			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
-			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
-			_g.useProcessor(new minigames_bottlerocket_TransformTrackerProcessor());
-			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
-			_g.useProcessor(new tusk_lib_proc_TextProcessor());
-			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor((function($this) {
-				var $r;
-				var a2 = glm__$Vec4_Vec4_$Impl_$._new(110,175,231,255);
-				$r = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a2),255);
-				return $r;
-			}(this))));
-			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
-			_g.useProcessor(new tusk_lib_proc_SoundProcessor());
-			var w = tusk_Tusk.instance.app.window.width;
-			var h = tusk_Tusk.instance.app.window.height;
-			var camera = new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0),(function($this) {
-				var $r;
-				var q = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q[0] = 1;
-					q[1] = 0;
-					q[2] = 0;
-					q[3] = 0;
-					q;
-				}
-				$r = q;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1,1,1)),new tusk_lib_comp_Camera2DComponent((function($this) {
-				var $r;
-				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
-				return $r;
-			}(this)),(function($this) {
-				var $r;
-				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
-				return $r;
-			}(this)),-100,100)]);
-			_g.entities.push(camera);
-			_g.entities.push(new tusk_Entity(_g,"TileMap",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(_g.backgroundTileMap.width * _g.backgroundTileMap.tilewidth * 2 / -2,tusk_Tusk.game.get_height() / -2 - _g.backgroundTileMap.tileheight * 2 * 2,0),(function($this) {
-				var $r;
-				var q6 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q6[0] = 1;
-					q6[1] = 0;
-					q6[2] = 0;
-					q6[3] = 0;
-					q6;
-				}
-				$r = q6;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.backgroundMesh),new tusk_lib_comp_MaterialComponent(null,_g.backgroundMaterial)]));
-			var groundY = tusk_Tusk.game.get_height() / -2 + 2 * _g.backgroundTileMap.tileheight;
-			var pumpBaseMesh = _g.quad.clone("br.pumpbasemesh");
-			var _g1 = 0;
-			var _g2 = pumpBaseMesh.uvs;
-			while(_g1 < _g2.length) {
-				var uv = _g2[_g1];
-				++_g1;
-				glm__$Vec2_Vec2_$Impl_$.set_y(uv,glm__$Vec2_Vec2_$Impl_$.get_y(uv) / 2 + 0.5);
-			}
-			var pumpMesh = _g.quad.clone("br.pumpmesh");
-			var _g11 = 0;
-			var _g21 = pumpMesh.uvs;
-			while(_g11 < _g21.length) {
-				var uv1 = _g21[_g11];
-				++_g11;
-				glm__$Vec2_Vec2_$Impl_$.set_x(uv1,glm__$Vec2_Vec2_$Impl_$.get_x(uv1) / 2 + 0.5);
-				glm__$Vec2_Vec2_$Impl_$.set_y(uv1,glm__$Vec2_Vec2_$Impl_$.get_y(uv1) / 2);
-			}
-			var bottleRocketMesh = _g.quad.clone("br.bottleRocketmesh");
-			var _g12 = 0;
-			var _g22 = bottleRocketMesh.uvs;
-			while(_g12 < _g22.length) {
-				var uv2 = _g22[_g12];
-				++_g12;
-				glm__$Vec2_Vec2_$Impl_$.set_x(uv2,glm__$Vec2_Vec2_$Impl_$.get_x(uv2) / 2);
-				glm__$Vec2_Vec2_$Impl_$.set_y(uv2,glm__$Vec2_Vec2_$Impl_$.get_y(uv2) / 2);
-			}
-			_g.entities.push(new tusk_Entity(_g,"P1 Pump Base",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,groundY + 128,-1),(function($this) {
-				var $r;
-				var q7 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q7[0] = 1;
-					q7[1] = 0;
-					q7[2] = 0;
-					q7[3] = 0;
-					q7;
-				}
-				$r = q7;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(-256,128,128)),new tusk_lib_comp_MeshComponent(null,pumpBaseMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.spriteMaterial.setVec3("colour",GameTracker.player[0].colour);
-			})]));
-			_g.entities.push(new tusk_Entity(_g,"P2 Pump Base",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,groundY + 128,-1),(function($this) {
-				var $r;
-				var q8 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q8[0] = 1;
-					q8[1] = 0;
-					q8[2] = 0;
-					q8[3] = 0;
-					q8;
-				}
-				$r = q8;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(256,128,128)),new tusk_lib_comp_MeshComponent(null,pumpBaseMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.spriteMaterial.setVec3("colour",GameTracker.player[1].colour);
-			})]));
-			var p1PumpEntity = new tusk_Entity(_g,"P1 Pump",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-300,groundY + 128 + 72,-0.5),(function($this) {
-				var $r;
-				var q1 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q1[0] = 1;
-					q1[1] = 0;
-					q1[2] = 0;
-					q1[3] = 0;
-					q1;
-				}
-				$r = q1;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(128,128,128)),new tusk_lib_comp_MeshComponent(null,pumpMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial)]);
-			_g.entities.push(p1PumpEntity);
-			var p2PumpEntity = new tusk_Entity(_g,"P2 Pump",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(320,groundY + 128 + 72,-0.5),(function($this) {
-				var $r;
-				var q2 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q2[0] = 1;
-					q2[1] = 0;
-					q2[2] = 0;
-					q2[3] = 0;
-					q2;
-				}
-				$r = q2;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(128,128,128)),new tusk_lib_comp_MeshComponent(null,pumpMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial)]);
-			_g.entities.push(p2PumpEntity);
-			var p1RocketTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-192,groundY + 128 + 8,-0.75),(function($this) {
-				var $r;
-				var q3 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q3[0] = 1;
-					q3[1] = 0;
-					q3[2] = 0;
-					q3[3] = 0;
-					q3;
-				}
-				$r = q3;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(128,128,128));
-			var p1Rocket = new tusk_Entity(_g,"P1 Rocket",[p1RocketTransform,new tusk_lib_comp_MeshComponent(null,bottleRocketMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.spriteMaterial.setVec3("colour",GameTracker.player[0].colour);
-			})]);
-			_g.entities.push(p1Rocket);
-			var p2RocketTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(192,groundY + 128 + 8,-0.75),(function($this) {
-				var $r;
-				var q4 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q4[0] = 1;
-					q4[1] = 0;
-					q4[2] = 0;
-					q4[3] = 0;
-					q4;
-				}
-				$r = q4;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(128,128,128));
-			var p2Rocket = new tusk_Entity(_g,"P2 Rocket",[p2RocketTransform,new tusk_lib_comp_MeshComponent(null,bottleRocketMesh),new tusk_lib_comp_MaterialComponent(null,_g.spriteMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.spriteMaterial.setVec3("colour",GameTracker.player[1].colour);
-			})]);
-			_g.entities.push(p2Rocket);
-			var p1Pump;
-			var p2Pump;
-			_g.entities.push(new tusk_Entity(_g,"Countdown Music",[new tusk_lib_comp_SoundComponent(_g.countdownMusic.path,true)]));
-			var countdownText = new tusk_lib_comp_TextComponent(_g.font,"3",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
-			var countdownTimer = new tusk_lib_comp_TimedPromiseComponent(1.0);
-			var countdownTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.99),(function($this) {
-				var $r;
-				var q5 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q5[0] = 1;
-					q5[1] = 0;
-					q5[2] = 0;
-					q5[3] = 0;
-					q5;
-				}
-				$r = q5;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(8,8,8));
-			var countdownEntity = new tusk_Entity(_g,"Countdown",[countdownTransform,new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("br.countdowntextmesh")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),countdownText,countdownTimer]);
-			_g.entities.push(countdownEntity);
-			var p1V;
-			var p2V;
-			var pumpSound;
-			countdownTimer.done.pipe(function(_2) {
-				countdownText.set_text("2");
-				countdownTimer.t = 0;
-				countdownTimer.reset();
-				return countdownTimer.done;
-			}).pipe(function(_3) {
-				countdownText.set_text("1");
-				countdownTimer.t = 0;
-				countdownTimer.reset();
-				return countdownTimer.done;
-			}).pipe(function(_4) {
-				countdownText.set_text("Go!");
-				p1Pump = new minigames_bottlerocket_PumpComponent(0,groundY + 128 + 72);
-				p1PumpEntity.push(p1Pump);
-				p2Pump = new minigames_bottlerocket_PumpComponent(1,groundY + 128 + 72);
-				p2PumpEntity.push(p2Pump);
-				haxe_Timer.delay(function() {
-					pumpSound = new tusk_lib_comp_SoundComponent(_g.pumpMusic.path,true);
-					_g.entities.push(new tusk_Entity(_g,"PumpSound",[pumpSound]));
-					countdownEntity.push(new minigames_bottlerocket_TimerDisplayComponent());
-				},1000);
-				countdownTimer.t = 0;
-				countdownTimer.wait = 10;
-				countdownTimer.reset();
-				return countdownTimer.done;
-			}).pipe(function(_5) {
-				p1PumpEntity.removeType(19);
-				p2PumpEntity.removeType(19);
-				countdownEntity.removeType(18);
-				countdownTimer.t = 0;
-				countdownTimer.wait = 1;
-				countdownTimer.reset();
-				return countdownTimer.done;
-			}).pipe(function(_6) {
-				pumpSound.stop = true;
-				countdownText.set_text("Launch!");
-				p1V = new minigames_bottlerocket_VelocityComponent(p1Pump.pressure * 512,glm__$Vec3_Vec3_$Impl_$.get_y(p1RocketTransform.position));
-				p2V = new minigames_bottlerocket_VelocityComponent(p2Pump.pressure * 512,glm__$Vec3_Vec3_$Impl_$.get_y(p2RocketTransform.position));
-				p1Rocket.push(p1V);
-				p2Rocket.push(p2V);
-				camera.push(new minigames_bottlerocket_TransformTrackerComponent(p1RocketTransform,p2RocketTransform));
-				_g.entities.push(new tusk_Entity(_g,"",[new tusk_lib_comp_SoundComponent(_g.whooshSound.path,true)]));
-				var def = new promhx_Deferred();
-				((function($this) {
-					var $r;
-					var varargf1 = function(f1) {
-						var ret1 = new promhx_Promise();
-						var arr1 = [p1V.done,p2V.done];
-						var p1 = promhx_Promise.whenAll(arr1);
-						p1._update.push({ async : ret1, linkf : function(x1) {
-							ret1.handleResolve(f1(arr1[0]._val,arr1[1]._val));
-						}});
-						return ret1;
-					};
-					$r = { then : varargf1};
-					return $r;
-				}(this))).then(function(_7,_8) {
-					def.resolve(true);
-				});
-				return def.promise();
-			}).pipe(function(_9) {
-				var winner = -1;
-				if(p1V.maxHeight > p2V.maxHeight) winner = 0; else if(p2V.maxHeight > p1V.maxHeight) winner = 1;
-				glm__$Vec3_Vec3_$Impl_$.set(countdownTransform.scale,4,4,4);
-				glm__$Vec3_Vec3_$Impl_$.copy(countdownTransform.lastScale,countdownTransform.scale);
-				if(winner >= 0) {
-					countdownText.set_text(GameTracker.player[winner].name + " wins!");
-					GameTracker.player[winner].score += 1;
-				} else countdownText.set_text("Tie!");
-				_g.entities.push(new tusk_Entity(_g,"WinMusic",[new tusk_lib_comp_SoundComponent(_g.winMusic.path,true)]));
-				p1Rocket.removeType(17);
-				p2Rocket.removeType(17);
-				countdownTimer.t = 0;
-				countdownTimer.wait = 3;
-				countdownTimer.reset();
-				return countdownTimer.done;
-			}).pipe(function(_10) {
-				var cec = new tusk_lib_comp_CircleEffectComponent(false);
-				_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
-					var $r;
-					var q9 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q9[0] = 1;
-						q9[1] = 0;
-						q9[2] = 0;
-						q9[3] = 0;
-						q9;
-					}
-					$r = q9;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(_g.quad.path),new tusk_lib_comp_MaterialComponent(_g.circleOutMat.path),cec]));
-				return cec.done;
-			}).then(function(_11) {
-				_g.sceneDone.resolve(_g);
-			});
-		});
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-	}
-	,__class__: minigames_BottleRocket
-});
-var minigames_Question = function(question,correctAnswer,wrongAnswer) {
-	this.question = question;
-	this.correctAnswer = correctAnswer;
-	this.wrongAnswer = wrongAnswer;
-};
-$hxClasses["minigames.Question"] = minigames_Question;
-minigames_Question.__name__ = ["minigames","Question"];
-minigames_Question.prototype = {
-	__class__: minigames_Question
-};
-var minigames_CaptainKnowItAll = function() {
-	this.questionsAllDoneDef = new promhx_Deferred();
-	this.questionDoneDef = new promhx_Deferred();
-	this.questions = [new minigames_Question("How tall is Mount Everest?","8,848 m","11,426 m"),new minigames_Question("How hot is the sun?","5,778 K","4,923 K"),new minigames_Question("What is the population of Canada?","35 million","45 million"),new minigames_Question("How far away is the moon?","384 Mm","229 Mm"),new minigames_Question("How many days are in May?","31","30"),new minigames_Question("Where is the hottest place on Earth?","Al Aziziyah","Death Valley"),new minigames_Question("What year did the titanic sink?","1912","1914"),new minigames_Question("How many Earths can fit into the sun?","1.3 million","6.9 million"),new minigames_Question("What year was Elton John born?","1947","1952"),new minigames_Question("Where is the coldest place on earth?","Antarctica","The North Pole"),new minigames_Question("What is 6 x 7?","42","47"),new minigames_Question("Who is the fastest man in the world?","Usain Bolt","Tyson Gay"),new minigames_Question("What element begins with the letter 'K'?","Potassium","Krypton"),new minigames_Question("Who painted the Mona Lisa?","Da Vinci","Michelangelo"),new minigames_Question("Who painted the Sistine Chapel?","Michelangelo","Da Vinci"),new minigames_Question("Who wrote the James Bond books?","Ian Fleming","Arthur Conan Doyle"),new minigames_Question("Who sang \"My Way\"?","Frank Sinatra","Dean Martin"),new minigames_Question("What's the capital of Scotland?","Edinburgh","Glasgow"),new minigames_Question("Which is the smallest ocean?","Artic","Indian"),new minigames_Question("Can Queen Elizabeth the Second vote?","No","Yes"),new minigames_Question("Where was Christopher Columbus born?","Italy","Spain"),new minigames_Question("Who starts first in chess?","White","Black"),new minigames_Question("Which planet is nearest the sun?","Mercury","Venus"),new minigames_Question("What does the roman numeral C represent?","100","1000"),new minigames_Question("Where is St. Paul's Cathedral?","London","Rome"),new minigames_Question("Which country has the longest coastline?","Canada","Russia"),new minigames_Question("Which is bigger?","Jupiter","Saturn"),new minigames_Question("How many planets are in our solar system?","Eight","Nine"),new minigames_Question("What colour is Yoda?","Green","Peach")];
-	this.questionNumber = 0;
-	tusk_Scene.call(this,"CaptainKnowItAll");
-};
-$hxClasses["minigames.CaptainKnowItAll"] = minigames_CaptainKnowItAll;
-minigames_CaptainKnowItAll.__name__ = ["minigames","CaptainKnowItAll"];
-minigames_CaptainKnowItAll.__super__ = tusk_Scene;
-minigames_CaptainKnowItAll.prototype = $extend(tusk_Scene.prototype,{
-	loadAssets: function() {
-		var _g = this;
-		var def = new promhx_Deferred();
-		var prom = def.promise();
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),tusk_defaults_Materials.loadUnlitColoured(),tusk_Tusk.assets.loadSound("assets/sounds/loadingcrunch.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg")];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(quad,particlesMaterial,textMesh,font,fontMat,circleOutMat,countdownMusic,bgMaterial,loadingCrunch,winMusic) {
+		}(this))).then(function(quad,particlesMaterial,textMesh,font,fontMat,circleOutMat,countdownMusic,starTexture,starMaterial,copTexture,copMaterial,bulletTexture,bulletMaterial,explosionTexture,explosionMaterial,crook1Texture,crook1Material,winMusic,crookExplosion,spaceJam) {
 			_g.quad = quad;
 			_g.particlesMaterial = particlesMaterial;
 			_g.circleOutMat = circleOutMat;
@@ -5399,24 +2710,45 @@ minigames_CaptainKnowItAll.prototype = $extend(tusk_Scene.prototype,{
 			_g.fontMat.textures = [];
 			_g.fontMat.textures.push(font.texture);
 			_g.countdownMusic = countdownMusic;
-			_g.bgMaterial = bgMaterial;
-			_g.loadingCrunch = loadingCrunch;
+			_g.starMaterial = starMaterial;
+			_g.starMaterial.textures = [];
+			_g.starMaterial.textures.push(starTexture);
+			_g.copMaterial = copMaterial;
+			_g.copMaterial.textures = [];
+			_g.copMaterial.textures.push(copTexture);
+			_g.bulletMaterial = bulletMaterial;
+			_g.bulletMaterial.textures = [];
+			_g.bulletMaterial.textures.push(bulletTexture);
+			_g.explosionMaterial = explosionMaterial;
+			_g.explosionMaterial.textures = [];
+			_g.explosionMaterial.textures.push(explosionTexture);
+			_g.crook1Material = crook1Material;
+			_g.crook1Material.textures = [];
+			_g.crook1Material.textures.push(crook1Texture);
 			_g.winMusic = winMusic;
+			_g.crookExplosion = crookExplosion;
+			_g.spaceJam = spaceJam;
 			def.resolve(_g);
 		}).catchError(function(err) {
-			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "CaptainKnowItAll.hx", lineNumber : 140, className : "minigames.CaptainKnowItAll", methodName : "loadAssets"});
+			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "SpaceCops.hx", lineNumber : 136, className : "minigames.SpaceCops", methodName : "loadAssets"});
 			def.handleError("Failed to load assets!");
 		});
 		return prom;
 	}
-	,doQuestion: function() {
+	,set_p1Score: function(x) {
+		this.p1Score = x;
+		this.player1ScoreDisplay.set_text("" + GameTracker.player[0].name + ": " + this.p1Score);
+		return x;
+	}
+	,set_p2Score: function(x) {
+		this.p2Score = x;
+		this.player2ScoreDisplay.set_text("" + GameTracker.player[1].name + ": " + this.p2Score);
+		return x;
+	}
+	,spawnBullet: function(player,x,y) {
 		var _g = this;
-		this.player1Answer.answer = -1;
-		this.player2Answer.answer = -1;
-		minigames_CaptainKnowItAll.aIsCorrect = Math.random() < 0.5;
-		this.crunchSoundComponent.play = true;
-		var scvs = new loading_SlamComponent(0.5,96,4);
-		this.questionEntity = new tusk_Entity(this,"Question",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,128,0.05),(function($this) {
+		var bulletCollision = new minigames_sledtillyouredead_CollisionComponent(4,0);
+		this.entities.push(new tusk_Entity(this,"bullet",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(x,y,-0.5),(function($this) {
 			var $r;
 			var q = glm__$Quat_Quat_$Impl_$._new();
 			{
@@ -5428,426 +2760,28 @@ minigames_CaptainKnowItAll.prototype = $extend(tusk_Scene.prototype,{
 			}
 			$r = q;
 			return $r;
-		}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,this.textMesh.clone("vstext")),new tusk_lib_comp_MaterialComponent(this.fontMat.path),new tusk_lib_comp_TextComponent(this.font,this.questions[this.questionNumber].question,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scvs]);
-		this.entities.push(this.questionEntity);
-		scvs.done.pipe(function(_) {
-			_g.crunchSoundComponent.play = true;
-			var scaa = new loading_SlamComponent(0.5,16,3);
-			_g.answerAEntity = new tusk_Entity(_g,"Answer A",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-256,0,0.05),(function($this) {
-				var $r;
-				var q1 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q1[0] = 1;
-					q1[1] = 0;
-					q1[2] = 0;
-					q1[3] = 0;
-					q1;
-				}
-				$r = q1;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("answerAtext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,minigames_CaptainKnowItAll.aIsCorrect?_g.questions[_g.questionNumber].correctAnswer:_g.questions[_g.questionNumber].wrongAnswer,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scaa]);
-			_g.entities.push(_g.answerAEntity);
-			return scaa.done;
-		}).pipe(function(_1) {
-			_g.crunchSoundComponent.play = true;
-			var scab = new loading_SlamComponent(0.5,16,3);
-			_g.answerBEntity = new tusk_Entity(_g,"Answer B",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(256,0,0.05),(function($this) {
-				var $r;
-				var q2 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q2[0] = 1;
-					q2[1] = 0;
-					q2[2] = 0;
-					q2[3] = 0;
-					q2;
-				}
-				$r = q2;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("answerBtext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,minigames_CaptainKnowItAll.aIsCorrect?_g.questions[_g.questionNumber].wrongAnswer:_g.questions[_g.questionNumber].correctAnswer,tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),scab]);
-			_g.entities.push(_g.answerBEntity);
-			return scab.done;
-		}).pipe(function(_2) {
-			_g.bgColourShift.active = true;
-			_g.player1Timer.active = true;
-			_g.player1Answer.reset();
-			_g.player2Timer.active = true;
-			_g.player2Answer.reset();
-			var answerDef = new promhx_Deferred();
-			var answerPromise = answerDef.promise();
-			_g.player1Answer.done.then(function(_3) {
-				_g.player1LockedIn.set_text("Locked in!");
-				if(_g.player2Answer.done._resolved) answerDef.resolve(true);
-			});
-			_g.player2Answer.done.then(function(_4) {
-				_g.player2LockedIn.set_text("Locked in!");
-				if(_g.player1Answer.done._resolved) answerDef.resolve(true);
-			});
-			return answerPromise;
-		}).then(function(_5) {
-			if(minigames_CaptainKnowItAll.aIsCorrect) {
-				if(_g.player1Answer.answer == 0) _g.player1Score.score += 1; else if(_g.player1Answer.answer == 1) _g.player1Score.score += -1; else _g.player1Score.score += 0;
-				if(_g.player2Answer.answer == 0) _g.player2Score.score += 1; else if(_g.player2Answer.answer == 1) _g.player2Score.score += -1; else _g.player2Score.score += 0;
-			} else if(!minigames_CaptainKnowItAll.aIsCorrect) {
-				if(_g.player1Answer.answer == 1) _g.player1Score.score += 1; else if(_g.player1Answer.answer == 0) _g.player1Score.score += -1; else _g.player1Score.score += 0;
-				if(_g.player2Answer.answer == 1) _g.player2Score.score += 1; else if(_g.player2Answer.answer == 0) _g.player2Score.score += -1; else _g.player2Score.score += 0;
-			}
-			_g.bgColourShift.reset(359.9 * Math.random());
-			_g.bgColourShift.active = false;
-			tusk_Tusk.removeEntity(_g.questionEntity);
-			tusk_Tusk.removeEntity(_g.answerAEntity);
-			tusk_Tusk.removeEntity(_g.answerBEntity);
-			_g.questionNumber++;
-			_g.player1Answer.reset();
-			_g.player1LockedIn.set_text("");
-			_g.player2Answer.reset();
-			_g.player2LockedIn.set_text("");
-			if(_g.player1Timer.t <= 0 && _g.player2Timer.t <= 0 || _g.questionNumber >= _g.questions.length) _g.questionsAllDoneDef.resolve(true); else _g.questionDoneDef.resolve(true);
-		});
+		}(this)),glm__$Vec3_Vec3_$Impl_$._new(16,16,16)),new tusk_lib_comp_MeshComponent(null,this.quad),new tusk_lib_comp_MaterialComponent(null,this.bulletMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
+			_g.bulletMaterial.setVec3("colour",GameTracker.player[player].colour);
+		}),new minigames_spacecops_BulletComponent(player),bulletCollision]));
 	}
-	,onLoad: function(event) {
-		var _g = this;
-		if(event.scene != this) return;
-		tusk_debug_Log.log("Loading captain know it all scene..",tusk_debug_LogFunctions.Info,{ fileName : "CaptainKnowItAll.hx", lineNumber : 264, className : "minigames.CaptainKnowItAll", methodName : "onLoad"});
-		var loadComplete = this.loadAssets();
-		var loadingScreen = new LoadingScreen("Captain Know-It-All!",loadComplete);
-		tusk_Tusk.pushScene(loadingScreen);
-		((function($this) {
+	,spawnExplosion: function(x,y) {
+		this.entities.push(new tusk_Entity(this,"Explosion",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(x,y,-2),(function($this) {
 			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [loadingScreen.sceneDone.promise(),loadComplete];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(_,_1) {
-			tusk_Tusk.removeScene(loadingScreen);
-			_g.questions = Util.shuffle(_g.questions);
-			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			tusk_debug_Log.log("Starting captain know it all!",tusk_debug_LogFunctions.Info,{ fileName : "CaptainKnowItAll.hx", lineNumber : 277, className : "minigames.CaptainKnowItAll", methodName : "onLoad"});
-			_g.useProcessor(new minigames_captainknowitall_PlayerAnswerProcessor());
-			_g.useProcessor(new loading_SlamProcessor());
-			_g.useProcessor(new loading_SlideProcessor());
-			_g.useProcessor(new minigames_captainknowitall_PlayerTimerProcessor());
-			_g.useProcessor(new minigames_captainknowitall_PlayerScoreProcessor());
-			_g.useProcessor(new minigames_captainknowitall_ColourShiftProcessor());
-			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
-			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
-			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
-			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
-			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
-			_g.useProcessor(new tusk_lib_proc_TextProcessor());
-			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.9,0.9,0.9,1)));
-			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
-			_g.useProcessor(new tusk_lib_proc_SoundProcessor());
-			_g.questionsAllDone = _g.questionsAllDoneDef.promise();
-			_g.questionDone = _g.questionDoneDef.stream();
-			var w = tusk_Tusk.instance.app.window.width;
-			var h = tusk_Tusk.instance.app.window.height;
-			var camera = new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0),(function($this) {
-				var $r;
-				var q = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q[0] = 1;
-					q[1] = 0;
-					q[2] = 0;
-					q[3] = 0;
-					q;
-				}
-				$r = q;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1,1,1)),new tusk_lib_comp_Camera2DComponent((function($this) {
-				var $r;
-				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
-				return $r;
-			}(this)),(function($this) {
-				var $r;
-				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
-				return $r;
-			}(this)),-100,100)]);
-			_g.entities.push(camera);
-			var bgMesh = _g.quad.clone("mesh.bgcaptain");
-			bgMesh.colours = [];
-			var gradientColours = Util.randomGradientColours();
-			var _g1 = 0;
-			var _g2 = bgMesh.vertices;
-			while(_g1 < _g2.length) {
-				var v = _g2[_g1];
-				++_g1;
-				var colour = gradientColours[glm__$Vec3_Vec3_$Impl_$.get_y(v) > 0?1:0];
-				bgMesh.colours.push(colour);
+			var q = glm__$Quat_Quat_$Impl_$._new();
+			{
+				q[0] = 1;
+				q[1] = 0;
+				q[2] = 0;
+				q[3] = 0;
+				q;
 			}
-			_g.bgColourShift = new minigames_captainknowitall_ColourShiftComponent(359.9 * Math.random(),5,tusk_math_Ease.OutCubic);
-			_g.entities.push(new tusk_Entity(_g,"BG",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,1),(function($this) {
-				var $r;
-				var q2 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q2[0] = 1;
-					q2[1] = 0;
-					q2[2] = 0;
-					q2[3] = 0;
-					q2;
-				}
-				$r = q2;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,bgMesh),new tusk_lib_comp_MaterialComponent(null,_g.bgMaterial),_g.bgColourShift]));
-			_g.player1Score = new minigames_captainknowitall_PlayerScoreComponent(0);
-			_g.player1Timer = new minigames_captainknowitall_PlayerTimerComponent(10);
-			_g.player1Answer = new minigames_captainknowitall_PlayerAnswerComponent(0,_g.player1Timer);
-			_g.player1LockedIn = new tusk_lib_comp_TextComponent(_g.font,"",tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Bottom,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
-			_g.player2Score = new minigames_captainknowitall_PlayerScoreComponent(1);
-			_g.player2Timer = new minigames_captainknowitall_PlayerTimerComponent(10);
-			_g.player2Answer = new minigames_captainknowitall_PlayerAnswerComponent(1,_g.player2Timer);
-			_g.player2LockedIn = new tusk_lib_comp_TextComponent(_g.font,"",tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Bottom,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
-			_g.entities.push(new tusk_Entity(_g,"Player 1",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2 + 32,tusk_Tusk.game.get_height() / -2 + _g.font.lineHeight * 2 + 32,0.05),(function($this) {
-				var $r;
-				var q3 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q3[0] = 1;
-					q3[1] = 0;
-					q3[2] = 0;
-					q3[3] = 0;
-					q3;
-				}
-				$r = q3;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p1text")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[0].name + ": 0",tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player1Score,_g.player1Answer]));
-			_g.entities.push(new tusk_Entity(_g,"Player 1 Timer",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2 + 32,tusk_Tusk.game.get_height() / -2 + 32,0.05),(function($this) {
-				var $r;
-				var q4 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q4[0] = 1;
-					q4[1] = 0;
-					q4[2] = 0;
-					q4[3] = 0;
-					q4;
-				}
-				$r = q4;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p1timertext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"10.000",tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player1Timer]));
-			_g.entities.push(new tusk_Entity(_g,"Player 1 Locked In",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2 + 32,tusk_Tusk.game.get_height() / -2 + _g.font.lineHeight * 3 + 32,0.05),(function($this) {
-				var $r;
-				var q5 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q5[0] = 1;
-					q5[1] = 0;
-					q5[2] = 0;
-					q5[3] = 0;
-					q5;
-				}
-				$r = q5;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p1lockedintext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),_g.player1LockedIn]));
-			_g.entities.push(new tusk_Entity(_g,"Player 2",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2 - 32,tusk_Tusk.game.get_height() / -2 + _g.font.lineHeight * 2 + 32,0.05),(function($this) {
-				var $r;
-				var q6 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q6[0] = 1;
-					q6[1] = 0;
-					q6[2] = 0;
-					q6[3] = 0;
-					q6;
-				}
-				$r = q6;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p2text")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[1].name + ": 0",tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player2Score,_g.player2Answer]));
-			_g.entities.push(new tusk_Entity(_g,"Player 2 Timer",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2 - 32,tusk_Tusk.game.get_height() / -2 + 32,0.05),(function($this) {
-				var $r;
-				var q7 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q7[0] = 1;
-					q7[1] = 0;
-					q7[2] = 0;
-					q7[3] = 0;
-					q7;
-				}
-				$r = q7;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p2timertext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),new tusk_lib_comp_TextComponent(_g.font,"10.000",tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1)),_g.player2Timer]));
-			_g.entities.push(new tusk_Entity(_g,"Player 2 Locked In",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2 - 32,tusk_Tusk.game.get_height() / -2 + _g.font.lineHeight * 3 + 32,0.05),(function($this) {
-				var $r;
-				var q8 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q8[0] = 1;
-					q8[1] = 0;
-					q8[2] = 0;
-					q8[3] = 0;
-					q8;
-				}
-				$r = q8;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(4,4,4)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p2lockedintext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),_g.player2LockedIn]));
-			_g.entities.push(new tusk_Entity(_g,"Countdown Music",[new tusk_lib_comp_SoundComponent(_g.countdownMusic.path,true)]));
-			_g.crunchSoundComponent = new tusk_lib_comp_SoundComponent(_g.loadingCrunch.path,false);
-			_g.entities.push(new tusk_Entity(_g,"CrunchSound",[_g.crunchSoundComponent]));
-			var countdownText = new tusk_lib_comp_TextComponent(_g.font,"3",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
-			var countdownTimer = new tusk_lib_comp_TimedPromiseComponent(1.0);
-			var countdownTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.99),(function($this) {
-				var $r;
-				var q1 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q1[0] = 1;
-					q1[1] = 0;
-					q1[2] = 0;
-					q1[3] = 0;
-					q1;
-				}
-				$r = q1;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(8,8,8));
-			var countdownEntity = new tusk_Entity(_g,"Countdown",[countdownTransform,new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("br.countdowntextmesh")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),countdownText,countdownTimer]);
-			_g.entities.push(countdownEntity);
-			countdownTimer.done.pipe(function(_2) {
-				countdownText.set_text("2");
-				countdownTimer.t = 0;
-				countdownTimer.reset();
-				return countdownTimer.done;
-			}).pipe(function(_3) {
-				countdownText.set_text("1");
-				countdownTimer.t = 0;
-				countdownTimer.reset();
-				return countdownTimer.done;
-			}).pipe(function(_4) {
-				countdownText.set_text("Go!");
-				countdownTimer.t = 0;
-				countdownTimer.wait = 0.5;
-				countdownTimer.reset();
-				return countdownTimer.done;
-			}).pipe(function(_5) {
-				countdownText.set_text("");
-				((function($this) {
-					var $r;
-					var varargf1 = function(f1) {
-						var ret1 = new promhx_Stream();
-						var arr1 = [_g.questionDone];
-						var p1 = promhx_Stream.wheneverAll(arr1);
-						p1._update.push({ async : ret1, linkf : function(x1) {
-							ret1.handleResolve(f1(arr1[0]._val));
-						}});
-						return ret1;
-					};
-					$r = { then : varargf1};
-					return $r;
-				}(this))).then(function(_6) {
-					_g.doQuestion();
-				});
-				_g.questionDoneDef.resolve(true);
-				return _g.questionsAllDone;
-			}).pipe(function(_7) {
-				var winningPlayer = -1;
-				if(_g.player1Score.score == _g.player2Score.score) if(_g.player1Timer.t >= _g.player2Timer.t) winningPlayer = 0; else winningPlayer = 1; else if(_g.player1Score.score > _g.player2Score.score) winningPlayer = 0; else winningPlayer = 1;
-				countdownText.set_text("" + GameTracker.player[winningPlayer].name + " wins!");
-				glm__$Vec3_Vec3_$Impl_$.set(countdownTransform.scale,4,4,4);
-				glm__$Vec3_Vec3_$Impl_$.copy(countdownTransform.lastScale,countdownTransform.scale);
-				GameTracker.player[winningPlayer].score++;
-				_g.entities.push(new tusk_Entity(_g,"WinMusic",[new tusk_lib_comp_SoundComponent(_g.winMusic.path,true)]));
-				countdownTimer.t = 0;
-				countdownTimer.wait = 3;
-				countdownTimer.reset();
-				return countdownTimer.done;
-			}).pipe(function(_8) {
-				var cec = new tusk_lib_comp_CircleEffectComponent(false);
-				_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
-					var $r;
-					var q9 = glm__$Quat_Quat_$Impl_$._new();
-					{
-						q9[0] = 1;
-						q9[1] = 0;
-						q9[2] = 0;
-						q9[3] = 0;
-						q9;
-					}
-					$r = q9;
-					return $r;
-				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(_g.quad.path),new tusk_lib_comp_MaterialComponent(_g.circleOutMat.path),cec]));
-				return cec.done;
-			}).then(function(_9) {
-				_g.sceneDone.resolve(_g);
-			});
-		});
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-	}
-	,__class__: minigames_CaptainKnowItAll
-});
-var minigames_SledTillYoureDead = function() {
-	tusk_Scene.call(this,"SledTillYoureDead");
-};
-$hxClasses["minigames.SledTillYoureDead"] = minigames_SledTillYoureDead;
-minigames_SledTillYoureDead.__name__ = ["minigames","SledTillYoureDead"];
-minigames_SledTillYoureDead.__super__ = tusk_Scene;
-minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
-	loadAssets: function() {
-		var _g = this;
-		var def = new promhx_Deferred();
-		var prom = def.promise();
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadParticlesUntextured(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_defaults_Materials.loadEffectCircleOut(),tusk_Tusk.assets.loadSound("assets/sounds/countdown.ogg"),SpriteMaterial.load(),tusk_Tusk.assets.loadTexture("assets/sprites/sled.png"),tusk_Tusk.assets.loadText("assets/tilemaps/sledside.json"),tusk_Tusk.assets.loadTexture("assets/tilemaps/sledbg.png"),tusk_defaults_Materials.loadUnlitTextured(),tusk_Tusk.assets.loadSound("assets/sounds/sledding.ogg"),tusk_Tusk.assets.loadSound("assets/sounds/wintrumpet.ogg")];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val,arr[9]._val,arr[10]._val,arr[11]._val,arr[12]._val,arr[13]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
+			$r = q;
 			return $r;
-		}(this))).then(function(quad,particlesMaterial,textMesh,font,fontMat,circleOutMat,countdownMusic,sledMaterial,sledTexture,sledSideSrc,sideBG,sledBGMaterial,sledMusic,winMusic) {
-			_g.quad = quad;
-			_g.particlesMaterial = particlesMaterial;
-			_g.circleOutMat = circleOutMat;
-			_g.countdownMusic = countdownMusic;
-			_g.sledMusic = sledMusic;
-			_g.winMusic = winMusic;
-			_g.textMesh = textMesh;
-			_g.font = font;
-			_g.fontMat = fontMat;
-			_g.fontMat.textures = [];
-			_g.fontMat.textures.push(font.texture);
-			_g.sledMaterial = sledMaterial;
-			_g.sledMaterial.textures = [];
-			_g.sledMaterial.textures.push(sledTexture);
-			_g.sledBGMaterial = sledBGMaterial;
-			_g.sledBGMaterial.textures = [];
-			_g.sledBGMaterial.textures.push(sideBG);
-			_g.sledTileMap = tusk_modules_tiled_TileMap.fromJSON(sledSideSrc.text);
-			tusk_modules_tiled_TileMap.buildMesh(_g.sledTileMap,"tilemap.sled").then(function(mesh) {
-				_g.sledBGMesh = mesh;
-				def.resolve(_g);
-			});
-		}).catchError(function(err) {
-			tusk_debug_Log.log(err,tusk_debug_LogFunctions.Error,{ fileName : "SledTillYoureDead.hx", lineNumber : 111, className : "minigames.SledTillYoureDead", methodName : "loadAssets"});
-			def.handleError("Failed to load assets!");
-		});
-		return prom;
+		}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,this.explosionMesh),new tusk_lib_comp_MaterialComponent(null,this.explosionMaterial),new minigames_sledtillyouredead_AnimatedSledComponent(this.explosionMesh,8,10,true),new tusk_lib_comp_SoundComponent(this.crookExplosion.path,true)]));
 	}
-	,createObstacle: function() {
-		var mesh;
-		var _g = Math.floor(3 * Math.random());
-		switch(_g) {
-		case 1:
-			mesh = this.rockMesh;
-			break;
-		case 2:
-			mesh = this.flagMesh;
-			break;
-		default:
-			mesh = this.treeMesh;
-		}
-		var x = -380 + 760 * Math.random();
-		var transform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(x,tusk_Tusk.game.get_height() / -2 - 64,-0.5),(function($this) {
+	,spawnCrook: function(life,xMoveIndex,yMoveIndex) {
+		var _g = this;
+		var crookTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.75),(function($this) {
 			var $r;
 			var q = glm__$Quat_Quat_$Impl_$._new();
 			{
@@ -5860,45 +2794,38 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 			$r = q;
 			return $r;
 		}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64));
-		this.entities.push(new tusk_Entity(this,"Obstacle",[transform,new tusk_lib_comp_MeshComponent(null,mesh),new tusk_lib_comp_MaterialComponent(null,this.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / 2 + 64),new minigames_sledtillyouredead_CollisionComponent(16,1)]));
-		minigames_SledTillYoureDead.obstacles.push(transform);
+		var crookCollision = new minigames_sledtillyouredead_CollisionComponent(16,1);
+		crookCollision.done.then(function(_) {
+			_g.spawnExplosion(glm__$Vec3_Vec3_$Impl_$.get_x(crookTransform.position),glm__$Vec3_Vec3_$Impl_$.get_y(crookTransform.position));
+		});
+		var movement = new minigames_spacecops_RailedMovementComponent(life,this.movements[xMoveIndex],this.movements[yMoveIndex]);
+		this.entities.push(new tusk_Entity(this,"Crook",[crookTransform,new tusk_lib_comp_MeshComponent(null,this.crookMesh),new tusk_lib_comp_MaterialComponent(null,this.crook1Material),new minigames_sledtillyouredead_AnimatedSledComponent(this.crookMesh,2,15),crookCollision,movement]));
+		return movement.done;
 	}
 	,onLoad: function(event) {
 		var _g = this;
 		if(event.scene != this) return;
-		tusk_debug_Log.log("Loading sled till you're dead scene..",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 143, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+		tusk_debug_Log.log("Loading space cops scene..",tusk_debug_LogFunctions.Info,{ fileName : "SpaceCops.hx", lineNumber : 216, className : "minigames.SpaceCops", methodName : "onLoad"});
 		var loadComplete = this.loadAssets();
-		var loadingScreen = new LoadingScreen("Sled Till You're Dead!",loadComplete);
-		tusk_Tusk.pushScene(loadingScreen);
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [loadingScreen.sceneDone.promise(),loadComplete];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(_,_1) {
-			tusk_Tusk.removeScene(loadingScreen);
+		loadComplete.then(function(_) {
 			tusk_lib_proc_Camera2DProcessor.cameras = [];
-			tusk_debug_Log.log("Starting sled till you're dead!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 153, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
+			tusk_debug_Log.log("Starting space cops!",tusk_debug_LogFunctions.Info,{ fileName : "SpaceCops.hx", lineNumber : 226, className : "minigames.SpaceCops", methodName : "onLoad"});
+			_g.useProcessor(new minigames_spacecops_WaveProcessor());
+			_g.useProcessor(new minigames_spacecops_RailedMovementProcessor());
 			_g.useProcessor(new minigames_sledtillyouredead_CollisionProcessor());
+			_g.useProcessor(new minigames_spacecops_DestroyOnCollisionProcessor());
+			_g.useProcessor(new minigames_spacecops_ShooterProcessor());
+			_g.useProcessor(new minigames_spacecops_BulletProcessor());
+			_g.useProcessor(new minigames_spacecops_ScrollProcessor());
+			_g.useProcessor(new minigames_spacecops_MovementProcessor());
 			_g.useProcessor(new minigames_sledtillyouredead_AnimatedSledProcessor());
-			_g.useProcessor(new minigames_sledtillyouredead_MovementProcessor());
-			_g.useProcessor(new minigames_sledtillyouredead_ScrollProcessor());
-			_g.useProcessor(new minigames_sledtillyouredead_SpawnProcessor());
 			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
 			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
 			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
 			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
 			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
 			_g.useProcessor(new tusk_lib_proc_TextProcessor());
-			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.9,0.9,0.9,1)));
+			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0,0,0,1)));
 			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
 			_g.useProcessor(new tusk_lib_proc_SoundProcessor());
 			var w = tusk_Tusk.instance.app.window.width;
@@ -5927,43 +2854,15 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				return $r;
 			}(this)),-100,100)]);
 			_g.entities.push(camera);
-			_g.entities.push(new tusk_Entity(_g,"LeftBorder",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2,tusk_Tusk.game.get_height() / -2 - 128,0),(function($this) {
-				var $r;
-				var q2 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q2[0] = 1;
-					q2[1] = 0;
-					q2[2] = 0;
-					q2[3] = 0;
-					q2;
-				}
-				$r = q2;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.sledBGMesh),new tusk_lib_comp_MaterialComponent(null,_g.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / -2,true,64)]));
-			_g.entities.push(new tusk_Entity(_g,"RightBorder",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2,tusk_Tusk.game.get_height() / -2 - 128,0),(function($this) {
-				var $r;
-				var q3 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q3[0] = 1;
-					q3[1] = 0;
-					q3[2] = 0;
-					q3[3] = 0;
-					q3;
-				}
-				$r = q3;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(-2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.sledBGMesh),new tusk_lib_comp_MaterialComponent(null,_g.sledBGMaterial),new minigames_sledtillyouredead_ScrollComponent(tusk_Tusk.game.get_height() / -2,true,64)]));
-			var sledMesh1 = _g.quad.clone("sled.mesh1");
+			var starFieldMesh = _g.quad.clone("starfield.mesh");
 			var _g1 = 0;
-			var _g2 = sledMesh1.uvs;
+			var _g2 = starFieldMesh.vertices;
 			while(_g1 < _g2.length) {
-				var uv = _g2[_g1];
+				var v = _g2[_g1];
 				++_g1;
-				glm__$Vec2_Vec2_$Impl_$.set_x(uv,glm__$Vec2_Vec2_$Impl_$.get_x(uv) / 4);
+				glm__$Vec3_Vec3_$Impl_$.set_y(v,glm__$Vec3_Vec3_$Impl_$.get_y(v) - 0.5);
 			}
-			var sledMesh2 = sledMesh1.clone("sled.mesh2");
-			var p1Collision = new minigames_sledtillyouredead_CollisionComponent(16,0);
-			_g.entities.push(new tusk_Entity(_g,"P1 Sled",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-92,192,-1),(function($this) {
+			_g.entities.push(new tusk_Entity(_g,"Starfield1",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,tusk_Tusk.game.get_height() / 2,0),(function($this) {
 				var $r;
 				var q4 = glm__$Quat_Quat_$Impl_$._new();
 				{
@@ -5975,11 +2874,8 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				}
 				$r = q4;
 				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,sledMesh1),new tusk_lib_comp_MaterialComponent(null,_g.sledMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.sledMaterial.setVec3("colour",GameTracker.player[0].colour);
-			}),new minigames_sledtillyouredead_AnimatedSledComponent(sledMesh1,4,15),new minigames_sledtillyouredead_MovementComponent(0),p1Collision]));
-			var p2Collision = new minigames_sledtillyouredead_CollisionComponent(16,0);
-			_g.entities.push(new tusk_Entity(_g,"P2 Sled",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(92,192,-1),(function($this) {
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,starFieldMesh),new tusk_lib_comp_MaterialComponent(null,_g.starMaterial),new minigames_spacecops_ScrollComponent(tusk_Tusk.game.get_height() / 2 - 1024,1024)]));
+			_g.entities.push(new tusk_Entity(_g,"Starfield2",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,tusk_Tusk.game.get_height() / 2 + 1024,0),(function($this) {
 				var $r;
 				var q5 = glm__$Quat_Quat_$Impl_$._new();
 				{
@@ -5991,36 +2887,17 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				}
 				$r = q5;
 				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,sledMesh2),new tusk_lib_comp_MaterialComponent(null,_g.sledMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
-				_g.sledMaterial.setVec3("colour",GameTracker.player[1].colour);
-			}),new minigames_sledtillyouredead_AnimatedSledComponent(sledMesh2,4,15),new minigames_sledtillyouredead_MovementComponent(1),p2Collision]));
-			_g.treeMesh = _g.quad.clone("sled.mesh.tree");
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[0],0.5,1.0);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[1],1.0,1.0);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[2],1.0,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[3],1.0,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[4],0.5,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.treeMesh.uvs[5],0.5,1.0);
-			_g.rockMesh = _g.quad.clone("sled.mesh.rock");
-			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[0],0.5,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[1],1.0,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[2],1.0,0.0);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[3],1.0,0.0);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[4],0.5,0.0);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.rockMesh.uvs[5],0.5,0.5);
-			_g.flagMesh = _g.quad.clone("sled.mesh.flag");
-			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[0],0.0,1.0);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[1],0.5,1.0);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[2],0.5,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[3],0.5,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[4],0.0,0.5);
-			glm__$Vec2_Vec2_$Impl_$.set(_g.flagMesh.uvs[5],0.0,1.0);
-			_g.entities.push(new tusk_Entity(_g,"Countdown Music",[new tusk_lib_comp_SoundComponent(_g.countdownMusic.path,true)]));
-			var sledMusicComponent = new tusk_lib_comp_SoundComponent(_g.sledMusic.path,false);
-			_g.entities.push(new tusk_Entity(_g,"Sled Music",[sledMusicComponent]));
-			var countdownText = new tusk_lib_comp_TextComponent(_g.font,"3",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(0,0,0,1));
-			var countdownTimer = new tusk_lib_comp_TimedPromiseComponent(1.0);
-			var countdownTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.99),(function($this) {
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(null,starFieldMesh),new tusk_lib_comp_MaterialComponent(null,_g.starMaterial),new minigames_spacecops_ScrollComponent(tusk_Tusk.game.get_height() / 2,1024)]));
+			var copMesh1 = _g.quad.clone("cop.mesh1");
+			var _g11 = 0;
+			var _g21 = copMesh1.uvs;
+			while(_g11 < _g21.length) {
+				var uv = _g21[_g11];
+				++_g11;
+				glm__$Vec2_Vec2_$Impl_$.set_x(uv,glm__$Vec2_Vec2_$Impl_$.get_x(uv) / 4);
+			}
+			var copMesh2 = copMesh1.clone("cop.mesh2");
+			var p1CopEntity = new tusk_Entity(_g,"P1 cop",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(-92,tusk_Tusk.game.get_height() / -2 + 32,-1),(function($this) {
 				var $r;
 				var q1 = glm__$Quat_Quat_$Impl_$._new();
 				{
@@ -6032,52 +2909,139 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				}
 				$r = q1;
 				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,copMesh1),new tusk_lib_comp_MaterialComponent(null,_g.copMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
+				_g.copMaterial.setVec3("colour",GameTracker.player[0].colour);
+			}),new minigames_sledtillyouredead_AnimatedSledComponent(copMesh1,4,15)]);
+			_g.entities.push(p1CopEntity);
+			var p2CopEntity = new tusk_Entity(_g,"P2 cop",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(92,tusk_Tusk.game.get_height() / -2 + 32,-1),(function($this) {
+				var $r;
+				var q2 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q2[0] = 1;
+					q2[1] = 0;
+					q2[2] = 0;
+					q2[3] = 0;
+					q2;
+				}
+				$r = q2;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(64,64,64)),new tusk_lib_comp_MeshComponent(null,copMesh2),new tusk_lib_comp_MaterialComponent(null,_g.copMaterial),new tusk_lib_comp_CustomUniformsComponent(function() {
+				_g.copMaterial.setVec3("colour",GameTracker.player[1].colour);
+			}),new minigames_sledtillyouredead_AnimatedSledComponent(copMesh2,4,15)]);
+			_g.entities.push(p2CopEntity);
+			_g.explosionMesh = _g.quad.clone("mesh.explosion");
+			var _g12 = 0;
+			var _g22 = _g.explosionMesh.uvs;
+			while(_g12 < _g22.length) {
+				var uv1 = _g22[_g12];
+				++_g12;
+				glm__$Vec2_Vec2_$Impl_$.set_x(uv1,glm__$Vec2_Vec2_$Impl_$.get_x(uv1) / 8);
+			}
+			_g.player1ScoreDisplay = new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[0].name + ": " + _g.p1Score,tusk_lib_comp_TextAlign.Left,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			_g.player2ScoreDisplay = new tusk_lib_comp_TextComponent(_g.font,"" + GameTracker.player[1].name + ": " + _g.p2Score,tusk_lib_comp_TextAlign.Right,tusk_lib_comp_TextVerticalAlign.Top,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			_g.entities.push(new tusk_Entity(_g,"Player 1 Score",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / -2 + 8,tusk_Tusk.game.get_height() / -2 + 8,-0.05),(function($this) {
+				var $r;
+				var q6 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q6[0] = 1;
+					q6[1] = 0;
+					q6[2] = 0;
+					q6[3] = 0;
+					q6;
+				}
+				$r = q6;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p1scoretext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),_g.player1ScoreDisplay]));
+			_g.entities.push(new tusk_Entity(_g,"Player 2 Score",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(tusk_Tusk.game.get_width() / 2 - 8,tusk_Tusk.game.get_height() / -2 + 8,-0.05),(function($this) {
+				var $r;
+				var q7 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q7[0] = 1;
+					q7[1] = 0;
+					q7[2] = 0;
+					q7[3] = 0;
+					q7;
+				}
+				$r = q7;
+				return $r;
+			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("p2scoretext")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),_g.player2ScoreDisplay]));
+			_g.crookMesh = _g.quad.clone("crook.mesh");
+			var _g13 = 0;
+			var _g23 = _g.crookMesh.uvs;
+			while(_g13 < _g23.length) {
+				var uv2 = _g23[_g13];
+				++_g13;
+				glm__$Vec2_Vec2_$Impl_$.set_x(uv2,glm__$Vec2_Vec2_$Impl_$.get_x(uv2) / 2);
+			}
+			_g.entities.push(new tusk_Entity(_g,"Countdown Music",[new tusk_lib_comp_SoundComponent(_g.countdownMusic.path,true)]));
+			var spaceJamComponent = new tusk_lib_comp_SoundComponent(_g.spaceJam.path,false);
+			_g.entities.push(new tusk_Entity(_g,"Space Jam",[spaceJamComponent]));
+			var countdownText = new tusk_lib_comp_TextComponent(_g.font,"3",tusk_lib_comp_TextAlign.Centre,tusk_lib_comp_TextVerticalAlign.Centre,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1));
+			var countdownTimer = new tusk_lib_comp_TimedPromiseComponent(1.0);
+			var countdownTransform = new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,-0.99),(function($this) {
+				var $r;
+				var q3 = glm__$Quat_Quat_$Impl_$._new();
+				{
+					q3[0] = 1;
+					q3[1] = 0;
+					q3[2] = 0;
+					q3[3] = 0;
+					q3;
+				}
+				$r = q3;
+				return $r;
 			}(this)),glm__$Vec3_Vec3_$Impl_$._new(8,8,8));
 			var countdownEntity = new tusk_Entity(_g,"Countdown",[countdownTransform,new tusk_lib_comp_MeshComponent(null,_g.textMesh.clone("br.countdowntextmesh")),new tusk_lib_comp_MaterialComponent(_g.fontMat.path),countdownText,countdownTimer]);
 			_g.entities.push(countdownEntity);
-			countdownTimer.done.pipe(function(_2) {
+			countdownTimer.done.pipe(function(_1) {
 				countdownText.set_text("2");
 				countdownTimer.t = 0;
 				countdownTimer.reset();
 				return countdownTimer.done;
-			}).pipe(function(_3) {
+			}).pipe(function(_2) {
 				countdownText.set_text("1");
 				countdownTimer.t = 0;
 				countdownTimer.reset();
 				return countdownTimer.done;
-			}).pipe(function(_4) {
+			}).pipe(function(_3) {
+				p1CopEntity.push(new minigames_spacecops_MovementComponent(0));
+				p1CopEntity.push(new minigames_spacecops_ShooterComponent(0,$bind(_g,_g.spawnBullet)));
+				p2CopEntity.push(new minigames_spacecops_MovementComponent(1));
+				p2CopEntity.push(new minigames_spacecops_ShooterComponent(1,$bind(_g,_g.spawnBullet)));
 				countdownText.set_text("Go!");
-				haxe_Timer.delay(function() {
-					countdownText.set_text("");
-					sledMusicComponent.play = true;
-				},1000);
-				_g.entities.push(new tusk_Entity(_g,"Spawner",[new minigames_sledtillyouredead_SpawnComponent($bind(_g,_g.createObstacle))]));
-				var hitDef = new promhx_Deferred();
-				var hitPromise = hitDef.promise();
-				p1Collision.done.then(function(_5) {
-					if(!hitPromise._resolved) hitDef.resolve(0);
-				});
-				p2Collision.done.then(function(_6) {
-					if(!hitPromise._resolved) hitDef.resolve(1);
-				});
-				return hitPromise;
-			}).pipe(function(player) {
-				tusk_debug_Log.log("" + GameTracker.player[player].name + " hit an obstacle!",tusk_debug_LogFunctions.Info,{ fileName : "SledTillYoureDead.hx", lineNumber : 302, className : "minigames.SledTillYoureDead", methodName : "onLoad"});
-				sledMusicComponent.play = false;
-				sledMusicComponent.stop = true;
-				var _g11 = 0;
-				var _g21 = _g.entities;
-				while(_g11 < _g21.length) {
-					var entity = _g21[_g11];
-					++_g11;
-					if(entity.hasType(23)) entity.removeType(23);
-					if(entity.name == "Spawner") tusk_Tusk.removeEntity(entity);
-					if(entity.hasType(25)) entity.removeType(25);
-				}
-				countdownText.set_text("" + GameTracker.player[1 - player].name + " wins!");
+				countdownTimer.t = 0;
+				countdownTimer.wait = 0.5;
+				countdownTimer.reset();
+				return countdownTimer.done;
+			}).pipe(function(_4) {
+				countdownText.set_text("");
+				spaceJamComponent.play = true;
+				var wave = new minigames_spacecops_WaveComponent(0.25,10,$bind(_g,_g.spawnCrook),5,1,0);
+				_g.entities.push(new tusk_Entity(_g,"",[wave]));
+				return wave.done;
+			}).pipe(function(_5) {
+				var wave1 = new minigames_spacecops_WaveComponent(0.25,10,$bind(_g,_g.spawnCrook),5,2,0);
+				_g.entities.push(new tusk_Entity(_g,"",[wave1]));
+				return wave1.done;
+			}).pipe(function(_6) {
+				spaceJamComponent.play = false;
+				spaceJamComponent.stop = true;
+				var winner = -1;
+				if(_g.p1Score > _g.p2Score) winner = 0; else if(_g.p2Score > _g.p1Score) winner = 1;
 				glm__$Vec3_Vec3_$Impl_$.set(countdownTransform.scale,4,4,4);
 				glm__$Vec3_Vec3_$Impl_$.copy(countdownTransform.lastScale,countdownTransform.scale);
-				GameTracker.player[1 - player].score++;
+				if(winner >= 0) {
+					countdownText.set_text(GameTracker.player[winner].name + " wins!");
+					GameTracker.player[winner].score += 1;
+				} else countdownText.set_text("Tie!");
+				var _g14 = 0;
+				var _g24 = _g.entities;
+				while(_g14 < _g24.length) {
+					var entity = _g24[_g14];
+					++_g14;
+					if(entity.hasType(31)) entity.removeType(31);
+					if(entity.hasType(33)) entity.removeType(33);
+				}
 				_g.entities.push(new tusk_Entity(_g,"WinMusic",[new tusk_lib_comp_SoundComponent(_g.winMusic.path,true)]));
 				countdownTimer.t = 0;
 				countdownTimer.wait = 3;
@@ -6087,15 +3051,15 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 				var cec = new tusk_lib_comp_CircleEffectComponent(false);
 				_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
 					var $r;
-					var q6 = glm__$Quat_Quat_$Impl_$._new();
+					var q8 = glm__$Quat_Quat_$Impl_$._new();
 					{
-						q6[0] = 1;
-						q6[1] = 0;
-						q6[2] = 0;
-						q6[3] = 0;
-						q6;
+						q8[0] = 1;
+						q8[1] = 0;
+						q8[2] = 0;
+						q8[3] = 0;
+						q8;
 					}
-					$r = q6;
+					$r = q8;
 					return $r;
 				}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(_g.quad.path),new tusk_lib_comp_MaterialComponent(_g.circleOutMat.path),cec]));
 				return cec.done;
@@ -6107,564 +3071,9 @@ minigames_SledTillYoureDead.prototype = $extend(tusk_Scene.prototype,{
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-	}
-	,__class__: minigames_SledTillYoureDead
+	,__class__: minigames_SpaceCops
 });
-var minigames_bottlerocket_BackgroundMaterial = function() { };
-$hxClasses["minigames.bottlerocket.BackgroundMaterial"] = minigames_bottlerocket_BackgroundMaterial;
-minigames_bottlerocket_BackgroundMaterial.__name__ = ["minigames","bottlerocket","BackgroundMaterial"];
-minigames_bottlerocket_BackgroundMaterial.load = function() {
-	if(tusk_Tusk.assets.isLoaded("br_unlit.textured")) {
-		var d = new promhx_Deferred();
-		d.resolve(tusk_Tusk.assets.getMaterial("br_unlit.textured"));
-		return d.promise();
-	}
-	var shader = new tusk_resources_Shader("br_unlit.textured",haxe_Resource.getString("unlit.textured.vert"),haxe_Resource.getString("unlit.textured.frag"));
-	var mat = new tusk_resources_Material("br_unlit.textured",shader);
-	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
-	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.UV[1];
-	snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
-	var posLocation = mat.shader.getAttributeLocation("position");
-	var uvLocation = mat.shader.getAttributeLocation("uv");
-	mat.onRender = function(setupUniforms,vertexBuffer,vertexCount) {
-		snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
-		snow_modules_opengl_web_GL.current_context.blendFunc(770,771);
-		if(mat.textures != null && mat.textures.length > 0) {
-			snow_modules_opengl_web_GL.current_context.activeTexture(33984);
-			snow_modules_opengl_web_GL.current_context.bindTexture(3553,mat.textures[0].texture);
-		}
-		setupUniforms(mat);
-		snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(posLocation);
-		snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(uvLocation);
-		snow_modules_opengl_web_GL.current_context.bindBuffer(34962,vertexBuffer);
-		snow_modules_opengl_web_GL.current_context.vertexAttribPointer(posLocation,3,5126,false,20,0);
-		snow_modules_opengl_web_GL.current_context.vertexAttribPointer(uvLocation,2,5126,false,20,12);
-		snow_modules_opengl_web_GL.current_context.drawArrays(4,0,vertexCount);
-		snow_modules_opengl_web_GL.current_context.bindTexture(3553,null);
-		snow_modules_opengl_web_GL.current_context.bindBuffer(34962,null);
-		snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(posLocation);
-		snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(uvLocation);
-		snow_modules_opengl_web_GL.current_context.useProgram(null);
-	};
-	return tusk_Tusk.assets.loadMaterial("br_unlit.textured",mat);
-};
-var minigames_bottlerocket_PumpComponent = function(playerNumber,topY) {
-	this.aiDirection = -1;
-	this.pressure = 0;
-	this.pumpPos = 1;
-	this.pumpVelocity = 0;
-	this.playerNumber = playerNumber;
-	this.topY = topY;
-	tusk_Component.call(this);
-};
-$hxClasses["minigames.bottlerocket.PumpComponent"] = minigames_bottlerocket_PumpComponent;
-minigames_bottlerocket_PumpComponent.__name__ = ["minigames","bottlerocket","PumpComponent"];
-minigames_bottlerocket_PumpComponent.__super__ = tusk_Component;
-minigames_bottlerocket_PumpComponent.prototype = $extend(tusk_Component.prototype,{
-	get__tid: function() {
-		return 19;
-	}
-	,hxSerialize: function(s) {
-		s.serialize(this.pressure);
-		s.serialize(this.pumpPos);
-		s.serialize(this.pumpVelocity);
-		s.serialize(this.playerNumber);
-		s.serialize(this.aiDirection);
-		s.serialize(this.topY);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.pressure);
-		s.serialize(this.pumpPos);
-		s.serialize(this.pumpVelocity);
-		s.serialize(this.playerNumber);
-		s.serialize(this.aiDirection);
-		s.serialize(this.topY);
-	}
-	,__class__: minigames_bottlerocket_PumpComponent
-});
-var minigames_bottlerocket_PumpProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(5).include(19);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["minigames.bottlerocket.PumpProcessor"] = minigames_bottlerocket_PumpProcessor;
-minigames_bottlerocket_PumpProcessor.__name__ = ["minigames","bottlerocket","PumpProcessor"];
-minigames_bottlerocket_PumpProcessor.__super__ = tusk_Processor;
-minigames_bottlerocket_PumpProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(event) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var t = entity.get(5);
-			var p = entity.get(19);
-			var axis = 0;
-			var directionSpeed = 3 + Math.random();
-			if(GameTracker.player[p.playerNumber].isCPU) {
-				if(p.pumpPos < 0.1) p.aiDirection += directionSpeed * event.dt; else if(p.pumpPos >= 0.9) p.aiDirection -= directionSpeed * event.dt;
-				p.aiDirection = tusk_math_MathTools.clamp(p.aiDirection,-1,1);
-				if(p.aiDirection < 0) axis = -1; else if(p.aiDirection > 0) axis = 1;
-			} else {
-				if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[p.playerNumber].btnA)) axis -= 1.0;
-				if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[p.playerNumber].btnB)) axis += 1.0;
-			}
-			p.pumpVelocity += axis * 10 * event.dt;
-			var lastPos = p.pumpPos;
-			p.pumpPos += p.pumpVelocity * event.dt;
-			if(p.pumpPos <= 0 || p.pumpPos >= 1 || axis == 0) p.pumpVelocity = 0;
-			p.pumpPos = tusk_math_MathTools.clamp(p.pumpPos,0,1);
-			if(p.pumpPos < lastPos) p.pressure += lastPos - p.pumpPos;
-			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
-			glm__$Vec3_Vec3_$Impl_$.set_y(t.position,p.topY - 72 * (1.0 - p.pumpPos));
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: minigames_bottlerocket_PumpProcessor
-});
-var minigames_bottlerocket_TimerDisplayComponent = function() {
-	tusk_Component.call(this);
-};
-$hxClasses["minigames.bottlerocket.TimerDisplayComponent"] = minigames_bottlerocket_TimerDisplayComponent;
-minigames_bottlerocket_TimerDisplayComponent.__name__ = ["minigames","bottlerocket","TimerDisplayComponent"];
-minigames_bottlerocket_TimerDisplayComponent.__super__ = tusk_Component;
-minigames_bottlerocket_TimerDisplayComponent.prototype = $extend(tusk_Component.prototype,{
-	get__tid: function() {
-		return 18;
-	}
-	,hxSerialize: function(s) {
-	}
-	,hxUnserialize: function(s) {
-	}
-	,__class__: minigames_bottlerocket_TimerDisplayComponent
-});
-var minigames_bottlerocket_TimerDisplayProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(6).include(1).include(18);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["minigames.bottlerocket.TimerDisplayProcessor"] = minigames_bottlerocket_TimerDisplayProcessor;
-minigames_bottlerocket_TimerDisplayProcessor.__name__ = ["minigames","bottlerocket","TimerDisplayProcessor"];
-minigames_bottlerocket_TimerDisplayProcessor.__super__ = tusk_Processor;
-minigames_bottlerocket_TimerDisplayProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(event) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var text = entity.get(1);
-			var timer = entity.get(6);
-			var timeLeft = timer.wait - timer.t;
-			if(timeLeft < 0) timeLeft = 0;
-			text.set_text(Util.floatToStringPrecision(timeLeft,2));
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: minigames_bottlerocket_TimerDisplayProcessor
-});
-var minigames_bottlerocket_TransformTrackerComponent = function(t1,t2) {
-	this.t1 = t1;
-	this.t2 = t2;
-	tusk_Component.call(this);
-};
-$hxClasses["minigames.bottlerocket.TransformTrackerComponent"] = minigames_bottlerocket_TransformTrackerComponent;
-minigames_bottlerocket_TransformTrackerComponent.__name__ = ["minigames","bottlerocket","TransformTrackerComponent"];
-minigames_bottlerocket_TransformTrackerComponent.__super__ = tusk_Component;
-minigames_bottlerocket_TransformTrackerComponent.prototype = $extend(tusk_Component.prototype,{
-	get__tid: function() {
-		return 20;
-	}
-	,hxSerialize: function(s) {
-		s.serialize(this.t1);
-		s.serialize(this.t2);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.t1);
-		s.serialize(this.t2);
-	}
-	,__class__: minigames_bottlerocket_TransformTrackerComponent
-});
-var minigames_bottlerocket_TransformTrackerProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(5).include(20).include(11);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["minigames.bottlerocket.TransformTrackerProcessor"] = minigames_bottlerocket_TransformTrackerProcessor;
-minigames_bottlerocket_TransformTrackerProcessor.__name__ = ["minigames","bottlerocket","TransformTrackerProcessor"];
-minigames_bottlerocket_TransformTrackerProcessor.__super__ = tusk_Processor;
-minigames_bottlerocket_TransformTrackerProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(event) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var t = entity.get(5);
-			var tracker = entity.get(20);
-			var highest = tracker.t1;
-			if(glm__$Vec3_Vec3_$Impl_$.get_y(tracker.t2.position) > glm__$Vec3_Vec3_$Impl_$.get_y(tracker.t1.position)) highest = tracker.t2;
-			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
-			glm__$Vec3_Vec3_$Impl_$.set_y(t.position,glm__$Vec3_Vec3_$Impl_$.get_y(highest.position));
-			var c = entity.get(11);
-			c.viewMatrixDirty = true;
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: minigames_bottlerocket_TransformTrackerProcessor
-});
-var minigames_bottlerocket_VelocityComponent = function(velocity,minHeight) {
-	this.maxHeight = -1;
-	this.velocity = velocity;
-	this.minHeight = minHeight;
-	tusk_PromiseComponent.call(this);
-};
-$hxClasses["minigames.bottlerocket.VelocityComponent"] = minigames_bottlerocket_VelocityComponent;
-minigames_bottlerocket_VelocityComponent.__name__ = ["minigames","bottlerocket","VelocityComponent"];
-minigames_bottlerocket_VelocityComponent.__super__ = tusk_PromiseComponent;
-minigames_bottlerocket_VelocityComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
-	hxSerialize: function(s) {
-		s.serialize(this.velocity);
-		s.serialize(this.minHeight);
-		s.serialize(this.maxHeight);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.velocity);
-		s.serialize(this.minHeight);
-		s.serialize(this.maxHeight);
-	}
-	,get__tid: function() {
-		return 17;
-	}
-	,__class__: minigames_bottlerocket_VelocityComponent
-});
-var minigames_bottlerocket_VelocityProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(5).include(17);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["minigames.bottlerocket.VelocityProcessor"] = minigames_bottlerocket_VelocityProcessor;
-minigames_bottlerocket_VelocityProcessor.__name__ = ["minigames","bottlerocket","VelocityProcessor"];
-minigames_bottlerocket_VelocityProcessor.__super__ = tusk_Processor;
-minigames_bottlerocket_VelocityProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(event) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var t = entity.get(5);
-			var v = entity.get(17);
-			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
-			v.velocity += -1024 * event.dt;
-			if(v.velocity < 0 && v.maxHeight < 0) v.maxHeight = glm__$Vec3_Vec3_$Impl_$.get_y(t.position);
-			var _g2 = t.position;
-			glm__$Vec3_Vec3_$Impl_$.set_y(_g2,glm__$Vec3_Vec3_$Impl_$.get_y(_g2) + v.velocity * event.dt);
-			if(glm__$Vec3_Vec3_$Impl_$.get_y(t.position) <= v.minHeight) {
-				glm__$Vec3_Vec3_$Impl_$.set_y(t.position,v.minHeight);
-				v.velocity = 0;
-				if(!v.done._resolved) v.finish();
-			}
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: minigames_bottlerocket_VelocityProcessor
-});
-var minigames_captainknowitall_ColourShiftComponent = function(hue,fadeTime,easing) {
-	this.secondStartBrightness = 10;
-	this.mainStartBrightness = 90;
-	this.startSaturation = 75;
-	this.active = false;
-	this.fadeTime = fadeTime;
-	this.easing = easing;
-	this.reset(hue);
-	tusk_Component.call(this);
-};
-$hxClasses["minigames.captainknowitall.ColourShiftComponent"] = minigames_captainknowitall_ColourShiftComponent;
-minigames_captainknowitall_ColourShiftComponent.__name__ = ["minigames","captainknowitall","ColourShiftComponent"];
-minigames_captainknowitall_ColourShiftComponent.__super__ = tusk_Component;
-minigames_captainknowitall_ColourShiftComponent.prototype = $extend(tusk_Component.prototype,{
-	reset: function(hue) {
-		this.t = 0;
-		this.colourMain = new hxColorToolkit_spaces_HSB(hue,this.startSaturation,this.mainStartBrightness);
-		this.colourSecond = new hxColorToolkit_spaces_HSB(hue,this.startSaturation,this.secondStartBrightness);
-	}
-	,get__tid: function() {
-		return 16;
-	}
-	,hxSerialize: function(s) {
-		s.serialize(this.colourMain);
-		s.serialize(this.colourSecond);
-		s.serialize(this.t);
-		s.serialize(this.fadeTime);
-		s.serialize(this.active);
-		s.serialize(this.startSaturation);
-		s.serialize(this.mainStartBrightness);
-		s.serialize(this.secondStartBrightness);
-		s.serialize(this.easing);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.colourMain);
-		s.serialize(this.colourSecond);
-		s.serialize(this.t);
-		s.serialize(this.fadeTime);
-		s.serialize(this.active);
-		s.serialize(this.startSaturation);
-		s.serialize(this.mainStartBrightness);
-		s.serialize(this.secondStartBrightness);
-		s.serialize(this.easing);
-	}
-	,__class__: minigames_captainknowitall_ColourShiftComponent
-});
-var minigames_captainknowitall_ColourShiftProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(16).include(8);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["minigames.captainknowitall.ColourShiftProcessor"] = minigames_captainknowitall_ColourShiftProcessor;
-minigames_captainknowitall_ColourShiftProcessor.__name__ = ["minigames","captainknowitall","ColourShiftProcessor"];
-minigames_captainknowitall_ColourShiftProcessor.__super__ = tusk_Processor;
-minigames_captainknowitall_ColourShiftProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(event) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var c = entity.get(16);
-			var m = entity.get(8);
-			c.colourMain.set_saturation(c.easing(c.t,c.startSaturation,0 - c.startSaturation,c.fadeTime));
-			c.colourSecond.set_saturation(c.easing(c.t,c.startSaturation,0 - c.startSaturation,c.fadeTime));
-			c.colourMain.set_brightness(c.easing(c.t,c.mainStartBrightness,0 - c.mainStartBrightness,c.fadeTime));
-			c.colourSecond.set_brightness(c.easing(c.t,c.secondStartBrightness,0 - c.secondStartBrightness,c.fadeTime));
-			var topColour = c.colourMain.toRGB();
-			var botColour = c.colourSecond.toRGB();
-			var top;
-			var a = glm__$Vec4_Vec4_$Impl_$._new(topColour.get_red(),topColour.get_green(),topColour.get_blue(),255);
-			top = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a),255);
-			var bot;
-			var a1 = glm__$Vec4_Vec4_$Impl_$._new(botColour.get_red(),botColour.get_green(),botColour.get_blue(),255);
-			bot = glm__$Vec4_Vec4_$Impl_$.divideScalar(glm__$Vec4_Vec4_$Impl_$.clone(a1),255);
-			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[0],bot);
-			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[1],bot);
-			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[2],top);
-			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[3],top);
-			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[4],top);
-			glm__$Vec4_Vec4_$Impl_$.copy(m.mesh.colours[5],bot);
-			m.bufferDirty = true;
-			if(!c.active) continue;
-			c.t += event.dt;
-			if(c.t >= c.fadeTime) c.t = c.fadeTime;
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: minigames_captainknowitall_ColourShiftProcessor
-});
-var minigames_captainknowitall_PlayerAnswerComponent = function(player,timer) {
-	this.aiAnswerTimer = 0.1 + 0.9 * Math.random();
-	this.player = player;
-	this.answer = -1;
-	this.timer = timer;
-	tusk_PromiseComponent.call(this);
-};
-$hxClasses["minigames.captainknowitall.PlayerAnswerComponent"] = minigames_captainknowitall_PlayerAnswerComponent;
-minigames_captainknowitall_PlayerAnswerComponent.__name__ = ["minigames","captainknowitall","PlayerAnswerComponent"];
-minigames_captainknowitall_PlayerAnswerComponent.__super__ = tusk_PromiseComponent;
-minigames_captainknowitall_PlayerAnswerComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
-	hxSerialize: function(s) {
-		s.serialize(this.player);
-		s.serialize(this.answer);
-		s.serialize(this.timer);
-		s.serialize(this.aiAnswerTimer);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.player);
-		s.serialize(this.answer);
-		s.serialize(this.timer);
-		s.serialize(this.aiAnswerTimer);
-	}
-	,get__tid: function() {
-		return 13;
-	}
-	,__class__: minigames_captainknowitall_PlayerAnswerComponent
-});
-var minigames_captainknowitall_PlayerAnswerProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(13).include(1);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["minigames.captainknowitall.PlayerAnswerProcessor"] = minigames_captainknowitall_PlayerAnswerProcessor;
-minigames_captainknowitall_PlayerAnswerProcessor.__name__ = ["minigames","captainknowitall","PlayerAnswerProcessor"];
-minigames_captainknowitall_PlayerAnswerProcessor.__super__ = tusk_Processor;
-minigames_captainknowitall_PlayerAnswerProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(event) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var p = entity.get(13);
-			var t = entity.get(1);
-			if(p.timer.active && p.timer.t > 0) {
-				if(GameTracker.player[p.player].isCPU) {
-					p.aiAnswerTimer -= event.dt;
-					if(p.aiAnswerTimer <= 0) {
-						var dice = Math.random();
-						if(dice >= 0.15) {
-							tusk_debug_Log.log("AI answering correctly",tusk_debug_LogFunctions.Info,{ fileName : "PlayerAnswerProcessor.hx", lineNumber : 32, className : "minigames.captainknowitall.PlayerAnswerProcessor", methodName : "onUpdate"});
-							if(minigames_CaptainKnowItAll.aIsCorrect) p.answer = 0; else p.answer = 1;
-						} else {
-							tusk_debug_Log.log("AI answering incorrectly",tusk_debug_LogFunctions.Info,{ fileName : "PlayerAnswerProcessor.hx", lineNumber : 37, className : "minigames.captainknowitall.PlayerAnswerProcessor", methodName : "onUpdate"});
-							if(minigames_CaptainKnowItAll.aIsCorrect) p.answer = 1; else p.answer = 0;
-						}
-						p.timer.active = false;
-						p.finish();
-						p.aiAnswerTimer = 0.05 + 0.7 * Math.random();
-					}
-				} else if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[p.player].btnA)) {
-					p.timer.active = false;
-					p.answer = 0;
-					p.finish();
-				} else if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[p.player].btnB)) {
-					p.timer.active = false;
-					p.answer = 1;
-					p.finish();
-				}
-			} else if(p.timer.t <= 0 && !p.done._resolved) p.finish();
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: minigames_captainknowitall_PlayerAnswerProcessor
-});
-var minigames_captainknowitall_PlayerScoreComponent = function(player) {
-	this.player = player;
-	this.score = 0;
-	tusk_Component.call(this);
-};
-$hxClasses["minigames.captainknowitall.PlayerScoreComponent"] = minigames_captainknowitall_PlayerScoreComponent;
-minigames_captainknowitall_PlayerScoreComponent.__name__ = ["minigames","captainknowitall","PlayerScoreComponent"];
-minigames_captainknowitall_PlayerScoreComponent.__super__ = tusk_Component;
-minigames_captainknowitall_PlayerScoreComponent.prototype = $extend(tusk_Component.prototype,{
-	get__tid: function() {
-		return 15;
-	}
-	,hxSerialize: function(s) {
-		s.serialize(this.player);
-		s.serialize(this.score);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.player);
-		s.serialize(this.score);
-	}
-	,__class__: minigames_captainknowitall_PlayerScoreComponent
-});
-var minigames_captainknowitall_PlayerScoreProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(15).include(1);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["minigames.captainknowitall.PlayerScoreProcessor"] = minigames_captainknowitall_PlayerScoreProcessor;
-minigames_captainknowitall_PlayerScoreProcessor.__name__ = ["minigames","captainknowitall","PlayerScoreProcessor"];
-minigames_captainknowitall_PlayerScoreProcessor.__super__ = tusk_Processor;
-minigames_captainknowitall_PlayerScoreProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(event) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var p = entity.get(15);
-			var t = entity.get(1);
-			t.set_text("" + GameTracker.player[p.player].name + ": " + p.score);
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: minigames_captainknowitall_PlayerScoreProcessor
-});
-var minigames_captainknowitall_PlayerTimerComponent = function(t) {
-	this.active = false;
-	this.t = t;
-	tusk_Component.call(this);
-};
-$hxClasses["minigames.captainknowitall.PlayerTimerComponent"] = minigames_captainknowitall_PlayerTimerComponent;
-minigames_captainknowitall_PlayerTimerComponent.__name__ = ["minigames","captainknowitall","PlayerTimerComponent"];
-minigames_captainknowitall_PlayerTimerComponent.__super__ = tusk_Component;
-minigames_captainknowitall_PlayerTimerComponent.prototype = $extend(tusk_Component.prototype,{
-	get__tid: function() {
-		return 14;
-	}
-	,hxSerialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.active);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.active);
-	}
-	,__class__: minigames_captainknowitall_PlayerTimerComponent
-});
-var minigames_captainknowitall_PlayerTimerProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(14).include(1);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["minigames.captainknowitall.PlayerTimerProcessor"] = minigames_captainknowitall_PlayerTimerProcessor;
-minigames_captainknowitall_PlayerTimerProcessor.__name__ = ["minigames","captainknowitall","PlayerTimerProcessor"];
-minigames_captainknowitall_PlayerTimerProcessor.__super__ = tusk_Processor;
-minigames_captainknowitall_PlayerTimerProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(event) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var p = entity.get(14);
-			var t = entity.get(1);
-			if(p.active && p.t > 0) {
-				p.t -= event.dt;
-				if(p.t < 0) p.t = 0;
-			}
-			t.set_text(Util.floatToStringPrecision(p.t,3));
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: minigames_captainknowitall_PlayerTimerProcessor
-});
-var minigames_sledtillyouredead_AnimatedSledComponent = function(mesh,frames,frameRate) {
+var minigames_sledtillyouredead_AnimatedSledComponent = function(mesh,frames,frameRate,destroyOnDone) {
 	this.t = 0;
 	this.mesh = mesh;
 	this.t = 0;
@@ -6672,6 +3081,7 @@ var minigames_sledtillyouredead_AnimatedSledComponent = function(mesh,frames,fra
 	this.frames = frames;
 	this.uvxDelta = 1.0 / frames;
 	this.frameTime = 1.0 / frameRate;
+	if(destroyOnDone == null) this.destroyOnDone = false; else this.destroyOnDone = true;
 	tusk_Component.call(this);
 };
 $hxClasses["minigames.sledtillyouredead.AnimatedSledComponent"] = minigames_sledtillyouredead_AnimatedSledComponent;
@@ -6680,22 +3090,6 @@ minigames_sledtillyouredead_AnimatedSledComponent.__super__ = tusk_Component;
 minigames_sledtillyouredead_AnimatedSledComponent.prototype = $extend(tusk_Component.prototype,{
 	get__tid: function() {
 		return 25;
-	}
-	,hxSerialize: function(s) {
-		s.serialize(this.frameTime);
-		s.serialize(this.t);
-		s.serialize(this.frame);
-		s.serialize(this.frames);
-		s.serialize(this.mesh);
-		s.serialize(this.uvxDelta);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.frameTime);
-		s.serialize(this.t);
-		s.serialize(this.frame);
-		s.serialize(this.frames);
-		s.serialize(this.mesh);
-		s.serialize(this.uvxDelta);
 	}
 	,__class__: minigames_sledtillyouredead_AnimatedSledComponent
 });
@@ -6719,7 +3113,9 @@ minigames_sledtillyouredead_AnimatedSledProcessor.prototype = $extend(tusk_Proce
 			if(a.t >= a.frameTime) {
 				a.t = 0;
 				a.frame++;
-				if(a.frame >= a.frames) a.frame = 0;
+				if(a.frame >= a.frames) {
+					if(a.destroyOnDone) tusk_Tusk.removeEntity(entity); else a.frame = 0;
+				}
 				glm__$Vec2_Vec2_$Impl_$.set_x(m.mesh.uvs[0],a.frame * a.uvxDelta);
 				glm__$Vec2_Vec2_$Impl_$.set_x(m.mesh.uvs[1],(a.frame + 1) * a.uvxDelta);
 				glm__$Vec2_Vec2_$Impl_$.set_x(m.mesh.uvs[2],(a.frame + 1) * a.uvxDelta);
@@ -6733,9 +3129,6 @@ minigames_sledtillyouredead_AnimatedSledProcessor.prototype = $extend(tusk_Proce
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
 	,__class__: minigames_sledtillyouredead_AnimatedSledProcessor
 });
 var minigames_sledtillyouredead_CollisionComponent = function(radius,layer) {
@@ -6748,15 +3141,7 @@ $hxClasses["minigames.sledtillyouredead.CollisionComponent"] = minigames_sledtil
 minigames_sledtillyouredead_CollisionComponent.__name__ = ["minigames","sledtillyouredead","CollisionComponent"];
 minigames_sledtillyouredead_CollisionComponent.__super__ = tusk_PromiseComponent;
 minigames_sledtillyouredead_CollisionComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
-	hxSerialize: function(s) {
-		s.serialize(this.radius);
-		s.serialize(this.layer);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.radius);
-		s.serialize(this.layer);
-	}
-	,get__tid: function() {
+	get__tid: function() {
 		return 24;
 	}
 	,__class__: minigames_sledtillyouredead_CollisionComponent
@@ -6803,41 +3188,29 @@ minigames_sledtillyouredead_CollisionProcessor.prototype = $extend(tusk_Processo
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
 	,__class__: minigames_sledtillyouredead_CollisionProcessor
 });
-var minigames_sledtillyouredead_MovementComponent = function(player) {
-	this.player = player;
-	this.velocity = 0;
+var minigames_spacecops_BulletComponent = function(owner) {
+	this.owner = owner;
 	tusk_Component.call(this);
 };
-$hxClasses["minigames.sledtillyouredead.MovementComponent"] = minigames_sledtillyouredead_MovementComponent;
-minigames_sledtillyouredead_MovementComponent.__name__ = ["minigames","sledtillyouredead","MovementComponent"];
-minigames_sledtillyouredead_MovementComponent.__super__ = tusk_Component;
-minigames_sledtillyouredead_MovementComponent.prototype = $extend(tusk_Component.prototype,{
+$hxClasses["minigames.spacecops.BulletComponent"] = minigames_spacecops_BulletComponent;
+minigames_spacecops_BulletComponent.__name__ = ["minigames","spacecops","BulletComponent"];
+minigames_spacecops_BulletComponent.__super__ = tusk_Component;
+minigames_spacecops_BulletComponent.prototype = $extend(tusk_Component.prototype,{
 	get__tid: function() {
-		return 26;
+		return 28;
 	}
-	,hxSerialize: function(s) {
-		s.serialize(this.player);
-		s.serialize(this.velocity);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.player);
-		s.serialize(this.velocity);
-	}
-	,__class__: minigames_sledtillyouredead_MovementComponent
+	,__class__: minigames_spacecops_BulletComponent
 });
-var minigames_sledtillyouredead_MovementProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(26).include(5);
+var minigames_spacecops_BulletProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(28).include(5);
 	tusk_Processor.call(this,entities);
 };
-$hxClasses["minigames.sledtillyouredead.MovementProcessor"] = minigames_sledtillyouredead_MovementProcessor;
-minigames_sledtillyouredead_MovementProcessor.__name__ = ["minigames","sledtillyouredead","MovementProcessor"];
-minigames_sledtillyouredead_MovementProcessor.__super__ = tusk_Processor;
-minigames_sledtillyouredead_MovementProcessor.prototype = $extend(tusk_Processor.prototype,{
+$hxClasses["minigames.spacecops.BulletProcessor"] = minigames_spacecops_BulletProcessor;
+minigames_spacecops_BulletProcessor.__name__ = ["minigames","spacecops","BulletProcessor"];
+minigames_spacecops_BulletProcessor.__super__ = tusk_Processor;
+minigames_spacecops_BulletProcessor.prototype = $extend(tusk_Processor.prototype,{
 	onUpdate: function(event) {
 		var _g = 0;
 		var _g1 = this.entities;
@@ -6845,22 +3218,86 @@ minigames_sledtillyouredead_MovementProcessor.prototype = $extend(tusk_Processor
 			var entity = _g1[_g];
 			++_g;
 			var t = entity.get(5);
-			var m = entity.get(26);
+			var b = entity.get(28);
+			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
+			var _g2 = t.position;
+			glm__$Vec3_Vec3_$Impl_$.set_y(_g2,glm__$Vec3_Vec3_$Impl_$.get_y(_g2) + 512 * event.dt);
+			if(glm__$Vec3_Vec3_$Impl_$.get_y(t.position) >= tusk_Tusk.game.get_height() / 2 + 64) tusk_Tusk.removeEntity(entity);
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_spacecops_BulletProcessor
+});
+var minigames_spacecops_DestroyOnCollisionProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(24);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.spacecops.DestroyOnCollisionProcessor"] = minigames_spacecops_DestroyOnCollisionProcessor;
+minigames_spacecops_DestroyOnCollisionProcessor.__name__ = ["minigames","spacecops","DestroyOnCollisionProcessor"];
+minigames_spacecops_DestroyOnCollisionProcessor.__super__ = tusk_Processor;
+minigames_spacecops_DestroyOnCollisionProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var c = entity.get(24);
+			if(c.done._resolved) {
+				if(entity.hasType(28)) {
+					var b = entity.get(28);
+					minigames_SpaceCops.addToScore(b.owner);
+				}
+				if(entity.hasType(29)) {
+					var m = entity.get(29);
+					m.finish();
+				}
+				tusk_Tusk.removeEntity(entity);
+			}
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_spacecops_DestroyOnCollisionProcessor
+});
+var minigames_spacecops_MovementComponent = function(player) {
+	this.player = player;
+	this.velocity = 0;
+	this.aiTarget = 0;
+	tusk_Component.call(this);
+};
+$hxClasses["minigames.spacecops.MovementComponent"] = minigames_spacecops_MovementComponent;
+minigames_spacecops_MovementComponent.__name__ = ["minigames","spacecops","MovementComponent"];
+minigames_spacecops_MovementComponent.__super__ = tusk_Component;
+minigames_spacecops_MovementComponent.prototype = $extend(tusk_Component.prototype,{
+	get__tid: function() {
+		return 33;
+	}
+	,__class__: minigames_spacecops_MovementComponent
+});
+var minigames_spacecops_MovementProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(33).include(5);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.spacecops.MovementProcessor"] = minigames_spacecops_MovementProcessor;
+minigames_spacecops_MovementProcessor.__name__ = ["minigames","spacecops","MovementProcessor"];
+minigames_spacecops_MovementProcessor.__super__ = tusk_Processor;
+minigames_spacecops_MovementProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var t = entity.get(5);
+			var m = entity.get(33);
 			var axis = 0;
 			if(GameTracker.player[m.player].isCPU) {
-				var highestY = 32;
-				var _g2 = 0;
-				var _g3 = minigames_SledTillYoureDead.obstacles;
-				while(_g2 < _g3.length) {
-					var ot = _g3[_g2];
-					++_g2;
-					if(glm__$Vec3_Vec3_$Impl_$.get_y(ot.position) >= glm__$Vec3_Vec3_$Impl_$.get_y(t.position)) continue;
-					var delta = glm__$Vec3_Vec3_$Impl_$.get_x(t.position) - glm__$Vec3_Vec3_$Impl_$.get_x(ot.position);
-					if(glm__$Vec3_Vec3_$Impl_$.get_y(ot.position) > highestY && Math.abs(delta) < 64) {
-						if(delta > 0) axis = 1; else axis = -1;
-						highestY = glm__$Vec3_Vec3_$Impl_$.get_y(ot.position);
-					}
-				}
+				if(Math.abs(m.aiTarget - glm__$Vec3_Vec3_$Impl_$.get_x(t.position)) <= 32) m.aiTarget = -380 + 760 * Math.random();
+				if(m.aiTarget > glm__$Vec3_Vec3_$Impl_$.get_x(t.position)) axis = 1; else axis = -1;
 			} else {
 				if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[m.player].btnA)) axis -= 1.0;
 				if(tusk_Tusk.instance.app.input.keydown(GameTracker.player[m.player].btnB)) axis += 1.0;
@@ -6868,141 +3305,211 @@ minigames_sledtillyouredead_MovementProcessor.prototype = $extend(tusk_Processor
 			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
 			if(axis != 0) m.velocity += (GameTracker.player[m.player].isCPU?1024:1536) * event.dt; else m.velocity = 0;
 			m.velocity = tusk_math_MathTools.clamp(m.velocity,-384.,384);
-			var _g21 = t.position;
-			glm__$Vec3_Vec3_$Impl_$.set_x(_g21,glm__$Vec3_Vec3_$Impl_$.get_x(_g21) + m.velocity * event.dt * axis);
+			var _g2 = t.position;
+			glm__$Vec3_Vec3_$Impl_$.set_x(_g2,glm__$Vec3_Vec3_$Impl_$.get_x(_g2) + m.velocity * event.dt * axis);
 			glm__$Vec3_Vec3_$Impl_$.set_x(t.position,tusk_math_MathTools.clamp(glm__$Vec3_Vec3_$Impl_$.get_x(t.position),-380,380));
 		}
 	}
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: minigames_sledtillyouredead_MovementProcessor
+	,__class__: minigames_spacecops_MovementProcessor
 });
-var minigames_sledtillyouredead_ScrollComponent = function(clipY,repeat,resetY) {
-	this.clipY = clipY;
-	if(repeat == null) this.repeat = false; else this.repeat = repeat;
-	if(resetY == null) this.resetY = 0; else this.resetY = resetY;
-	tusk_Component.call(this);
+var minigames_spacecops_RailedMovementComponent = function(endT,xFunc,yFunc) {
+	this.endT = 0;
+	this.t = 0;
+	this.t = 0;
+	this.endT = endT;
+	this.xFunc = xFunc;
+	this.yFunc = yFunc;
+	tusk_PromiseComponent.call(this);
 };
-$hxClasses["minigames.sledtillyouredead.ScrollComponent"] = minigames_sledtillyouredead_ScrollComponent;
-minigames_sledtillyouredead_ScrollComponent.__name__ = ["minigames","sledtillyouredead","ScrollComponent"];
-minigames_sledtillyouredead_ScrollComponent.__super__ = tusk_Component;
-minigames_sledtillyouredead_ScrollComponent.prototype = $extend(tusk_Component.prototype,{
+$hxClasses["minigames.spacecops.RailedMovementComponent"] = minigames_spacecops_RailedMovementComponent;
+minigames_spacecops_RailedMovementComponent.__name__ = ["minigames","spacecops","RailedMovementComponent"];
+minigames_spacecops_RailedMovementComponent.__super__ = tusk_PromiseComponent;
+minigames_spacecops_RailedMovementComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
 	get__tid: function() {
-		return 23;
+		return 29;
 	}
-	,hxSerialize: function(s) {
-		s.serialize(this.clipY);
-		s.serialize(this.repeat);
-		s.serialize(this.resetY);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.clipY);
-		s.serialize(this.repeat);
-		s.serialize(this.resetY);
-	}
-	,__class__: minigames_sledtillyouredead_ScrollComponent
+	,__class__: minigames_spacecops_RailedMovementComponent
 });
-var minigames_sledtillyouredead_ScrollProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(23).include(5);
+var minigames_spacecops_RailedMovementProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(29).include(5);
 	tusk_Processor.call(this,entities);
 };
-$hxClasses["minigames.sledtillyouredead.ScrollProcessor"] = minigames_sledtillyouredead_ScrollProcessor;
-minigames_sledtillyouredead_ScrollProcessor.__name__ = ["minigames","sledtillyouredead","ScrollProcessor"];
-minigames_sledtillyouredead_ScrollProcessor.__super__ = tusk_Processor;
-minigames_sledtillyouredead_ScrollProcessor.prototype = $extend(tusk_Processor.prototype,{
+$hxClasses["minigames.spacecops.RailedMovementProcessor"] = minigames_spacecops_RailedMovementProcessor;
+minigames_spacecops_RailedMovementProcessor.__name__ = ["minigames","spacecops","RailedMovementProcessor"];
+minigames_spacecops_RailedMovementProcessor.__super__ = tusk_Processor;
+minigames_spacecops_RailedMovementProcessor.prototype = $extend(tusk_Processor.prototype,{
 	onUpdate: function(event) {
-		minigames_sledtillyouredead_ScrollProcessor.scrollSpeed += 16 * event.dt;
 		var _g = 0;
 		var _g1 = this.entities;
 		while(_g < _g1.length) {
 			var entity = _g1[_g];
 			++_g;
 			var t = entity.get(5);
-			var s = entity.get(23);
-			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
-			var _g2 = t.position;
-			glm__$Vec3_Vec3_$Impl_$.set_y(_g2,glm__$Vec3_Vec3_$Impl_$.get_y(_g2) + minigames_sledtillyouredead_ScrollProcessor.scrollSpeed * event.dt);
-			if(glm__$Vec3_Vec3_$Impl_$.get_y(t.position) >= s.clipY) {
-				if(s.repeat) {
-					var _g21 = t.position;
-					glm__$Vec3_Vec3_$Impl_$.set_y(_g21,glm__$Vec3_Vec3_$Impl_$.get_y(_g21) - s.resetY);
-				} else {
-					tusk_Tusk.removeEntity(entity);
-					HxOverrides.remove(minigames_SledTillYoureDead.obstacles,t);
-				}
+			var r = entity.get(29);
+			r.t += event.dt;
+			if(r.t >= r.endT) {
+				tusk_Tusk.removeEntity(entity);
+				if(!r.done._resolved) r.finish();
 			}
+			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
+			glm__$Vec3_Vec3_$Impl_$.set_x(t.position,r.xFunc(r.t,r.endT));
+			glm__$Vec3_Vec3_$Impl_$.set_y(t.position,r.yFunc(r.t,r.endT));
 		}
 	}
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: minigames_sledtillyouredead_ScrollProcessor
+	,__class__: minigames_spacecops_RailedMovementProcessor
 });
-var minigames_sledtillyouredead_SpawnComponent = function(spawn) {
-	this.spawnAccumulator = 0;
-	this.spawn = spawn;
+var minigames_spacecops_ScrollComponent = function(clipY,resetY) {
+	this.clipY = clipY;
+	this.resetY = resetY;
 	tusk_Component.call(this);
 };
-$hxClasses["minigames.sledtillyouredead.SpawnComponent"] = minigames_sledtillyouredead_SpawnComponent;
-minigames_sledtillyouredead_SpawnComponent.__name__ = ["minigames","sledtillyouredead","SpawnComponent"];
-minigames_sledtillyouredead_SpawnComponent.__super__ = tusk_Component;
-minigames_sledtillyouredead_SpawnComponent.prototype = $extend(tusk_Component.prototype,{
+$hxClasses["minigames.spacecops.ScrollComponent"] = minigames_spacecops_ScrollComponent;
+minigames_spacecops_ScrollComponent.__name__ = ["minigames","spacecops","ScrollComponent"];
+minigames_spacecops_ScrollComponent.__super__ = tusk_Component;
+minigames_spacecops_ScrollComponent.prototype = $extend(tusk_Component.prototype,{
 	get__tid: function() {
-		return 27;
+		return 32;
 	}
-	,hxSerialize: function(s) {
-		s.serialize(this.spawn);
-		s.serialize(this.spawnAccumulator);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.spawn);
-		s.serialize(this.spawnAccumulator);
-	}
-	,__class__: minigames_sledtillyouredead_SpawnComponent
+	,__class__: minigames_spacecops_ScrollComponent
 });
-var minigames_sledtillyouredead_SpawnProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(27);
+var minigames_spacecops_ScrollProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(32).include(5);
 	tusk_Processor.call(this,entities);
 };
-$hxClasses["minigames.sledtillyouredead.SpawnProcessor"] = minigames_sledtillyouredead_SpawnProcessor;
-minigames_sledtillyouredead_SpawnProcessor.__name__ = ["minigames","sledtillyouredead","SpawnProcessor"];
-minigames_sledtillyouredead_SpawnProcessor.__super__ = tusk_Processor;
-minigames_sledtillyouredead_SpawnProcessor.prototype = $extend(tusk_Processor.prototype,{
+$hxClasses["minigames.spacecops.ScrollProcessor"] = minigames_spacecops_ScrollProcessor;
+minigames_spacecops_ScrollProcessor.__name__ = ["minigames","spacecops","ScrollProcessor"];
+minigames_spacecops_ScrollProcessor.__super__ = tusk_Processor;
+minigames_spacecops_ScrollProcessor.prototype = $extend(tusk_Processor.prototype,{
 	onUpdate: function(event) {
-		minigames_sledtillyouredead_SpawnProcessor.spawnRate += 0.5 * event.dt;
 		var _g = 0;
 		var _g1 = this.entities;
 		while(_g < _g1.length) {
 			var entity = _g1[_g];
 			++_g;
-			var s = entity.get(27);
-			var obstaclesToSpawn = minigames_sledtillyouredead_SpawnProcessor.spawnRate * event.dt | 0;
-			if(s.spawnAccumulator >= 1.0) {
-				obstaclesToSpawn += 1;
-				s.spawnAccumulator -= 1.0;
-			}
-			s.spawnAccumulator += minigames_sledtillyouredead_SpawnProcessor.spawnRate * event.dt - obstaclesToSpawn;
-			var _g2 = 0;
-			while(_g2 < obstaclesToSpawn) {
-				var i = _g2++;
-				s.spawn();
+			var t = entity.get(5);
+			var s = entity.get(32);
+			glm__$Vec3_Vec3_$Impl_$.copy(t.lastPosition,t.position);
+			var _g2 = t.position;
+			glm__$Vec3_Vec3_$Impl_$.set_y(_g2,glm__$Vec3_Vec3_$Impl_$.get_y(_g2) - 256 * event.dt);
+			if(glm__$Vec3_Vec3_$Impl_$.get_y(t.position) <= s.clipY) {
+				var _g21 = t.position;
+				glm__$Vec3_Vec3_$Impl_$.set_y(_g21,glm__$Vec3_Vec3_$Impl_$.get_y(_g21) + s.resetY);
 			}
 		}
 	}
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	,__class__: minigames_spacecops_ScrollProcessor
+});
+var minigames_spacecops_ShooterComponent = function(player,spawnBullet) {
+	this.t = 0;
+	this.t = 0;
+	this.player = player;
+	this.spawnBullet = spawnBullet;
+	tusk_Component.call(this);
+};
+$hxClasses["minigames.spacecops.ShooterComponent"] = minigames_spacecops_ShooterComponent;
+minigames_spacecops_ShooterComponent.__name__ = ["minigames","spacecops","ShooterComponent"];
+minigames_spacecops_ShooterComponent.__super__ = tusk_Component;
+minigames_spacecops_ShooterComponent.prototype = $extend(tusk_Component.prototype,{
+	get__tid: function() {
+		return 31;
 	}
-	,__class__: minigames_sledtillyouredead_SpawnProcessor
+	,__class__: minigames_spacecops_ShooterComponent
+});
+var minigames_spacecops_ShooterProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(31).include(5);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.spacecops.ShooterProcessor"] = minigames_spacecops_ShooterProcessor;
+minigames_spacecops_ShooterProcessor.__name__ = ["minigames","spacecops","ShooterProcessor"];
+minigames_spacecops_ShooterProcessor.__super__ = tusk_Processor;
+minigames_spacecops_ShooterProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var t = entity.get(5);
+			var s = entity.get(31);
+			s.t += event.dt;
+			if(s.t >= 0.25) {
+				s.t = 0;
+				s.spawnBullet(s.player,glm__$Vec3_Vec3_$Impl_$.get_x(t.position),glm__$Vec3_Vec3_$Impl_$.get_y(t.position) + 32);
+			}
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_spacecops_ShooterProcessor
+});
+var minigames_spacecops_WaveComponent = function(period,count,spawnFunc,life,xIndex,yIndex) {
+	this.numDead = 0;
+	this.t = 0;
+	this.period = period;
+	this.i = 0;
+	this.count = count;
+	this.numDead = 0;
+	this.spawnFunc = spawnFunc;
+	this.life = life;
+	this.xIndex = xIndex;
+	this.yIndex = yIndex;
+	tusk_PromiseComponent.call(this);
+};
+$hxClasses["minigames.spacecops.WaveComponent"] = minigames_spacecops_WaveComponent;
+minigames_spacecops_WaveComponent.__name__ = ["minigames","spacecops","WaveComponent"];
+minigames_spacecops_WaveComponent.__super__ = tusk_PromiseComponent;
+minigames_spacecops_WaveComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
+	get__tid: function() {
+		return 30;
+	}
+	,__class__: minigames_spacecops_WaveComponent
+});
+var minigames_spacecops_WaveProcessor = function(entities) {
+	this.matcher = new tusk_Matcher().include(30);
+	tusk_Processor.call(this,entities);
+};
+$hxClasses["minigames.spacecops.WaveProcessor"] = minigames_spacecops_WaveProcessor;
+minigames_spacecops_WaveProcessor.__name__ = ["minigames","spacecops","WaveProcessor"];
+minigames_spacecops_WaveProcessor.__super__ = tusk_Processor;
+minigames_spacecops_WaveProcessor.prototype = $extend(tusk_Processor.prototype,{
+	onUpdate: function(event) {
+		var _g = 0;
+		var _g1 = this.entities;
+		while(_g < _g1.length) {
+			var entity = _g1[_g];
+			++_g;
+			var w = [entity.get(30)];
+			if(w[0].numDead >= w[0].count) {
+				tusk_Tusk.removeEntity(entity);
+				w[0].finish();
+			}
+			if(w[0].i < w[0].count) {
+				if(w[0].t >= w[0].period) {
+					w[0].i++;
+					w[0].t = 0;
+					w[0].spawnFunc(w[0].life,w[0].xIndex,w[0].yIndex).then((function(w) {
+						return function(_) {
+							w[0].numDead++;
+						};
+					})(w));
+				} else w[0].t += event.dt;
+			}
+		}
+	}
+	,___connectRoutes: function() {
+		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
+	}
+	,__class__: minigames_spacecops_WaveProcessor
 });
 var partials_Partial = function() { };
 $hxClasses["partials.Partial"] = partials_Partial;
@@ -7105,14 +3612,6 @@ promhx_base_AsyncBase.pipeLink = function(current,ret,f) {
 		ret.handleError(e);
 	}
 };
-promhx_base_AsyncBase.allResolved = function($as) {
-	var $it0 = $iterator($as)();
-	while( $it0.hasNext() ) {
-		var a = $it0.next();
-		if(!a._resolved) return false;
-	}
-	return true;
-};
 promhx_base_AsyncBase.allFulfilled = function($as) {
 	var $it0 = $iterator($as)();
 	while( $it0.hasNext() ) {
@@ -7125,28 +3624,6 @@ promhx_base_AsyncBase.prototype = {
 	catchError: function(f) {
 		this._error.push(f);
 		return this;
-	}
-	,errorThen: function(f) {
-		this._errorMap = f;
-		return this;
-	}
-	,isResolved: function() {
-		return this._resolved;
-	}
-	,isErrored: function() {
-		return this._errored;
-	}
-	,isErrorHandled: function() {
-		return this._error.length > 0;
-	}
-	,isErrorPending: function() {
-		return this._errorPending;
-	}
-	,isFulfilled: function() {
-		return this._fulfilled;
-	}
-	,isPending: function() {
-		return this._pending;
 	}
 	,handleResolve: function(val) {
 		this._resolve(val);
@@ -7220,31 +3697,6 @@ promhx_base_AsyncBase.prototype = {
 			promhx_base_EventLoop.continueOnNextLoop();
 		}
 	}
-	,then: function(f) {
-		var ret = new promhx_base_AsyncBase();
-		promhx_base_AsyncBase.link(this,ret,f);
-		return ret;
-	}
-	,unlink: function(to) {
-		var _g = this;
-		promhx_base_EventLoop.queue.add(function() {
-			_g._update = _g._update.filter(function(x) {
-				return x.async != to;
-			});
-		});
-		promhx_base_EventLoop.continueOnNextLoop();
-	}
-	,isLinked: function(to) {
-		var updated = false;
-		var _g = 0;
-		var _g1 = this._update;
-		while(_g < _g1.length) {
-			var u = _g1[_g];
-			++_g;
-			if(u.async == to) return true;
-		}
-		return updated;
-	}
 	,__class__: promhx_base_AsyncBase
 };
 var promhx_Deferred = $hx_exports.promhx.Deferred = function() {
@@ -7263,12 +3715,6 @@ promhx_Deferred.prototype = $extend(promhx_base_AsyncBase.prototype,{
 	,promise: function() {
 		return new promhx_Promise(this);
 	}
-	,stream: function() {
-		return new promhx_Stream(this);
-	}
-	,publicStream: function() {
-		return new promhx_PublicStream(this);
-	}
 	,__class__: promhx_Deferred
 });
 var promhx_Promise = $hx_exports.promhx.Promise = function(d) {
@@ -7282,21 +3728,9 @@ promhx_Promise.whenAll = function(itb) {
 	promhx_base_AsyncBase.linkAll(itb,ret);
 	return ret;
 };
-promhx_Promise.promise = function(_val) {
-	var ret = new promhx_Promise();
-	ret.handleResolve(_val);
-	return ret;
-};
 promhx_Promise.__super__ = promhx_base_AsyncBase;
 promhx_Promise.prototype = $extend(promhx_base_AsyncBase.prototype,{
-	isRejected: function() {
-		return this._rejected;
-	}
-	,reject: function(e) {
-		this._rejected = true;
-		this.handleError(e);
-	}
-	,handleResolve: function(val) {
+	handleResolve: function(val) {
 		if(this._resolved) {
 			var msg = "Promise has already been resolved";
 			throw new js__$Boot_HaxeError(promhx_error_PromiseError.AlreadyResolved(msg));
@@ -7308,18 +3742,6 @@ promhx_Promise.prototype = $extend(promhx_base_AsyncBase.prototype,{
 		promhx_base_AsyncBase.link(this,ret,f);
 		return ret;
 	}
-	,unlink: function(to) {
-		var _g = this;
-		promhx_base_EventLoop.queue.add(function() {
-			if(!_g._fulfilled) {
-				var msg = "Downstream Promise is not fullfilled";
-				_g.handleError(promhx_error_PromiseError.DownstreamNotFullfilled(msg));
-			} else _g._update = _g._update.filter(function(x) {
-				return x.async != to;
-			});
-		});
-		promhx_base_EventLoop.continueOnNextLoop();
-	}
 	,handleError: function(error) {
 		this._rejected = true;
 		this._handleError(error);
@@ -7329,204 +3751,7 @@ promhx_Promise.prototype = $extend(promhx_base_AsyncBase.prototype,{
 		promhx_base_AsyncBase.pipeLink(this,ret,f);
 		return ret;
 	}
-	,errorPipe: function(f) {
-		var ret = new promhx_Promise();
-		this.catchError(function(e) {
-			var piped = f(e);
-			piped.then($bind(ret,ret._resolve));
-		});
-		this.then($bind(ret,ret._resolve));
-		return ret;
-	}
 	,__class__: promhx_Promise
-});
-var promhx_Stream = $hx_exports.promhx.Stream = function(d) {
-	promhx_base_AsyncBase.call(this,d);
-	this._end_deferred = new promhx_Deferred();
-	this._end_promise = this._end_deferred.promise();
-};
-$hxClasses["promhx.Stream"] = promhx_Stream;
-promhx_Stream.__name__ = ["promhx","Stream"];
-promhx_Stream.foreach = function(itb) {
-	var s = new promhx_Stream();
-	var $it0 = $iterator(itb)();
-	while( $it0.hasNext() ) {
-		var i = $it0.next();
-		s.handleResolve(i);
-	}
-	s.end();
-	return s;
-};
-promhx_Stream.wheneverAll = function(itb) {
-	var ret = new promhx_Stream();
-	promhx_base_AsyncBase.linkAll(itb,ret);
-	return ret;
-};
-promhx_Stream.concatAll = function(itb) {
-	var ret = new promhx_Stream();
-	var $it0 = $iterator(itb)();
-	while( $it0.hasNext() ) {
-		var i = $it0.next();
-		ret.concat(i);
-	}
-	return ret;
-};
-promhx_Stream.mergeAll = function(itb) {
-	var ret = new promhx_Stream();
-	var $it0 = $iterator(itb)();
-	while( $it0.hasNext() ) {
-		var i = $it0.next();
-		ret.merge(i);
-	}
-	return ret;
-};
-promhx_Stream.stream = function(_val) {
-	var ret = new promhx_Stream();
-	ret.handleResolve(_val);
-	return ret;
-};
-promhx_Stream.__super__ = promhx_base_AsyncBase;
-promhx_Stream.prototype = $extend(promhx_base_AsyncBase.prototype,{
-	then: function(f) {
-		var ret = new promhx_Stream();
-		promhx_base_AsyncBase.link(this,ret,f);
-		this._end_promise.then(function(x) {
-			ret.end();
-		});
-		return ret;
-	}
-	,detachStream: function(str) {
-		var filtered = [];
-		var removed = false;
-		var _g = 0;
-		var _g1 = this._update;
-		while(_g < _g1.length) {
-			var u = _g1[_g];
-			++_g;
-			if(u.async == str) removed = true; else filtered.push(u);
-		}
-		this._update = filtered;
-		return removed;
-	}
-	,first: function() {
-		var s = new promhx_Promise();
-		this.then(function(x) {
-			if(!s._resolved) s.handleResolve(x);
-		});
-		return s;
-	}
-	,handleResolve: function(val) {
-		if(!this._end && !this._pause) this._resolve(val);
-	}
-	,pause: function(set) {
-		if(set == null) set = !this._pause;
-		this._pause = set;
-	}
-	,pipe: function(f) {
-		var ret = new promhx_Stream();
-		promhx_base_AsyncBase.pipeLink(this,ret,f);
-		this._end_promise.then(function(x) {
-			ret.end();
-		});
-		return ret;
-	}
-	,errorPipe: function(f) {
-		var ret = new promhx_Stream();
-		this.catchError(function(e) {
-			var piped = f(e);
-			piped.then($bind(ret,ret._resolve));
-			piped._end_promise.then(($_=ret._end_promise,$bind($_,$_._resolve)));
-		});
-		this.then($bind(ret,ret._resolve));
-		this._end_promise.then(function(x) {
-			ret.end();
-		});
-		return ret;
-	}
-	,handleEnd: function() {
-		if(this._pending) {
-			promhx_base_EventLoop.queue.add($bind(this,this.handleEnd));
-			promhx_base_EventLoop.continueOnNextLoop();
-		} else if(this._end_promise._resolved) return; else {
-			this._end = true;
-			var o;
-			if(this._resolved) o = haxe_ds_Option.Some(this._val); else o = haxe_ds_Option.None;
-			this._end_promise.handleResolve(o);
-			this._update = [];
-			this._error = [];
-		}
-	}
-	,end: function() {
-		promhx_base_EventLoop.queue.add($bind(this,this.handleEnd));
-		promhx_base_EventLoop.continueOnNextLoop();
-		return this;
-	}
-	,endThen: function(f) {
-		return this._end_promise.then(f);
-	}
-	,filter: function(f) {
-		var ret = new promhx_Stream();
-		this._update.push({ async : ret, linkf : function(x) {
-			if(f(x)) ret.handleResolve(x);
-		}});
-		promhx_base_AsyncBase.immediateLinkUpdate(this,ret,function(x1) {
-			return x1;
-		});
-		return ret;
-	}
-	,concat: function(s) {
-		var ret = new promhx_Stream();
-		this._update.push({ async : ret, linkf : $bind(ret,ret.handleResolve)});
-		promhx_base_AsyncBase.immediateLinkUpdate(this,ret,function(x) {
-			return x;
-		});
-		this._end_promise.then(function(_) {
-			s.pipe(function(x1) {
-				ret.handleResolve(x1);
-				return ret;
-			});
-			s._end_promise.then(function(_1) {
-				ret.end();
-			});
-		});
-		return ret;
-	}
-	,merge: function(s) {
-		var ret = new promhx_Stream();
-		this._update.push({ async : ret, linkf : $bind(ret,ret.handleResolve)});
-		s._update.push({ async : ret, linkf : $bind(ret,ret.handleResolve)});
-		promhx_base_AsyncBase.immediateLinkUpdate(this,ret,function(x) {
-			return x;
-		});
-		promhx_base_AsyncBase.immediateLinkUpdate(s,ret,function(x1) {
-			return x1;
-		});
-		return ret;
-	}
-	,__class__: promhx_Stream
-});
-var promhx_PublicStream = $hx_exports.promhx.PublicStream = function(def) {
-	promhx_Stream.call(this,def);
-};
-$hxClasses["promhx.PublicStream"] = promhx_PublicStream;
-promhx_PublicStream.__name__ = ["promhx","PublicStream"];
-promhx_PublicStream.publicstream = function(val) {
-	var ps = new promhx_PublicStream();
-	ps.handleResolve(val);
-	return ps;
-};
-promhx_PublicStream.__super__ = promhx_Stream;
-promhx_PublicStream.prototype = $extend(promhx_Stream.prototype,{
-	resolve: function(val) {
-		this.handleResolve(val);
-	}
-	,throwError: function(e) {
-		this.handleError(e);
-	}
-	,update: function(val) {
-		this.handleResolve(val);
-	}
-	,__class__: promhx_PublicStream
 });
 var promhx_base_EventLoop = function() { };
 $hxClasses["promhx.base.EventLoop"] = promhx_base_EventLoop;
@@ -7534,22 +3759,6 @@ promhx_base_EventLoop.__name__ = ["promhx","base","EventLoop"];
 promhx_base_EventLoop.enqueue = function(eqf) {
 	promhx_base_EventLoop.queue.add(eqf);
 	promhx_base_EventLoop.continueOnNextLoop();
-};
-promhx_base_EventLoop.set_nextLoop = function(f) {
-	if(promhx_base_EventLoop.nextLoop != null) throw new js__$Boot_HaxeError("nextLoop has already been set"); else promhx_base_EventLoop.nextLoop = f;
-	return promhx_base_EventLoop.nextLoop;
-};
-promhx_base_EventLoop.queueEmpty = function() {
-	return promhx_base_EventLoop.queue.isEmpty();
-};
-promhx_base_EventLoop.finish = function(max_iterations) {
-	if(max_iterations == null) max_iterations = 1000;
-	var fn = null;
-	while(max_iterations-- > 0 && (fn = promhx_base_EventLoop.queue.pop()) != null) fn();
-	return promhx_base_EventLoop.queue.isEmpty();
-};
-promhx_base_EventLoop.clear = function() {
-	promhx_base_EventLoop.queue = new List();
 };
 promhx_base_EventLoop.f = function() {
 	var fn = promhx_base_EventLoop.queue.pop();
@@ -7690,7 +3899,6 @@ var snow_Snow = function() {
 	this.was_ready = false;
 	this.has_shutdown = false;
 	this.shutting_down = false;
-	this.debug = true;
 	this.os = "unknown";
 	this.platform = "unknown";
 	this.freeze = false;
@@ -7703,12 +3911,6 @@ $hxClasses["snow.Snow"] = snow_Snow;
 snow_Snow.__name__ = ["snow","Snow"];
 snow_Snow.next = function(func) {
 	if(func != null) snow_Snow.next_queue.push(func);
-};
-snow_Snow.defer = function(func) {
-	if(func != null) snow_Snow.defer_queue.push(func);
-};
-snow_Snow.get_timestamp = function() {
-	return snow_Snow.core.timestamp();
 };
 snow_Snow.prototype = {
 	shutdown: function() {
@@ -7806,7 +4008,7 @@ snow_Snow.prototype = {
 			this.shutdown();
 			break;
 		case 4:
-			haxe_Log.trace("     i / snow / " + "Goodbye.",{ fileName : "Snow.hx", lineNumber : 351, className : "snow.Snow", methodName : "on_event"});
+			console.log("     i / snow / " + "Goodbye.");
 			break;
 		default:
 		} else {
@@ -7882,17 +4084,6 @@ snow_Snow.prototype = {
 		var conf = { fullscreen_desktop : true, fullscreen : false, borderless : false, resizable : true, x : 536805376, y : 536805376, width : 960, height : 640, title : "snow app"};
 		return conf;
 	}
-	,set_freeze: function(_freeze) {
-		this.freeze = _freeze;
-		if(_freeze) this.audio.suspend(); else this.audio.resume();
-		return this.freeze;
-	}
-	,get_time: function() {
-		return snow_Snow.core.timestamp();
-	}
-	,get_uniqueid: function() {
-		return this.make_uniqueid();
-	}
 	,make_uniqueid: function(val) {
 		if(val == null) val = Std.random(2147483647);
 		var r = val % 62 | 0;
@@ -7912,28 +4103,7 @@ snow_Snow.prototype = {
 			return $r;
 		}(this)):(r == null?"null":"" + r).charAt(0));
 	}
-	,typename: function(t) {
-		return Type.getClassName(Type.getClass(t));
-	}
 	,__class__: snow_Snow
-};
-var snow_api__$Debug_LogError = $hxClasses["snow.api._Debug.LogError"] = { __ename__ : ["snow","api","_Debug","LogError"], __constructs__ : ["RequireString"] };
-snow_api__$Debug_LogError.RequireString = function(detail) { var $x = ["RequireString",0,detail]; $x.__enum__ = snow_api__$Debug_LogError; $x.toString = $estr; return $x; };
-var snow_api_Debug = function() { };
-$hxClasses["snow.api.Debug"] = snow_api_Debug;
-snow_api_Debug.__name__ = ["snow","api","Debug"];
-snow_api_Debug._get_spacing = function(_file) {
-	var _spaces = "";
-	var _trace_length = _file.length + 4;
-	var _diff = snow_api_Debug._log_width - _trace_length;
-	if(_diff > 0) {
-		var _g = 0;
-		while(_g < _diff) {
-			var i = _g++;
-			_spaces += " ";
-		}
-	}
-	return _spaces;
 };
 var snow_api_DebugError = $hxClasses["snow.api.DebugError"] = { __ename__ : ["snow","api","DebugError"], __constructs__ : ["assertion","null_assertion"] };
 snow_api_DebugError.assertion = function(expr) { var $x = ["assertion",0,expr]; $x.__enum__ = snow_api_DebugError; $x.toString = $estr; return $x; };
@@ -7952,69 +4122,6 @@ var snow_api_Promise = function(func) {
 };
 $hxClasses["snow.api.Promise"] = snow_api_Promise;
 snow_api_Promise.__name__ = ["snow","api","Promise"];
-snow_api_Promise.all = function(list) {
-	var _g = 0;
-	while(_g < list.length) {
-		var item = list[_g];
-		++_g;
-		if(item == null) throw new js__$Boot_HaxeError("Promise.all handed an array with null items within it");
-	}
-	return new snow_api_Promise(function(ok,no) {
-		var current = 0;
-		var total = list.length;
-		var fulfill_result = [];
-		var reject_result = null;
-		var all_state = 0;
-		var single_ok = function(index,val) {
-			if(all_state != 0) return;
-			current++;
-			fulfill_result[index] = val;
-			if(total == current) {
-				all_state = 1;
-				ok(fulfill_result);
-			}
-		};
-		var single_err = function(val1) {
-			if(all_state != 0) return;
-			all_state = 2;
-			reject_result = val1;
-			no(reject_result);
-		};
-		var index1 = 0;
-		var _g1 = 0;
-		while(_g1 < list.length) {
-			var promise = list[_g1];
-			++_g1;
-			promise.then((function(f,a1) {
-				return function(a2) {
-					f(a1,a2);
-				};
-			})(single_ok,index1)).error(single_err);
-			index1++;
-		}
-	});
-};
-snow_api_Promise.race = function(list) {
-	return new snow_api_Promise(function(ok,no) {
-		var settled = false;
-		var single_ok = function(val) {
-			if(settled) return;
-			settled = true;
-			ok(val);
-		};
-		var single_err = function(val1) {
-			if(settled) return;
-			settled = true;
-			no(val1);
-		};
-		var _g = 0;
-		while(_g < list.length) {
-			var promise = list[_g];
-			++_g;
-			promise.then(single_ok).error(single_err);
-		}
-	});
-};
 snow_api_Promise.reject = function(reason) {
 	return new snow_api_Promise(function(ok,no) {
 		no(reason);
@@ -8054,9 +4161,6 @@ snow_api_Promise.prototype = {
 			return snow_api_Promise.reject(this.result);
 		}
 	}
-	,toString: function() {
-		return "Promise { state:" + this.state_string() + ", result:" + Std.string(this.result) + " }";
-	}
 	,add_settle: function(f) {
 		if(this.state == 0) this.settle_reactions.push(f); else snow_api_Promises.defer(f,this.result);
 	}
@@ -8068,35 +4172,11 @@ snow_api_Promise.prototype = {
 			});
 		});
 	}
-	,new_linked_resolve: function() {
-		var _g = this;
-		return new snow_api_Promise(function(f,r) {
-			_g.add_settle(function(val) {
-				f(val);
-			});
-		});
-	}
-	,new_linked_reject: function() {
-		var _g = this;
-		return new snow_api_Promise(function(f,r) {
-			_g.add_settle(function(val) {
-				r(val);
-			});
-		});
-	}
 	,new_linked_resolve_empty: function() {
 		var _g = this;
 		return new snow_api_Promise(function(f,r) {
 			_g.add_settle(function(_) {
 				f();
-			});
-		});
-	}
-	,new_linked_reject_empty: function() {
-		var _g = this;
-		return new snow_api_Promise(function(f,r) {
-			_g.add_settle(function(_) {
-				r();
 			});
 		});
 	}
@@ -8133,29 +4213,6 @@ snow_api_Promise.prototype = {
 			fn(this.result);
 		}
 	}
-	,onexception: function(err) {
-		var _g = this;
-		this.add_settle(function(_) {
-			if(!_g.was_caught) {
-				if(_g.state == 2) {
-					throw new js__$Boot_HaxeError(snow_api_PromiseError.UnhandledPromiseRejection(_g.toString()));
-					return;
-				}
-			}
-		});
-		if(this.state == 0) this.onreject(err);
-	}
-	,state_string: function() {
-		var _g = this.state;
-		switch(_g) {
-		case 0:
-			return "pending";
-		case 1:
-			return "fulfilled";
-		case 2:
-			return "rejected";
-		}
-	}
 	,__class__: snow_api_Promise
 };
 var snow_api_Promises = function() { };
@@ -8179,22 +4236,9 @@ snow_api_Promises.queue = function(f) {
 	if(f == null) return;
 	snow_api_Promises.calls.push(f);
 };
-var snow_api_PromiseError = $hxClasses["snow.api.PromiseError"] = { __ename__ : ["snow","api","PromiseError"], __constructs__ : ["UnhandledPromiseRejection"] };
-snow_api_PromiseError.UnhandledPromiseRejection = function(err) { var $x = ["UnhandledPromiseRejection",0,err]; $x.__enum__ = snow_api_PromiseError; $x.toString = $estr; return $x; };
-var snow_api_Timer = function(_time) {
-	this.time = _time;
-	snow_api_Timer.running_timers.push(this);
-	this.fire_at = snow_Snow.core.timestamp() + this.time;
-	this.running = true;
-};
+var snow_api_Timer = function() { };
 $hxClasses["snow.api.Timer"] = snow_api_Timer;
 snow_api_Timer.__name__ = ["snow","api","Timer"];
-snow_api_Timer.measure = function(f,pos) {
-	var t0 = snow_Snow.core.timestamp();
-	var r = f();
-	haxe_Log.trace(snow_Snow.core.timestamp() - t0 + "s",pos);
-	return r;
-};
 snow_api_Timer.update = function() {
 	var now = snow_Snow.core.timestamp();
 	var _g = 0;
@@ -8210,68 +4254,10 @@ snow_api_Timer.update = function() {
 		}
 	}
 };
-snow_api_Timer.delay = function(_time,_f) {
-	var t = new snow_api_Timer(_time);
-	t.run = function() {
-		t.stop();
-		_f();
-	};
-	return t;
-};
 snow_api_Timer.prototype = {
 	run: function() {
 	}
-	,stop: function() {
-		if(this.running) {
-			this.running = false;
-			HxOverrides.remove(snow_api_Timer.running_timers,this);
-		}
-	}
 	,__class__: snow_api_Timer
-};
-var snow_api_buffers__$Float32Array_Float32Array_$Impl_$ = {};
-$hxClasses["snow.api.buffers._Float32Array.Float32Array_Impl_"] = snow_api_buffers__$Float32Array_Float32Array_$Impl_$;
-snow_api_buffers__$Float32Array_Float32Array_$Impl_$.__name__ = ["snow","api","buffers","_Float32Array","Float32Array_Impl_"];
-snow_api_buffers__$Float32Array_Float32Array_$Impl_$.fromBytes = function(bytes,byteOffset,len) {
-	if(byteOffset == null) byteOffset = 0;
-	if(byteOffset == null) return new Float32Array(bytes.b.bufferValue);
-	if(len == null) return new Float32Array(bytes.b.bufferValue,byteOffset);
-	return new Float32Array(bytes.b.bufferValue,byteOffset,len);
-};
-snow_api_buffers__$Float32Array_Float32Array_$Impl_$.toBytes = function(this1) {
-	return new haxe_io_Bytes(new Uint8Array(this1.buffer));
-};
-snow_api_buffers__$Float32Array_Float32Array_$Impl_$.toString = function(this1) {
-	return "Float32Array [byteLength:" + this1.byteLength + ", length:" + this1.length + "]";
-};
-var snow_api_buffers__$Int32Array_Int32Array_$Impl_$ = {};
-$hxClasses["snow.api.buffers._Int32Array.Int32Array_Impl_"] = snow_api_buffers__$Int32Array_Int32Array_$Impl_$;
-snow_api_buffers__$Int32Array_Int32Array_$Impl_$.__name__ = ["snow","api","buffers","_Int32Array","Int32Array_Impl_"];
-snow_api_buffers__$Int32Array_Int32Array_$Impl_$.fromBytes = function(bytes,byteOffset,len) {
-	if(byteOffset == null) byteOffset = 0;
-	if(byteOffset == null) return new Int32Array(bytes.b.bufferValue);
-	if(len == null) return new Int32Array(bytes.b.bufferValue,byteOffset);
-	return new Int32Array(bytes.b.bufferValue,byteOffset,len);
-};
-snow_api_buffers__$Int32Array_Int32Array_$Impl_$.toBytes = function(this1) {
-	return new haxe_io_Bytes(new Uint8Array(this1.buffer));
-};
-snow_api_buffers__$Int32Array_Int32Array_$Impl_$.toString = function(this1) {
-	return "Int32Array [byteLength:" + this1.byteLength + ", length:" + this1.length + "]";
-};
-var snow_api_buffers__$Uint8Array_Uint8Array_$Impl_$ = {};
-$hxClasses["snow.api.buffers._Uint8Array.Uint8Array_Impl_"] = snow_api_buffers__$Uint8Array_Uint8Array_$Impl_$;
-snow_api_buffers__$Uint8Array_Uint8Array_$Impl_$.__name__ = ["snow","api","buffers","_Uint8Array","Uint8Array_Impl_"];
-snow_api_buffers__$Uint8Array_Uint8Array_$Impl_$.fromBytes = function(bytes,byteOffset,len) {
-	if(byteOffset == null) return new Uint8Array(bytes.b.bufferValue);
-	if(len == null) return new Uint8Array(bytes.b.bufferValue,byteOffset);
-	return new Uint8Array(bytes.b.bufferValue,byteOffset,len);
-};
-snow_api_buffers__$Uint8Array_Uint8Array_$Impl_$.toBytes = function(this1) {
-	return new haxe_io_Bytes(new Uint8Array(this1.buffer));
-};
-snow_api_buffers__$Uint8Array_Uint8Array_$Impl_$.toString = function(this1) {
-	return "Uint8Array [byteLength:" + this1.byteLength + ", length:" + this1.length + "]";
 };
 var snow_core_web_Core = function(_app) {
 	this._time_now = 0.0;
@@ -8299,7 +4285,7 @@ snow_core_web_Core.prototype = {
 	,request_update: function() {
 		var _g = this;
 		if(($_=window,$bind($_,$_.requestAnimationFrame)) != null) window.requestAnimationFrame($bind(this,this.snow_core_loop)); else {
-			haxe_Log.trace("     i / core / " + ("warning : requestAnimationFrame not found, falling back to render_rate! render_rate:" + this.app.host.render_rate),{ fileName : "Core.hx", lineNumber : 80, className : "snow.core.web.Core", methodName : "request_update"});
+			console.log("     i / core / " + ("warning : requestAnimationFrame not found, falling back to render_rate! render_rate:" + this.app.host.render_rate));
 			window.setTimeout(function() {
 				var _now = _g.timestamp();
 				_g._time_now += _now - _g._lf_timestamp;
@@ -8374,9 +4360,6 @@ snow_core_web_Core.prototype = {
 var snow_modules_interfaces_Assets = function() { };
 $hxClasses["snow.modules.interfaces.Assets"] = snow_modules_interfaces_Assets;
 snow_modules_interfaces_Assets.__name__ = ["snow","modules","interfaces","Assets"];
-snow_modules_interfaces_Assets.prototype = {
-	__class__: snow_modules_interfaces_Assets
-};
 var snow_core_web_assets_Assets = function(_system) {
 	this.system = _system;
 };
@@ -8384,15 +4367,7 @@ $hxClasses["snow.core.web.assets.Assets"] = snow_core_web_assets_Assets;
 snow_core_web_assets_Assets.__name__ = ["snow","core","web","assets","Assets"];
 snow_core_web_assets_Assets.__interfaces__ = [snow_modules_interfaces_Assets];
 snow_core_web_assets_Assets.prototype = {
-	init: function() {
-	}
-	,update: function() {
-	}
-	,destroy: function() {
-	}
-	,on_event: function(event) {
-	}
-	,image_load_info: function(_id,_components) {
+	image_load_info: function(_id,_components) {
 		if(_components == null) _components = 4;
 		return this.system.app.io.data_flow(_id,snow_system_assets_AssetImage.processor);
 	}
@@ -8401,14 +4376,6 @@ snow_core_web_assets_Assets.prototype = {
 		var height_pot = this.nearest_power_of_two(_elem.height);
 		var image_bytes = this.POT_bytes_from_element(_elem.width,_elem.height,width_pot,height_pot,_elem);
 		var info = { id : _id, bpp : 4, width : _elem.width, height : _elem.height, width_actual : width_pot, height_actual : height_pot, bpp_source : 4, pixels : image_bytes};
-		image_bytes = null;
-		return info;
-	}
-	,image_info_from_pixels: function(_id,_width,_height,_pixels) {
-		var width_pot = this.nearest_power_of_two(_width);
-		var height_pot = this.nearest_power_of_two(_height);
-		var image_bytes = this.POT_bytes_from_pixels(_width,_height,width_pot,height_pot,_pixels);
-		var info = { id : _id, bpp : 4, width : _width, height : _height, width_actual : width_pot, height_actual : height_pot, bpp_source : 4, pixels : image_bytes};
 		image_bytes = null;
 		return info;
 	}
@@ -8446,36 +4413,6 @@ snow_core_web_assets_Assets.prototype = {
 			_img.src = src;
 		});
 	}
-	,POT_bytes_from_pixels: function(_width,_height,_width_pot,_height_pot,_source) {
-		var tmp_canvas;
-		var _this = window.document;
-		tmp_canvas = _this.createElement("canvas");
-		tmp_canvas.width = _width_pot;
-		tmp_canvas.height = _height_pot;
-		var tmp_context = tmp_canvas.getContext("2d",null);
-		tmp_context.clearRect(0,0,tmp_canvas.width,tmp_canvas.height);
-		var image_bytes = null;
-		var _pixels = new Uint8ClampedArray(_source.buffer);
-		var _imgdata = tmp_context.createImageData(_width,_height);
-		_imgdata.data.set(_pixels);
-		try {
-			tmp_context.putImageData(_imgdata,0,0);
-			image_bytes = tmp_context.getImageData(0,0,tmp_canvas.width,tmp_canvas.height);
-		} catch( e ) {
-			if (e instanceof js__$Boot_HaxeError) e = e.val;
-			var tips = "- textures served from file:/// throw security errors\n";
-			tips += "- textures served over http:// work for cross origin byte requests";
-			haxe_Log.trace("   i / assets / " + tips,{ fileName : "Assets.hx", lineNumber : 199, className : "snow.core.web.assets.Assets", methodName : "POT_bytes_from_pixels"});
-			throw new js__$Boot_HaxeError(e);
-		}
-		tmp_canvas = null;
-		tmp_context = null;
-		_imgdata = null;
-		var view = image_bytes.data;
-		var this1;
-		if(view != null) this1 = new Uint8Array(view); else this1 = null;
-		return this1;
-	}
 	,POT_bytes_from_element: function(_width,_height,_width_pot,_height_pot,_source) {
 		var tmp_canvas;
 		var _this = window.document;
@@ -8492,7 +4429,7 @@ snow_core_web_assets_Assets.prototype = {
 			if (e instanceof js__$Boot_HaxeError) e = e.val;
 			var tips = "- textures served from file:/// throw security errors\n";
 			tips += "- textures served over http:// work for cross origin byte requests";
-			haxe_Log.trace("   i / assets / " + tips,{ fileName : "Assets.hx", lineNumber : 235, className : "snow.core.web.assets.Assets", methodName : "POT_bytes_from_element"});
+			console.log("   i / assets / " + tips);
 			throw new js__$Boot_HaxeError(e);
 		}
 		tmp_canvas = null;
@@ -8698,9 +4635,6 @@ snow_core_web_input_DOMKeys.dom_key_to_keycode = function(_keycode) {
 var snow_modules_interfaces_Input = function() { };
 $hxClasses["snow.modules.interfaces.Input"] = snow_modules_interfaces_Input;
 snow_modules_interfaces_Input.__name__ = ["snow","modules","interfaces","Input"];
-snow_modules_interfaces_Input.prototype = {
-	__class__: snow_modules_interfaces_Input
-};
 var snow_core_web_input_Input = function(_system) {
 	this.gamepads_supported = false;
 	this.system = _system;
@@ -8719,7 +4653,7 @@ snow_core_web_input_Input.prototype = {
 			window.addEventListener("deviceorientation",$bind(this,this.on_orientation));
 			window.addEventListener("devicemotion",$bind(this,this.on_motion));
 		}
-		haxe_Log.trace("    i / input / " + ("Gamepads supported: " + Std.string(this.gamepads_supported)),{ fileName : "Input.hx", lineNumber : 51, className : "snow.core.web.input.Input", methodName : "init"});
+		console.log("    i / input / " + ("Gamepads supported: " + Std.string(this.gamepads_supported)));
 	}
 	,update: function() {
 		if(this.gamepads_supported) this.poll_gamepads();
@@ -8737,15 +4671,7 @@ snow_core_web_input_Input.prototype = {
 		window.handle.addEventListener("touchend",$bind(this,this.on_touchup));
 		window.handle.addEventListener("touchmove",$bind(this,this.on_touchmove));
 	}
-	,unlisten: function(window) {
-	}
 	,on_event: function(_event) {
-	}
-	,text_input_start: function() {
-	}
-	,text_input_stop: function() {
-	}
-	,text_input_rect: function(x,y,w,h) {
 	}
 	,on_orientation: function(event) {
 		this.system.app.dispatch_system_event({ type : 6, input : { type : 4, timestamp : snow_Snow.core.timestamp(), event : { type : "orientation", alpha : event.alpha, beta : event.beta, gamma : event.gamma}}});
@@ -8844,7 +4770,7 @@ snow_core_web_input_Input.prototype = {
 	}
 	,fail_gamepads: function() {
 		this.gamepads_supported = false;
-		haxe_Log.trace("    i / input / " + "Gamepads are not supported in this browser :(",{ fileName : "Input.hx", lineNumber : 308, className : "snow.core.web.input.Input", methodName : "fail_gamepads"});
+		console.log("    i / input / " + "Gamepads are not supported in this browser :(");
 	}
 	,get_gamepad_list: function() {
 		if(($_=window.navigator,$bind($_,$_.getGamepads)) != null) return window.navigator.getGamepads();
@@ -8962,9 +4888,6 @@ snow_core_web_input_Input.prototype = {
 var snow_modules_interfaces_IO = function() { };
 $hxClasses["snow.modules.interfaces.IO"] = snow_modules_interfaces_IO;
 snow_modules_interfaces_IO.__name__ = ["snow","modules","interfaces","IO"];
-snow_modules_interfaces_IO.prototype = {
-	__class__: snow_modules_interfaces_IO
-};
 var snow_core_web_io_IO = function(_system) {
 	this.system = _system;
 };
@@ -8972,10 +4895,7 @@ $hxClasses["snow.core.web.io.IO"] = snow_core_web_io_IO;
 snow_core_web_io_IO.__name__ = ["snow","core","web","io","IO"];
 snow_core_web_io_IO.__interfaces__ = [snow_modules_interfaces_IO];
 snow_core_web_io_IO.prototype = {
-	url_open: function(_url) {
-		if(_url != null && _url.length > 0) window.open(_url,"_blank");
-	}
-	,data_load: function(_path,_options) {
+	data_load: function(_path,_options) {
 		return new snow_api_Promise(function(resolve,reject) {
 			var _async = true;
 			var _binary = true;
@@ -8999,16 +4919,6 @@ snow_core_web_io_IO.prototype = {
 			request.send();
 		});
 	}
-	,data_save: function(_path,_data,_options) {
-		return false;
-	}
-	,string_save_path: function(_slot) {
-		if(_slot == null) _slot = 0;
-		var _pref_path = "<localstorage>";
-		var _slot_path = this.string_slot_id(_slot);
-		var _path = haxe_io_Path.join([_pref_path,_slot_path]);
-		return haxe_io_Path.normalize(_path);
-	}
 	,init: function() {
 	}
 	,update: function() {
@@ -9017,63 +4927,14 @@ snow_core_web_io_IO.prototype = {
 	}
 	,on_event: function(_event) {
 	}
-	,string_slot_id: function(_slot) {
-		if(_slot == null) _slot = 0;
-		var _parts = this.system.app.snow_config.app_package.split(".");
-		var _appname = _parts.pop();
-		var _org = _parts.join(".");
-		return "" + _org + "/" + _appname + "/" + this.system.string_save_prefix + "." + _slot;
-	}
-	,string_slot_destroy: function(_slot) {
-		if(_slot == null) _slot = 0;
-		var storage = window.localStorage;
-		if(storage == null) {
-			haxe_Log.trace("       i / io / " + "localStorage isnt supported in this browser?!",{ fileName : "IO.hx", lineNumber : 115, className : "snow.core.web.io.IO", methodName : "string_slot_destroy"});
-			return false;
-		}
-		var _id = this.string_slot_id(_slot);
-		storage.removeItem(_id);
-		return false;
-	}
-	,string_slot_save: function(_slot,_contents) {
-		if(_slot == null) _slot = 0;
-		var storage = window.localStorage;
-		if(storage == null) {
-			haxe_Log.trace("       i / io / " + "localStorage isnt supported in this browser?!",{ fileName : "IO.hx", lineNumber : 132, className : "snow.core.web.io.IO", methodName : "string_slot_save"});
-			return false;
-		}
-		var _id = this.string_slot_id(_slot);
-		storage.setItem(_id,_contents);
-		return true;
-	}
-	,string_slot_load: function(_slot) {
-		if(_slot == null) _slot = 0;
-		var storage = window.localStorage;
-		if(storage == null) {
-			haxe_Log.trace("       i / io / " + "localStorage isnt supported in this browser?!",{ fileName : "IO.hx", lineNumber : 150, className : "snow.core.web.io.IO", methodName : "string_slot_load"});
-			return null;
-		}
-		var _id = this.string_slot_id(_slot);
-		return storage.getItem(_id);
-	}
-	,string_slot_encode: function(_string) {
-		return window.btoa(_string);
-	}
-	,string_slot_decode: function(_string) {
-		return window.atob(_string);
-	}
 	,__class__: snow_core_web_io_IO
 };
 var snow_modules_interfaces_Windowing = function() { };
 $hxClasses["snow.modules.interfaces.Windowing"] = snow_modules_interfaces_Windowing;
 snow_modules_interfaces_Windowing.__name__ = ["snow","modules","interfaces","Windowing"];
-snow_modules_interfaces_Windowing.prototype = {
-	__class__: snow_modules_interfaces_Windowing
-};
 var snow_core_web_window_Windowing = function(_system) {
 	this._hidden_event_name = "";
 	this._hidden_name = "";
-	this._cursor_visible = true;
 	this._pre_fs_body_margin = "0";
 	this._pre_fs_body_overflow = "0";
 	this._pre_fs_height = 0;
@@ -9098,8 +4959,6 @@ snow_core_web_window_Windowing.prototype = {
 	,update: function() {
 	}
 	,destroy: function() {
-	}
-	,on_event: function(event) {
 	}
 	,_copy_config: function(_config) {
 		return { borderless : _config.borderless, fullscreen : _config.fullscreen, fullscreen_desktop : _config.fullscreen_desktop, height : _config.height, no_input : _config.no_input, resizable : _config.resizable, title : _config.title, width : _config.width, x : _config.x, y : _config.y};
@@ -9134,15 +4993,6 @@ snow_core_web_window_Windowing.prototype = {
 		_handle.setAttribute("id","window" + _window_id);
 		this.seq_window++;
 	}
-	,destroy_window: function(_window) {
-		window.document.body.removeChild(_window.handle);
-	}
-	,close: function(_window) {
-		_window.handle.style.display = "none";
-	}
-	,show: function(_window) {
-		_window.handle.style.display = null;
-	}
 	,internal_resize: function(_window,_w,_h) {
 		this.system.app.dispatch_system_event({ type : 5, window : { type : 7, timestamp : snow_Snow.core.timestamp(), window_id : _window.id, event : { x : _w, y : _h}}});
 		this.system.app.dispatch_system_event({ type : 5, window : { type : 6, timestamp : snow_Snow.core.timestamp(), window_id : _window.id, event : { x : _w, y : _h}}});
@@ -9158,10 +5008,6 @@ snow_core_web_window_Windowing.prototype = {
 		if(snow_modules_opengl_web_GL.current_context != _window_gl_context) snow_modules_opengl_web_GL.current_context = _window_gl_context;
 	}
 	,swap: function(_window) {
-	}
-	,simple_message: function(_window,message,title) {
-		if(title == null) title = "";
-		window.alert(message);
 	}
 	,set_size: function(_window,w,h) {
 		_window.handle.width = w;
@@ -9193,9 +5039,6 @@ snow_core_web_window_Windowing.prototype = {
 			} else _has_parent = false;
 		}
 		return { x : curleft, y : curtop};
-	}
-	,set_title: function(_window,title) {
-		window.document.title = title;
 	}
 	,set_max_size: function(_window,w,h) {
 		_window.handle.style.maxWidth = "" + w + "px";
@@ -9251,65 +5094,6 @@ snow_core_web_window_Windowing.prototype = {
 			window.document.body.style.overflow = this._pre_fs_body_overflow;
 		}
 	}
-	,fullscreen: function(_window,fullscreen) {
-		this.internal_fullscreen(_window,fullscreen);
-	}
-	,bordered: function(_window,bordered) {
-	}
-	,grab: function(_window,grabbed) {
-		if(grabbed) {
-			if(($_=_window.handle,$bind($_,$_.requestPointerLock)) == null) {
-				if(_window.handle.webkitRequestPointerLock == null) {
-					if(_window.handle.mozRequestPointerLock == null) {
-					} else _window.handle.mozRequestPointerLock();
-				} else _window.handle.webkitRequestPointerLock();
-			} else _window.handle.requestPointerLock();
-		} else {
-		}
-	}
-	,set_cursor_position: function(_window,x,y) {
-	}
-	,system_enable_cursor: function(enable) {
-		if(this.cursor_style == null) {
-			var _this = window.document;
-			this.cursor_style = _this.createElement("style");
-			this.cursor_style.innerHTML = "* { cursor:none; }";
-		}
-		if(enable && !this._cursor_visible) {
-			this._cursor_visible = true;
-			window.document.body.removeChild(this.cursor_style);
-		} else if(!enable && this._cursor_visible) {
-			this._cursor_visible = false;
-			window.document.body.appendChild(this.cursor_style);
-		}
-	}
-	,system_lock_cursor: function(enable) {
-		if(this.system.app.window != null) this.grab(this.system.app.window,enable);
-	}
-	,system_enable_vsync: function(enable) {
-		return -1;
-	}
-	,display_count: function() {
-		return 1;
-	}
-	,display_mode_count: function(display) {
-		return 1;
-	}
-	,display_native_mode: function(display) {
-		return { format : 0, refresh_rate : 0, width : window.screen.width, height : window.screen.height};
-	}
-	,display_current_mode: function(display) {
-		return this.display_native_mode(display);
-	}
-	,display_mode: function(display,mode_index) {
-		return this.display_native_mode(display);
-	}
-	,display_bounds: function(display) {
-		return { x : 0, y : 0, width : window.innerWidth, height : window.innerHeight};
-	}
-	,display_name: function(display) {
-		return window.navigator.vendor;
-	}
 	,listen: function(_window) {
 		_window.handle.addEventListener("mouseleave",$bind(this,this.on_internal_leave));
 		_window.handle.addEventListener("mouseenter",$bind(this,this.on_internal_enter));
@@ -9318,11 +5102,6 @@ snow_core_web_window_Windowing.prototype = {
 			_window.config.width = _window.handle.width;
 			_window.config.height = _window.handle.height;
 		}
-	}
-	,unlisten: function(_window) {
-		_window.handle.removeEventListener("mouseleave",$bind(this,this.on_internal_leave));
-		_window.handle.removeEventListener("mouseenter",$bind(this,this.on_internal_enter));
-		HxOverrides.remove(this.fs_windows,_window);
 	}
 	,on_internal_leave: function(_mouse_event) {
 		var _window = this.system.window_from_handle(_mouse_event.target);
@@ -9413,9 +5192,6 @@ snow_core_web_window_Windowing.prototype = {
 var snow_modules_interfaces_Audio = function() { };
 $hxClasses["snow.modules.interfaces.Audio"] = snow_modules_interfaces_Audio;
 snow_modules_interfaces_Audio.__name__ = ["snow","modules","interfaces","Audio"];
-snow_modules_interfaces_Audio.prototype = {
-	__class__: snow_modules_interfaces_Audio
-};
 var snow_modules_howlerjs_Audio = function(_system) {
 	this.system = _system;
 	this.suspended_sounds = [];
@@ -9488,52 +5264,6 @@ snow_modules_howlerjs_Audio.prototype = {
 			}});
 		});
 	}
-	,create_sound_from_bytes: function(_name,_bytes,_format) {
-		var _g = this;
-		var _ext;
-		switch(_format) {
-		case 1:
-			_ext = "ogg";
-			break;
-		case 2:
-			_ext = "wav";
-			break;
-		case 3:
-			throw new js__$Boot_HaxeError(snow_types_Error.error("pcm audio format unsupported atm"));
-			break;
-		case 0:
-			throw new js__$Boot_HaxeError(snow_types_Error.error("unknown audio format for create_sound_from_bytes " + _name));
-			break;
-		}
-		var str = "";
-		var i = 0;
-		var len = _bytes.length;
-		while(i < len) str += String.fromCharCode((function($this) {
-			var $r;
-			var a;
-			{
-				var idx = i++;
-				a = _bytes[idx];
-			}
-			$r = a & 255;
-			return $r;
-		}(this)));
-		var b64 = window.btoa(str);
-		var src = "data:audio/" + _ext + ";base64," + b64;
-		var info = this.info_from_id("bytes;" + _name,_format);
-		var sound = new snow_modules_howlerjs_sound_Sound(this.system,_name,false);
-		info.handle = new window.Howl({ urls : [src], onend : function() {
-			_g.system.app.audio.module._on_end(info.handle);
-		}, onloaderror : function() {
-			throw new js__$Boot_HaxeError(snow_types_Error.error("failed to create sound " + _name + " from bytes"));
-		}, onload : function() {
-			info.handle = this;
-			sound.set_info(info);
-			var key = info.handle;
-			_g.handles.set(key,sound);
-		}});
-		return sound;
-	}
 	,_on_end: function(handle) {
 		var sound;
 		var key = handle;
@@ -9545,16 +5275,11 @@ snow_modules_howlerjs_Audio.prototype = {
 var snow_system_audio_Sound = function(_system,_name,_is_stream) {
 	if(_is_stream == null) _is_stream = false;
 	this.is_stream = false;
-	this.position_bytes = 0;
-	this.length_bytes = 0;
-	this.duration = 0.0;
-	this.position = 0.0;
 	this.looping = false;
 	this.pan = 0.0;
 	this.volume = 1.0;
 	this.pitch = 1.0;
 	this.loaded = false;
-	this.paused = false;
 	this.playing = false;
 	this.name = "";
 	this.name = _name;
@@ -9574,27 +5299,23 @@ snow_system_audio_Sound.prototype = {
 		this.system.off(this.name,_event,_handler);
 	}
 	,play: function() {
-		haxe_Log.trace("    i / sound / " + "Sound:play called in root Sound module. Nothing will happen.",{ fileName : "Sound.hx", lineNumber : 102, className : "snow.system.audio.Sound", methodName : "play"});
+		console.log("    i / sound / " + "Sound:play called in root Sound module. Nothing will happen.");
 	}
 	,loop: function() {
-		haxe_Log.trace("    i / sound / " + "Sound:loop called in root Sound module. Nothing will happen.",{ fileName : "Sound.hx", lineNumber : 104, className : "snow.system.audio.Sound", methodName : "loop"});
+		console.log("    i / sound / " + "Sound:loop called in root Sound module. Nothing will happen.");
 	}
 	,stop: function() {
-		haxe_Log.trace("    i / sound / " + "Sound:stop called in root Sound module. Nothing will happen.",{ fileName : "Sound.hx", lineNumber : 106, className : "snow.system.audio.Sound", methodName : "stop"});
+		console.log("    i / sound / " + "Sound:stop called in root Sound module. Nothing will happen.");
 	}
 	,pause: function() {
-		haxe_Log.trace("    i / sound / " + "Sound:pause called in root Sound module. Nothing will happen.",{ fileName : "Sound.hx", lineNumber : 108, className : "snow.system.audio.Sound", methodName : "pause"});
+		console.log("    i / sound / " + "Sound:pause called in root Sound module. Nothing will happen.");
 	}
 	,destroy: function() {
-		haxe_Log.trace("    i / sound / " + "Sound:destroy called in root Sound module. Nothing will happen.",{ fileName : "Sound.hx", lineNumber : 110, className : "snow.system.audio.Sound", methodName : "destroy"});
+		console.log("    i / sound / " + "Sound:destroy called in root Sound module. Nothing will happen.");
 	}
 	,internal_update: function() {
 	}
 	,internal_play: function() {
-	}
-	,internal_loop: function() {
-	}
-	,internal_stop: function() {
 	}
 	,internal_pause: function() {
 	}
@@ -9607,17 +5328,11 @@ snow_system_audio_Sound.prototype = {
 	,get_playing: function() {
 		return this.playing;
 	}
-	,get_paused: function() {
-		return this.paused;
-	}
 	,get_loaded: function() {
 		return this.loaded;
 	}
 	,get_info: function() {
 		return this.info;
-	}
-	,set_info: function(_info) {
-		return this.info = _info;
 	}
 	,get_pan: function() {
 		return this.pan;
@@ -9631,44 +5346,14 @@ snow_system_audio_Sound.prototype = {
 	,get_looping: function() {
 		return this.looping;
 	}
-	,get_position: function() {
-		return this.position;
-	}
-	,get_position_bytes: function() {
-		return this.position_bytes;
-	}
-	,get_length_bytes: function() {
-		return this.length_bytes;
-	}
-	,get_duration: function() {
-		return 0;
-	}
 	,set_playing: function(_playing) {
 		return this.playing = _playing;
-	}
-	,set_paused: function(_paused) {
-		return this.paused = _paused;
 	}
 	,set_loaded: function(_loaded) {
 		return this.loaded = _loaded;
 	}
-	,set_pan: function(_pan) {
-		return this.pan = _pan;
-	}
-	,set_pitch: function(_pitch) {
-		return this.pitch = _pitch;
-	}
-	,set_volume: function(_volume) {
-		return this.volume = _volume;
-	}
-	,set_position: function(_position) {
-		return this.position = _position;
-	}
 	,set_looping: function(_looping) {
 		return this.looping = _looping;
-	}
-	,set_position_bytes: function(_position_bytes) {
-		return this.position_bytes = _position_bytes;
 	}
 	,__class__: snow_system_audio_Sound
 };
@@ -9684,36 +5369,12 @@ snow_modules_howlerjs_sound_Sound.prototype = $extend(snow_system_audio_Sound.pr
 		if(this.get_info() != null) this.destroy();
 		this.info = null;
 		if(_info == null) {
-			haxe_Log.trace("    i / sound / " + "not creating sound, info was null",{ fileName : "Sound.hx", lineNumber : 29, className : "snow.modules.howlerjs.sound.Sound", methodName : "set_info"});
+			console.log("    i / sound / " + "not creating sound, info was null");
 			return this.get_info();
 		}
 		this.info = _info;
 		this.set_loaded(true);
 		return this.get_info();
-	}
-	,set_pan: function(_pan) {
-		if(this.get_info() != null && this.get_info().handle != null) this.get_info().handle.pos3d(this.get_pan());
-		return this.pan = _pan;
-	}
-	,set_volume: function(_volume) {
-		if(this.get_info() != null && this.get_info().handle != null) this.get_info().handle.volume(_volume);
-		return this.volume = _volume;
-	}
-	,set_pitch: function(_pitch) {
-		if(this.get_info() != null && this.get_info().handle != null) this.get_info().handle.rate(_pitch);
-		return this.pitch = _pitch;
-	}
-	,set_position: function(_position) {
-		if(this.get_info() != null && this.get_info().handle != null) this.get_info().handle.pos(_position);
-		return this.position = _position;
-	}
-	,get_position: function() {
-		if(this.get_info() != null && this.get_info().handle != null) return this.get_info().handle.pos();
-		return this.position;
-	}
-	,get_duration: function() {
-		if(this.get_info() != null && this.get_info().handle != null) return this.get_info().handle._duration;
-		return 0;
 	}
 	,play: function() {
 		if(this.get_info() != null && this.get_info().handle != null) {
@@ -9752,432 +5413,28 @@ snow_modules_howlerjs_sound_Sound.prototype = $extend(snow_system_audio_Sound.pr
 		if(this.get_info() != null && this.get_info().handle != null) this.get_info().handle.unload();
 		this.system.kill(this);
 	}
-	,ensure_parameters: function() {
-		if(this.get_info() != null && this.get_info().handle != null) {
-			this.get_info().handle.rate(this.get_pitch());
-			this.get_info().handle.volume(this.get_volume());
-			this.get_info().handle.pos3d(this.get_pan());
-		}
-	}
 	,__class__: snow_modules_howlerjs_sound_Sound
 });
 var snow_modules_opengl_web_GL = function() { };
 $hxClasses["snow.modules.opengl.web.GL"] = snow_modules_opengl_web_GL;
 snow_modules_opengl_web_GL.__name__ = ["snow","modules","opengl","web","GL"];
-snow_modules_opengl_web_GL.versionString = function() {
-	var ver = snow_modules_opengl_web_GL.current_context.getParameter(7938);
-	var slver = snow_modules_opengl_web_GL.current_context.getParameter(35724);
-	var ren = snow_modules_opengl_web_GL.current_context.getParameter(7937);
-	var ven = snow_modules_opengl_web_GL.current_context.getParameter(7936);
-	return "/ " + ver + " / " + slver + " / " + ren + " / " + ven + " /";
-};
-snow_modules_opengl_web_GL.activeTexture = function(texture) {
-	snow_modules_opengl_web_GL.current_context.activeTexture(texture);
-};
-snow_modules_opengl_web_GL.attachShader = function(program,shader) {
-	snow_modules_opengl_web_GL.current_context.attachShader(program,shader);
-};
-snow_modules_opengl_web_GL.bindAttribLocation = function(program,index,name) {
-	snow_modules_opengl_web_GL.current_context.bindAttribLocation(program,index,name);
-};
-snow_modules_opengl_web_GL.bindBuffer = function(target,buffer) {
-	snow_modules_opengl_web_GL.current_context.bindBuffer(target,buffer);
-};
-snow_modules_opengl_web_GL.bindFramebuffer = function(target,framebuffer) {
-	snow_modules_opengl_web_GL.current_context.bindFramebuffer(target,framebuffer);
-};
-snow_modules_opengl_web_GL.bindRenderbuffer = function(target,renderbuffer) {
-	snow_modules_opengl_web_GL.current_context.bindRenderbuffer(target,renderbuffer);
-};
-snow_modules_opengl_web_GL.bindTexture = function(target,texture) {
-	snow_modules_opengl_web_GL.current_context.bindTexture(target,texture);
-};
-snow_modules_opengl_web_GL.blendColor = function(red,green,blue,alpha) {
-	snow_modules_opengl_web_GL.current_context.blendColor(red,green,blue,alpha);
-};
-snow_modules_opengl_web_GL.blendEquation = function(mode) {
-	snow_modules_opengl_web_GL.current_context.blendEquation(mode);
-};
-snow_modules_opengl_web_GL.blendEquationSeparate = function(modeRGB,modeAlpha) {
-	snow_modules_opengl_web_GL.current_context.blendEquationSeparate(modeRGB,modeAlpha);
-};
-snow_modules_opengl_web_GL.blendFunc = function(sfactor,dfactor) {
-	snow_modules_opengl_web_GL.current_context.blendFunc(sfactor,dfactor);
-};
-snow_modules_opengl_web_GL.blendFuncSeparate = function(srcRGB,dstRGB,srcAlpha,dstAlpha) {
-	snow_modules_opengl_web_GL.current_context.blendFuncSeparate(srcRGB,dstRGB,srcAlpha,dstAlpha);
-};
 snow_modules_opengl_web_GL.bufferData = function(target,data,usage) {
 	snow_modules_opengl_web_GL.current_context.bufferData(target,data,usage);
-};
-snow_modules_opengl_web_GL.bufferSubData = function(target,offset,data) {
-	snow_modules_opengl_web_GL.current_context.bufferSubData(target,offset,data);
-};
-snow_modules_opengl_web_GL.checkFramebufferStatus = function(target) {
-	return snow_modules_opengl_web_GL.current_context.checkFramebufferStatus(target);
-};
-snow_modules_opengl_web_GL.clear = function(mask) {
-	snow_modules_opengl_web_GL.current_context.clear(mask);
 };
 snow_modules_opengl_web_GL.clearColor = function(red,green,blue,alpha) {
 	snow_modules_opengl_web_GL.current_context.clearColor(red,green,blue,alpha);
 };
-snow_modules_opengl_web_GL.clearDepth = function(depth) {
-	snow_modules_opengl_web_GL.current_context.clearDepth(depth);
-};
-snow_modules_opengl_web_GL.clearStencil = function(s) {
-	snow_modules_opengl_web_GL.current_context.clearStencil(s);
-};
-snow_modules_opengl_web_GL.colorMask = function(red,green,blue,alpha) {
-	snow_modules_opengl_web_GL.current_context.colorMask(red,green,blue,alpha);
-};
-snow_modules_opengl_web_GL.compileShader = function(shader) {
-	snow_modules_opengl_web_GL.current_context.compileShader(shader);
-};
-snow_modules_opengl_web_GL.compressedTexImage2D = function(target,level,internalformat,width,height,border,data) {
-	snow_modules_opengl_web_GL.current_context.compressedTexImage2D(target,level,internalformat,width,height,border,data);
-};
-snow_modules_opengl_web_GL.compressedTexSubImage2D = function(target,level,xoffset,yoffset,width,height,format,data) {
-	snow_modules_opengl_web_GL.current_context.compressedTexSubImage2D(target,level,xoffset,yoffset,width,height,format,data);
-};
-snow_modules_opengl_web_GL.copyTexImage2D = function(target,level,internalformat,x,y,width,height,border) {
-	snow_modules_opengl_web_GL.current_context.copyTexImage2D(target,level,internalformat,x,y,width,height,border);
-};
-snow_modules_opengl_web_GL.copyTexSubImage2D = function(target,level,xoffset,yoffset,x,y,width,height) {
-	snow_modules_opengl_web_GL.current_context.copyTexSubImage2D(target,level,xoffset,yoffset,x,y,width,height);
-};
-snow_modules_opengl_web_GL.createBuffer = function() {
-	return snow_modules_opengl_web_GL.current_context.createBuffer();
-};
-snow_modules_opengl_web_GL.createFramebuffer = function() {
-	return snow_modules_opengl_web_GL.current_context.createFramebuffer();
-};
-snow_modules_opengl_web_GL.createProgram = function() {
-	return snow_modules_opengl_web_GL.current_context.createProgram();
-};
-snow_modules_opengl_web_GL.createRenderbuffer = function() {
-	return snow_modules_opengl_web_GL.current_context.createRenderbuffer();
-};
-snow_modules_opengl_web_GL.createShader = function(type) {
-	return snow_modules_opengl_web_GL.current_context.createShader(type);
-};
-snow_modules_opengl_web_GL.createTexture = function() {
-	return snow_modules_opengl_web_GL.current_context.createTexture();
-};
-snow_modules_opengl_web_GL.cullFace = function(mode) {
-	snow_modules_opengl_web_GL.current_context.cullFace(mode);
-};
-snow_modules_opengl_web_GL.deleteBuffer = function(buffer) {
-	snow_modules_opengl_web_GL.current_context.deleteBuffer(buffer);
-};
-snow_modules_opengl_web_GL.deleteFramebuffer = function(framebuffer) {
-	snow_modules_opengl_web_GL.current_context.deleteFramebuffer(framebuffer);
-};
-snow_modules_opengl_web_GL.deleteProgram = function(program) {
-	snow_modules_opengl_web_GL.current_context.deleteProgram(program);
-};
-snow_modules_opengl_web_GL.deleteRenderbuffer = function(renderbuffer) {
-	snow_modules_opengl_web_GL.current_context.deleteRenderbuffer(renderbuffer);
-};
-snow_modules_opengl_web_GL.deleteShader = function(shader) {
-	snow_modules_opengl_web_GL.current_context.deleteShader(shader);
-};
-snow_modules_opengl_web_GL.deleteTexture = function(texture) {
-	snow_modules_opengl_web_GL.current_context.deleteTexture(texture);
-};
-snow_modules_opengl_web_GL.depthFunc = function(func) {
-	snow_modules_opengl_web_GL.current_context.depthFunc(func);
-};
-snow_modules_opengl_web_GL.depthMask = function(flag) {
-	snow_modules_opengl_web_GL.current_context.depthMask(flag);
-};
-snow_modules_opengl_web_GL.depthRange = function(zNear,zFar) {
-	snow_modules_opengl_web_GL.current_context.depthRange(zNear,zFar);
-};
-snow_modules_opengl_web_GL.detachShader = function(program,shader) {
-	snow_modules_opengl_web_GL.current_context.detachShader(program,shader);
-};
-snow_modules_opengl_web_GL.disable = function(cap) {
-	snow_modules_opengl_web_GL.current_context.disable(cap);
-};
-snow_modules_opengl_web_GL.disableVertexAttribArray = function(index) {
-	snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(index);
-};
-snow_modules_opengl_web_GL.drawArrays = function(mode,first,count) {
-	snow_modules_opengl_web_GL.current_context.drawArrays(mode,first,count);
-};
-snow_modules_opengl_web_GL.drawElements = function(mode,count,type,offset) {
-	snow_modules_opengl_web_GL.current_context.drawElements(mode,count,type,offset);
-};
-snow_modules_opengl_web_GL.enable = function(cap) {
-	snow_modules_opengl_web_GL.current_context.enable(cap);
-};
-snow_modules_opengl_web_GL.enableVertexAttribArray = function(index) {
-	snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(index);
-};
-snow_modules_opengl_web_GL.finish = function() {
-	snow_modules_opengl_web_GL.current_context.finish();
-};
-snow_modules_opengl_web_GL.flush = function() {
-	snow_modules_opengl_web_GL.current_context.flush();
-};
-snow_modules_opengl_web_GL.framebufferRenderbuffer = function(target,attachment,renderbuffertarget,renderbuffer) {
-	snow_modules_opengl_web_GL.current_context.framebufferRenderbuffer(target,attachment,renderbuffertarget,renderbuffer);
-};
-snow_modules_opengl_web_GL.framebufferTexture2D = function(target,attachment,textarget,texture,level) {
-	snow_modules_opengl_web_GL.current_context.framebufferTexture2D(target,attachment,textarget,texture,level);
-};
-snow_modules_opengl_web_GL.frontFace = function(mode) {
-	snow_modules_opengl_web_GL.current_context.frontFace(mode);
-};
-snow_modules_opengl_web_GL.generateMipmap = function(target) {
-	snow_modules_opengl_web_GL.current_context.generateMipmap(target);
-};
-snow_modules_opengl_web_GL.getActiveAttrib = function(program,index) {
-	return snow_modules_opengl_web_GL.current_context.getActiveAttrib(program,index);
-};
-snow_modules_opengl_web_GL.getActiveUniform = function(program,index) {
-	return snow_modules_opengl_web_GL.current_context.getActiveUniform(program,index);
-};
-snow_modules_opengl_web_GL.getAttachedShaders = function(program) {
-	return snow_modules_opengl_web_GL.current_context.getAttachedShaders(program);
-};
-snow_modules_opengl_web_GL.getAttribLocation = function(program,name) {
-	return snow_modules_opengl_web_GL.current_context.getAttribLocation(program,name);
-};
-snow_modules_opengl_web_GL.getBufferParameter = function(target,pname) {
-	return snow_modules_opengl_web_GL.current_context.getBufferParameter(target,pname);
-};
-snow_modules_opengl_web_GL.getContextAttributes = function() {
-	return snow_modules_opengl_web_GL.current_context.getContextAttributes();
-};
-snow_modules_opengl_web_GL.getError = function() {
-	return snow_modules_opengl_web_GL.current_context.getError();
-};
-snow_modules_opengl_web_GL.getExtension = function(name) {
-	return snow_modules_opengl_web_GL.current_context.getExtension(name);
-};
-snow_modules_opengl_web_GL.getFramebufferAttachmentParameter = function(target,attachment,pname) {
-	return snow_modules_opengl_web_GL.current_context.getFramebufferAttachmentParameter(target,attachment,pname);
-};
-snow_modules_opengl_web_GL.getParameter = function(pname) {
-	return snow_modules_opengl_web_GL.current_context.getParameter(pname);
-};
-snow_modules_opengl_web_GL.getProgramInfoLog = function(program) {
-	return snow_modules_opengl_web_GL.current_context.getProgramInfoLog(program);
-};
-snow_modules_opengl_web_GL.getProgramParameter = function(program,pname) {
-	return snow_modules_opengl_web_GL.current_context.getProgramParameter(program,pname);
-};
-snow_modules_opengl_web_GL.getRenderbufferParameter = function(target,pname) {
-	return snow_modules_opengl_web_GL.current_context.getRenderbufferParameter(target,pname);
-};
-snow_modules_opengl_web_GL.getShaderInfoLog = function(shader) {
-	return snow_modules_opengl_web_GL.current_context.getShaderInfoLog(shader);
-};
-snow_modules_opengl_web_GL.getShaderParameter = function(shader,pname) {
-	return snow_modules_opengl_web_GL.current_context.getShaderParameter(shader,pname);
-};
-snow_modules_opengl_web_GL.getShaderPrecisionFormat = function(shadertype,precisiontype) {
-	return snow_modules_opengl_web_GL.current_context.getShaderPrecisionFormat(shadertype,precisiontype);
-};
-snow_modules_opengl_web_GL.getShaderSource = function(shader) {
-	return snow_modules_opengl_web_GL.current_context.getShaderSource(shader);
-};
-snow_modules_opengl_web_GL.getSupportedExtensions = function() {
-	return snow_modules_opengl_web_GL.current_context.getSupportedExtensions();
-};
-snow_modules_opengl_web_GL.getTexParameter = function(target,pname) {
-	return snow_modules_opengl_web_GL.current_context.getTexParameter(target,pname);
-};
-snow_modules_opengl_web_GL.getUniform = function(program,location) {
-	return snow_modules_opengl_web_GL.current_context.getUniform(program,location);
-};
-snow_modules_opengl_web_GL.getUniformLocation = function(program,name) {
-	return snow_modules_opengl_web_GL.current_context.getUniformLocation(program,name);
-};
-snow_modules_opengl_web_GL.getVertexAttrib = function(index,pname) {
-	return snow_modules_opengl_web_GL.current_context.getVertexAttrib(index,pname);
-};
-snow_modules_opengl_web_GL.getVertexAttribOffset = function(index,pname) {
-	return snow_modules_opengl_web_GL.current_context.getVertexAttribOffset(index,pname);
-};
-snow_modules_opengl_web_GL.hint = function(target,mode) {
-	snow_modules_opengl_web_GL.current_context.hint(target,mode);
-};
-snow_modules_opengl_web_GL.isBuffer = function(buffer) {
-	return snow_modules_opengl_web_GL.current_context.isBuffer(buffer);
-};
-snow_modules_opengl_web_GL.isEnabled = function(cap) {
-	return snow_modules_opengl_web_GL.current_context.isEnabled(cap);
-};
-snow_modules_opengl_web_GL.isFramebuffer = function(framebuffer) {
-	return snow_modules_opengl_web_GL.current_context.isFramebuffer(framebuffer);
-};
-snow_modules_opengl_web_GL.isProgram = function(program) {
-	return snow_modules_opengl_web_GL.current_context.isProgram(program);
-};
-snow_modules_opengl_web_GL.isRenderbuffer = function(renderbuffer) {
-	return snow_modules_opengl_web_GL.current_context.isRenderbuffer(renderbuffer);
-};
-snow_modules_opengl_web_GL.isShader = function(shader) {
-	return snow_modules_opengl_web_GL.current_context.isShader(shader);
-};
-snow_modules_opengl_web_GL.isTexture = function(texture) {
-	return snow_modules_opengl_web_GL.current_context.isTexture(texture);
-};
-snow_modules_opengl_web_GL.lineWidth = function(width) {
-	snow_modules_opengl_web_GL.current_context.lineWidth(width);
-};
-snow_modules_opengl_web_GL.linkProgram = function(program) {
-	snow_modules_opengl_web_GL.current_context.linkProgram(program);
-};
-snow_modules_opengl_web_GL.pixelStorei = function(pname,param) {
-	snow_modules_opengl_web_GL.current_context.pixelStorei(pname,param);
-};
-snow_modules_opengl_web_GL.polygonOffset = function(factor,units) {
-	snow_modules_opengl_web_GL.current_context.polygonOffset(factor,units);
-};
-snow_modules_opengl_web_GL.readPixels = function(x,y,width,height,format,type,data) {
-	snow_modules_opengl_web_GL.current_context.readPixels(x,y,width,height,format,type,data);
-};
-snow_modules_opengl_web_GL.renderbufferStorage = function(target,internalformat,width,height) {
-	snow_modules_opengl_web_GL.current_context.renderbufferStorage(target,internalformat,width,height);
-};
-snow_modules_opengl_web_GL.sampleCoverage = function(value,invert) {
-	snow_modules_opengl_web_GL.current_context.sampleCoverage(value,invert);
-};
-snow_modules_opengl_web_GL.scissor = function(x,y,width,height) {
-	snow_modules_opengl_web_GL.current_context.scissor(x,y,width,height);
-};
-snow_modules_opengl_web_GL.shaderSource = function(shader,source) {
-	snow_modules_opengl_web_GL.current_context.shaderSource(shader,source);
-};
-snow_modules_opengl_web_GL.stencilFunc = function(func,ref,mask) {
-	snow_modules_opengl_web_GL.current_context.stencilFunc(func,ref,mask);
-};
-snow_modules_opengl_web_GL.stencilFuncSeparate = function(face,func,ref,mask) {
-	snow_modules_opengl_web_GL.current_context.stencilFuncSeparate(face,func,ref,mask);
-};
-snow_modules_opengl_web_GL.stencilMask = function(mask) {
-	snow_modules_opengl_web_GL.current_context.stencilMask(mask);
-};
-snow_modules_opengl_web_GL.stencilMaskSeparate = function(face,mask) {
-	snow_modules_opengl_web_GL.current_context.stencilMaskSeparate(face,mask);
-};
-snow_modules_opengl_web_GL.stencilOp = function(fail,zfail,zpass) {
-	snow_modules_opengl_web_GL.current_context.stencilOp(fail,zfail,zpass);
-};
-snow_modules_opengl_web_GL.stencilOpSeparate = function(face,fail,zfail,zpass) {
-	snow_modules_opengl_web_GL.current_context.stencilOpSeparate(face,fail,zfail,zpass);
-};
-snow_modules_opengl_web_GL.texImage2D = function(target,level,internalformat,width,height,border,format,type,data) {
-	snow_modules_opengl_web_GL.current_context.texImage2D(target,level,internalformat,width,height,border,format,type,data);
-};
-snow_modules_opengl_web_GL.texParameterf = function(target,pname,param) {
-	snow_modules_opengl_web_GL.current_context.texParameterf(target,pname,param);
-};
-snow_modules_opengl_web_GL.texParameteri = function(target,pname,param) {
-	snow_modules_opengl_web_GL.current_context.texParameteri(target,pname,param);
-};
-snow_modules_opengl_web_GL.texSubImage2D = function(target,level,xoffset,yoffset,width,height,format,type,data) {
-	snow_modules_opengl_web_GL.current_context.texSubImage2D(target,level,xoffset,yoffset,width,height,format,type,data);
-};
-snow_modules_opengl_web_GL.uniform1f = function(location,x) {
-	snow_modules_opengl_web_GL.current_context.uniform1f(location,x);
-};
-snow_modules_opengl_web_GL.uniform1fv = function(location,data) {
-	snow_modules_opengl_web_GL.current_context.uniform1fv(location,data);
-};
-snow_modules_opengl_web_GL.uniform1i = function(location,x) {
-	snow_modules_opengl_web_GL.current_context.uniform1i(location,x);
-};
-snow_modules_opengl_web_GL.uniform1iv = function(location,data) {
-	snow_modules_opengl_web_GL.current_context.uniform1iv(location,data);
-};
 snow_modules_opengl_web_GL.uniform2f = function(location,x,y) {
 	snow_modules_opengl_web_GL.current_context.uniform2f(location,x,y);
-};
-snow_modules_opengl_web_GL.uniform2fv = function(location,data) {
-	snow_modules_opengl_web_GL.current_context.uniform2fv(location,data);
-};
-snow_modules_opengl_web_GL.uniform2i = function(location,x,y) {
-	snow_modules_opengl_web_GL.current_context.uniform2i(location,x,y);
-};
-snow_modules_opengl_web_GL.uniform2iv = function(location,data) {
-	snow_modules_opengl_web_GL.current_context.uniform2iv(location,data);
 };
 snow_modules_opengl_web_GL.uniform3f = function(location,x,y,z) {
 	snow_modules_opengl_web_GL.current_context.uniform3f(location,x,y,z);
 };
-snow_modules_opengl_web_GL.uniform3fv = function(location,data) {
-	snow_modules_opengl_web_GL.current_context.uniform3fv(location,data);
-};
-snow_modules_opengl_web_GL.uniform3i = function(location,x,y,z) {
-	snow_modules_opengl_web_GL.current_context.uniform3i(location,x,y,z);
-};
-snow_modules_opengl_web_GL.uniform3iv = function(location,data) {
-	snow_modules_opengl_web_GL.current_context.uniform3iv(location,data);
-};
 snow_modules_opengl_web_GL.uniform4f = function(location,x,y,z,w) {
 	snow_modules_opengl_web_GL.current_context.uniform4f(location,x,y,z,w);
 };
-snow_modules_opengl_web_GL.uniform4fv = function(location,data) {
-	snow_modules_opengl_web_GL.current_context.uniform4fv(location,data);
-};
-snow_modules_opengl_web_GL.uniform4i = function(location,x,y,z,w) {
-	snow_modules_opengl_web_GL.current_context.uniform4i(location,x,y,z,w);
-};
-snow_modules_opengl_web_GL.uniform4iv = function(location,data) {
-	snow_modules_opengl_web_GL.current_context.uniform4iv(location,data);
-};
-snow_modules_opengl_web_GL.uniformMatrix2fv = function(location,transpose,data) {
-	snow_modules_opengl_web_GL.current_context.uniformMatrix2fv(location,transpose,data);
-};
-snow_modules_opengl_web_GL.uniformMatrix3fv = function(location,transpose,data) {
-	snow_modules_opengl_web_GL.current_context.uniformMatrix3fv(location,transpose,data);
-};
 snow_modules_opengl_web_GL.uniformMatrix4fv = function(location,transpose,data) {
 	snow_modules_opengl_web_GL.current_context.uniformMatrix4fv(location,transpose,data);
-};
-snow_modules_opengl_web_GL.useProgram = function(program) {
-	snow_modules_opengl_web_GL.current_context.useProgram(program);
-};
-snow_modules_opengl_web_GL.validateProgram = function(program) {
-	snow_modules_opengl_web_GL.current_context.validateProgram(program);
-};
-snow_modules_opengl_web_GL.vertexAttrib1f = function(indx,x) {
-	snow_modules_opengl_web_GL.current_context.vertexAttrib1f(indx,x);
-};
-snow_modules_opengl_web_GL.vertexAttrib1fv = function(indx,data) {
-	snow_modules_opengl_web_GL.current_context.vertexAttrib1fv(indx,data);
-};
-snow_modules_opengl_web_GL.vertexAttrib2f = function(indx,x,y) {
-	snow_modules_opengl_web_GL.current_context.vertexAttrib2f(indx,x,y);
-};
-snow_modules_opengl_web_GL.vertexAttrib2fv = function(indx,data) {
-	snow_modules_opengl_web_GL.current_context.vertexAttrib2fv(indx,data);
-};
-snow_modules_opengl_web_GL.vertexAttrib3f = function(indx,x,y,z) {
-	snow_modules_opengl_web_GL.current_context.vertexAttrib3f(indx,x,y,z);
-};
-snow_modules_opengl_web_GL.vertexAttrib3fv = function(indx,data) {
-	snow_modules_opengl_web_GL.current_context.vertexAttrib3fv(indx,data);
-};
-snow_modules_opengl_web_GL.vertexAttrib4f = function(indx,x,y,z,w) {
-	snow_modules_opengl_web_GL.current_context.vertexAttrib4f(indx,x,y,z,w);
-};
-snow_modules_opengl_web_GL.vertexAttrib4fv = function(indx,data) {
-	snow_modules_opengl_web_GL.current_context.vertexAttrib4fv(indx,data);
-};
-snow_modules_opengl_web_GL.vertexAttribPointer = function(indx,size,type,normalized,stride,offset) {
-	snow_modules_opengl_web_GL.current_context.vertexAttribPointer(indx,size,type,normalized,stride,offset);
-};
-snow_modules_opengl_web_GL.viewport = function(x,y,width,height) {
-	snow_modules_opengl_web_GL.current_context.viewport(x,y,width,height);
-};
-snow_modules_opengl_web_GL.get_version = function() {
-	return 7938;
 };
 var snow_system_assets_Asset = function(_system,_id,_type) {
 	if(_type == null) _type = 0;
@@ -10191,9 +5448,7 @@ var snow_system_assets_Asset = function(_system,_id,_type) {
 $hxClasses["snow.system.assets.Asset"] = snow_system_assets_Asset;
 snow_system_assets_Asset.__name__ = ["snow","system","assets","Asset"];
 snow_system_assets_Asset.prototype = {
-	destroy: function() {
-	}
-	,__class__: snow_system_assets_Asset
+	__class__: snow_system_assets_Asset
 };
 var snow_system_assets_AssetImage = function(_system,_id,_image) {
 	snow_system_assets_Asset.call(this,_system,_id,4);
@@ -10211,13 +5466,6 @@ snow_system_assets_AssetImage.load_from_bytes = function(_system,_id,_bytes) {
 	if(_bytes == null) throw new js__$Boot_HaxeError(snow_api_DebugError.null_assertion("_bytes was null"));
 	if(_system == null) throw new js__$Boot_HaxeError(snow_api_DebugError.null_assertion("_system was null"));
 	return new snow_system_assets_AssetImage(_system,_id,null).reload_from_bytes(_bytes);
-};
-snow_system_assets_AssetImage.load_from_pixels = function(_system,_id,_width,_height,_pixels) {
-	if(_id == null) throw new js__$Boot_HaxeError(snow_api_DebugError.null_assertion("_id was null"));
-	if(_pixels == null) throw new js__$Boot_HaxeError(snow_api_DebugError.null_assertion("_pixels was null"));
-	if(_system == null) throw new js__$Boot_HaxeError(snow_api_DebugError.null_assertion("_system was null"));
-	var info = _system.module.image_info_from_pixels(_id,_width,_height,_pixels);
-	return new snow_system_assets_AssetImage(_system,_id,info);
 };
 snow_system_assets_AssetImage.provider = function(_app,_path) {
 	return _app.assets.module.image_load_info(_path);
@@ -10239,9 +5487,6 @@ snow_system_assets_AssetImage.prototype = $extend(snow_system_assets_Asset.proto
 			}).error(reject);
 		});
 	}
-	,destroy: function() {
-		this.set_image(null);
-	}
 	,reload_from_bytes: function(_bytes) {
 		var _g = this;
 		this.loaded = false;
@@ -10253,44 +5498,11 @@ snow_system_assets_AssetImage.prototype = $extend(snow_system_assets_Asset.proto
 			}).error(reject);
 		});
 	}
-	,reload_from_pixels: function(_width,_height,_pixels) {
-		this.loaded = false;
-		this.set_image(this.system.module.image_info_from_pixels(this.id,_width,_height,_pixels));
-	}
 	,set_image: function(_image) {
 		this.loaded = _image != null;
 		return this.image = _image;
 	}
 	,__class__: snow_system_assets_AssetImage
-});
-var snow_system_assets_AssetBytes = function(_system,_id,_bytes) {
-	snow_system_assets_Asset.call(this,_system,_id,1);
-	this.set_bytes(_bytes);
-};
-$hxClasses["snow.system.assets.AssetBytes"] = snow_system_assets_AssetBytes;
-snow_system_assets_AssetBytes.__name__ = ["snow","system","assets","AssetBytes"];
-snow_system_assets_AssetBytes.load = function(_system,_id) {
-	return new snow_system_assets_AssetBytes(_system,_id,null).reload();
-};
-snow_system_assets_AssetBytes.__super__ = snow_system_assets_Asset;
-snow_system_assets_AssetBytes.prototype = $extend(snow_system_assets_Asset.prototype,{
-	reload: function() {
-		var _g = this;
-		return new snow_api_Promise(function(resolve,reject) {
-			_g.system.app.io.data_flow(haxe_io_Path.join([_g.system.root,_g.id])).then(function(_bytes) {
-				_g.set_bytes(_bytes);
-				resolve(_g);
-			}).error(reject);
-		});
-	}
-	,destroy: function() {
-		this.set_bytes(null);
-	}
-	,set_bytes: function(_bytes) {
-		this.loaded = _bytes != null;
-		return this.bytes = _bytes;
-	}
-	,__class__: snow_system_assets_AssetBytes
 });
 var snow_system_assets_AssetText = function(_system,_id,_text) {
 	snow_system_assets_Asset.call(this,_system,_id,2);
@@ -10316,24 +5528,15 @@ snow_system_assets_AssetText.prototype = $extend(snow_system_assets_Asset.protot
 			}).error(reject);
 		});
 	}
-	,destroy: function() {
-		this.set_text(null);
-	}
 	,set_text: function(_text) {
 		this.loaded = _text != null;
 		return this.text = _text;
 	}
 	,__class__: snow_system_assets_AssetText
 });
-var snow_system_assets_AssetJSON = function(_system,_id,_json) {
-	snow_system_assets_Asset.call(this,_system,_id,3);
-	this.set_json(_json);
-};
+var snow_system_assets_AssetJSON = function() { };
 $hxClasses["snow.system.assets.AssetJSON"] = snow_system_assets_AssetJSON;
 snow_system_assets_AssetJSON.__name__ = ["snow","system","assets","AssetJSON"];
-snow_system_assets_AssetJSON.load = function(_system,_id) {
-	return new snow_system_assets_AssetJSON(_system,_id,null).reload();
-};
 snow_system_assets_AssetJSON.processor = function(_app,_id,_data) {
 	if(_data == null) return snow_api_Promise.reject(snow_types_Error.error("AssetJSON: data was null"));
 	return new snow_api_Promise(function(resolve,reject) {
@@ -10349,23 +5552,7 @@ snow_system_assets_AssetJSON.processor = function(_app,_id,_data) {
 };
 snow_system_assets_AssetJSON.__super__ = snow_system_assets_Asset;
 snow_system_assets_AssetJSON.prototype = $extend(snow_system_assets_Asset.prototype,{
-	reload: function() {
-		var _g = this;
-		return new snow_api_Promise(function(resolve,reject) {
-			_g.system.app.io.data_flow(haxe_io_Path.join([_g.system.root,_g.id]),snow_system_assets_AssetJSON.processor).then(function(_json) {
-				_g.set_json(_json);
-				resolve(_g);
-			}).error(reject);
-		});
-	}
-	,destroy: function() {
-		this.set_json(null);
-	}
-	,set_json: function(_json) {
-		this.loaded = _json != null;
-		return this.json = _json;
-	}
-	,__class__: snow_system_assets_AssetJSON
+	__class__: snow_system_assets_AssetJSON
 });
 var snow_system_assets_Assets = function(_app) {
 	this.root = "";
@@ -10375,26 +5562,8 @@ var snow_system_assets_Assets = function(_app) {
 $hxClasses["snow.system.assets.Assets"] = snow_system_assets_Assets;
 snow_system_assets_Assets.__name__ = ["snow","system","assets","Assets"];
 snow_system_assets_Assets.prototype = {
-	path: function(_id) {
-		return haxe_io_Path.join([this.root,_id]);
-	}
-	,bytes: function(_id) {
-		return snow_system_assets_AssetBytes.load(this,_id);
-	}
-	,text: function(_id) {
-		return snow_system_assets_AssetText.load(this,_id);
-	}
-	,json: function(_id) {
-		return snow_system_assets_AssetJSON.load(this,_id);
-	}
-	,image: function(_id) {
-		return snow_system_assets_AssetImage.load(this,_id);
-	}
-	,image_from_bytes: function(_id,_bytes) {
+	image_from_bytes: function(_id,_bytes) {
 		return snow_system_assets_AssetImage.load_from_bytes(this,_id,_bytes);
-	}
-	,image_from_pixels: function(_id,_width,_height,_pixels) {
-		return snow_system_assets_AssetImage.load_from_pixels(this,_id,_width,_height,_pixels);
 	}
 	,__class__: snow_system_assets_Assets
 };
@@ -10415,7 +5584,7 @@ snow_system_audio_Audio.prototype = {
 		if(_name == null) _name = "";
 		var _g = this;
 		if(_name == "") _name = this.app.make_uniqueid();
-		haxe_Log.trace("    i / audio / " + ("creating sound named " + _name + " (stream: " + (_streaming == null?"null":"" + _streaming) + ")"),{ fileName : "Audio.hx", lineNumber : 53, className : "snow.system.audio.Audio", methodName : "create"});
+		console.log("    i / audio / " + ("creating sound named " + _name + " (stream: " + (_streaming == null?"null":"" + _streaming) + ")"));
 		return new snow_api_Promise(function(resolve,reject) {
 			var _create = _g.module.create_sound(_id,_name,_streaming);
 			_create.then(function(_sound) {
@@ -10425,23 +5594,6 @@ snow_system_audio_Audio.prototype = {
 				_sound.emit("load");
 			}).error(reject);
 		});
-	}
-	,create_from_bytes: function(_name,_bytes,_format) {
-		if(_name == null) _name = "";
-		if(_name == "") _name = this.app.make_uniqueid();
-		var sound = this.module.create_sound_from_bytes(_name,_bytes,_format);
-		if(sound == null) throw new js__$Boot_HaxeError(snow_api_DebugError.null_assertion("sound was null"));
-		this.sound_list.set(_name,sound);
-		return sound;
-	}
-	,uncreate: function(_name) {
-		var _sound = this.sound_list.get(_name);
-		if(_sound == null) haxe_Log.trace("    i / audio / " + ("can't find sound, unable to uncreate, use create first: " + _name),{ fileName : "Audio.hx", lineNumber : 99, className : "snow.system.audio.Audio", methodName : "uncreate"});
-		_sound.destroy();
-	}
-	,add: function(sound) {
-		this.sound_list.set(sound.name,sound);
-		if(sound.is_stream) this.stream_list.set(sound.name,sound);
 	}
 	,on: function(_name,_event,_handler) {
 		if(_event == "load") {
@@ -10474,63 +5626,15 @@ snow_system_audio_Audio.prototype = {
 		var _sound = this.sound_list.get(_name);
 		return _sound;
 	}
-	,volume: function(_name,_volume) {
-		var sound = this.get(_name);
-		if(sound != null) {
-			if(_volume != null) return sound.set_volume(_volume); else return sound.get_volume();
-		}
-		return 0;
-	}
-	,pan: function(_name,_pan) {
-		var sound = this.get(_name);
-		if(sound != null) {
-			if(_pan != null) return sound.set_pan(_pan); else return sound.get_pan();
-		}
-		return 0;
-	}
-	,pitch: function(_name,_pitch) {
-		var sound = this.get(_name);
-		if(sound != null) {
-			if(_pitch != null) return sound.set_pitch(_pitch); else return sound.get_pitch();
-		}
-		return 0;
-	}
-	,position: function(_name,_position) {
-		var sound = this.get(_name);
-		if(sound != null) {
-			if(_position != null) return sound.set_position(_position); else return sound.get_position();
-		}
-		return 0;
-	}
-	,duration: function(_name) {
-		var sound = this.get(_name);
-		if(sound != null) return sound.get_duration();
-		return 0;
-	}
 	,play: function(_name) {
 		if(!this.active) return;
 		var sound = this.get(_name);
 		if(sound != null) sound.play();
 	}
-	,loop: function(_name) {
-		if(!this.active) return;
-		var sound = this.get(_name);
-		if(sound != null) sound.loop();
-	}
-	,pause: function(_name) {
-		if(!this.active) return;
-		var sound = this.get(_name);
-		if(sound != null) sound.pause();
-	}
 	,stop: function(_name) {
 		if(!this.active) return;
 		var sound = this.get(_name);
 		if(sound != null) sound.stop();
-	}
-	,toggle: function(_name) {
-		if(!this.active) return;
-		var sound = this.get(_name);
-		if(sound != null) sound.toggle();
 	}
 	,kill: function(_sound) {
 		if(_sound == null) return;
@@ -10539,7 +5643,7 @@ snow_system_audio_Audio.prototype = {
 	}
 	,suspend: function() {
 		if(!this.active) return;
-		haxe_Log.trace("    i / audio / " + "suspending sound context",{ fileName : "Audio.hx", lineNumber : 354, className : "snow.system.audio.Audio", methodName : "suspend"});
+		console.log("    i / audio / " + "suspending sound context");
 		this.active = false;
 		var $it0 = this.stream_list.iterator();
 		while( $it0.hasNext() ) {
@@ -10550,7 +5654,7 @@ snow_system_audio_Audio.prototype = {
 	}
 	,resume: function() {
 		if(this.active) return;
-		haxe_Log.trace("    i / audio / " + "resuming sound context",{ fileName : "Audio.hx", lineNumber : 372, className : "snow.system.audio.Audio", methodName : "resume"});
+		console.log("    i / audio / " + "resuming sound context");
 		this.active = true;
 		this.module.resume();
 		var $it0 = this.stream_list.iterator();
@@ -10619,51 +5723,8 @@ var snow_system_input_Input = function(_app) {
 $hxClasses["snow.system.input.Input"] = snow_system_input_Input;
 snow_system_input_Input.__name__ = ["snow","system","input","Input"];
 snow_system_input_Input.prototype = {
-	keypressed: function(_code) {
-		return this.key_code_pressed.h.hasOwnProperty(_code);
-	}
-	,keyreleased: function(_code) {
-		return this.key_code_released.h.hasOwnProperty(_code);
-	}
-	,keydown: function(_code) {
+	keydown: function(_code) {
 		return this.key_code_down.h.hasOwnProperty(_code);
-	}
-	,scanpressed: function(_code) {
-		return this.scan_code_pressed.h.hasOwnProperty(_code);
-	}
-	,scanreleased: function(_code) {
-		return this.scan_code_released.h.hasOwnProperty(_code);
-	}
-	,scandown: function(_code) {
-		return this.scan_code_down.h.hasOwnProperty(_code);
-	}
-	,mousepressed: function(_button) {
-		return this.mouse_button_pressed.h.hasOwnProperty(_button);
-	}
-	,mousereleased: function(_button) {
-		return this.mouse_button_released.h.hasOwnProperty(_button);
-	}
-	,mousedown: function(_button) {
-		return this.mouse_button_down.h.hasOwnProperty(_button);
-	}
-	,gamepadpressed: function(_gamepad,_button) {
-		var _gamepad_state = this.gamepad_button_pressed.h[_gamepad];
-		if(_gamepad_state != null) return _gamepad_state.h.hasOwnProperty(_button); else return false;
-	}
-	,gamepadreleased: function(_gamepad,_button) {
-		var _gamepad_state = this.gamepad_button_released.h[_gamepad];
-		if(_gamepad_state != null) return _gamepad_state.h.hasOwnProperty(_button); else return false;
-	}
-	,gamepaddown: function(_gamepad,_button) {
-		var _gamepad_state = this.gamepad_button_down.h[_gamepad];
-		if(_gamepad_state != null) return _gamepad_state.h.hasOwnProperty(_button); else return false;
-	}
-	,gamepadaxis: function(_gamepad,_axis) {
-		var _gamepad_state = this.gamepad_axis_values.h[_gamepad];
-		if(_gamepad_state != null) {
-			if(_gamepad_state.h.hasOwnProperty(_axis)) return _gamepad_state.h[_axis];
-		}
-		return 0;
 	}
 	,dispatch_key_down_event: function(keycode,scancode,repeat,mod,timestamp,window_id) {
 		if(!repeat) {
@@ -10759,9 +5820,6 @@ snow_system_input_Input.prototype = {
 	,listen: function(_window) {
 		this.module.listen(_window);
 	}
-	,unlisten: function(_window) {
-		this.module.unlisten(_window);
-	}
 	,on_event: function(_event) {
 		this.module.on_event(_event);
 	}
@@ -10831,7 +5889,6 @@ snow_system_input_Input.prototype = {
 	,__class__: snow_system_input_Input
 };
 var snow_system_io_IO = function(_app) {
-	this.string_save_prefix = "slot";
 	this.app = _app;
 	this.module = new snow_core_web_io_IO(this);
 	this.module.init();
@@ -10839,16 +5896,7 @@ var snow_system_io_IO = function(_app) {
 $hxClasses["snow.system.io.IO"] = snow_system_io_IO;
 snow_system_io_IO.__name__ = ["snow","system","io","IO"];
 snow_system_io_IO.prototype = {
-	url_open: function(_url) {
-		this.module.url_open(_url);
-	}
-	,data_load: function(_path,_options) {
-		return this.module.data_load(_path,_options);
-	}
-	,data_save: function(_path,_data,_options) {
-		return this.module.data_save(_path,_data,_options);
-	}
-	,data_flow: function(_id,_processor,_provider) {
+	data_flow: function(_id,_processor,_provider) {
 		var _g = this;
 		if(_provider == null) _provider = $bind(this,this.default_provider);
 		return new snow_api_Promise(function(resolve,reject) {
@@ -10857,61 +5905,8 @@ snow_system_io_IO.prototype = {
 			}).error(reject);
 		});
 	}
-	,string_save_path: function(_slot) {
-		if(_slot == null) _slot = 0;
-		return this.module.string_save_path(_slot);
-	}
-	,string_save: function(_key,_value,_slot) {
-		if(_slot == null) _slot = 0;
-		var _string_map = this.string_slots_sync(_slot);
-		var _encoded_key = window.btoa(_key);
-		if(_value == null) _string_map.remove(_encoded_key); else {
-			var _encoded_value = window.btoa(_value);
-			if(__map_reserved[_encoded_key] != null) _string_map.setReserved(_encoded_key,_encoded_value); else _string_map.h[_encoded_key] = _encoded_value;
-		}
-		var _contents = haxe_Serializer.run(_string_map);
-		_contents = window.btoa(_contents);
-		return this.module.string_slot_save(_slot,_contents);
-	}
-	,string_load: function(_key,_slot) {
-		if(_slot == null) _slot = 0;
-		var _string_map = this.string_slots_sync(_slot);
-		var _encoded_key = window.btoa(_key);
-		var _encoded_value;
-		_encoded_value = __map_reserved[_encoded_key] != null?_string_map.getReserved(_encoded_key):_string_map.h[_encoded_key];
-		if(_encoded_value == null) return null;
-		return window.atob(_encoded_value);
-	}
-	,string_destroy: function(_slot) {
-		if(_slot == null) _slot = 0;
-		if(this.string_slots == null) this.string_slots = new haxe_ds_IntMap(); else this.string_slots.remove(_slot);
-		return this.module.string_slot_destroy(_slot);
-	}
-	,string_slots_sync: function(_slot) {
-		if(_slot == null) _slot = 0;
-		if(this.string_slots == null) this.string_slots = new haxe_ds_IntMap();
-		var _string_map = this.string_slots.h[_slot];
-		if(_string_map == null) {
-			var _string = this.module.string_slot_load(_slot);
-			if(_string == null) _string_map = new haxe_ds_StringMap(); else {
-				_string = window.atob(_string);
-				_string_map = haxe_Unserializer.run(_string);
-			}
-			this.string_slots.h[_slot] = _string_map;
-		}
-		return _string_map;
-	}
 	,default_provider: function(_app,_id) {
 		return this.module.data_load(_id,null);
-	}
-	,on_event: function(_event) {
-		this.module.on_event(_event);
-	}
-	,update: function() {
-		this.module.update();
-	}
-	,destroy: function() {
-		this.module.destroy();
 	}
 	,__class__: snow_system_io_IO
 };
@@ -10926,10 +5921,6 @@ var snow_system_window_Window = function(_system,_config) {
 	this.width = 0;
 	this.y = 0;
 	this.x = 0;
-	this.fullscreen = false;
-	this.grab = false;
-	this.bordered = true;
-	this.title = "snow window";
 	this.set_max_size({ x : 0, y : 0});
 	this.set_min_size({ x : 0, y : 0});
 	this.system = _system;
@@ -10946,7 +5937,7 @@ snow_system_window_Window.prototype = {
 		this.id = _id;
 		this.handle = _handle;
 		if(this.handle == null) {
-			haxe_Log.trace("   i / window / " + "failed to create window",{ fileName : "Window.hx", lineNumber : 92, className : "snow.system.window.Window", methodName : "on_window_created"});
+			console.log("   i / window / " + "failed to create window");
 			return;
 		}
 		this.closed = false;
@@ -11012,53 +6003,11 @@ snow_system_window_Window.prototype = {
 		if(this.handle == null || this.closed || this.minimized) return;
 		this.system.module.swap(this);
 	}
-	,destroy: function() {
-		this.closed = true;
-		if(this.handle == null) return;
-		this.system.remove(this);
-		this.system.module.destroy_window(this);
-		this.handle = null;
-	}
-	,close: function() {
-		this.closed = true;
-		if(this.handle == null) return;
-		this.system.module.close(this);
-	}
-	,show: function() {
-		if(this.handle == null) return;
-		this.closed = false;
-		this.system.module.show(this);
-	}
-	,simple_message: function(message,title) {
-		if(title == null) title = "";
-		if(this.handle == null) return;
-		this.system.module.simple_message(this,message,title);
-	}
-	,get_fullscreen: function() {
-		return this.fullscreen;
-	}
-	,set_fullscreen: function(_enable) {
-		if(this.handle != null) this.system.module.fullscreen(this,_enable);
-		return this.fullscreen = _enable;
-	}
-	,get_bordered: function() {
-		return this.bordered;
-	}
-	,get_grab: function() {
-		return this.grab;
-	}
 	,get_max_size: function() {
 		return this.max_size;
 	}
 	,get_min_size: function() {
 		return this.min_size;
-	}
-	,get_title: function() {
-		return this.title;
-	}
-	,set_title: function(_title) {
-		if(this.handle != null) this.system.module.set_title(this,_title);
-		return this.title = _title;
 	}
 	,set_x: function(_x) {
 		this.x = _x;
@@ -11079,9 +6028,6 @@ snow_system_window_Window.prototype = {
 		this.height = _height;
 		if(this.handle != null && !this.internal_resize) this.system.module.set_size(this,this.width,this.height);
 		return this.height;
-	}
-	,set_cursor_position: function(_x,_y) {
-		if(this.handle != null && !this.closed) this.system.module.set_cursor_position(this,_x,_y);
 	}
 	,set_position: function(_x,_y) {
 		var last_internal_position_flag = this.internal_position;
@@ -11107,14 +6053,6 @@ snow_system_window_Window.prototype = {
 		if(this.get_min_size() != null && this.handle != null) this.system.module.set_min_size(this,_size.x,_size.y);
 		return this.min_size = _size;
 	}
-	,set_bordered: function(_bordered) {
-		if(this.handle != null) this.system.module.bordered(this,_bordered);
-		return this.bordered = _bordered;
-	}
-	,set_grab: function(_grab) {
-		if(this.handle != null) this.system.module.grab(this,_grab);
-		return this.grab = _grab;
-	}
 	,__class__: snow_system_window_Window
 };
 var snow_system_window_Windowing = function(_app) {
@@ -11137,52 +6075,12 @@ snow_system_window_Windowing.prototype = {
 		if(_config.no_input == null || _config.no_input == false) this.app.input.listen(_window);
 		return _window;
 	}
-	,remove: function(_window) {
-		this.window_list.remove(_window.id);
-		this.window_handles.remove(_window.handle);
-		this.window_count--;
-		this.module.unlisten(_window);
-		if(_window.config.no_input == null || _window.config.no_input == false) this.app.input.unlisten(_window);
-	}
 	,window_from_handle: function(_handle) {
 		if(this.window_handles.h.__keys__[_handle.__id__] != null) {
 			var _id = this.window_handles.h[_handle.__id__];
 			return this.window_list.h[_id];
 		}
 		return null;
-	}
-	,window_from_id: function(_id) {
-		return this.window_list.h[_id];
-	}
-	,enable_vsync: function(_enable) {
-		return this.module.system_enable_vsync(_enable);
-	}
-	,enable_cursor: function(_enable) {
-		this.module.system_enable_cursor(_enable);
-	}
-	,enable_cursor_lock: function(_enable) {
-		this.module.system_lock_cursor(_enable);
-	}
-	,display_count: function() {
-		return this.module.display_count();
-	}
-	,display_mode_count: function(display) {
-		return this.module.display_mode_count(display);
-	}
-	,display_native_mode: function(display) {
-		return this.module.display_native_mode(display);
-	}
-	,display_current_mode: function(display) {
-		return this.module.display_current_mode(display);
-	}
-	,display_mode: function(display,mode_index) {
-		return this.module.display_mode(display,mode_index);
-	}
-	,display_bounds: function(display) {
-		return this.module.display_bounds(display);
-	}
-	,display_name: function(display) {
-		return this.module.display_name(display);
 	}
 	,on_event: function(_event) {
 		if(_event.type == 5) {
@@ -11214,194 +6112,6 @@ snow_types_Error.error = function(value) { var $x = ["error",0,value]; $x.__enum
 snow_types_Error.init = function(value) { var $x = ["init",1,value]; $x.__enum__ = snow_types_Error; $x.toString = $estr; return $x; };
 snow_types_Error.windowing = function(value) { var $x = ["windowing",2,value]; $x.__enum__ = snow_types_Error; $x.toString = $estr; return $x; };
 snow_types_Error.parse = function(value) { var $x = ["parse",3,value]; $x.__enum__ = snow_types_Error; $x.toString = $estr; return $x; };
-var snow_types__$Types_AssetType_$Impl_$ = {};
-$hxClasses["snow.types._Types.AssetType_Impl_"] = snow_types__$Types_AssetType_$Impl_$;
-snow_types__$Types_AssetType_$Impl_$.__name__ = ["snow","types","_Types","AssetType_Impl_"];
-snow_types__$Types_AssetType_$Impl_$.toString = function(this1) {
-	switch(this1) {
-	case 0:
-		return "unknown";
-	case 1:
-		return "bytes";
-	case 2:
-		return "text";
-	case 3:
-		return "json";
-	case 4:
-		return "image";
-	case 5:
-		return "audio";
-	default:
-		return "" + this1;
-	}
-};
-var snow_types__$Types_OpenGLProfile_$Impl_$ = {};
-$hxClasses["snow.types._Types.OpenGLProfile_Impl_"] = snow_types__$Types_OpenGLProfile_$Impl_$;
-snow_types__$Types_OpenGLProfile_$Impl_$.__name__ = ["snow","types","_Types","OpenGLProfile_Impl_"];
-snow_types__$Types_OpenGLProfile_$Impl_$.toString = function(this1) {
-	switch(this1) {
-	case 0:
-		return "compatibility";
-	case 1:
-		return "core";
-	default:
-		return "" + this1;
-	}
-};
-var snow_types__$Types_TextEventType_$Impl_$ = {};
-$hxClasses["snow.types._Types.TextEventType_Impl_"] = snow_types__$Types_TextEventType_$Impl_$;
-snow_types__$Types_TextEventType_$Impl_$.__name__ = ["snow","types","_Types","TextEventType_Impl_"];
-snow_types__$Types_TextEventType_$Impl_$.toString = function(this1) {
-	switch(this1) {
-	case 0:
-		return "unknown";
-	case 1:
-		return "edit";
-	case 2:
-		return "input";
-	default:
-		return "" + this1;
-	}
-};
-var snow_types__$Types_GamepadDeviceEventType_$Impl_$ = {};
-$hxClasses["snow.types._Types.GamepadDeviceEventType_Impl_"] = snow_types__$Types_GamepadDeviceEventType_$Impl_$;
-snow_types__$Types_GamepadDeviceEventType_$Impl_$.__name__ = ["snow","types","_Types","GamepadDeviceEventType_Impl_"];
-snow_types__$Types_GamepadDeviceEventType_$Impl_$.toString = function(this1) {
-	switch(this1) {
-	case 0:
-		return "unknown";
-	case 1:
-		return "device_added";
-	case 2:
-		return "device_removed";
-	case 3:
-		return "device_remapped";
-	default:
-		return "" + this1;
-	}
-};
-var snow_types__$Types_SystemEventType_$Impl_$ = {};
-$hxClasses["snow.types._Types.SystemEventType_Impl_"] = snow_types__$Types_SystemEventType_$Impl_$;
-snow_types__$Types_SystemEventType_$Impl_$.__name__ = ["snow","types","_Types","SystemEventType_Impl_"];
-snow_types__$Types_SystemEventType_$Impl_$.toString = function(this1) {
-	switch(this1) {
-	case 0:
-		return "unknown";
-	case 1:
-		return "init";
-	case 2:
-		return "ready";
-	case 3:
-		return "update";
-	case 4:
-		return "shutdown";
-	case 5:
-		return "window";
-	case 6:
-		return "input";
-	case 7:
-		return "quit";
-	case 8:
-		return "app_terminating";
-	case 9:
-		return "app_lowmemory";
-	case 10:
-		return "app_willenterbackground";
-	case 11:
-		return "app_didenterbackground";
-	case 12:
-		return "app_willenterforeground";
-	case 13:
-		return "app_didenterforeground";
-	case 14:
-		return "file";
-	default:
-		return "" + this1;
-	}
-};
-var snow_types__$Types_WindowEventType_$Impl_$ = {};
-$hxClasses["snow.types._Types.WindowEventType_Impl_"] = snow_types__$Types_WindowEventType_$Impl_$;
-snow_types__$Types_WindowEventType_$Impl_$.__name__ = ["snow","types","_Types","WindowEventType_Impl_"];
-snow_types__$Types_WindowEventType_$Impl_$.toString = function(this1) {
-	switch(this1) {
-	case 0:
-		return "unknown";
-	case 1:
-		return "created";
-	case 2:
-		return "shown";
-	case 3:
-		return "hidden";
-	case 4:
-		return "exposed";
-	case 5:
-		return "moved";
-	case 6:
-		return "resized";
-	case 7:
-		return "size_changed";
-	case 8:
-		return "minimized";
-	case 9:
-		return "maximized";
-	case 10:
-		return "restored";
-	case 11:
-		return "enter";
-	case 12:
-		return "leave";
-	case 13:
-		return "focus_gained";
-	case 14:
-		return "focus_lost";
-	case 15:
-		return "close";
-	case 16:
-		return "destroy";
-	default:
-		return "" + this1;
-	}
-};
-var snow_types__$Types_InputEventType_$Impl_$ = {};
-$hxClasses["snow.types._Types.InputEventType_Impl_"] = snow_types__$Types_InputEventType_$Impl_$;
-snow_types__$Types_InputEventType_$Impl_$.__name__ = ["snow","types","_Types","InputEventType_Impl_"];
-snow_types__$Types_InputEventType_$Impl_$.toString = function(this1) {
-	switch(this1) {
-	case 0:
-		return "unknown";
-	case 1:
-		return "key";
-	case 2:
-		return "mouse";
-	case 3:
-		return "touch";
-	case 4:
-		return "joystick";
-	case 5:
-		return "controller";
-	default:
-		return "" + this1;
-	}
-};
-var snow_types__$Types_FileEventType_$Impl_$ = {};
-$hxClasses["snow.types._Types.FileEventType_Impl_"] = snow_types__$Types_FileEventType_$Impl_$;
-snow_types__$Types_FileEventType_$Impl_$.__name__ = ["snow","types","_Types","FileEventType_Impl_"];
-snow_types__$Types_FileEventType_$Impl_$.toString = function(this1) {
-	switch(this1) {
-	case 0:
-		return "unknown";
-	case 1:
-		return "modify";
-	case 2:
-		return "remove";
-	case 3:
-		return "create";
-	case 4:
-		return "drop";
-	default:
-		return "" + this1;
-	}
-};
 var tusk_ChangeEvent = $hxClasses["tusk.ChangeEvent"] = { __ename__ : ["tusk","ChangeEvent"], __constructs__ : ["EntityAdded","EntityRemoved","ComponentAdded","ComponentRemoved"] };
 tusk_ChangeEvent.EntityAdded = ["EntityAdded",0];
 tusk_ChangeEvent.EntityAdded.toString = $estr;
@@ -11455,9 +6165,6 @@ tusk_Entity.prototype = {
 		}
 		return this;
 	}
-	,remove: function(component) {
-		return this.removeType(component.get__tid());
-	}
 	,hxSerialize: function(s) {
 		s.serialize(this.components);
 	}
@@ -11466,9 +6173,6 @@ tusk_Entity.prototype = {
 	}
 	,__class__: tusk_Entity
 };
-var tusk_Files = function() { };
-$hxClasses["tusk.Files"] = tusk_Files;
-tusk_Files.__name__ = ["tusk","Files"];
 var tusk_Matcher = function() {
 	this.customMatcher = null;
 	this.excludes = [];
@@ -11481,21 +6185,6 @@ tusk_Matcher.prototype = {
 		if(HxOverrides.indexOf(this.excludes,tid,0) >= 0) throw new js__$Boot_HaxeError(new tusk_debug_Exception("Can't add component '" + tid + "' because it is already in the excludes list!",null,null,{ fileName : "Matcher.hx", lineNumber : 25, className : "tusk.Matcher", methodName : "include"}));
 		if(HxOverrides.indexOf(this.includes,tid,0) < 0) this.includes.push(tid);
 		return this;
-	}
-	,exclude: function(tid) {
-		if(HxOverrides.indexOf(this.includes,tid,0) >= 0) throw new js__$Boot_HaxeError(new tusk_debug_Exception("Can't add component '" + tid + "' because it is already in the includes list!",null,null,{ fileName : "Matcher.hx", lineNumber : 40, className : "tusk.Matcher", methodName : "exclude"}));
-		if(HxOverrides.indexOf(this.excludes,tid,0) < 0) this.excludes.push(tid);
-		return this;
-	}
-	,custom: function(customMatcher) {
-		this.customMatcher = customMatcher;
-		return this;
-	}
-	,isIncluded: function(tid) {
-		return HxOverrides.indexOf(this.includes,tid,0) > -1;
-	}
-	,isExcluded: function(tid) {
-		return HxOverrides.indexOf(this.excludes,tid,0) > -1;
 	}
 	,matchesEntity: function(entity) {
 		var _g = 0;
@@ -11534,35 +6223,12 @@ tusk_Tusk.__name__ = ["tusk","Tusk"];
 tusk_Tusk.routeEvent = function(type,handler) {
 	tusk_Tusk.router.registerHandler(type,handler);
 };
-tusk_Tusk.unrouteEvent = function(type,handler) {
-	tusk_Tusk.router.unregisterHandler(type,handler);
-};
 tusk_Tusk.pushScene = function(scene) {
 	if(HxOverrides.indexOf(tusk_Tusk.game.currentScenes,scene,0) >= 0) throw new js__$Boot_HaxeError(new tusk_debug_Exception("Scene is already running!",null,null,{ fileName : "Tusk.hx", lineNumber : 180, className : "tusk.Tusk", methodName : "pushScene"}));
 	tusk_Tusk.game.currentScenes.push(scene);
 	scene.___connectRoutes();
 	scene.onLoad(new tusk_events_LoadEvent(scene));
 	return scene.sceneDone.promise();
-};
-tusk_Tusk.removeScene = function(scene) {
-	if(!HxOverrides.remove(tusk_Tusk.game.currentScenes,scene)) return;
-	tusk_Tusk.router.onEvent(tusk_events_EventType.Destroy,new tusk_events_DestroyEvent(scene));
-	var _g = 0;
-	var _g1 = scene.processors;
-	while(_g < _g1.length) {
-		var processor = _g1[_g];
-		++_g;
-		processor.___disconnectRoutes();
-	}
-	scene.___disconnectRoutes();
-	var _g2 = 0;
-	var _g11 = scene.entities;
-	while(_g2 < _g11.length) {
-		var entity = _g11[_g2];
-		++_g2;
-		tusk_Tusk.removeEntity(entity);
-	}
-	if(!scene.sceneDone._resolved) scene.sceneDone.resolve(scene);
 };
 tusk_Tusk.addEntity = function(entity,scene) {
 	if(HxOverrides.indexOf(scene.entities,entity,0) == -1) null;
@@ -11619,11 +6285,6 @@ tusk_Tusk.removeEntity = function(entity) {
 		}
 		if(HxOverrides.remove(scene.entities,entity)) null;
 	}
-};
-tusk_Tusk.serialize = function() {
-	var s = new haxe_Serializer();
-	var result = s.toString();
-	return result;
 };
 tusk_Tusk.__super__ = snow_AppFixedTimestep;
 tusk_Tusk.prototype = $extend(snow_AppFixedTimestep.prototype,{
@@ -11797,36 +6458,9 @@ tusk_defaults_Fonts.loadSubatomic_Screen = function() {
 		return tusk_Tusk.assets.loadFont("Subatomic_Screen.fnt",haxe_Resource.getString("Subatomic_Screen.fnt"),texture);
 	});
 };
-var tusk_defaults_Materials = function() {
-};
+var tusk_defaults_Materials = function() { };
 $hxClasses["tusk.defaults.Materials"] = tusk_defaults_Materials;
 tusk_defaults_Materials.__name__ = ["tusk","defaults","Materials"];
-tusk_defaults_Materials.loadUnlitColoured = function() {
-	var shader = new tusk_resources_Shader("unlit.coloured",haxe_Resource.getString("unlit.coloured.vert"),haxe_Resource.getString("unlit.coloured.frag"));
-	var mat = new tusk_resources_Material("unlit.coloured",shader);
-	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
-	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Colour4[1];
-	snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
-	var posLocation = mat.shader.getAttributeLocation("position");
-	var colourLocation = mat.shader.getAttributeLocation("colour");
-	mat.onRender = function(setupUniforms,vertexBuffer,vertexCount) {
-		snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
-		snow_modules_opengl_web_GL.current_context.blendFunc(770,771);
-		setupUniforms(mat);
-		snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(posLocation);
-		snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(colourLocation);
-		snow_modules_opengl_web_GL.current_context.bindBuffer(34962,vertexBuffer);
-		snow_modules_opengl_web_GL.current_context.vertexAttribPointer(posLocation,3,5126,false,28,0);
-		snow_modules_opengl_web_GL.current_context.vertexAttribPointer(colourLocation,4,5126,false,28,12);
-		snow_modules_opengl_web_GL.current_context.drawArrays(4,0,vertexCount);
-		snow_modules_opengl_web_GL.current_context.bindTexture(3553,null);
-		snow_modules_opengl_web_GL.current_context.bindBuffer(34962,null);
-		snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(colourLocation);
-		snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(posLocation);
-		snow_modules_opengl_web_GL.current_context.useProgram(null);
-	};
-	return tusk_Tusk.assets.loadMaterial("unlit.coloured",mat);
-};
 tusk_defaults_Materials.loadUnlitTextured = function() {
 	var shader = new tusk_resources_Shader("unlit.textured",haxe_Resource.getString("unlit.textured.vert"),haxe_Resource.getString("unlit.textured.frag"));
 	var mat = new tusk_resources_Material("unlit.textured",shader);
@@ -11856,28 +6490,6 @@ tusk_defaults_Materials.loadUnlitTextured = function() {
 		snow_modules_opengl_web_GL.current_context.useProgram(null);
 	};
 	return tusk_Tusk.assets.loadMaterial("unlit.textured",mat);
-};
-tusk_defaults_Materials.loadEffectFadeout = function() {
-	var shader = new tusk_resources_Shader("effect.fadeout",haxe_Resource.getString("unlit.textured.vert"),haxe_Resource.getString("effect.fadeout.frag"));
-	var mat = new tusk_resources_Material("effect.fadeout",shader);
-	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.Pos3[1];
-	mat.attributeFlags |= 1 << tusk_resources_AttributeTypes.UV[1];
-	snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
-	var posLocation = mat.shader.getAttributeLocation("position");
-	mat.onRender = function(setupUniforms,vertexBuffer,vertexCount) {
-		snow_modules_opengl_web_GL.current_context.useProgram(mat.shader.program);
-		snow_modules_opengl_web_GL.current_context.blendFunc(770,771);
-		setupUniforms(mat);
-		snow_modules_opengl_web_GL.current_context.enableVertexAttribArray(posLocation);
-		snow_modules_opengl_web_GL.current_context.bindBuffer(34962,vertexBuffer);
-		snow_modules_opengl_web_GL.current_context.vertexAttribPointer(posLocation,3,5126,false,20,0);
-		snow_modules_opengl_web_GL.current_context.drawArrays(4,0,vertexCount);
-		snow_modules_opengl_web_GL.current_context.bindTexture(3553,null);
-		snow_modules_opengl_web_GL.current_context.bindBuffer(34962,null);
-		snow_modules_opengl_web_GL.current_context.disableVertexAttribArray(posLocation);
-		snow_modules_opengl_web_GL.current_context.useProgram(null);
-	};
-	return tusk_Tusk.assets.loadMaterial("effect.fadeout",mat);
 };
 tusk_defaults_Materials.loadEffectCircleOut = function() {
 	var shader = new tusk_resources_Shader("effect.circleout",haxe_Resource.getString("unlit.textured.vert"),haxe_Resource.getString("effect.circleout.frag"));
@@ -11960,11 +6572,7 @@ tusk_defaults_Materials.loadParticlesUntextured = function() {
 	};
 	return tusk_Tusk.assets.loadMaterial("particles.untextured",mat);
 };
-tusk_defaults_Materials.prototype = {
-	__class__: tusk_defaults_Materials
-};
-var tusk_defaults_Primitives = function() {
-};
+var tusk_defaults_Primitives = function() { };
 $hxClasses["tusk.defaults.Primitives"] = tusk_defaults_Primitives;
 tusk_defaults_Primitives.__name__ = ["tusk","defaults","Primitives"];
 tusk_defaults_Primitives.loadTextMesh = function() {
@@ -12002,275 +6610,6 @@ tusk_defaults_Primitives.loadQuad = function(unitSize) {
 	m.uvs.push(glm__$Vec2_Vec2_$Impl_$._new(0.0,1.0));
 	return tusk_Tusk.assets.loadMesh("quad",m);
 };
-tusk_defaults_Primitives.prototype = {
-	__class__: tusk_defaults_Primitives
-};
-var tusk_defaults_scenes_SplashScreen = function() {
-	tusk_Scene.call(this,"Tusk Splash Screen");
-};
-$hxClasses["tusk.defaults.scenes.SplashScreen"] = tusk_defaults_scenes_SplashScreen;
-tusk_defaults_scenes_SplashScreen.__name__ = ["tusk","defaults","scenes","SplashScreen"];
-tusk_defaults_scenes_SplashScreen.__super__ = tusk_Scene;
-tusk_defaults_scenes_SplashScreen.prototype = $extend(tusk_Scene.prototype,{
-	onLoad: function(event) {
-		var _g = this;
-		if(event.scene != this) return;
-		tusk_debug_Log.log("Loading splash screen..",tusk_debug_LogFunctions.Info,{ fileName : "SplashScreen.hx", lineNumber : 47, className : "tusk.defaults.scenes.SplashScreen", methodName : "onLoad"});
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Primitives.loadTextMesh(),tusk_defaults_Materials.loadUnlitTextured(),tusk_defaults_Fonts.loadSubatomic_Screen(),tusk_defaults_Materials.loadTextBasic(),tusk_Tusk.assets.loadTexture("blazingmammothgames.png",haxe_Resource.getBytes("blazingmammothgames.png")),tusk_Tusk.assets.loadSound("assets/sounds/blazingmammothgames.ogg"),tusk_defaults_Materials.loadEffectCircleOut(),tusk_defaults_Materials.loadParticlesUntextured()];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val,arr[4]._val,arr[5]._val,arr[6]._val,arr[7]._val,arr[8]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(quad,textMesh,mat,font,fontMat,logo,roar,circleOutMat,particlesMat) {
-			mat.textures = [];
-			mat.textures.push(logo);
-			fontMat.textures = [];
-			fontMat.textures.push(font.texture);
-			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
-			_g.useProcessor(new tusk_lib_proc_SplashScreen_$RoarShakeProcessor());
-			_g.useProcessor(new tusk_lib_proc_SoundProcessor());
-			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
-			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
-			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
-			_g.useProcessor(new tusk_lib_proc_TextProcessor());
-			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
-			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0)));
-			_g.useProcessor(new tusk_lib_proc_ParticleSystemProcessor(glm__$Vec4_Vec4_$Impl_$._new(0,0,0,1),false));
-			_g.useProcessor(new tusk_lib_proc_CircleEffectRendererProcessor());
-			var w = tusk_Tusk.instance.app.window.width;
-			var h = tusk_Tusk.instance.app.window.height;
-			_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
-				var $r;
-				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
-				return $r;
-			}(this)),(function($this) {
-				var $r;
-				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
-				return $r;
-			}(this)),-100,100)]));
-			var logoEnt = new tusk_Entity(_g,"Logo",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(),(function($this) {
-				var $r;
-				var q = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q[0] = 1;
-					q[1] = 0;
-					q[2] = 0;
-					q[3] = 0;
-					q;
-				}
-				$r = q;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(256,256,256)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(mat.path)]);
-			_g.entities.push(logoEnt);
-			_g.entities.push(new tusk_Entity(_g,"Logo Text",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,-96,0.05),(function($this) {
-				var $r;
-				var q1 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q1[0] = 1;
-					q1[1] = 0;
-					q1[2] = 0;
-					q1[3] = 0;
-					q1;
-				}
-				$r = q1;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(3,3,3)),new tusk_lib_comp_MeshComponent(textMesh.path),new tusk_lib_comp_MaterialComponent(fontMat.path),new tusk_lib_comp_TextComponent(font,"Blazing Mammoth Games",tusk_lib_comp_TextAlign.Centre,null,glm__$Vec4_Vec4_$Impl_$._new(1,1,1,1))]));
-			var psc = new tusk_lib_comp_ParticleSystemComponent(1000,10);
-			psc.customUpdater = function(particle,pc,dt) {
-				glm__$Vec3_Vec3_$Impl_$.set_x(particle.vel,Math.sin(2 * Math.PI * particle.t * 0.2 + 4 * Math.PI * particle.seed) * 32);
-				glm__$Vec3_Vec3_$Impl_$.set_y(particle.vel,-40);
-				glm__$Vec3_Vec3_$Impl_$.set_z(particle.vel,0);
-				glm__$Vec3_Vec3_$Impl_$.set(particle.lastPos,glm__$Vec3_Vec3_$Impl_$.get_x(particle.pos),glm__$Vec3_Vec3_$Impl_$.get_y(particle.pos),glm__$Vec3_Vec3_$Impl_$.get_z(particle.pos));
-				var _g1 = particle.pos;
-				glm__$Vec3_Vec3_$Impl_$.set_x(_g1,glm__$Vec3_Vec3_$Impl_$.get_x(_g1) + glm__$Vec3_Vec3_$Impl_$.get_x(particle.vel) * dt);
-				var _g11 = particle.pos;
-				glm__$Vec3_Vec3_$Impl_$.set_y(_g11,glm__$Vec3_Vec3_$Impl_$.get_y(_g11) + glm__$Vec3_Vec3_$Impl_$.get_y(particle.vel) * dt);
-				var _g12 = particle.pos;
-				glm__$Vec3_Vec3_$Impl_$.set_z(_g12,glm__$Vec3_Vec3_$Impl_$.get_z(_g12) + glm__$Vec3_Vec3_$Impl_$.get_z(particle.vel) * dt);
-			};
-			_g.entities.push(new tusk_Entity(_g,"Particle System",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,tusk_Tusk.instance.app.window.height / 2,0),(function($this) {
-				var $r;
-				var q2 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q2[0] = 1;
-					q2[1] = 0;
-					q2[2] = 0;
-					q2[3] = 0;
-					q2;
-				}
-				$r = q2;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(2,2,2)),psc,new tusk_lib_comp_MaterialComponent(particlesMat.path)]));
-			var cec = new tusk_lib_comp_CircleEffectComponent(true);
-			_g.entities.push(new tusk_Entity(_g,"Circle Effect",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
-				var $r;
-				var q3 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q3[0] = 1;
-					q3[1] = 0;
-					q3[2] = 0;
-					q3[3] = 0;
-					q3;
-				}
-				$r = q3;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(circleOutMat.path),cec]));
-			cec.done.pipe(function(_) {
-				if(!_g.sceneDone._resolved) {
-					logoEnt.push(new tusk_lib_comp_SplashScreen_$ShakeComponent());
-					logoEnt.push(new tusk_lib_comp_SoundComponent(roar.path,true));
-					var timer = new tusk_lib_comp_TimedPromiseComponent(4.297);
-					_g.entities.push(new tusk_Entity(_g,"Timer",[timer]));
-					return timer.done;
-				}
-				return null;
-			}).pipe(function(_1) {
-				if(!_g.sceneDone._resolved) {
-					cec.t = 0;
-					cec.circleIn = false;
-					cec.reset();
-					return cec.done;
-				}
-				return null;
-			}).then(function(_2) {
-				if(!_g.sceneDone._resolved) _g.sceneDone.resolve(_g);
-				return null;
-			});
-			tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
-		});
-	}
-	,onKeyDown: function(event) {
-		if(event.keyCode == snow_system_input_Keycodes.escape) this.sceneDone.resolve(this);
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-		tusk_Tusk.routeEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
-	}
-	,__class__: tusk_defaults_scenes_SplashScreen
-});
-var tusk_defaults_scenes_TechScreen = function() {
-	tusk_Scene.call(this,"Technology");
-};
-$hxClasses["tusk.defaults.scenes.TechScreen"] = tusk_defaults_scenes_TechScreen;
-tusk_defaults_scenes_TechScreen.__name__ = ["tusk","defaults","scenes","TechScreen"];
-tusk_defaults_scenes_TechScreen.__super__ = tusk_Scene;
-tusk_defaults_scenes_TechScreen.prototype = $extend(tusk_Scene.prototype,{
-	onLoad: function(_) {
-		var _g = this;
-		tusk_debug_Log.log("Loading tech screen...",tusk_debug_LogFunctions.Info,{ fileName : "TechScreen.hx", lineNumber : 36, className : "tusk.defaults.scenes.TechScreen", methodName : "onLoad"});
-		((function($this) {
-			var $r;
-			var varargf = function(f) {
-				var ret = new promhx_Promise();
-				var arr = [tusk_defaults_Primitives.loadQuad(),tusk_defaults_Materials.loadUnlitTextured(),tusk_Tusk.assets.loadTexture("technologies.png",haxe_Resource.getBytes("technologies.png")),tusk_defaults_Materials.loadEffectFadeout()];
-				var p = promhx_Promise.whenAll(arr);
-				p._update.push({ async : ret, linkf : function(x) {
-					ret.handleResolve(f(arr[0]._val,arr[1]._val,arr[2]._val,arr[3]._val));
-				}});
-				return ret;
-			};
-			$r = { then : varargf};
-			return $r;
-		}(this))).then(function(quad,mat,screen,fadeOutMat) {
-			mat.textures = [];
-			mat.textures.push(screen);
-			_g.useProcessor(new tusk_lib_proc_TimedPromiseProcessor());
-			_g.useProcessor(new tusk_lib_proc_MeshProcessor());
-			_g.useProcessor(new tusk_lib_proc_MaterialProcessor());
-			_g.useProcessor(new tusk_lib_proc_Camera2DProcessor());
-			_g.useProcessor(new tusk_lib_proc_TransformProcessor());
-			_g.useProcessor(new tusk_lib_proc_Renderer2DProcessor(glm__$Vec4_Vec4_$Impl_$._new(1.0,0.0,0.0,1.0)));
-			_g.useProcessor(new tusk_lib_proc_FadeEffectRendererProcessor());
-			var w = tusk_Tusk.instance.app.window.width;
-			var h = tusk_Tusk.instance.app.window.height;
-			_g.entities.push(new tusk_Entity(_g,"Camera",[new tusk_lib_comp_TransformComponent(),new tusk_lib_comp_Camera2DComponent((function($this) {
-				var $r;
-				var a = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a),-2.0);
-				return $r;
-			}(this)),(function($this) {
-				var $r;
-				var a1 = glm__$Vec2_Vec2_$Impl_$._new(w,h);
-				$r = glm__$Vec2_Vec2_$Impl_$.divideScalar(glm__$Vec2_Vec2_$Impl_$.clone(a1),2.0);
-				return $r;
-			}(this)),-100,100)]));
-			var imageEntity = new tusk_Entity(_g,"Image",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(),(function($this) {
-				var $r;
-				var q = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q[0] = 1;
-					q[1] = 0;
-					q[2] = 0;
-					q[3] = 0;
-					q;
-				}
-				$r = q;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(mat.path)]);
-			_g.entities.push(imageEntity);
-			var fec = new tusk_lib_comp_FadeEffectComponent(true);
-			_g.entities.push(new tusk_Entity(_g,"Fader",[new tusk_lib_comp_TransformComponent(glm__$Vec3_Vec3_$Impl_$._new(0,0,0.1),(function($this) {
-				var $r;
-				var q1 = glm__$Quat_Quat_$Impl_$._new();
-				{
-					q1[0] = 1;
-					q1[1] = 0;
-					q1[2] = 0;
-					q1[3] = 0;
-					q1;
-				}
-				$r = q1;
-				return $r;
-			}(this)),glm__$Vec3_Vec3_$Impl_$._new(1024,1024,1024)),new tusk_lib_comp_MeshComponent(quad.path),new tusk_lib_comp_MaterialComponent(fadeOutMat.path),fec]));
-			fec.done.pipe(function(_1) {
-				if(!_g.sceneDone._resolved) {
-					var timer = new tusk_lib_comp_TimedPromiseComponent(3.0);
-					_g.entities.push(new tusk_Entity(_g,"Timer",[timer]));
-					return timer.done;
-				}
-				return null;
-			}).pipe(function(_2) {
-				if(!_g.sceneDone._resolved) {
-					fec.t = 0;
-					fec.fadeIn = false;
-					fec.reset();
-					return fec.done;
-				}
-				return null;
-			}).then(function(_3) {
-				if(!_g.sceneDone._resolved) _g.sceneDone.resolve(_g);
-				return null;
-			});
-			tusk_Tusk.router.onEvent(tusk_events_EventType.Start);
-		});
-	}
-	,onKeyDown: function(event) {
-		if(event.keyCode == snow_system_input_Keycodes.escape) this.sceneDone.resolve(this);
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-		tusk_Tusk.routeEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Load,$bind(this,this.onLoad));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.KeyDown,$bind(this,this.onKeyDown));
-	}
-	,__class__: tusk_defaults_scenes_TechScreen
-});
 var tusk_events_Event = function() {
 };
 $hxClasses["tusk.events.Event"] = tusk_events_Event;
@@ -12278,16 +6617,6 @@ tusk_events_Event.__name__ = ["tusk","events","Event"];
 tusk_events_Event.prototype = {
 	__class__: tusk_events_Event
 };
-var tusk_events_DestroyEvent = function(scene) {
-	this.scene = scene;
-	tusk_events_Event.call(this);
-};
-$hxClasses["tusk.events.DestroyEvent"] = tusk_events_DestroyEvent;
-tusk_events_DestroyEvent.__name__ = ["tusk","events","DestroyEvent"];
-tusk_events_DestroyEvent.__super__ = tusk_events_Event;
-tusk_events_DestroyEvent.prototype = $extend(tusk_events_Event.prototype,{
-	__class__: tusk_events_DestroyEvent
-});
 var tusk_events_EventRouter = function() {
 	this.handlers = new haxe_ds_EnumValueMap();
 };
@@ -12298,11 +6627,6 @@ tusk_events_EventRouter.prototype = {
 		if(handler == null) throw new js__$Boot_HaxeError(new tusk_debug_Exception("Event handler cannot be null!",null,null,{ fileName : "EventRouter.hx", lineNumber : 23, className : "tusk.events.EventRouter", methodName : "registerHandler"}));
 		if(!this.handlers.exists(type)) this.handlers.set(type,[]);
 		this.handlers.get(type).push(handler);
-	}
-	,unregisterHandler: function(type,handler) {
-		if(!this.handlers.exists(type)) return;
-		var _this = this.handlers.get(type);
-		HxOverrides.remove(_this,handler);
 	}
 	,onEvent: function(type,data) {
 		if(!this.handlers.exists(type)) return;
@@ -12402,15 +6726,6 @@ tusk_events_RenderEvent.__super__ = tusk_events_Event;
 tusk_events_RenderEvent.prototype = $extend(tusk_events_Event.prototype,{
 	__class__: tusk_events_RenderEvent
 });
-var tusk_events_StartEvent = function() {
-	tusk_events_Event.call(this);
-};
-$hxClasses["tusk.events.StartEvent"] = tusk_events_StartEvent;
-tusk_events_StartEvent.__name__ = ["tusk","events","StartEvent"];
-tusk_events_StartEvent.__super__ = tusk_events_Event;
-tusk_events_StartEvent.prototype = $extend(tusk_events_Event.prototype,{
-	__class__: tusk_events_StartEvent
-});
 var tusk_events_UpdateEvent = function(dt) {
 	this.dt = dt;
 	tusk_events_Event.call(this);
@@ -12443,22 +6758,6 @@ tusk_lib_comp_Camera2DComponent.prototype = $extend(tusk_Component.prototype,{
 	get__tid: function() {
 		return 11;
 	}
-	,hxSerialize: function(s) {
-		s.serialize(this.projectionMatrixDirty);
-		s.serialize(this.viewMatrixDirty);
-		s.serialize(this.min);
-		s.serialize(this.max);
-		s.serialize(this.near);
-		s.serialize(this.far);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.projectionMatrixDirty);
-		s.serialize(this.viewMatrixDirty);
-		s.serialize(this.min);
-		s.serialize(this.max);
-		s.serialize(this.near);
-		s.serialize(this.far);
-	}
 	,__class__: tusk_lib_comp_Camera2DComponent
 });
 var tusk_lib_comp_CircleEffectComponent = function(circleIn) {
@@ -12471,15 +6770,7 @@ $hxClasses["tusk.lib.comp.CircleEffectComponent"] = tusk_lib_comp_CircleEffectCo
 tusk_lib_comp_CircleEffectComponent.__name__ = ["tusk","lib","comp","CircleEffectComponent"];
 tusk_lib_comp_CircleEffectComponent.__super__ = tusk_PromiseComponent;
 tusk_lib_comp_CircleEffectComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
-	hxSerialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.circleIn);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.circleIn);
-	}
-	,get__tid: function() {
+	get__tid: function() {
 		return 4;
 	}
 	,__class__: tusk_lib_comp_CircleEffectComponent
@@ -12495,36 +6786,7 @@ tusk_lib_comp_CustomUniformsComponent.prototype = $extend(tusk_Component.prototy
 	get__tid: function() {
 		return 12;
 	}
-	,hxSerialize: function(s) {
-		s.serialize(this.setUniforms);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.setUniforms);
-	}
 	,__class__: tusk_lib_comp_CustomUniformsComponent
-});
-var tusk_lib_comp_FadeEffectComponent = function(fadeIn) {
-	this.fadeIn = true;
-	this.t = 0;
-	this.fadeIn = fadeIn;
-	tusk_PromiseComponent.call(this);
-};
-$hxClasses["tusk.lib.comp.FadeEffectComponent"] = tusk_lib_comp_FadeEffectComponent;
-tusk_lib_comp_FadeEffectComponent.__name__ = ["tusk","lib","comp","FadeEffectComponent"];
-tusk_lib_comp_FadeEffectComponent.__super__ = tusk_PromiseComponent;
-tusk_lib_comp_FadeEffectComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
-	hxSerialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.fadeIn);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.fadeIn);
-	}
-	,get__tid: function() {
-		return 10;
-	}
-	,__class__: tusk_lib_comp_FadeEffectComponent
 });
 var tusk_lib_comp_MaterialComponent = function(path,material) {
 	if(material == null) this.path = path; else this.path = material.path;
@@ -12537,12 +6799,6 @@ tusk_lib_comp_MaterialComponent.__super__ = tusk_Component;
 tusk_lib_comp_MaterialComponent.prototype = $extend(tusk_Component.prototype,{
 	get__tid: function() {
 		return 9;
-	}
-	,hxSerialize: function(s) {
-		s.serialize(this.path);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.path);
 	}
 	,__class__: tusk_lib_comp_MaterialComponent
 });
@@ -12560,95 +6816,7 @@ tusk_lib_comp_MeshComponent.prototype = $extend(tusk_Component.prototype,{
 	get__tid: function() {
 		return 8;
 	}
-	,hxSerialize: function(s) {
-		s.serialize(this.path);
-		s.serialize(this.bufferDirty);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.path);
-		s.serialize(this.bufferDirty);
-	}
 	,__class__: tusk_lib_comp_MeshComponent
-});
-var tusk_lib_comp_Particle = function() {
-	this.seed = 0;
-	this.lastSize = 1;
-	this.size = 1;
-	this.lastColour = glm__$Vec4_Vec4_$Impl_$._new();
-	this.colour = glm__$Vec4_Vec4_$Impl_$._new();
-	this.lastPos = glm__$Vec3_Vec3_$Impl_$._new();
-	this.pos = glm__$Vec3_Vec3_$Impl_$._new();
-	this.t = 0;
-	this.lifeTime = 1;
-	this.vel = glm__$Vec3_Vec3_$Impl_$._new();
-	this.alive = false;
-};
-$hxClasses["tusk.lib.comp.Particle"] = tusk_lib_comp_Particle;
-tusk_lib_comp_Particle.__name__ = ["tusk","lib","comp","Particle"];
-tusk_lib_comp_Particle.prototype = {
-	__class__: tusk_lib_comp_Particle
-};
-var tusk_lib_comp_ParticleSystemComponent = function(particleCount,preSimulateTime) {
-	this.vertexBuffer = null;
-	this.emissionAccumulator = 0;
-	this.customUpdater = null;
-	this.preSimulateTime = 0;
-	this.gravity = glm__$Vec3_Vec3_$Impl_$._new(0,-10,0);
-	this.startVelocityMax = glm__$Vec3_Vec3_$Impl_$._new(0,0,0);
-	this.startVelocityMin = glm__$Vec3_Vec3_$Impl_$._new(0,0,0);
-	this.startPositionRange = glm__$Vec3_Vec3_$Impl_$._new(256,0,0);
-	this.endSize = 2;
-	this.startSize = 2;
-	this.endColour = glm__$Vec4_Vec4_$Impl_$._new(1,1,1,0.5);
-	this.startColour = glm__$Vec4_Vec4_$Impl_$._new(1,1,1,0.75);
-	this.lifeTime = glm__$Vec2_Vec2_$Impl_$._new(5,10);
-	this.emissionRate = 100;
-	this.particles = null;
-	this.particleCount = 0;
-	this.particleCount = particleCount;
-	this.preSimulateTime = preSimulateTime;
-	tusk_Component.call(this);
-};
-$hxClasses["tusk.lib.comp.ParticleSystemComponent"] = tusk_lib_comp_ParticleSystemComponent;
-tusk_lib_comp_ParticleSystemComponent.__name__ = ["tusk","lib","comp","ParticleSystemComponent"];
-tusk_lib_comp_ParticleSystemComponent.__super__ = tusk_Component;
-tusk_lib_comp_ParticleSystemComponent.prototype = $extend(tusk_Component.prototype,{
-	get__tid: function() {
-		return 0;
-	}
-	,hxSerialize: function(s) {
-		s.serialize(this.particleCount);
-		s.serialize(this.particles);
-		s.serialize(this.emissionRate);
-		s.serialize(this.lifeTime);
-		s.serialize(this.startColour);
-		s.serialize(this.endColour);
-		s.serialize(this.startSize);
-		s.serialize(this.endSize);
-		s.serialize(this.startPositionRange);
-		s.serialize(this.startVelocityMin);
-		s.serialize(this.startVelocityMax);
-		s.serialize(this.gravity);
-		s.serialize(this.preSimulateTime);
-		s.serialize(this.customUpdater);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.particleCount);
-		s.serialize(this.particles);
-		s.serialize(this.emissionRate);
-		s.serialize(this.lifeTime);
-		s.serialize(this.startColour);
-		s.serialize(this.endColour);
-		s.serialize(this.startSize);
-		s.serialize(this.endSize);
-		s.serialize(this.startPositionRange);
-		s.serialize(this.startVelocityMin);
-		s.serialize(this.startVelocityMax);
-		s.serialize(this.gravity);
-		s.serialize(this.preSimulateTime);
-		s.serialize(this.customUpdater);
-	}
-	,__class__: tusk_lib_comp_ParticleSystemComponent
 });
 var tusk_lib_comp_SoundComponent = function(path,play) {
 	this.path = "";
@@ -12663,47 +6831,10 @@ $hxClasses["tusk.lib.comp.SoundComponent"] = tusk_lib_comp_SoundComponent;
 tusk_lib_comp_SoundComponent.__name__ = ["tusk","lib","comp","SoundComponent"];
 tusk_lib_comp_SoundComponent.__super__ = tusk_PromiseComponent;
 tusk_lib_comp_SoundComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
-	hxSerialize: function(s) {
-		s.serialize(this.play);
-		s.serialize(this.stop);
-		s.serialize(this.playing);
-		s.serialize(this.path);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.play);
-		s.serialize(this.stop);
-		s.serialize(this.playing);
-		s.serialize(this.path);
-	}
-	,get__tid: function() {
+	get__tid: function() {
 		return 7;
 	}
 	,__class__: tusk_lib_comp_SoundComponent
-});
-var tusk_lib_comp_SplashScreen_$ShakeComponent = function() {
-	this.t = 0;
-	this.shaking = true;
-	this.shakeDelayTimer = 0.5;
-	tusk_Component.call(this);
-};
-$hxClasses["tusk.lib.comp.SplashScreen_ShakeComponent"] = tusk_lib_comp_SplashScreen_$ShakeComponent;
-tusk_lib_comp_SplashScreen_$ShakeComponent.__name__ = ["tusk","lib","comp","SplashScreen_ShakeComponent"];
-tusk_lib_comp_SplashScreen_$ShakeComponent.__super__ = tusk_Component;
-tusk_lib_comp_SplashScreen_$ShakeComponent.prototype = $extend(tusk_Component.prototype,{
-	get__tid: function() {
-		return 2;
-	}
-	,hxSerialize: function(s) {
-		s.serialize(this.shakeDelayTimer);
-		s.serialize(this.shaking);
-		s.serialize(this.t);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.shakeDelayTimer);
-		s.serialize(this.shaking);
-		s.serialize(this.t);
-	}
-	,__class__: tusk_lib_comp_SplashScreen_$ShakeComponent
 });
 var tusk_lib_comp_TextAlign = $hxClasses["tusk.lib.comp.TextAlign"] = { __ename__ : ["tusk","lib","comp","TextAlign"], __constructs__ : ["Left","Centre","Right"] };
 tusk_lib_comp_TextAlign.Left = ["Left",0];
@@ -12746,22 +6877,6 @@ tusk_lib_comp_TextComponent.prototype = $extend(tusk_Component.prototype,{
 	,get__tid: function() {
 		return 1;
 	}
-	,hxSerialize: function(s) {
-		s.serialize(this.text);
-		s.serialize(this.textDirty);
-		s.serialize(this.font);
-		s.serialize(this.align);
-		s.serialize(this.valign);
-		s.serialize(this.colour);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.text);
-		s.serialize(this.textDirty);
-		s.serialize(this.font);
-		s.serialize(this.align);
-		s.serialize(this.valign);
-		s.serialize(this.colour);
-	}
 	,__class__: tusk_lib_comp_TextComponent
 });
 var tusk_lib_comp_TimedPromiseComponent = function(wait) {
@@ -12774,15 +6889,7 @@ $hxClasses["tusk.lib.comp.TimedPromiseComponent"] = tusk_lib_comp_TimedPromiseCo
 tusk_lib_comp_TimedPromiseComponent.__name__ = ["tusk","lib","comp","TimedPromiseComponent"];
 tusk_lib_comp_TimedPromiseComponent.__super__ = tusk_PromiseComponent;
 tusk_lib_comp_TimedPromiseComponent.prototype = $extend(tusk_PromiseComponent.prototype,{
-	hxSerialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.wait);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.t);
-		s.serialize(this.wait);
-	}
-	,get__tid: function() {
+	get__tid: function() {
 		return 6;
 	}
 	,__class__: tusk_lib_comp_TimedPromiseComponent
@@ -12833,22 +6940,6 @@ tusk_lib_comp_TransformComponent.__super__ = tusk_Component;
 tusk_lib_comp_TransformComponent.prototype = $extend(tusk_Component.prototype,{
 	get__tid: function() {
 		return 5;
-	}
-	,hxSerialize: function(s) {
-		s.serialize(this.position);
-		s.serialize(this.rotation);
-		s.serialize(this.scale);
-		s.serialize(this.lastPosition);
-		s.serialize(this.lastRotation);
-		s.serialize(this.lastScale);
-	}
-	,hxUnserialize: function(s) {
-		s.serialize(this.position);
-		s.serialize(this.rotation);
-		s.serialize(this.scale);
-		s.serialize(this.lastPosition);
-		s.serialize(this.lastRotation);
-		s.serialize(this.lastScale);
 	}
 	,__class__: tusk_lib_comp_TransformComponent
 });
@@ -12967,9 +7058,6 @@ tusk_lib_proc_Camera2DProcessor.prototype = $extend(tusk_Processor.prototype,{
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
 	,__class__: tusk_lib_proc_Camera2DProcessor
 });
 var tusk_lib_proc_CircleEffectRendererProcessor = function(entities) {
@@ -13028,67 +7116,7 @@ tusk_lib_proc_CircleEffectRendererProcessor.prototype = $extend(tusk_Processor.p
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 		tusk_Tusk.routeEvent(tusk_events_EventType.Render,$bind(this,this.onRender));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Render,$bind(this,this.onRender));
-	}
 	,__class__: tusk_lib_proc_CircleEffectRendererProcessor
-});
-var tusk_lib_proc_FadeEffectRendererProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(9).include(8).include(10).include(5);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["tusk.lib.proc.FadeEffectRendererProcessor"] = tusk_lib_proc_FadeEffectRendererProcessor;
-tusk_lib_proc_FadeEffectRendererProcessor.__name__ = ["tusk","lib","proc","FadeEffectRendererProcessor"];
-tusk_lib_proc_FadeEffectRendererProcessor.__super__ = tusk_Processor;
-tusk_lib_proc_FadeEffectRendererProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(data) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var fadeEffect = entity.get(10);
-			fadeEffect.t += data.dt;
-			if(fadeEffect.t >= 1.0 && !fadeEffect.done._resolved) fadeEffect.finish();
-		}
-	}
-	,onRender: function(data) {
-		var _g = 0;
-		var _g1 = tusk_lib_proc_Camera2DProcessor.cameras;
-		while(_g < _g1.length) {
-			var camera = [_g1[_g]];
-			++_g;
-			var _g2 = 0;
-			var _g3 = this.entities;
-			while(_g2 < _g3.length) {
-				var entity = _g3[_g2];
-				++_g2;
-				var transform = [entity.get(5)];
-				var mesh = entity.get(8);
-				var material = [entity.get(9)];
-				var fadeEffect = [entity.get(10)];
-				if(mesh.mesh == null) continue;
-				material[0].material.onRender((function(fadeEffect,material,transform,camera) {
-					return function(mat) {
-						mat.setMat4("projection",camera[0].projectionMatrix);
-						mat.setMat4("view",camera[0].viewMatrix);
-						mat.setMat4("model",transform[0].modelMatrix);
-						material[0].material.setFloat("fadeAlpha",tusk_math_Ease.InOutCubic(fadeEffect[0].fadeIn?1.0 - fadeEffect[0].t:fadeEffect[0].t,0,1,1.0));
-					};
-				})(fadeEffect,material,transform,camera),mesh.vertexBuffer,mesh.mesh.vertices.length);
-			}
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-		tusk_Tusk.routeEvent(tusk_events_EventType.Render,$bind(this,this.onRender));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Render,$bind(this,this.onRender));
-	}
-	,__class__: tusk_lib_proc_FadeEffectRendererProcessor
 });
 var tusk_lib_proc_MaterialProcessor = function(entities) {
 	this.matcher = new tusk_Matcher().include(9);
@@ -13116,9 +7144,6 @@ tusk_lib_proc_MaterialProcessor.prototype = $extend(tusk_Processor.prototype,{
 		}
 	}
 	,___connectRoutes: function() {
-		null;
-	}
-	,___disconnectRoutes: function() {
 		null;
 	}
 	,__class__: tusk_lib_proc_MaterialProcessor
@@ -13179,202 +7204,7 @@ tusk_lib_proc_MeshProcessor.prototype = $extend(tusk_Processor.prototype,{
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
 	,__class__: tusk_lib_proc_MeshProcessor
-});
-var tusk_lib_proc_ParticleSystemProcessor = function(clearColour,doClear,entities) {
-	this.doClear = true;
-	this.clearColour = glm__$Vec4_Vec4_$Impl_$._new(0.25,0.25,0.25,1.0);
-	if(clearColour != null) this.clearColour = clearColour;
-	if(doClear != null) this.doClear = doClear;
-	this.matcher = new tusk_Matcher().include(9).include(0).include(5);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["tusk.lib.proc.ParticleSystemProcessor"] = tusk_lib_proc_ParticleSystemProcessor;
-tusk_lib_proc_ParticleSystemProcessor.__name__ = ["tusk","lib","proc","ParticleSystemProcessor"];
-tusk_lib_proc_ParticleSystemProcessor.__super__ = tusk_Processor;
-tusk_lib_proc_ParticleSystemProcessor.prototype = $extend(tusk_Processor.prototype,{
-	simulate: function(pc,dt) {
-		var particlesToEmit = pc.emissionRate * dt | 0;
-		if(pc.emissionAccumulator >= 1.0) {
-			particlesToEmit += 1;
-			pc.emissionAccumulator -= 1.0;
-		}
-		pc.emissionAccumulator += pc.emissionRate * dt - particlesToEmit;
-		var _g = 0;
-		var _g1 = pc.particles;
-		while(_g < _g1.length) {
-			var particle = _g1[_g];
-			++_g;
-			if(particle.alive) {
-				particle.t += dt;
-				if(particle.t >= particle.lifeTime) {
-					particle.alive = false;
-					continue;
-				}
-				if(pc.customUpdater != null) pc.customUpdater(particle,pc,dt); else {
-					var _g2 = particle.vel;
-					glm__$Vec3_Vec3_$Impl_$.set_x(_g2,glm__$Vec3_Vec3_$Impl_$.get_x(_g2) + glm__$Vec3_Vec3_$Impl_$.get_x(pc.gravity) * dt);
-					var _g21 = particle.vel;
-					glm__$Vec3_Vec3_$Impl_$.set_y(_g21,glm__$Vec3_Vec3_$Impl_$.get_y(_g21) + glm__$Vec3_Vec3_$Impl_$.get_y(pc.gravity) * dt);
-					var _g22 = particle.vel;
-					glm__$Vec3_Vec3_$Impl_$.set_z(_g22,glm__$Vec3_Vec3_$Impl_$.get_z(_g22) + glm__$Vec3_Vec3_$Impl_$.get_z(pc.gravity) * dt);
-					glm__$Vec3_Vec3_$Impl_$.set(particle.lastPos,glm__$Vec3_Vec3_$Impl_$.get_x(particle.pos),glm__$Vec3_Vec3_$Impl_$.get_y(particle.pos),glm__$Vec3_Vec3_$Impl_$.get_z(particle.pos));
-					var _g23 = particle.pos;
-					glm__$Vec3_Vec3_$Impl_$.set_x(_g23,glm__$Vec3_Vec3_$Impl_$.get_x(_g23) + glm__$Vec3_Vec3_$Impl_$.get_x(particle.vel) * dt);
-					var _g24 = particle.pos;
-					glm__$Vec3_Vec3_$Impl_$.set_y(_g24,glm__$Vec3_Vec3_$Impl_$.get_y(_g24) + glm__$Vec3_Vec3_$Impl_$.get_y(particle.vel) * dt);
-					var _g25 = particle.pos;
-					glm__$Vec3_Vec3_$Impl_$.set_z(_g25,glm__$Vec3_Vec3_$Impl_$.get_z(_g25) + glm__$Vec3_Vec3_$Impl_$.get_z(particle.vel) * dt);
-					particle.lastColour = glm__$Vec4_Vec4_$Impl_$.clone(particle.colour);
-					var this1 = glm__$Vec4_Vec4_$Impl_$.clone(pc.startColour);
-					var target = pc.endColour;
-					var t = particle.t / particle.lifeTime;
-					this1[0] = glm_GLM.lerp(this1[0],target[0],t);
-					this1[1] = glm_GLM.lerp(this1[1],target[1],t);
-					this1[2] = glm_GLM.lerp(this1[2],target[2],t);
-					this1[3] = glm_GLM.lerp(this1[3],target[3],t);
-					particle.colour = this1;
-					particle.lastSize = particle.size;
-					particle.size = tusk_math_Lerp.LerpF(pc.startSize,pc.endSize,particle.t / particle.lifeTime);
-				}
-			} else if(particlesToEmit > 0) {
-				particle.alive = true;
-				glm__$Vec3_Vec3_$Impl_$.set_x(particle.pos,tusk_math_Random["float"](-glm__$Vec3_Vec3_$Impl_$.get_x(pc.startPositionRange),glm__$Vec3_Vec3_$Impl_$.get_x(pc.startPositionRange)));
-				glm__$Vec3_Vec3_$Impl_$.set_y(particle.pos,tusk_math_Random["float"](-glm__$Vec3_Vec3_$Impl_$.get_y(pc.startPositionRange),glm__$Vec3_Vec3_$Impl_$.get_y(pc.startPositionRange)));
-				glm__$Vec3_Vec3_$Impl_$.set_z(particle.pos,tusk_math_Random["float"](-glm__$Vec3_Vec3_$Impl_$.get_z(pc.startPositionRange),glm__$Vec3_Vec3_$Impl_$.get_z(pc.startPositionRange)));
-				particle.lastPos = glm__$Vec3_Vec3_$Impl_$.clone(particle.pos);
-				glm__$Vec3_Vec3_$Impl_$.set_x(particle.vel,tusk_math_Random["float"](glm__$Vec3_Vec3_$Impl_$.get_x(pc.startVelocityMin),glm__$Vec3_Vec3_$Impl_$.get_x(pc.startVelocityMax)));
-				glm__$Vec3_Vec3_$Impl_$.set_y(particle.vel,tusk_math_Random["float"](glm__$Vec3_Vec3_$Impl_$.get_y(pc.startVelocityMin),glm__$Vec3_Vec3_$Impl_$.get_y(pc.startVelocityMax)));
-				glm__$Vec3_Vec3_$Impl_$.set_z(particle.vel,tusk_math_Random["float"](glm__$Vec3_Vec3_$Impl_$.get_z(pc.startVelocityMin),glm__$Vec3_Vec3_$Impl_$.get_z(pc.startVelocityMax)));
-				particle.colour = glm__$Vec4_Vec4_$Impl_$.clone(pc.startColour);
-				particle.lastColour = glm__$Vec4_Vec4_$Impl_$.clone(particle.colour);
-				particle.size = pc.startSize;
-				particle.lastSize = particle.size;
-				particle.t = 0;
-				particle.lifeTime = tusk_math_Random["float"](glm__$Vec2_Vec2_$Impl_$.get_x(pc.lifeTime),glm__$Vec2_Vec2_$Impl_$.get_y(pc.lifeTime));
-				particle.seed = Math.random();
-				particlesToEmit -= 1;
-			}
-		}
-	}
-	,onUpdate: function(event) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var pc = entity.get(0);
-			var mat = entity.get(9);
-			if(pc.vertexBuffer == null) pc.vertexBuffer = snow_modules_opengl_web_GL.current_context.createBuffer();
-			if(pc.particles == null) {
-				pc.particles = [];
-				var _g3 = 0;
-				var _g2 = pc.particleCount;
-				while(_g3 < _g2) {
-					var i = _g3++;
-					pc.particles.push(new tusk_lib_comp_Particle());
-				}
-				var t = 0;
-				var dt = event.dt;
-				while(t < pc.preSimulateTime) {
-					this.simulate(pc,dt);
-					t += dt;
-				}
-				var array;
-				var _g31 = [];
-				var _g5 = 0;
-				var _g4 = pc.particleCount * 8;
-				while(_g5 < _g4) {
-					var i1 = _g5++;
-					_g31.push(0.0);
-				}
-				array = _g31;
-				var this1;
-				if(array != null) this1 = new Float32Array(array); else this1 = null;
-				pc.bufferData = this1;
-			}
-			this.simulate(pc,event.dt);
-		}
-	}
-	,onRender: function(event) {
-		snow_modules_opengl_web_GL.current_context.disable(2929);
-		snow_modules_opengl_web_GL.current_context.enable(3042);
-		snow_modules_opengl_web_GL.current_context.depthFunc(513);
-		snow_modules_opengl_web_GL.current_context.viewport(0,0,tusk_Tusk.instance.app.window.width,tusk_Tusk.instance.app.window.height);
-		snow_modules_opengl_web_GL.clearColor(glm__$Vec4_Vec4_$Impl_$.get_r(this.clearColour),glm__$Vec4_Vec4_$Impl_$.get_g(this.clearColour),glm__$Vec4_Vec4_$Impl_$.get_b(this.clearColour),glm__$Vec4_Vec4_$Impl_$.get_a(this.clearColour));
-		if(this.doClear) snow_modules_opengl_web_GL.current_context.clear(16640);
-		var _g = 0;
-		var _g1 = tusk_lib_proc_Camera2DProcessor.cameras;
-		while(_g < _g1.length) {
-			var camera = [_g1[_g]];
-			++_g;
-			var _g2 = 0;
-			var _g3 = this.entities;
-			while(_g2 < _g3.length) {
-				var entity = _g3[_g2];
-				++_g2;
-				var transform = [entity.get(5)];
-				var pc = entity.get(0);
-				var material = entity.get(9);
-				if(pc.bufferData == null || pc.vertexBuffer == null) continue;
-				var _g5 = 0;
-				var _g4 = pc.particleCount;
-				while(_g5 < _g4) {
-					var i = _g5++;
-					var pi = i * 8;
-					if(pc.particles[i].alive) {
-						var val = tusk_math_Lerp.LerpF(glm__$Vec3_Vec3_$Impl_$.get_x(pc.particles[i].lastPos),glm__$Vec3_Vec3_$Impl_$.get_x(pc.particles[i].pos),event.alpha);
-						pc.bufferData[pi] = val;
-						var val1 = tusk_math_Lerp.LerpF(glm__$Vec3_Vec3_$Impl_$.get_y(pc.particles[i].lastPos),glm__$Vec3_Vec3_$Impl_$.get_y(pc.particles[i].pos),event.alpha);
-						pc.bufferData[pi + 1] = val1;
-						var val2 = tusk_math_Lerp.LerpF(glm__$Vec3_Vec3_$Impl_$.get_z(pc.particles[i].lastPos),glm__$Vec3_Vec3_$Impl_$.get_z(pc.particles[i].pos),event.alpha);
-						pc.bufferData[pi + 2] = val2;
-						var val3 = tusk_math_Lerp.LerpF(glm__$Vec4_Vec4_$Impl_$.get_r(pc.particles[i].lastColour),glm__$Vec4_Vec4_$Impl_$.get_r(pc.particles[i].colour),event.alpha);
-						pc.bufferData[pi + 3] = val3;
-						var val4 = tusk_math_Lerp.LerpF(glm__$Vec4_Vec4_$Impl_$.get_g(pc.particles[i].lastColour),glm__$Vec4_Vec4_$Impl_$.get_g(pc.particles[i].colour),event.alpha);
-						pc.bufferData[pi + 4] = val4;
-						var val5 = tusk_math_Lerp.LerpF(glm__$Vec4_Vec4_$Impl_$.get_b(pc.particles[i].lastColour),glm__$Vec4_Vec4_$Impl_$.get_b(pc.particles[i].colour),event.alpha);
-						pc.bufferData[pi + 5] = val5;
-						var val6 = tusk_math_Lerp.LerpF(glm__$Vec4_Vec4_$Impl_$.get_a(pc.particles[i].lastColour),glm__$Vec4_Vec4_$Impl_$.get_a(pc.particles[i].colour),event.alpha);
-						pc.bufferData[pi + 6] = val6;
-						var val7 = tusk_math_Lerp.LerpF(pc.particles[i].lastSize,pc.particles[i].size,event.alpha);
-						pc.bufferData[pi + 7] = val7;
-					} else {
-						pc.bufferData[pi] = 0;
-						pc.bufferData[pi + 1] = 0;
-						pc.bufferData[pi + 2] = 0;
-						pc.bufferData[pi + 3] = 0;
-						pc.bufferData[pi + 4] = 0;
-						pc.bufferData[pi + 5] = 0;
-						pc.bufferData[pi + 6] = 0;
-						pc.bufferData[pi + 7] = 0;
-					}
-				}
-				snow_modules_opengl_web_GL.current_context.bindBuffer(34962,pc.vertexBuffer);
-				snow_modules_opengl_web_GL.current_context.bufferData(34962,pc.bufferData,35048);
-				snow_modules_opengl_web_GL.current_context.bindBuffer(34962,null);
-				material.material.onRender((function(transform,camera) {
-					return function(mat) {
-						mat.setMat4("projection",camera[0].projectionMatrix);
-						mat.setMat4("view",camera[0].viewMatrix);
-						mat.setMat4("model",transform[0].modelMatrix);
-					};
-				})(transform,camera),pc.vertexBuffer,pc.particles.length);
-			}
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-		tusk_Tusk.routeEvent(tusk_events_EventType.Render,$bind(this,this.onRender));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Render,$bind(this,this.onRender));
-	}
-	,__class__: tusk_lib_proc_ParticleSystemProcessor
 });
 var tusk_lib_proc_Renderer2DProcessor = function(clearColour,entities) {
 	this.clearColour = glm__$Vec4_Vec4_$Impl_$._new(1.0,1.0,1.0,1.0);
@@ -13435,9 +7265,6 @@ tusk_lib_proc_Renderer2DProcessor.prototype = $extend(tusk_Processor.prototype,{
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Render,$bind(this,this.onRender));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Render,$bind(this,this.onRender));
-	}
 	,__class__: tusk_lib_proc_Renderer2DProcessor
 });
 var tusk_lib_proc_SoundProcessor = function(entities) {
@@ -13477,53 +7304,7 @@ tusk_lib_proc_SoundProcessor.prototype = $extend(tusk_Processor.prototype,{
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
 	,__class__: tusk_lib_proc_SoundProcessor
-});
-var tusk_lib_proc_SplashScreen_$RoarShakeProcessor = function(entities) {
-	this.matcher = new tusk_Matcher().include(5).include(8).include(2);
-	tusk_Processor.call(this,entities);
-};
-$hxClasses["tusk.lib.proc.SplashScreen_RoarShakeProcessor"] = tusk_lib_proc_SplashScreen_$RoarShakeProcessor;
-tusk_lib_proc_SplashScreen_$RoarShakeProcessor.__name__ = ["tusk","lib","proc","SplashScreen_RoarShakeProcessor"];
-tusk_lib_proc_SplashScreen_$RoarShakeProcessor.__super__ = tusk_Processor;
-tusk_lib_proc_SplashScreen_$RoarShakeProcessor.prototype = $extend(tusk_Processor.prototype,{
-	onUpdate: function(data) {
-		var _g = 0;
-		var _g1 = this.entities;
-		while(_g < _g1.length) {
-			var entity = _g1[_g];
-			++_g;
-			var t = entity.get(5);
-			var s = entity.get(2);
-			if(s.shakeDelayTimer > 0) {
-				s.shakeDelayTimer -= data.dt;
-				continue;
-			}
-			if(s.shaking) {
-				s.t += data.dt;
-				var a = -0.149 * Math.pow(s.t,4) + 1.2605 * Math.pow(s.t,3) - 3.6256 * Math.pow(s.t,2) + 3.6298 * s.t - 0.1685;
-				t.lastPosition = t.position;
-				if(s.t >= 3.297) {
-					s.shaking = false;
-					glm__$Vec3_Vec3_$Impl_$.set_x(t.position,0);
-					glm__$Vec3_Vec3_$Impl_$.set_y(t.position,0);
-				} else {
-					glm__$Vec3_Vec3_$Impl_$.set_x(t.position,(Math.random() * 2 - 1) * 10 * a);
-					glm__$Vec3_Vec3_$Impl_$.set_y(t.position,(Math.random() * 2 - 1) * 10 * a);
-				}
-			}
-		}
-	}
-	,___connectRoutes: function() {
-		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,__class__: tusk_lib_proc_SplashScreen_$RoarShakeProcessor
 });
 var tusk_lib_proc_TextProcessor = function(entities) {
 	this.matcher = new tusk_Matcher().include(8).include(1);
@@ -13663,9 +7444,6 @@ tusk_lib_proc_TextProcessor.prototype = $extend(tusk_Processor.prototype,{
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
 	,__class__: tusk_lib_proc_TextProcessor
 });
 var tusk_lib_proc_TimedPromiseProcessor = function(entities) {
@@ -13689,9 +7467,6 @@ tusk_lib_proc_TimedPromiseProcessor.prototype = $extend(tusk_Processor.prototype
 	}
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
-	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Update,$bind(this,this.onUpdate));
 	}
 	,__class__: tusk_lib_proc_TimedPromiseProcessor
 });
@@ -13776,189 +7551,14 @@ tusk_lib_proc_TransformProcessor.prototype = $extend(tusk_Processor.prototype,{
 	,___connectRoutes: function() {
 		tusk_Tusk.routeEvent(tusk_events_EventType.Render,$bind(this,this.onRender));
 	}
-	,___disconnectRoutes: function() {
-		tusk_Tusk.unrouteEvent(tusk_events_EventType.Render,$bind(this,this.onRender));
-	}
 	,__class__: tusk_lib_proc_TransformProcessor
 });
-var tusk_macros_ComponentIndexer = function() { };
-$hxClasses["tusk.macros.ComponentIndexer"] = tusk_macros_ComponentIndexer;
-tusk_macros_ComponentIndexer.__name__ = ["tusk","macros","ComponentIndexer"];
-tusk_macros_ComponentIndexer.ensureID = function(name) {
-	if(!tusk_macros_ComponentIndexer.componentMap.exists(name)) {
-		tusk_macros_ComponentIndexer.componentMap.set(name,tusk_macros_ComponentIndexer.nextID);
-		tusk_macros_ComponentIndexer.indexMap.h[tusk_macros_ComponentIndexer.nextID] = name;
-		tusk_macros_ComponentIndexer.nextID++;
-	}
-};
-tusk_macros_ComponentIndexer.getCompName = function(e) {
-	{
-		var _g = e.expr;
-		switch(_g[1]) {
-		case 0:
-			var c = _g[2];
-			switch(c[1]) {
-			case 3:
-				var s = c[2];
-				return s;
-			default:
-				return null;
-			}
-			break;
-		case 3:
-			var field = _g[3];
-			var e1 = _g[2];
-			return tusk_macros_ComponentIndexer.getCompName(e1) + "." + field;
-		default:
-			return null;
-		}
-	}
-};
-var tusk_macros_Version = function() { };
-$hxClasses["tusk.macros.Version"] = tusk_macros_Version;
-tusk_macros_Version.__name__ = ["tusk","macros","Version"];
 var tusk_math_Ease = function() { };
 $hxClasses["tusk.math.Ease"] = tusk_math_Ease;
 tusk_math_Ease.__name__ = ["tusk","math","Ease"];
-tusk_math_Ease.InQuad = function(t,b,c,d) {
-	return c * (t /= d) * t + b;
-};
-tusk_math_Ease.OutQuad = function(t,b,c,d) {
-	return -c * (t /= d) * (t - 2) + b;
-};
-tusk_math_Ease.InOutQuad = function(t,b,c,d) {
-	if((t /= d / 2) < 1) return c / 2 * t * t + b;
-	return -c / 2 * (--t * (t - 2) - 1) + b;
-};
-tusk_math_Ease.InCubic = function(t,b,c,d) {
-	return c * (t /= d) * t * t + b;
-};
-tusk_math_Ease.OutCubic = function(t,b,c,d) {
-	return c * ((t = t / d - 1) * t * t + 1) + b;
-};
 tusk_math_Ease.InOutCubic = function(t,b,c,d) {
 	if((t /= d / 2) < 1) return c / 2 * t * t * t + b;
 	return c / 2 * ((t -= 2) * t * t + 2) + b;
-};
-tusk_math_Ease.InQuart = function(t,b,c,d) {
-	return c * (t /= d) * t * t * t + b;
-};
-tusk_math_Ease.OutQuart = function(t,b,c,d) {
-	return -c * ((t = t / d - 1) * t * t * t - 1) + b;
-};
-tusk_math_Ease.InOutQuart = function(t,b,c,d) {
-	if((t /= d / 2) < 1) return c / 2 * t * t * t * t + b;
-	return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
-};
-tusk_math_Ease.InQuint = function(t,b,c,d) {
-	return c * (t /= d) * t * t * t * t + b;
-};
-tusk_math_Ease.OutQuint = function(t,b,c,d) {
-	return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
-};
-tusk_math_Ease.InOutQuint = function(t,b,c,d) {
-	if((t /= d / 2) < 1) return c / 2 * t * t * t * t * t + b;
-	return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
-};
-tusk_math_Ease.InSine = function(t,b,c,d) {
-	return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
-};
-tusk_math_Ease.OutSine = function(t,b,c,d) {
-	return c * Math.sin(t / d * (Math.PI / 2)) + b;
-};
-tusk_math_Ease.InOutSine = function(t,b,c,d) {
-	return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
-};
-tusk_math_Ease.InExpo = function(t,b,c,d) {
-	if(t == 0) return b; else return c * Math.pow(2,10 * (t / d - 1)) + b;
-};
-tusk_math_Ease.OutExpo = function(t,b,c,d) {
-	if(t == d) return b + c; else return c * (-Math.pow(2,-10 * t / d) + 1) + b;
-};
-tusk_math_Ease.InOutExpo = function(t,b,c,d) {
-	if(t == 0) return b;
-	if(t == d) return b + c;
-	if((t /= d / 2) < 1) return c / 2 * Math.pow(2,10 * (t - 1)) + b;
-	return c / 2 * (-Math.pow(2,-10 * --t) + 2) + b;
-};
-tusk_math_Ease.InCirc = function(t,b,c,d) {
-	return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
-};
-tusk_math_Ease.OutCirc = function(t,b,c,d) {
-	return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
-};
-tusk_math_Ease.InOutCirc = function(t,b,c,d) {
-	if((t /= d / 2) < 1) return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
-	return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
-};
-tusk_math_Ease.InElastic = function(t,b,c,d) {
-	var s = 1.70158;
-	var p = 0;
-	var a = c;
-	if(t == 0) return b;
-	if((t /= d) == 1) return b + c;
-	p = d * .3;
-	if(a < Math.abs(c)) {
-		a = c;
-		var s1 = p / 4;
-	} else {
-		var s2 = p / (2 * Math.PI) * Math.asin(c / a);
-	}
-	return -(a * Math.pow(2,10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-};
-tusk_math_Ease.OutElastic = function(t,b,c,d) {
-	var s = 1.70158;
-	var p = 0;
-	var a = c;
-	if(t == 0) return b;
-	if((t /= d) == 1) return b + c;
-	p = d * .3;
-	if(a < Math.abs(c)) {
-		a = c;
-		var s1 = p / 4;
-	} else {
-		var s2 = p / (2 * Math.PI) * Math.asin(c / a);
-	}
-	return a * Math.pow(2,-10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
-};
-tusk_math_Ease.InOutElastic = function(t,b,c,d) {
-	var s = 1.70158;
-	var p = 0;
-	var a = c;
-	if(t == 0) return b;
-	if((t /= d / 2) == 2) return b + c;
-	p = d * 0.44999999999999996;
-	if(a < Math.abs(c)) {
-		a = c;
-		var s1 = p / 4;
-	} else {
-		var s2 = p / (2 * Math.PI) * Math.asin(c / a);
-	}
-	if(t < 1) return -0.5 * (a * Math.pow(2,10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-	return a * Math.pow(2,-10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * .5 + c + b;
-};
-tusk_math_Ease.InBack = function(t,b,c,d) {
-	var s = 1.70158;
-	return c * (t /= d) * t * ((s + 1) * t - s) + b;
-};
-tusk_math_Ease.OutBack = function(t,b,c,d) {
-	var s = 1.70158;
-	return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
-};
-tusk_math_Ease.InOutBack = function(t,b,c,d) {
-	var s = 1.70158;
-	if((t /= d / 2) < 1) return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
-	return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
-};
-tusk_math_Ease.InBounce = function(t,b,c,d) {
-	return c - tusk_math_Ease.OutBounce(d - t,b,c,d) + b;
-};
-tusk_math_Ease.OutBounce = function(t,b,c,d) {
-	if((t /= d) < 0.36363636363636365) return c * (7.5625 * t * t) + b; else if(t < 0.72727272727272729) return c * (7.5625 * (t -= 0.54545454545454541) * t + .75) + b; else if(t < 0.90909090909090906) return c * (7.5625 * (t -= 0.81818181818181823) * t + .9375) + b; else return c * (7.5625 * (t -= 0.95454545454545459) * t + .984375) + b;
-};
-tusk_math_Ease.InOutBounce = function(t,b,c,d) {
-	if(t < d / 2) return tusk_math_Ease.InBounce(t * 2,0,c,d) * .5 + b;
-	return tusk_math_Ease.OutBounce(t * 2 - d,0,c,d) * .5 + c * .5 + b;
 };
 var tusk_math_Lerp = function() { };
 $hxClasses["tusk.math.Lerp"] = tusk_math_Lerp;
@@ -13966,22 +7566,10 @@ tusk_math_Lerp.__name__ = ["tusk","math","Lerp"];
 tusk_math_Lerp.LerpF = function(a,b,t) {
 	return a + t * (b - a);
 };
-tusk_math_Lerp.LerpV2 = function(a,b,t) {
-	glm__$Vec2_Vec2_$Impl_$.set_x(a,tusk_math_Lerp.LerpF(glm__$Vec2_Vec2_$Impl_$.get_x(a),glm__$Vec2_Vec2_$Impl_$.get_x(b),t));
-	glm__$Vec2_Vec2_$Impl_$.set_y(a,tusk_math_Lerp.LerpF(glm__$Vec2_Vec2_$Impl_$.get_y(a),glm__$Vec2_Vec2_$Impl_$.get_y(b),t));
-	return a;
-};
 tusk_math_Lerp.LerpV3 = function(a,b,t) {
 	glm__$Vec3_Vec3_$Impl_$.set_x(a,tusk_math_Lerp.LerpF(glm__$Vec3_Vec3_$Impl_$.get_x(a),glm__$Vec3_Vec3_$Impl_$.get_x(b),t));
 	glm__$Vec3_Vec3_$Impl_$.set_y(a,tusk_math_Lerp.LerpF(glm__$Vec3_Vec3_$Impl_$.get_y(a),glm__$Vec3_Vec3_$Impl_$.get_y(b),t));
 	glm__$Vec3_Vec3_$Impl_$.set_z(a,tusk_math_Lerp.LerpF(glm__$Vec3_Vec3_$Impl_$.get_z(a),glm__$Vec3_Vec3_$Impl_$.get_z(b),t));
-	return a;
-};
-tusk_math_Lerp.LerpV4 = function(a,b,t) {
-	glm__$Vec4_Vec4_$Impl_$.set_x(a,tusk_math_Lerp.LerpF(glm__$Vec4_Vec4_$Impl_$.get_x(a),glm__$Vec4_Vec4_$Impl_$.get_x(b),t));
-	glm__$Vec4_Vec4_$Impl_$.set_y(a,tusk_math_Lerp.LerpF(glm__$Vec4_Vec4_$Impl_$.get_y(a),glm__$Vec4_Vec4_$Impl_$.get_y(b),t));
-	glm__$Vec4_Vec4_$Impl_$.set_z(a,tusk_math_Lerp.LerpF(glm__$Vec4_Vec4_$Impl_$.get_z(a),glm__$Vec4_Vec4_$Impl_$.get_z(b),t));
-	glm__$Vec4_Vec4_$Impl_$.set_w(a,tusk_math_Lerp.LerpF(glm__$Vec4_Vec4_$Impl_$.get_w(a),glm__$Vec4_Vec4_$Impl_$.get_w(b),t));
 	return a;
 };
 var tusk_math_MathTools = function() { };
@@ -13989,27 +7577,6 @@ $hxClasses["tusk.math.MathTools"] = tusk_math_MathTools;
 tusk_math_MathTools.__name__ = ["tusk","math","MathTools"];
 tusk_math_MathTools.clamp = function(x,min,max) {
 	return Math.min(max,Math.max(min,x));
-};
-tusk_math_MathTools.toDeg = function(x) {
-	return x * 180 / Math.PI;
-};
-tusk_math_MathTools.toRad = function(x) {
-	return x * Math.PI / 180;
-};
-tusk_math_MathTools.abs = function(x) {
-	return Math.abs(x);
-};
-var tusk_math_Random = function() { };
-$hxClasses["tusk.math.Random"] = tusk_math_Random;
-tusk_math_Random.__name__ = ["tusk","math","Random"];
-tusk_math_Random.bool = function() {
-	return Math.random() < 0.5;
-};
-tusk_math_Random["int"] = function(from,to) {
-	return from + Math.floor((to - from + 1) * Math.random());
-};
-tusk_math_Random["float"] = function(from,to) {
-	return from + (to - from) * Math.random();
 };
 var tusk_modules_Assets = function() {
 	this.assets = new haxe_ds_StringMap();
@@ -14211,92 +7778,6 @@ tusk_modules_Sound.prototype = {
 	}
 	,__class__: tusk_modules_Sound
 };
-var tusk_modules_tiled_Layer = function() { };
-$hxClasses["tusk.modules.tiled.Layer"] = tusk_modules_tiled_Layer;
-tusk_modules_tiled_Layer.__name__ = ["tusk","modules","tiled","Layer"];
-tusk_modules_tiled_Layer.prototype = {
-	__class__: tusk_modules_tiled_Layer
-};
-var tusk_modules_tiled_Object = function() { };
-$hxClasses["tusk.modules.tiled.Object"] = tusk_modules_tiled_Object;
-tusk_modules_tiled_Object.__name__ = ["tusk","modules","tiled","Object"];
-tusk_modules_tiled_Object.prototype = {
-	__class__: tusk_modules_tiled_Object
-};
-var tusk_modules_tiled_TileMap = function() {
-};
-$hxClasses["tusk.modules.tiled.TileMap"] = tusk_modules_tiled_TileMap;
-tusk_modules_tiled_TileMap.__name__ = ["tusk","modules","tiled","TileMap"];
-tusk_modules_tiled_TileMap.fromJSON = function(json) {
-	var tm = JSON.parse(json);
-	return tm;
-};
-tusk_modules_tiled_TileMap.buildMesh = function(tm,path,zSpacing) {
-	if(zSpacing == null) zSpacing = 0.1;
-	var m = new tusk_resources_Mesh(path);
-	m.vertices = [];
-	m.uvs = [];
-	if(tm.tilesets.length != 1) throw new js__$Boot_HaxeError(new tusk_debug_Exception("TileMap loader can only deal with singular tilesets for now!",null,null,{ fileName : "TileMap.hx", lineNumber : 53, className : "tusk.modules.tiled.TileMap", methodName : "buildMesh"}));
-	var tileSize = glm__$Vec2_Vec2_$Impl_$._new(tm.tilesets[0].tilewidth,tm.tilesets[0].tileheight);
-	var tileSizeInUV = glm__$Vec2_Vec2_$Impl_$._new(tm.tilesets[0].tilewidth / tm.tilesets[0].imagewidth,tm.tilesets[0].tileheight / tm.tilesets[0].imageheight);
-	var tileUVBases = [];
-	tileUVBases.push(null);
-	var tilePos = glm__$Vec2_Vec2_$Impl_$._new(0,0);
-	while(glm__$Vec2_Vec2_$Impl_$.get_y(tilePos) < tm.tilesets[0].imageheight) {
-		glm__$Vec2_Vec2_$Impl_$.set_x(tilePos,0);
-		while(glm__$Vec2_Vec2_$Impl_$.get_x(tilePos) < tm.tilesets[0].imagewidth) {
-			tileUVBases.push(glm__$Vec2_Vec2_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(tilePos) / tm.tilesets[0].imagewidth,glm__$Vec2_Vec2_$Impl_$.get_y(tilePos) / tm.tilesets[0].imageheight));
-			glm__$Vec2_Vec2_$Impl_$.set_x(tilePos,glm__$Vec2_Vec2_$Impl_$.get_x(tilePos) + tm.tilesets[0].tilewidth);
-		}
-		glm__$Vec2_Vec2_$Impl_$.set_y(tilePos,glm__$Vec2_Vec2_$Impl_$.get_y(tilePos) + tm.tilesets[0].tileheight);
-	}
-	var pos = glm__$Vec3_Vec3_$Impl_$._new(0,0,0);
-	var _g = 0;
-	var _g1 = tm.layers;
-	while(_g < _g1.length) {
-		var layer = _g1[_g];
-		++_g;
-		if(layer.type != "tilelayer") continue;
-		glm__$Vec3_Vec3_$Impl_$.set_x(pos,0);
-		glm__$Vec3_Vec3_$Impl_$.set_y(pos,(layer.height - 1) * glm__$Vec2_Vec2_$Impl_$.get_y(tileSize));
-		var _g2 = 0;
-		var _g3 = layer.data;
-		while(_g2 < _g3.length) {
-			var gid = _g3[_g2];
-			++_g2;
-			if(gid != 0) {
-				m.vertices.push(glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(pos),glm__$Vec3_Vec3_$Impl_$.get_y(pos),glm__$Vec3_Vec3_$Impl_$.get_z(pos)));
-				m.uvs.push(glm__$Vec2_Vec2_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(tileUVBases[gid]),glm__$Vec2_Vec2_$Impl_$.get_y(tileUVBases[gid]) + glm__$Vec2_Vec2_$Impl_$.get_y(tileSizeInUV)));
-				m.vertices.push(glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(pos) + glm__$Vec2_Vec2_$Impl_$.get_x(tileSize),glm__$Vec3_Vec3_$Impl_$.get_y(pos),glm__$Vec3_Vec3_$Impl_$.get_z(pos)));
-				m.uvs.push(glm__$Vec2_Vec2_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(tileUVBases[gid]) + glm__$Vec2_Vec2_$Impl_$.get_x(tileSizeInUV),glm__$Vec2_Vec2_$Impl_$.get_y(tileUVBases[gid]) + glm__$Vec2_Vec2_$Impl_$.get_y(tileSizeInUV)));
-				m.vertices.push(glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(pos) + glm__$Vec2_Vec2_$Impl_$.get_x(tileSize),glm__$Vec3_Vec3_$Impl_$.get_y(pos) + glm__$Vec2_Vec2_$Impl_$.get_y(tileSize),glm__$Vec3_Vec3_$Impl_$.get_z(pos)));
-				m.uvs.push(glm__$Vec2_Vec2_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(tileUVBases[gid]) + glm__$Vec2_Vec2_$Impl_$.get_x(tileSizeInUV),glm__$Vec2_Vec2_$Impl_$.get_y(tileUVBases[gid])));
-				m.vertices.push(glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(pos) + glm__$Vec2_Vec2_$Impl_$.get_x(tileSize),glm__$Vec3_Vec3_$Impl_$.get_y(pos) + glm__$Vec2_Vec2_$Impl_$.get_y(tileSize),glm__$Vec3_Vec3_$Impl_$.get_z(pos)));
-				m.uvs.push(glm__$Vec2_Vec2_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(tileUVBases[gid]) + glm__$Vec2_Vec2_$Impl_$.get_x(tileSizeInUV),glm__$Vec2_Vec2_$Impl_$.get_y(tileUVBases[gid])));
-				m.vertices.push(glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(pos),glm__$Vec3_Vec3_$Impl_$.get_y(pos) + glm__$Vec2_Vec2_$Impl_$.get_y(tileSize),glm__$Vec3_Vec3_$Impl_$.get_z(pos)));
-				m.uvs.push(glm__$Vec2_Vec2_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(tileUVBases[gid]),glm__$Vec2_Vec2_$Impl_$.get_y(tileUVBases[gid])));
-				m.vertices.push(glm__$Vec3_Vec3_$Impl_$._new(glm__$Vec3_Vec3_$Impl_$.get_x(pos),glm__$Vec3_Vec3_$Impl_$.get_y(pos),glm__$Vec3_Vec3_$Impl_$.get_z(pos)));
-				m.uvs.push(glm__$Vec2_Vec2_$Impl_$._new(glm__$Vec2_Vec2_$Impl_$.get_x(tileUVBases[gid]),glm__$Vec2_Vec2_$Impl_$.get_y(tileUVBases[gid]) + glm__$Vec2_Vec2_$Impl_$.get_y(tileSizeInUV)));
-			}
-			glm__$Vec3_Vec3_$Impl_$.set_x(pos,glm__$Vec3_Vec3_$Impl_$.get_x(pos) + glm__$Vec2_Vec2_$Impl_$.get_x(tileSize));
-			if(glm__$Vec3_Vec3_$Impl_$.get_x(pos) >= layer.width * glm__$Vec2_Vec2_$Impl_$.get_x(tileSize)) {
-				glm__$Vec3_Vec3_$Impl_$.set_x(pos,0);
-				glm__$Vec3_Vec3_$Impl_$.set_y(pos,glm__$Vec3_Vec3_$Impl_$.get_y(pos) - glm__$Vec2_Vec2_$Impl_$.get_y(tileSize));
-			}
-		}
-		glm__$Vec3_Vec3_$Impl_$.set_z(pos,glm__$Vec3_Vec3_$Impl_$.get_z(pos) + zSpacing);
-	}
-	return tusk_Tusk.assets.loadMesh(path,m);
-};
-tusk_modules_tiled_TileMap.prototype = {
-	__class__: tusk_modules_tiled_TileMap
-};
-var tusk_modules_tiled_TileSet = function() { };
-$hxClasses["tusk.modules.tiled.TileSet"] = tusk_modules_tiled_TileSet;
-tusk_modules_tiled_TileSet.__name__ = ["tusk","modules","tiled","TileSet"];
-tusk_modules_tiled_TileSet.prototype = {
-	__class__: tusk_modules_tiled_TileSet
-};
 var tusk_resources_Asset = function(path) {
 	this.path = path;
 };
@@ -14465,23 +7946,7 @@ $hxClasses["tusk.resources.Material"] = tusk_resources_Material;
 tusk_resources_Material.__name__ = ["tusk","resources","Material"];
 tusk_resources_Material.__super__ = tusk_resources_Asset;
 tusk_resources_Material.prototype = $extend(tusk_resources_Asset.prototype,{
-	clone: function(newPath) {
-		var m = new tusk_resources_Material(newPath,this.shader);
-		m.onRender = this.onRender;
-		if(this.textures != null) {
-			m.textures = [];
-			var _g = 0;
-			var _g1 = this.textures;
-			while(_g < _g1.length) {
-				var texture = _g1[_g];
-				++_g;
-				m.textures.push(texture);
-			}
-		}
-		m.attributeFlags = this.attributeFlags;
-		return m;
-	}
-	,setFloat: function(name,v) {
+	setFloat: function(name,v) {
 		var location = this.shader.getUniformLocation(name);
 		snow_modules_opengl_web_GL.current_context.uniform1f(location,v);
 	}
@@ -14913,17 +8378,12 @@ snow_system_input_Scancodes.escape = 41;
 snow_system_input_Scancodes.backspace = 42;
 snow_system_input_Scancodes.tab = 43;
 snow_system_input_Scancodes.space = 44;
-snow_system_input_Scancodes.minus = 45;
 snow_system_input_Scancodes.equals = 46;
 snow_system_input_Scancodes.leftbracket = 47;
 snow_system_input_Scancodes.rightbracket = 48;
 snow_system_input_Scancodes.backslash = 49;
-snow_system_input_Scancodes.nonushash = 50;
 snow_system_input_Scancodes.semicolon = 51;
-snow_system_input_Scancodes.apostrophe = 52;
 snow_system_input_Scancodes.grave = 53;
-snow_system_input_Scancodes.comma = 54;
-snow_system_input_Scancodes.period = 55;
 snow_system_input_Scancodes.slash = 56;
 snow_system_input_Scancodes.capslock = 57;
 snow_system_input_Scancodes.f1 = 58;
@@ -14939,12 +8399,9 @@ snow_system_input_Scancodes.f10 = 67;
 snow_system_input_Scancodes.f11 = 68;
 snow_system_input_Scancodes.f12 = 69;
 snow_system_input_Scancodes.printscreen = 70;
-snow_system_input_Scancodes.scrolllock = 71;
-snow_system_input_Scancodes.pause = 72;
 snow_system_input_Scancodes.insert = 73;
 snow_system_input_Scancodes.home = 74;
 snow_system_input_Scancodes.pageup = 75;
-snow_system_input_Scancodes["delete"] = 76;
 snow_system_input_Scancodes.end = 77;
 snow_system_input_Scancodes.pagedown = 78;
 snow_system_input_Scancodes.right = 79;
@@ -14956,7 +8413,6 @@ snow_system_input_Scancodes.kp_divide = 84;
 snow_system_input_Scancodes.kp_multiply = 85;
 snow_system_input_Scancodes.kp_minus = 86;
 snow_system_input_Scancodes.kp_plus = 87;
-snow_system_input_Scancodes.kp_enter = 88;
 snow_system_input_Scancodes.kp_1 = 89;
 snow_system_input_Scancodes.kp_2 = 90;
 snow_system_input_Scancodes.kp_3 = 91;
@@ -14967,11 +8423,6 @@ snow_system_input_Scancodes.kp_7 = 95;
 snow_system_input_Scancodes.kp_8 = 96;
 snow_system_input_Scancodes.kp_9 = 97;
 snow_system_input_Scancodes.kp_0 = 98;
-snow_system_input_Scancodes.kp_period = 99;
-snow_system_input_Scancodes.nonusbackslash = 100;
-snow_system_input_Scancodes.application = 101;
-snow_system_input_Scancodes.power = 102;
-snow_system_input_Scancodes.kp_equals = 103;
 snow_system_input_Scancodes.f13 = 104;
 snow_system_input_Scancodes.f14 = 105;
 snow_system_input_Scancodes.f15 = 106;
@@ -14984,141 +8435,18 @@ snow_system_input_Scancodes.f21 = 112;
 snow_system_input_Scancodes.f22 = 113;
 snow_system_input_Scancodes.f23 = 114;
 snow_system_input_Scancodes.f24 = 115;
-snow_system_input_Scancodes.execute = 116;
-snow_system_input_Scancodes.help = 117;
-snow_system_input_Scancodes.menu = 118;
-snow_system_input_Scancodes.select = 119;
-snow_system_input_Scancodes.stop = 120;
-snow_system_input_Scancodes.again = 121;
-snow_system_input_Scancodes.undo = 122;
-snow_system_input_Scancodes.cut = 123;
-snow_system_input_Scancodes.copy = 124;
-snow_system_input_Scancodes.paste = 125;
-snow_system_input_Scancodes.find = 126;
-snow_system_input_Scancodes.mute = 127;
 snow_system_input_Scancodes.volumeup = 128;
 snow_system_input_Scancodes.volumedown = 129;
-snow_system_input_Scancodes.kp_comma = 133;
-snow_system_input_Scancodes.kp_equalsas400 = 134;
-snow_system_input_Scancodes.international1 = 135;
-snow_system_input_Scancodes.international2 = 136;
-snow_system_input_Scancodes.international3 = 137;
-snow_system_input_Scancodes.international4 = 138;
-snow_system_input_Scancodes.international5 = 139;
-snow_system_input_Scancodes.international6 = 140;
-snow_system_input_Scancodes.international7 = 141;
-snow_system_input_Scancodes.international8 = 142;
-snow_system_input_Scancodes.international9 = 143;
-snow_system_input_Scancodes.lang1 = 144;
-snow_system_input_Scancodes.lang2 = 145;
-snow_system_input_Scancodes.lang3 = 146;
-snow_system_input_Scancodes.lang4 = 147;
-snow_system_input_Scancodes.lang5 = 148;
-snow_system_input_Scancodes.lang6 = 149;
-snow_system_input_Scancodes.lang7 = 150;
-snow_system_input_Scancodes.lang8 = 151;
-snow_system_input_Scancodes.lang9 = 152;
-snow_system_input_Scancodes.alterase = 153;
-snow_system_input_Scancodes.sysreq = 154;
-snow_system_input_Scancodes.cancel = 155;
-snow_system_input_Scancodes.clear = 156;
-snow_system_input_Scancodes.prior = 157;
-snow_system_input_Scancodes.return2 = 158;
-snow_system_input_Scancodes.separator = 159;
-snow_system_input_Scancodes.out = 160;
-snow_system_input_Scancodes.oper = 161;
-snow_system_input_Scancodes.clearagain = 162;
-snow_system_input_Scancodes.crsel = 163;
-snow_system_input_Scancodes.exsel = 164;
-snow_system_input_Scancodes.kp_00 = 176;
-snow_system_input_Scancodes.kp_000 = 177;
-snow_system_input_Scancodes.thousandsseparator = 178;
-snow_system_input_Scancodes.decimalseparator = 179;
-snow_system_input_Scancodes.currencyunit = 180;
-snow_system_input_Scancodes.currencysubunit = 181;
-snow_system_input_Scancodes.kp_leftparen = 182;
-snow_system_input_Scancodes.kp_rightparen = 183;
-snow_system_input_Scancodes.kp_leftbrace = 184;
-snow_system_input_Scancodes.kp_rightbrace = 185;
-snow_system_input_Scancodes.kp_tab = 186;
-snow_system_input_Scancodes.kp_backspace = 187;
-snow_system_input_Scancodes.kp_a = 188;
-snow_system_input_Scancodes.kp_b = 189;
-snow_system_input_Scancodes.kp_c = 190;
-snow_system_input_Scancodes.kp_d = 191;
-snow_system_input_Scancodes.kp_e = 192;
-snow_system_input_Scancodes.kp_f = 193;
-snow_system_input_Scancodes.kp_xor = 194;
-snow_system_input_Scancodes.kp_power = 195;
-snow_system_input_Scancodes.kp_percent = 196;
-snow_system_input_Scancodes.kp_less = 197;
-snow_system_input_Scancodes.kp_greater = 198;
-snow_system_input_Scancodes.kp_ampersand = 199;
-snow_system_input_Scancodes.kp_dblampersand = 200;
-snow_system_input_Scancodes.kp_verticalbar = 201;
-snow_system_input_Scancodes.kp_dblverticalbar = 202;
-snow_system_input_Scancodes.kp_colon = 203;
-snow_system_input_Scancodes.kp_hash = 204;
-snow_system_input_Scancodes.kp_space = 205;
-snow_system_input_Scancodes.kp_at = 206;
-snow_system_input_Scancodes.kp_exclam = 207;
-snow_system_input_Scancodes.kp_memstore = 208;
-snow_system_input_Scancodes.kp_memrecall = 209;
-snow_system_input_Scancodes.kp_memclear = 210;
-snow_system_input_Scancodes.kp_memadd = 211;
-snow_system_input_Scancodes.kp_memsubtract = 212;
-snow_system_input_Scancodes.kp_memmultiply = 213;
-snow_system_input_Scancodes.kp_memdivide = 214;
-snow_system_input_Scancodes.kp_plusminus = 215;
-snow_system_input_Scancodes.kp_clear = 216;
-snow_system_input_Scancodes.kp_clearentry = 217;
-snow_system_input_Scancodes.kp_binary = 218;
-snow_system_input_Scancodes.kp_octal = 219;
 snow_system_input_Scancodes.kp_decimal = 220;
-snow_system_input_Scancodes.kp_hexadecimal = 221;
 snow_system_input_Scancodes.lctrl = 224;
 snow_system_input_Scancodes.lshift = 225;
 snow_system_input_Scancodes.lalt = 226;
 snow_system_input_Scancodes.lmeta = 227;
-snow_system_input_Scancodes.rctrl = 228;
-snow_system_input_Scancodes.rshift = 229;
-snow_system_input_Scancodes.ralt = 230;
 snow_system_input_Scancodes.rmeta = 231;
-snow_system_input_Scancodes.mode = 257;
-snow_system_input_Scancodes.audionext = 258;
-snow_system_input_Scancodes.audioprev = 259;
-snow_system_input_Scancodes.audiostop = 260;
-snow_system_input_Scancodes.audioplay = 261;
 snow_system_input_Scancodes.audiomute = 262;
-snow_system_input_Scancodes.mediaselect = 263;
-snow_system_input_Scancodes.www = 264;
-snow_system_input_Scancodes.mail = 265;
-snow_system_input_Scancodes.calculator = 266;
-snow_system_input_Scancodes.computer = 267;
-snow_system_input_Scancodes.ac_search = 268;
-snow_system_input_Scancodes.ac_home = 269;
-snow_system_input_Scancodes.ac_back = 270;
-snow_system_input_Scancodes.ac_forward = 271;
-snow_system_input_Scancodes.ac_stop = 272;
-snow_system_input_Scancodes.ac_refresh = 273;
-snow_system_input_Scancodes.ac_bookmarks = 274;
-snow_system_input_Scancodes.brightnessdown = 275;
-snow_system_input_Scancodes.brightnessup = 276;
-snow_system_input_Scancodes.displayswitch = 277;
-snow_system_input_Scancodes.kbdillumtoggle = 278;
-snow_system_input_Scancodes.kbdillumdown = 279;
-snow_system_input_Scancodes.kbdillumup = 280;
-snow_system_input_Scancodes.eject = 281;
-snow_system_input_Scancodes.sleep = 282;
-snow_system_input_Scancodes.app1 = 283;
-snow_system_input_Scancodes.app2 = 284;
-snow_system_input_Scancodes.scancode_names = [null,null,null,null,"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","1","2","3","4","5","6","7","8","9","0","Enter","Escape","Backspace","Tab","Space","-","=","[","]","\\","#",";","'","`",",",".","/","CapsLock","F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12","PrintScreen","ScrollLock","Pause","Insert","Home","PageUp","Delete","End","PageDown","Right","Left","Down","Up","Numlock","Keypad /","Keypad *","Keypad -","Keypad +","Keypad Enter","Keypad 1","Keypad 2","Keypad 3","Keypad 4","Keypad 5","Keypad 6","Keypad 7","Keypad 8","Keypad 9","Keypad 0","Keypad .",null,"Application","Power","Keypad =","F13","F14","F15","F16","F17","F18","F19","F20","F21","F22","F23","F24","Execute","Help","Menu","Select","Stop","Again","Undo","Cut","Copy","Paste","Find","Mute","VolumeUp","VolumeDown",null,null,null,"Keypad ,","Keypad = (AS400)",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"AltErase","SysReq","Cancel","Clear","Prior","Enter","Separator","Out","Oper","Clear / Again","CrSel","ExSel",null,null,null,null,null,null,null,null,null,null,null,"Keypad 00","Keypad 000","ThousandsSeparator","DecimalSeparator","CurrencyUnit","CurrencySubUnit","Keypad (","Keypad )","Keypad {","Keypad }","Keypad Tab","Keypad Backspace","Keypad A","Keypad B","Keypad C","Keypad D","Keypad E","Keypad F","Keypad XOR","Keypad ^","Keypad %","Keypad <","Keypad >","Keypad &","Keypad &&","Keypad |","Keypad ||","Keypad :","Keypad #","Keypad Space","Keypad @","Keypad !","Keypad MemStore","Keypad MemRecall","Keypad MemClear","Keypad MemAdd","Keypad MemSubtract","Keypad MemMultiply","Keypad MemDivide","Keypad +/-","Keypad Clear","Keypad ClearEntry","Keypad Binary","Keypad Octal","Keypad Decimal","Keypad Hexadecimal",null,null,"Left Ctrl","Left Shift","Left Alt","Left Meta","Right Ctrl","Right Shift","Right Alt","Right Meta",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"ModeSwitch","AudioNext","AudioPrev","AudioStop","AudioPlay","AudioMute","MediaSelect","WWW","Mail","Calculator","Computer","AC Search","AC Home","AC Back","AC Forward","AC Stop","AC Refresh","AC Bookmarks","BrightnessDown","BrightnessUp","DisplaySwitch","KBDIllumToggle","KBDIllumDown","KBDIllumUp","Eject","Sleep"];
-snow_system_input_Keycodes.unknown = 0;
 snow_system_input_Keycodes.enter = 13;
-snow_system_input_Keycodes.escape = 27;
 snow_system_input_Keycodes.backspace = 8;
 snow_system_input_Keycodes.tab = 9;
-snow_system_input_Keycodes.space = 32;
 snow_system_input_Keycodes.exclaim = 33;
 snow_system_input_Keycodes.quotedbl = 34;
 snow_system_input_Keycodes.hash = 35;
@@ -15134,55 +8462,16 @@ snow_system_input_Keycodes.comma = 44;
 snow_system_input_Keycodes.minus = 45;
 snow_system_input_Keycodes.period = 46;
 snow_system_input_Keycodes.slash = 47;
-snow_system_input_Keycodes.key_0 = 48;
-snow_system_input_Keycodes.key_1 = 49;
-snow_system_input_Keycodes.key_2 = 50;
-snow_system_input_Keycodes.key_3 = 51;
-snow_system_input_Keycodes.key_4 = 52;
-snow_system_input_Keycodes.key_5 = 53;
-snow_system_input_Keycodes.key_6 = 54;
-snow_system_input_Keycodes.key_7 = 55;
-snow_system_input_Keycodes.key_8 = 56;
-snow_system_input_Keycodes.key_9 = 57;
-snow_system_input_Keycodes.colon = 58;
-snow_system_input_Keycodes.semicolon = 59;
-snow_system_input_Keycodes.less = 60;
-snow_system_input_Keycodes.equals = 61;
-snow_system_input_Keycodes.greater = 62;
-snow_system_input_Keycodes.question = 63;
-snow_system_input_Keycodes.at = 64;
 snow_system_input_Keycodes.leftbracket = 91;
 snow_system_input_Keycodes.backslash = 92;
 snow_system_input_Keycodes.rightbracket = 93;
 snow_system_input_Keycodes.caret = 94;
 snow_system_input_Keycodes.underscore = 95;
 snow_system_input_Keycodes.backquote = 96;
-snow_system_input_Keycodes.key_a = 97;
-snow_system_input_Keycodes.key_b = 98;
-snow_system_input_Keycodes.key_c = 99;
-snow_system_input_Keycodes.key_d = 100;
 snow_system_input_Keycodes.key_e = 101;
-snow_system_input_Keycodes.key_f = 102;
-snow_system_input_Keycodes.key_g = 103;
-snow_system_input_Keycodes.key_h = 104;
 snow_system_input_Keycodes.key_i = 105;
-snow_system_input_Keycodes.key_j = 106;
-snow_system_input_Keycodes.key_k = 107;
-snow_system_input_Keycodes.key_l = 108;
-snow_system_input_Keycodes.key_m = 109;
-snow_system_input_Keycodes.key_n = 110;
-snow_system_input_Keycodes.key_o = 111;
 snow_system_input_Keycodes.key_p = 112;
 snow_system_input_Keycodes.key_q = 113;
-snow_system_input_Keycodes.key_r = 114;
-snow_system_input_Keycodes.key_s = 115;
-snow_system_input_Keycodes.key_t = 116;
-snow_system_input_Keycodes.key_u = 117;
-snow_system_input_Keycodes.key_v = 118;
-snow_system_input_Keycodes.key_w = 119;
-snow_system_input_Keycodes.key_x = 120;
-snow_system_input_Keycodes.key_y = 121;
-snow_system_input_Keycodes.key_z = 122;
 snow_system_input_Keycodes.capslock = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.capslock);
 snow_system_input_Keycodes.f1 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.f1);
 snow_system_input_Keycodes.f2 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.f2);
@@ -15197,8 +8486,6 @@ snow_system_input_Keycodes.f10 = snow_system_input_Keycodes.from_scan(snow_syste
 snow_system_input_Keycodes.f11 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.f11);
 snow_system_input_Keycodes.f12 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.f12);
 snow_system_input_Keycodes.printscreen = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.printscreen);
-snow_system_input_Keycodes.scrolllock = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.scrolllock);
-snow_system_input_Keycodes.pause = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.pause);
 snow_system_input_Keycodes.insert = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.insert);
 snow_system_input_Keycodes.home = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.home);
 snow_system_input_Keycodes.pageup = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.pageup);
@@ -15214,7 +8501,6 @@ snow_system_input_Keycodes.kp_divide = snow_system_input_Keycodes.from_scan(snow
 snow_system_input_Keycodes.kp_multiply = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_multiply);
 snow_system_input_Keycodes.kp_minus = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_minus);
 snow_system_input_Keycodes.kp_plus = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_plus);
-snow_system_input_Keycodes.kp_enter = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_enter);
 snow_system_input_Keycodes.kp_1 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_1);
 snow_system_input_Keycodes.kp_2 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_2);
 snow_system_input_Keycodes.kp_3 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_3);
@@ -15225,10 +8511,6 @@ snow_system_input_Keycodes.kp_7 = snow_system_input_Keycodes.from_scan(snow_syst
 snow_system_input_Keycodes.kp_8 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_8);
 snow_system_input_Keycodes.kp_9 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_9);
 snow_system_input_Keycodes.kp_0 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_0);
-snow_system_input_Keycodes.kp_period = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_period);
-snow_system_input_Keycodes.application = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.application);
-snow_system_input_Keycodes.power = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.power);
-snow_system_input_Keycodes.kp_equals = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_equals);
 snow_system_input_Keycodes.f13 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.f13);
 snow_system_input_Keycodes.f14 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.f14);
 snow_system_input_Keycodes.f15 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.f15);
@@ -15241,114 +8523,15 @@ snow_system_input_Keycodes.f21 = snow_system_input_Keycodes.from_scan(snow_syste
 snow_system_input_Keycodes.f22 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.f22);
 snow_system_input_Keycodes.f23 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.f23);
 snow_system_input_Keycodes.f24 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.f24);
-snow_system_input_Keycodes.execute = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.execute);
-snow_system_input_Keycodes.help = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.help);
-snow_system_input_Keycodes.menu = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.menu);
-snow_system_input_Keycodes.select = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.select);
-snow_system_input_Keycodes.stop = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.stop);
-snow_system_input_Keycodes.again = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.again);
-snow_system_input_Keycodes.undo = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.undo);
-snow_system_input_Keycodes.cut = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.cut);
-snow_system_input_Keycodes.copy = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.copy);
-snow_system_input_Keycodes.paste = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.paste);
-snow_system_input_Keycodes.find = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.find);
-snow_system_input_Keycodes.mute = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.mute);
 snow_system_input_Keycodes.volumeup = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.volumeup);
 snow_system_input_Keycodes.volumedown = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.volumedown);
-snow_system_input_Keycodes.kp_comma = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_comma);
-snow_system_input_Keycodes.kp_equalsas400 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_equalsas400);
-snow_system_input_Keycodes.alterase = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.alterase);
-snow_system_input_Keycodes.sysreq = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.sysreq);
-snow_system_input_Keycodes.cancel = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.cancel);
-snow_system_input_Keycodes.clear = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.clear);
-snow_system_input_Keycodes.prior = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.prior);
-snow_system_input_Keycodes.return2 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.return2);
-snow_system_input_Keycodes.separator = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.separator);
-snow_system_input_Keycodes.out = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.out);
-snow_system_input_Keycodes.oper = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.oper);
-snow_system_input_Keycodes.clearagain = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.clearagain);
-snow_system_input_Keycodes.crsel = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.crsel);
-snow_system_input_Keycodes.exsel = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.exsel);
-snow_system_input_Keycodes.kp_00 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_00);
-snow_system_input_Keycodes.kp_000 = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_000);
-snow_system_input_Keycodes.thousandsseparator = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.thousandsseparator);
-snow_system_input_Keycodes.decimalseparator = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.decimalseparator);
-snow_system_input_Keycodes.currencyunit = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.currencyunit);
-snow_system_input_Keycodes.currencysubunit = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.currencysubunit);
-snow_system_input_Keycodes.kp_leftparen = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_leftparen);
-snow_system_input_Keycodes.kp_rightparen = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_rightparen);
-snow_system_input_Keycodes.kp_leftbrace = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_leftbrace);
-snow_system_input_Keycodes.kp_rightbrace = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_rightbrace);
-snow_system_input_Keycodes.kp_tab = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_tab);
-snow_system_input_Keycodes.kp_backspace = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_backspace);
-snow_system_input_Keycodes.kp_a = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_a);
-snow_system_input_Keycodes.kp_b = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_b);
-snow_system_input_Keycodes.kp_c = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_c);
-snow_system_input_Keycodes.kp_d = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_d);
-snow_system_input_Keycodes.kp_e = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_e);
-snow_system_input_Keycodes.kp_f = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_f);
-snow_system_input_Keycodes.kp_xor = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_xor);
-snow_system_input_Keycodes.kp_power = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_power);
-snow_system_input_Keycodes.kp_percent = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_percent);
-snow_system_input_Keycodes.kp_less = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_less);
-snow_system_input_Keycodes.kp_greater = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_greater);
-snow_system_input_Keycodes.kp_ampersand = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_ampersand);
-snow_system_input_Keycodes.kp_dblampersand = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_dblampersand);
-snow_system_input_Keycodes.kp_verticalbar = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_verticalbar);
-snow_system_input_Keycodes.kp_dblverticalbar = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_dblverticalbar);
-snow_system_input_Keycodes.kp_colon = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_colon);
-snow_system_input_Keycodes.kp_hash = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_hash);
-snow_system_input_Keycodes.kp_space = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_space);
-snow_system_input_Keycodes.kp_at = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_at);
-snow_system_input_Keycodes.kp_exclam = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_exclam);
-snow_system_input_Keycodes.kp_memstore = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_memstore);
-snow_system_input_Keycodes.kp_memrecall = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_memrecall);
-snow_system_input_Keycodes.kp_memclear = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_memclear);
-snow_system_input_Keycodes.kp_memadd = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_memadd);
-snow_system_input_Keycodes.kp_memsubtract = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_memsubtract);
-snow_system_input_Keycodes.kp_memmultiply = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_memmultiply);
-snow_system_input_Keycodes.kp_memdivide = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_memdivide);
-snow_system_input_Keycodes.kp_plusminus = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_plusminus);
-snow_system_input_Keycodes.kp_clear = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_clear);
-snow_system_input_Keycodes.kp_clearentry = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_clearentry);
-snow_system_input_Keycodes.kp_binary = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_binary);
-snow_system_input_Keycodes.kp_octal = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_octal);
 snow_system_input_Keycodes.kp_decimal = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_decimal);
-snow_system_input_Keycodes.kp_hexadecimal = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kp_hexadecimal);
 snow_system_input_Keycodes.lctrl = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.lctrl);
 snow_system_input_Keycodes.lshift = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.lshift);
 snow_system_input_Keycodes.lalt = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.lalt);
 snow_system_input_Keycodes.lmeta = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.lmeta);
-snow_system_input_Keycodes.rctrl = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.rctrl);
-snow_system_input_Keycodes.rshift = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.rshift);
-snow_system_input_Keycodes.ralt = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.ralt);
 snow_system_input_Keycodes.rmeta = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.rmeta);
-snow_system_input_Keycodes.mode = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.mode);
-snow_system_input_Keycodes.audionext = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.audionext);
-snow_system_input_Keycodes.audioprev = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.audioprev);
-snow_system_input_Keycodes.audiostop = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.audiostop);
-snow_system_input_Keycodes.audioplay = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.audioplay);
 snow_system_input_Keycodes.audiomute = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.audiomute);
-snow_system_input_Keycodes.mediaselect = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.mediaselect);
-snow_system_input_Keycodes.www = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.www);
-snow_system_input_Keycodes.mail = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.mail);
-snow_system_input_Keycodes.calculator = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.calculator);
-snow_system_input_Keycodes.computer = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.computer);
-snow_system_input_Keycodes.ac_search = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.ac_search);
-snow_system_input_Keycodes.ac_home = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.ac_home);
-snow_system_input_Keycodes.ac_back = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.ac_back);
-snow_system_input_Keycodes.ac_forward = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.ac_forward);
-snow_system_input_Keycodes.ac_stop = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.ac_stop);
-snow_system_input_Keycodes.ac_refresh = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.ac_refresh);
-snow_system_input_Keycodes.ac_bookmarks = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.ac_bookmarks);
-snow_system_input_Keycodes.brightnessdown = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.brightnessdown);
-snow_system_input_Keycodes.brightnessup = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.brightnessup);
-snow_system_input_Keycodes.displayswitch = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.displayswitch);
-snow_system_input_Keycodes.kbdillumtoggle = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kbdillumtoggle);
-snow_system_input_Keycodes.kbdillumdown = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kbdillumdown);
-snow_system_input_Keycodes.kbdillumup = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.kbdillumup);
-snow_system_input_Keycodes.eject = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.eject);
-snow_system_input_Keycodes.sleep = snow_system_input_Keycodes.from_scan(snow_system_input_Scancodes.sleep);
 GameTracker.player = [new Player("Player 1",false,snow_system_input_Keycodes.key_q,"Q",snow_system_input_Keycodes.key_e,"E",(function($this) {
 	var $r;
 	var a = glm__$Vec3_Vec3_$Impl_$._new(205,53,23);
@@ -15360,15 +8543,7 @@ GameTracker.player = [new Player("Player 1",false,snow_system_input_Keycodes.key
 	$r = glm__$Vec3_Vec3_$Impl_$.divideScalar(glm__$Vec3_Vec3_$Impl_$.clone(a1),255);
 	return $r;
 }(this)))];
-LoadingScreen.salutations = ["Mr.","Mrs.","Ms.","Dr.","The"];
-LoadingScreen.adjectives = ["Purple","Green","Fast","Slow","Time-Travelling","Time Traveller's","Clever","Crispy","Clumsy","Thrifty","Quick","Cranky","Lumpy","Polite","Sparkling","Sturdy","Creaky","Odd","Friendly"];
-LoadingScreen.nouns = ["Wife","Husband","Son","Daughter","Lawyer","Swordfish","Squid","Cheetah","Space-man","Cosmonaut","Apprentice","Champ","Pancake","Chicken","Unicorn","Bunny","Gnome","Mermaid"];
-glm_GLM.degToRad = 0.017453292519943295;
-glm_GLM.radToDeg = 57.29577951308232;
-haxe_Serializer.USE_CACHE = false;
-haxe_Serializer.USE_ENUM_INDEX = false;
 haxe_Serializer.BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%:";
-haxe_Unserializer.DEFAULT_RESOLVER = Type;
 haxe_Unserializer.BASE64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789%:";
 haxe_crypto_Base64.CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 haxe_crypto_Base64.BYTES = haxe_io_Bytes.ofString(haxe_crypto_Base64.CHARS);
@@ -15383,527 +8558,34 @@ js_Boot.__toStr = {}.toString;
 js_html_compat_Uint8Array.BYTES_PER_ELEMENT = 1;
 tusk_Component.tid = -1;
 tusk_PromiseComponent.tid = 3;
-loading_SlamComponent.tid = 21;
-loading_SlideComponent.tid = 22;
-minigames_SledTillYoureDead.obstacles = [];
-minigames_bottlerocket_PumpComponent.tid = 19;
-minigames_bottlerocket_PumpProcessor.pumpAcceleration = 10;
-minigames_bottlerocket_TimerDisplayComponent.tid = 18;
-minigames_bottlerocket_TimerDisplayProcessor.pumpAcceleration = 10;
-minigames_bottlerocket_TransformTrackerComponent.tid = 20;
-minigames_bottlerocket_TransformTrackerProcessor.gravity = -10;
-minigames_bottlerocket_VelocityComponent.tid = 17;
-minigames_bottlerocket_VelocityProcessor.gravity = -1024;
-minigames_captainknowitall_ColourShiftComponent.tid = 16;
-minigames_captainknowitall_PlayerAnswerComponent.tid = 13;
-minigames_captainknowitall_PlayerScoreComponent.tid = 15;
-minigames_captainknowitall_PlayerTimerComponent.tid = 14;
 minigames_sledtillyouredead_AnimatedSledComponent.tid = 25;
 minigames_sledtillyouredead_CollisionComponent.tid = 24;
-minigames_sledtillyouredead_CollisionProcessor.scrollSpeed = 512;
-minigames_sledtillyouredead_CollisionProcessor.scrollAcceleration = 2;
-minigames_sledtillyouredead_MovementComponent.tid = 26;
-minigames_sledtillyouredead_MovementProcessor.cpuAcceleration = 1024;
-minigames_sledtillyouredead_MovementProcessor.acceleration = 1536;
-minigames_sledtillyouredead_MovementProcessor.topSpeed = 384;
-minigames_sledtillyouredead_ScrollComponent.tid = 23;
-minigames_sledtillyouredead_ScrollProcessor.scrollSpeed = 256;
-minigames_sledtillyouredead_ScrollProcessor.scrollAcceleration = 16;
-minigames_sledtillyouredead_SpawnComponent.tid = 27;
-minigames_sledtillyouredead_SpawnProcessor.spawnAcceleration = 0.5;
-minigames_sledtillyouredead_SpawnProcessor.spawnRate = 0;
+minigames_spacecops_BulletComponent.tid = 28;
+minigames_spacecops_MovementComponent.tid = 33;
+minigames_spacecops_RailedMovementComponent.tid = 29;
+minigames_spacecops_ScrollComponent.tid = 32;
+minigames_spacecops_ShooterComponent.tid = 31;
+minigames_spacecops_WaveComponent.tid = 30;
 promhx_base_AsyncBase.id_ctr = 0;
 promhx_base_EventLoop.queue = new List();
-snow_api_Debug._level = 1;
-snow_api_Debug._log_width = 16;
 snow_api_Promises.calls = [];
 snow_api_Promises.defers = [];
 snow_api_Timer.running_timers = [];
-snow_api_buffers__$Float32Array_Float32Array_$Impl_$.BYTES_PER_ELEMENT = 4;
-snow_api_buffers__$Int32Array_Int32Array_$Impl_$.BYTES_PER_ELEMENT = 4;
-snow_api_buffers__$Uint8Array_Uint8Array_$Impl_$.BYTES_PER_ELEMENT = 1;
 snow_core_web_assets_Assets.POT = true;
-snow_core_web_input_DOMKeys.dom_shift = 16;
-snow_core_web_input_DOMKeys.dom_ctrl = 17;
-snow_core_web_input_DOMKeys.dom_alt = 18;
-snow_core_web_input_DOMKeys.dom_capslock = 20;
-snow_core_web_input_DOMKeys.dom_pageup = 33;
-snow_core_web_input_DOMKeys.dom_pagedown = 34;
-snow_core_web_input_DOMKeys.dom_end = 35;
-snow_core_web_input_DOMKeys.dom_home = 36;
-snow_core_web_input_DOMKeys.dom_left = 37;
-snow_core_web_input_DOMKeys.dom_up = 38;
-snow_core_web_input_DOMKeys.dom_right = 39;
-snow_core_web_input_DOMKeys.dom_down = 40;
-snow_core_web_input_DOMKeys.dom_printscr = 44;
-snow_core_web_input_DOMKeys.dom_insert = 45;
-snow_core_web_input_DOMKeys.dom_delete = 46;
-snow_core_web_input_DOMKeys.dom_lmeta = 91;
-snow_core_web_input_DOMKeys.dom_rmeta = 93;
-snow_core_web_input_DOMKeys.dom_kp_0 = 96;
-snow_core_web_input_DOMKeys.dom_kp_1 = 97;
-snow_core_web_input_DOMKeys.dom_kp_2 = 98;
-snow_core_web_input_DOMKeys.dom_kp_3 = 99;
-snow_core_web_input_DOMKeys.dom_kp_4 = 100;
-snow_core_web_input_DOMKeys.dom_kp_5 = 101;
-snow_core_web_input_DOMKeys.dom_kp_6 = 102;
-snow_core_web_input_DOMKeys.dom_kp_7 = 103;
-snow_core_web_input_DOMKeys.dom_kp_8 = 104;
-snow_core_web_input_DOMKeys.dom_kp_9 = 105;
-snow_core_web_input_DOMKeys.dom_kp_multiply = 106;
-snow_core_web_input_DOMKeys.dom_kp_plus = 107;
-snow_core_web_input_DOMKeys.dom_kp_minus = 109;
-snow_core_web_input_DOMKeys.dom_kp_decimal = 110;
-snow_core_web_input_DOMKeys.dom_kp_divide = 111;
-snow_core_web_input_DOMKeys.dom_kp_numlock = 144;
-snow_core_web_input_DOMKeys.dom_f1 = 112;
-snow_core_web_input_DOMKeys.dom_f2 = 113;
-snow_core_web_input_DOMKeys.dom_f3 = 114;
-snow_core_web_input_DOMKeys.dom_f4 = 115;
-snow_core_web_input_DOMKeys.dom_f5 = 116;
-snow_core_web_input_DOMKeys.dom_f6 = 117;
-snow_core_web_input_DOMKeys.dom_f7 = 118;
-snow_core_web_input_DOMKeys.dom_f8 = 119;
-snow_core_web_input_DOMKeys.dom_f9 = 120;
-snow_core_web_input_DOMKeys.dom_f10 = 121;
-snow_core_web_input_DOMKeys.dom_f11 = 122;
-snow_core_web_input_DOMKeys.dom_f12 = 123;
-snow_core_web_input_DOMKeys.dom_f13 = 124;
-snow_core_web_input_DOMKeys.dom_f14 = 125;
-snow_core_web_input_DOMKeys.dom_f15 = 126;
-snow_core_web_input_DOMKeys.dom_f16 = 127;
-snow_core_web_input_DOMKeys.dom_f17 = 128;
-snow_core_web_input_DOMKeys.dom_f18 = 129;
-snow_core_web_input_DOMKeys.dom_f19 = 130;
-snow_core_web_input_DOMKeys.dom_f20 = 131;
-snow_core_web_input_DOMKeys.dom_f21 = 132;
-snow_core_web_input_DOMKeys.dom_f22 = 133;
-snow_core_web_input_DOMKeys.dom_f23 = 134;
-snow_core_web_input_DOMKeys.dom_f24 = 135;
-snow_core_web_input_DOMKeys.dom_caret = 160;
-snow_core_web_input_DOMKeys.dom_exclaim = 161;
-snow_core_web_input_DOMKeys.dom_quotedbl = 162;
-snow_core_web_input_DOMKeys.dom_hash = 163;
-snow_core_web_input_DOMKeys.dom_dollar = 164;
-snow_core_web_input_DOMKeys.dom_percent = 165;
-snow_core_web_input_DOMKeys.dom_ampersand = 166;
-snow_core_web_input_DOMKeys.dom_underscore = 167;
-snow_core_web_input_DOMKeys.dom_leftparen = 168;
-snow_core_web_input_DOMKeys.dom_rightparen = 169;
-snow_core_web_input_DOMKeys.dom_asterisk = 170;
-snow_core_web_input_DOMKeys.dom_plus = 171;
-snow_core_web_input_DOMKeys.dom_pipe = 172;
-snow_core_web_input_DOMKeys.dom_minus = 173;
-snow_core_web_input_DOMKeys.dom_leftbrace = 174;
-snow_core_web_input_DOMKeys.dom_rightbrace = 175;
-snow_core_web_input_DOMKeys.dom_tilde = 176;
-snow_core_web_input_DOMKeys.dom_audiomute = 181;
-snow_core_web_input_DOMKeys.dom_volumedown = 182;
-snow_core_web_input_DOMKeys.dom_volumeup = 183;
-snow_core_web_input_DOMKeys.dom_comma = 188;
-snow_core_web_input_DOMKeys.dom_period = 190;
-snow_core_web_input_DOMKeys.dom_slash = 191;
-snow_core_web_input_DOMKeys.dom_backquote = 192;
-snow_core_web_input_DOMKeys.dom_leftbracket = 219;
-snow_core_web_input_DOMKeys.dom_rightbracket = 221;
-snow_core_web_input_DOMKeys.dom_backslash = 220;
-snow_core_web_input_DOMKeys.dom_quote = 222;
-snow_core_web_input_DOMKeys.dom_meta = 224;
 snow_core_web_input_Input._keypress_blacklist = [snow_system_input_Keycodes.backspace,snow_system_input_Keycodes.enter];
-snow_modules_opengl_web_GL.DEPTH_BUFFER_BIT = 256;
-snow_modules_opengl_web_GL.STENCIL_BUFFER_BIT = 1024;
-snow_modules_opengl_web_GL.COLOR_BUFFER_BIT = 16384;
-snow_modules_opengl_web_GL.POINTS = 0;
-snow_modules_opengl_web_GL.LINES = 1;
-snow_modules_opengl_web_GL.LINE_LOOP = 2;
-snow_modules_opengl_web_GL.LINE_STRIP = 3;
-snow_modules_opengl_web_GL.TRIANGLES = 4;
-snow_modules_opengl_web_GL.TRIANGLE_STRIP = 5;
-snow_modules_opengl_web_GL.TRIANGLE_FAN = 6;
-snow_modules_opengl_web_GL.ZERO = 0;
-snow_modules_opengl_web_GL.ONE = 1;
-snow_modules_opengl_web_GL.SRC_COLOR = 768;
-snow_modules_opengl_web_GL.ONE_MINUS_SRC_COLOR = 769;
-snow_modules_opengl_web_GL.SRC_ALPHA = 770;
-snow_modules_opengl_web_GL.ONE_MINUS_SRC_ALPHA = 771;
-snow_modules_opengl_web_GL.DST_ALPHA = 772;
-snow_modules_opengl_web_GL.ONE_MINUS_DST_ALPHA = 773;
-snow_modules_opengl_web_GL.DST_COLOR = 774;
-snow_modules_opengl_web_GL.ONE_MINUS_DST_COLOR = 775;
-snow_modules_opengl_web_GL.SRC_ALPHA_SATURATE = 776;
-snow_modules_opengl_web_GL.FUNC_ADD = 32774;
-snow_modules_opengl_web_GL.BLEND_EQUATION = 32777;
-snow_modules_opengl_web_GL.BLEND_EQUATION_RGB = 32777;
-snow_modules_opengl_web_GL.BLEND_EQUATION_ALPHA = 34877;
-snow_modules_opengl_web_GL.FUNC_SUBTRACT = 32778;
-snow_modules_opengl_web_GL.FUNC_REVERSE_SUBTRACT = 32779;
-snow_modules_opengl_web_GL.BLEND_DST_RGB = 32968;
-snow_modules_opengl_web_GL.BLEND_SRC_RGB = 32969;
-snow_modules_opengl_web_GL.BLEND_DST_ALPHA = 32970;
-snow_modules_opengl_web_GL.BLEND_SRC_ALPHA = 32971;
-snow_modules_opengl_web_GL.CONSTANT_COLOR = 32769;
-snow_modules_opengl_web_GL.ONE_MINUS_CONSTANT_COLOR = 32770;
-snow_modules_opengl_web_GL.CONSTANT_ALPHA = 32771;
-snow_modules_opengl_web_GL.ONE_MINUS_CONSTANT_ALPHA = 32772;
-snow_modules_opengl_web_GL.BLEND_COLOR = 32773;
-snow_modules_opengl_web_GL.ARRAY_BUFFER = 34962;
-snow_modules_opengl_web_GL.ELEMENT_ARRAY_BUFFER = 34963;
-snow_modules_opengl_web_GL.ARRAY_BUFFER_BINDING = 34964;
-snow_modules_opengl_web_GL.ELEMENT_ARRAY_BUFFER_BINDING = 34965;
-snow_modules_opengl_web_GL.STREAM_DRAW = 35040;
-snow_modules_opengl_web_GL.STATIC_DRAW = 35044;
-snow_modules_opengl_web_GL.DYNAMIC_DRAW = 35048;
-snow_modules_opengl_web_GL.BUFFER_SIZE = 34660;
-snow_modules_opengl_web_GL.BUFFER_USAGE = 34661;
-snow_modules_opengl_web_GL.CURRENT_VERTEX_ATTRIB = 34342;
-snow_modules_opengl_web_GL.FRONT = 1028;
-snow_modules_opengl_web_GL.BACK = 1029;
-snow_modules_opengl_web_GL.FRONT_AND_BACK = 1032;
-snow_modules_opengl_web_GL.CULL_FACE = 2884;
-snow_modules_opengl_web_GL.BLEND = 3042;
-snow_modules_opengl_web_GL.DITHER = 3024;
-snow_modules_opengl_web_GL.STENCIL_TEST = 2960;
-snow_modules_opengl_web_GL.DEPTH_TEST = 2929;
-snow_modules_opengl_web_GL.SCISSOR_TEST = 3089;
-snow_modules_opengl_web_GL.POLYGON_OFFSET_FILL = 32823;
-snow_modules_opengl_web_GL.SAMPLE_ALPHA_TO_COVERAGE = 32926;
-snow_modules_opengl_web_GL.SAMPLE_COVERAGE = 32928;
-snow_modules_opengl_web_GL.NO_ERROR = 0;
-snow_modules_opengl_web_GL.INVALID_ENUM = 1280;
-snow_modules_opengl_web_GL.INVALID_VALUE = 1281;
-snow_modules_opengl_web_GL.INVALID_OPERATION = 1282;
-snow_modules_opengl_web_GL.OUT_OF_MEMORY = 1285;
-snow_modules_opengl_web_GL.CW = 2304;
-snow_modules_opengl_web_GL.CCW = 2305;
-snow_modules_opengl_web_GL.LINE_WIDTH = 2849;
-snow_modules_opengl_web_GL.ALIASED_POINT_SIZE_RANGE = 33901;
-snow_modules_opengl_web_GL.ALIASED_LINE_WIDTH_RANGE = 33902;
-snow_modules_opengl_web_GL.CULL_FACE_MODE = 2885;
-snow_modules_opengl_web_GL.FRONT_FACE = 2886;
-snow_modules_opengl_web_GL.DEPTH_RANGE = 2928;
-snow_modules_opengl_web_GL.DEPTH_WRITEMASK = 2930;
-snow_modules_opengl_web_GL.DEPTH_CLEAR_VALUE = 2931;
-snow_modules_opengl_web_GL.DEPTH_FUNC = 2932;
-snow_modules_opengl_web_GL.STENCIL_CLEAR_VALUE = 2961;
-snow_modules_opengl_web_GL.STENCIL_FUNC = 2962;
-snow_modules_opengl_web_GL.STENCIL_FAIL = 2964;
-snow_modules_opengl_web_GL.STENCIL_PASS_DEPTH_FAIL = 2965;
-snow_modules_opengl_web_GL.STENCIL_PASS_DEPTH_PASS = 2966;
-snow_modules_opengl_web_GL.STENCIL_REF = 2967;
-snow_modules_opengl_web_GL.STENCIL_VALUE_MASK = 2963;
-snow_modules_opengl_web_GL.STENCIL_WRITEMASK = 2968;
-snow_modules_opengl_web_GL.STENCIL_BACK_FUNC = 34816;
-snow_modules_opengl_web_GL.STENCIL_BACK_FAIL = 34817;
-snow_modules_opengl_web_GL.STENCIL_BACK_PASS_DEPTH_FAIL = 34818;
-snow_modules_opengl_web_GL.STENCIL_BACK_PASS_DEPTH_PASS = 34819;
-snow_modules_opengl_web_GL.STENCIL_BACK_REF = 36003;
-snow_modules_opengl_web_GL.STENCIL_BACK_VALUE_MASK = 36004;
-snow_modules_opengl_web_GL.STENCIL_BACK_WRITEMASK = 36005;
-snow_modules_opengl_web_GL.VIEWPORT = 2978;
-snow_modules_opengl_web_GL.SCISSOR_BOX = 3088;
-snow_modules_opengl_web_GL.COLOR_CLEAR_VALUE = 3106;
-snow_modules_opengl_web_GL.COLOR_WRITEMASK = 3107;
-snow_modules_opengl_web_GL.UNPACK_ALIGNMENT = 3317;
-snow_modules_opengl_web_GL.PACK_ALIGNMENT = 3333;
-snow_modules_opengl_web_GL.MAX_TEXTURE_SIZE = 3379;
-snow_modules_opengl_web_GL.MAX_VIEWPORT_DIMS = 3386;
-snow_modules_opengl_web_GL.SUBPIXEL_BITS = 3408;
-snow_modules_opengl_web_GL.RED_BITS = 3410;
-snow_modules_opengl_web_GL.GREEN_BITS = 3411;
-snow_modules_opengl_web_GL.BLUE_BITS = 3412;
-snow_modules_opengl_web_GL.ALPHA_BITS = 3413;
-snow_modules_opengl_web_GL.DEPTH_BITS = 3414;
-snow_modules_opengl_web_GL.STENCIL_BITS = 3415;
-snow_modules_opengl_web_GL.POLYGON_OFFSET_UNITS = 10752;
-snow_modules_opengl_web_GL.POLYGON_OFFSET_FACTOR = 32824;
-snow_modules_opengl_web_GL.TEXTURE_BINDING_2D = 32873;
-snow_modules_opengl_web_GL.SAMPLE_BUFFERS = 32936;
-snow_modules_opengl_web_GL.SAMPLES = 32937;
-snow_modules_opengl_web_GL.SAMPLE_COVERAGE_VALUE = 32938;
-snow_modules_opengl_web_GL.SAMPLE_COVERAGE_INVERT = 32939;
-snow_modules_opengl_web_GL.COMPRESSED_TEXTURE_FORMATS = 34467;
-snow_modules_opengl_web_GL.DONT_CARE = 4352;
-snow_modules_opengl_web_GL.FASTEST = 4353;
-snow_modules_opengl_web_GL.NICEST = 4354;
-snow_modules_opengl_web_GL.GENERATE_MIPMAP_HINT = 33170;
-snow_modules_opengl_web_GL.BYTE = 5120;
-snow_modules_opengl_web_GL.UNSIGNED_BYTE = 5121;
-snow_modules_opengl_web_GL.SHORT = 5122;
-snow_modules_opengl_web_GL.UNSIGNED_SHORT = 5123;
-snow_modules_opengl_web_GL.INT = 5124;
-snow_modules_opengl_web_GL.UNSIGNED_INT = 5125;
-snow_modules_opengl_web_GL.FLOAT = 5126;
-snow_modules_opengl_web_GL.DEPTH_COMPONENT = 6402;
-snow_modules_opengl_web_GL.ALPHA = 6406;
-snow_modules_opengl_web_GL.RGB = 6407;
-snow_modules_opengl_web_GL.RGBA = 6408;
-snow_modules_opengl_web_GL.LUMINANCE = 6409;
-snow_modules_opengl_web_GL.LUMINANCE_ALPHA = 6410;
-snow_modules_opengl_web_GL.UNSIGNED_SHORT_4_4_4_4 = 32819;
-snow_modules_opengl_web_GL.UNSIGNED_SHORT_5_5_5_1 = 32820;
-snow_modules_opengl_web_GL.UNSIGNED_SHORT_5_6_5 = 33635;
-snow_modules_opengl_web_GL.FRAGMENT_SHADER = 35632;
-snow_modules_opengl_web_GL.VERTEX_SHADER = 35633;
-snow_modules_opengl_web_GL.MAX_VERTEX_ATTRIBS = 34921;
-snow_modules_opengl_web_GL.MAX_VERTEX_UNIFORM_VECTORS = 36347;
-snow_modules_opengl_web_GL.MAX_VARYING_VECTORS = 36348;
-snow_modules_opengl_web_GL.MAX_COMBINED_TEXTURE_IMAGE_UNITS = 35661;
-snow_modules_opengl_web_GL.MAX_VERTEX_TEXTURE_IMAGE_UNITS = 35660;
-snow_modules_opengl_web_GL.MAX_TEXTURE_IMAGE_UNITS = 34930;
-snow_modules_opengl_web_GL.MAX_FRAGMENT_UNIFORM_VECTORS = 36349;
-snow_modules_opengl_web_GL.SHADER_TYPE = 35663;
-snow_modules_opengl_web_GL.DELETE_STATUS = 35712;
-snow_modules_opengl_web_GL.LINK_STATUS = 35714;
-snow_modules_opengl_web_GL.VALIDATE_STATUS = 35715;
-snow_modules_opengl_web_GL.ATTACHED_SHADERS = 35717;
-snow_modules_opengl_web_GL.ACTIVE_UNIFORMS = 35718;
-snow_modules_opengl_web_GL.ACTIVE_ATTRIBUTES = 35721;
-snow_modules_opengl_web_GL.SHADING_LANGUAGE_VERSION = 35724;
-snow_modules_opengl_web_GL.CURRENT_PROGRAM = 35725;
-snow_modules_opengl_web_GL.NEVER = 512;
-snow_modules_opengl_web_GL.LESS = 513;
-snow_modules_opengl_web_GL.EQUAL = 514;
-snow_modules_opengl_web_GL.LEQUAL = 515;
-snow_modules_opengl_web_GL.GREATER = 516;
-snow_modules_opengl_web_GL.NOTEQUAL = 517;
-snow_modules_opengl_web_GL.GEQUAL = 518;
-snow_modules_opengl_web_GL.ALWAYS = 519;
-snow_modules_opengl_web_GL.KEEP = 7680;
-snow_modules_opengl_web_GL.REPLACE = 7681;
-snow_modules_opengl_web_GL.INCR = 7682;
-snow_modules_opengl_web_GL.DECR = 7683;
-snow_modules_opengl_web_GL.INVERT = 5386;
-snow_modules_opengl_web_GL.INCR_WRAP = 34055;
-snow_modules_opengl_web_GL.DECR_WRAP = 34056;
-snow_modules_opengl_web_GL.VENDOR = 7936;
-snow_modules_opengl_web_GL.RENDERER = 7937;
-snow_modules_opengl_web_GL.VERSION = 7938;
-snow_modules_opengl_web_GL.NEAREST = 9728;
-snow_modules_opengl_web_GL.LINEAR = 9729;
-snow_modules_opengl_web_GL.NEAREST_MIPMAP_NEAREST = 9984;
-snow_modules_opengl_web_GL.LINEAR_MIPMAP_NEAREST = 9985;
-snow_modules_opengl_web_GL.NEAREST_MIPMAP_LINEAR = 9986;
-snow_modules_opengl_web_GL.LINEAR_MIPMAP_LINEAR = 9987;
-snow_modules_opengl_web_GL.TEXTURE_MAG_FILTER = 10240;
-snow_modules_opengl_web_GL.TEXTURE_MIN_FILTER = 10241;
-snow_modules_opengl_web_GL.TEXTURE_WRAP_S = 10242;
-snow_modules_opengl_web_GL.TEXTURE_WRAP_T = 10243;
-snow_modules_opengl_web_GL.TEXTURE_2D = 3553;
-snow_modules_opengl_web_GL.TEXTURE = 5890;
-snow_modules_opengl_web_GL.TEXTURE_CUBE_MAP = 34067;
-snow_modules_opengl_web_GL.TEXTURE_BINDING_CUBE_MAP = 34068;
-snow_modules_opengl_web_GL.TEXTURE_CUBE_MAP_POSITIVE_X = 34069;
-snow_modules_opengl_web_GL.TEXTURE_CUBE_MAP_NEGATIVE_X = 34070;
-snow_modules_opengl_web_GL.TEXTURE_CUBE_MAP_POSITIVE_Y = 34071;
-snow_modules_opengl_web_GL.TEXTURE_CUBE_MAP_NEGATIVE_Y = 34072;
-snow_modules_opengl_web_GL.TEXTURE_CUBE_MAP_POSITIVE_Z = 34073;
-snow_modules_opengl_web_GL.TEXTURE_CUBE_MAP_NEGATIVE_Z = 34074;
-snow_modules_opengl_web_GL.MAX_CUBE_MAP_TEXTURE_SIZE = 34076;
-snow_modules_opengl_web_GL.TEXTURE0 = 33984;
-snow_modules_opengl_web_GL.TEXTURE1 = 33985;
-snow_modules_opengl_web_GL.TEXTURE2 = 33986;
-snow_modules_opengl_web_GL.TEXTURE3 = 33987;
-snow_modules_opengl_web_GL.TEXTURE4 = 33988;
-snow_modules_opengl_web_GL.TEXTURE5 = 33989;
-snow_modules_opengl_web_GL.TEXTURE6 = 33990;
-snow_modules_opengl_web_GL.TEXTURE7 = 33991;
-snow_modules_opengl_web_GL.TEXTURE8 = 33992;
-snow_modules_opengl_web_GL.TEXTURE9 = 33993;
-snow_modules_opengl_web_GL.TEXTURE10 = 33994;
-snow_modules_opengl_web_GL.TEXTURE11 = 33995;
-snow_modules_opengl_web_GL.TEXTURE12 = 33996;
-snow_modules_opengl_web_GL.TEXTURE13 = 33997;
-snow_modules_opengl_web_GL.TEXTURE14 = 33998;
-snow_modules_opengl_web_GL.TEXTURE15 = 33999;
-snow_modules_opengl_web_GL.TEXTURE16 = 34000;
-snow_modules_opengl_web_GL.TEXTURE17 = 34001;
-snow_modules_opengl_web_GL.TEXTURE18 = 34002;
-snow_modules_opengl_web_GL.TEXTURE19 = 34003;
-snow_modules_opengl_web_GL.TEXTURE20 = 34004;
-snow_modules_opengl_web_GL.TEXTURE21 = 34005;
-snow_modules_opengl_web_GL.TEXTURE22 = 34006;
-snow_modules_opengl_web_GL.TEXTURE23 = 34007;
-snow_modules_opengl_web_GL.TEXTURE24 = 34008;
-snow_modules_opengl_web_GL.TEXTURE25 = 34009;
-snow_modules_opengl_web_GL.TEXTURE26 = 34010;
-snow_modules_opengl_web_GL.TEXTURE27 = 34011;
-snow_modules_opengl_web_GL.TEXTURE28 = 34012;
-snow_modules_opengl_web_GL.TEXTURE29 = 34013;
-snow_modules_opengl_web_GL.TEXTURE30 = 34014;
-snow_modules_opengl_web_GL.TEXTURE31 = 34015;
-snow_modules_opengl_web_GL.ACTIVE_TEXTURE = 34016;
-snow_modules_opengl_web_GL.REPEAT = 10497;
-snow_modules_opengl_web_GL.CLAMP_TO_EDGE = 33071;
-snow_modules_opengl_web_GL.MIRRORED_REPEAT = 33648;
-snow_modules_opengl_web_GL.FLOAT_VEC2 = 35664;
-snow_modules_opengl_web_GL.FLOAT_VEC3 = 35665;
-snow_modules_opengl_web_GL.FLOAT_VEC4 = 35666;
-snow_modules_opengl_web_GL.INT_VEC2 = 35667;
-snow_modules_opengl_web_GL.INT_VEC3 = 35668;
-snow_modules_opengl_web_GL.INT_VEC4 = 35669;
-snow_modules_opengl_web_GL.BOOL = 35670;
-snow_modules_opengl_web_GL.BOOL_VEC2 = 35671;
-snow_modules_opengl_web_GL.BOOL_VEC3 = 35672;
-snow_modules_opengl_web_GL.BOOL_VEC4 = 35673;
-snow_modules_opengl_web_GL.FLOAT_MAT2 = 35674;
-snow_modules_opengl_web_GL.FLOAT_MAT3 = 35675;
-snow_modules_opengl_web_GL.FLOAT_MAT4 = 35676;
-snow_modules_opengl_web_GL.SAMPLER_2D = 35678;
-snow_modules_opengl_web_GL.SAMPLER_CUBE = 35680;
-snow_modules_opengl_web_GL.VERTEX_ATTRIB_ARRAY_ENABLED = 34338;
-snow_modules_opengl_web_GL.VERTEX_ATTRIB_ARRAY_SIZE = 34339;
-snow_modules_opengl_web_GL.VERTEX_ATTRIB_ARRAY_STRIDE = 34340;
-snow_modules_opengl_web_GL.VERTEX_ATTRIB_ARRAY_TYPE = 34341;
-snow_modules_opengl_web_GL.VERTEX_ATTRIB_ARRAY_NORMALIZED = 34922;
-snow_modules_opengl_web_GL.VERTEX_ATTRIB_ARRAY_POINTER = 34373;
-snow_modules_opengl_web_GL.VERTEX_ATTRIB_ARRAY_BUFFER_BINDING = 34975;
-snow_modules_opengl_web_GL.VERTEX_PROGRAM_POINT_SIZE = 34370;
-snow_modules_opengl_web_GL.POINT_SPRITE = 34913;
-snow_modules_opengl_web_GL.COMPILE_STATUS = 35713;
-snow_modules_opengl_web_GL.LOW_FLOAT = 36336;
-snow_modules_opengl_web_GL.MEDIUM_FLOAT = 36337;
-snow_modules_opengl_web_GL.HIGH_FLOAT = 36338;
-snow_modules_opengl_web_GL.LOW_INT = 36339;
-snow_modules_opengl_web_GL.MEDIUM_INT = 36340;
-snow_modules_opengl_web_GL.HIGH_INT = 36341;
-snow_modules_opengl_web_GL.FRAMEBUFFER = 36160;
-snow_modules_opengl_web_GL.RENDERBUFFER = 36161;
-snow_modules_opengl_web_GL.RGBA4 = 32854;
-snow_modules_opengl_web_GL.RGB5_A1 = 32855;
-snow_modules_opengl_web_GL.RGB565 = 36194;
-snow_modules_opengl_web_GL.DEPTH_COMPONENT16 = 33189;
-snow_modules_opengl_web_GL.STENCIL_INDEX = 6401;
-snow_modules_opengl_web_GL.STENCIL_INDEX8 = 36168;
-snow_modules_opengl_web_GL.DEPTH_STENCIL = 34041;
-snow_modules_opengl_web_GL.RENDERBUFFER_WIDTH = 36162;
-snow_modules_opengl_web_GL.RENDERBUFFER_HEIGHT = 36163;
-snow_modules_opengl_web_GL.RENDERBUFFER_INTERNAL_FORMAT = 36164;
-snow_modules_opengl_web_GL.RENDERBUFFER_RED_SIZE = 36176;
-snow_modules_opengl_web_GL.RENDERBUFFER_GREEN_SIZE = 36177;
-snow_modules_opengl_web_GL.RENDERBUFFER_BLUE_SIZE = 36178;
-snow_modules_opengl_web_GL.RENDERBUFFER_ALPHA_SIZE = 36179;
-snow_modules_opengl_web_GL.RENDERBUFFER_DEPTH_SIZE = 36180;
-snow_modules_opengl_web_GL.RENDERBUFFER_STENCIL_SIZE = 36181;
-snow_modules_opengl_web_GL.FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE = 36048;
-snow_modules_opengl_web_GL.FRAMEBUFFER_ATTACHMENT_OBJECT_NAME = 36049;
-snow_modules_opengl_web_GL.FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL = 36050;
-snow_modules_opengl_web_GL.FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE = 36051;
-snow_modules_opengl_web_GL.COLOR_ATTACHMENT0 = 36064;
-snow_modules_opengl_web_GL.DEPTH_ATTACHMENT = 36096;
-snow_modules_opengl_web_GL.STENCIL_ATTACHMENT = 36128;
-snow_modules_opengl_web_GL.DEPTH_STENCIL_ATTACHMENT = 33306;
-snow_modules_opengl_web_GL.NONE = 0;
-snow_modules_opengl_web_GL.FRAMEBUFFER_COMPLETE = 36053;
-snow_modules_opengl_web_GL.FRAMEBUFFER_INCOMPLETE_ATTACHMENT = 36054;
-snow_modules_opengl_web_GL.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT = 36055;
-snow_modules_opengl_web_GL.FRAMEBUFFER_INCOMPLETE_DIMENSIONS = 36057;
-snow_modules_opengl_web_GL.FRAMEBUFFER_UNSUPPORTED = 36061;
-snow_modules_opengl_web_GL.FRAMEBUFFER_BINDING = 36006;
-snow_modules_opengl_web_GL.RENDERBUFFER_BINDING = 36007;
-snow_modules_opengl_web_GL.MAX_RENDERBUFFER_SIZE = 34024;
-snow_modules_opengl_web_GL.INVALID_FRAMEBUFFER_OPERATION = 1286;
-snow_modules_opengl_web_GL.UNPACK_FLIP_Y_WEBGL = 37440;
-snow_modules_opengl_web_GL.UNPACK_PREMULTIPLY_ALPHA_WEBGL = 37441;
-snow_modules_opengl_web_GL.CONTEXT_LOST_WEBGL = 37442;
-snow_modules_opengl_web_GL.UNPACK_COLORSPACE_CONVERSION_WEBGL = 37443;
-snow_modules_opengl_web_GL.BROWSER_DEFAULT_WEBGL = 37444;
 snow_system_audio_Audio.splitter = " • ";
-snow_types__$Types_AssetType_$Impl_$.unknown = 0;
-snow_types__$Types_AssetType_$Impl_$.bytes = 1;
-snow_types__$Types_AssetType_$Impl_$.text = 2;
-snow_types__$Types_AssetType_$Impl_$.json = 3;
-snow_types__$Types_AssetType_$Impl_$.image = 4;
-snow_types__$Types_AssetType_$Impl_$.audio = 5;
-snow_types__$Types_OpenGLProfile_$Impl_$.compatibility = 0;
-snow_types__$Types_OpenGLProfile_$Impl_$.core = 1;
-snow_types__$Types_TextEventType_$Impl_$.unknown = 0;
-snow_types__$Types_TextEventType_$Impl_$.edit = 1;
-snow_types__$Types_TextEventType_$Impl_$.input = 2;
-snow_types__$Types_GamepadDeviceEventType_$Impl_$.unknown = 0;
-snow_types__$Types_GamepadDeviceEventType_$Impl_$.device_added = 1;
-snow_types__$Types_GamepadDeviceEventType_$Impl_$.device_removed = 2;
-snow_types__$Types_GamepadDeviceEventType_$Impl_$.device_remapped = 3;
-snow_types__$Types_SystemEventType_$Impl_$.unknown = 0;
-snow_types__$Types_SystemEventType_$Impl_$.init = 1;
-snow_types__$Types_SystemEventType_$Impl_$.ready = 2;
-snow_types__$Types_SystemEventType_$Impl_$.update = 3;
-snow_types__$Types_SystemEventType_$Impl_$.shutdown = 4;
-snow_types__$Types_SystemEventType_$Impl_$.window = 5;
-snow_types__$Types_SystemEventType_$Impl_$.input = 6;
-snow_types__$Types_SystemEventType_$Impl_$.quit = 7;
-snow_types__$Types_SystemEventType_$Impl_$.app_terminating = 8;
-snow_types__$Types_SystemEventType_$Impl_$.app_lowmemory = 9;
-snow_types__$Types_SystemEventType_$Impl_$.app_willenterbackground = 10;
-snow_types__$Types_SystemEventType_$Impl_$.app_didenterbackground = 11;
-snow_types__$Types_SystemEventType_$Impl_$.app_willenterforeground = 12;
-snow_types__$Types_SystemEventType_$Impl_$.app_didenterforeground = 13;
-snow_types__$Types_SystemEventType_$Impl_$.file = 14;
-snow_types__$Types_WindowEventType_$Impl_$.unknown = 0;
-snow_types__$Types_WindowEventType_$Impl_$.created = 1;
-snow_types__$Types_WindowEventType_$Impl_$.shown = 2;
-snow_types__$Types_WindowEventType_$Impl_$.hidden = 3;
-snow_types__$Types_WindowEventType_$Impl_$.exposed = 4;
-snow_types__$Types_WindowEventType_$Impl_$.moved = 5;
-snow_types__$Types_WindowEventType_$Impl_$.resized = 6;
-snow_types__$Types_WindowEventType_$Impl_$.size_changed = 7;
-snow_types__$Types_WindowEventType_$Impl_$.minimized = 8;
-snow_types__$Types_WindowEventType_$Impl_$.maximized = 9;
-snow_types__$Types_WindowEventType_$Impl_$.restored = 10;
-snow_types__$Types_WindowEventType_$Impl_$.enter = 11;
-snow_types__$Types_WindowEventType_$Impl_$.leave = 12;
-snow_types__$Types_WindowEventType_$Impl_$.focus_gained = 13;
-snow_types__$Types_WindowEventType_$Impl_$.focus_lost = 14;
-snow_types__$Types_WindowEventType_$Impl_$.close = 15;
-snow_types__$Types_WindowEventType_$Impl_$.destroy = 16;
-snow_types__$Types_InputEventType_$Impl_$.unknown = 0;
-snow_types__$Types_InputEventType_$Impl_$.key = 1;
-snow_types__$Types_InputEventType_$Impl_$.mouse = 2;
-snow_types__$Types_InputEventType_$Impl_$.touch = 3;
-snow_types__$Types_InputEventType_$Impl_$.joystick = 4;
-snow_types__$Types_InputEventType_$Impl_$.controller = 5;
-snow_types__$Types_FileEventType_$Impl_$.unknown = 0;
-snow_types__$Types_FileEventType_$Impl_$.modify = 1;
-snow_types__$Types_FileEventType_$Impl_$.remove = 2;
-snow_types__$Types_FileEventType_$Impl_$.create = 3;
-snow_types__$Types_FileEventType_$Impl_$.drop = 4;
 tusk_Entity.nextID = 0;
-tusk_Files.fonts___paper_cuts__fnt = "assets/fonts/paper_cuts.fnt";
-tusk_Files.fonts___paper_cuts__png = "assets/fonts/paper_cuts.png";
-tusk_Files.shaders___colourkey__frag = "assets/shaders/colourkey.frag";
-tusk_Files.shaders___colourkey__vert = "assets/shaders/colourkey.vert";
-tusk_Files.sounds___bottlerocketpump__ogg = "assets/sounds/bottlerocketpump.ogg";
-tusk_Files.sounds___bottlerocketwhoosh__ogg = "assets/sounds/bottlerocketwhoosh.ogg";
-tusk_Files.sounds___countdown__ogg = "assets/sounds/countdown.ogg";
-tusk_Files.sounds___introtrumpet__ogg = "assets/sounds/introtrumpet.ogg";
-tusk_Files.sounds___introwobble__ogg = "assets/sounds/introwobble.ogg";
-tusk_Files.sounds___loadingcrunch__ogg = "assets/sounds/loadingcrunch.ogg";
-tusk_Files.sounds___sledding__ogg = "assets/sounds/sledding.ogg";
-tusk_Files.sounds___wintrumpet__ogg = "assets/sounds/wintrumpet.ogg";
-tusk_Files.sprites___bottlerocket__png = "assets/sprites/bottlerocket.png";
-tusk_Files.sprites___bottlerocketcontrols__png = "assets/sprites/bottlerocketcontrols.png";
-tusk_Files.sprites___sled__png = "assets/sprites/sled.png";
-tusk_Files.tilemaps___bottlerocketbackground__json = "assets/tilemaps/bottlerocketbackground.json";
-tusk_Files.tilemaps___bottlerocketbackground__png = "assets/tilemaps/bottlerocketbackground.png";
-tusk_Files.tilemaps___sledbg__png = "assets/tilemaps/sledbg.png";
-tusk_Files.tilemaps___sledside__json = "assets/tilemaps/sledside.json";
-tusk_Tusk.version = "unknown+17fd14";
 tusk_debug_Exception.showStackTrace = false;
 tusk_lib_comp_Camera2DComponent.tid = 11;
 tusk_lib_comp_CircleEffectComponent.tid = 4;
 tusk_lib_comp_CustomUniformsComponent.tid = 12;
-tusk_lib_comp_FadeEffectComponent.tid = 10;
 tusk_lib_comp_MaterialComponent.tid = 9;
 tusk_lib_comp_MeshComponent.tid = 8;
-tusk_lib_comp_ParticleSystemComponent.tid = 0;
 tusk_lib_comp_SoundComponent.tid = 7;
-tusk_lib_comp_SplashScreen_$ShakeComponent.tid = 2;
 tusk_lib_comp_TextComponent.tid = 1;
 tusk_lib_comp_TimedPromiseComponent.tid = 6;
 tusk_lib_comp_TransformComponent.tid = 5;
 tusk_lib_proc_Camera2DProcessor.cameras = [];
-tusk_macros_ComponentIndexer.nextID = 0;
-tusk_macros_ComponentIndexer.componentMap = new haxe_ds_StringMap();
-tusk_macros_ComponentIndexer.indexMap = new haxe_ds_IntMap();
 TuskApp.main();
 })(typeof console != "undefined" ? console : {log:function(){}}, typeof window != "undefined" ? window : exports, typeof window != "undefined" ? window : typeof global != "undefined" ? global : typeof self != "undefined" ? self : this);
 
